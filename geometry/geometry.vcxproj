@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\core\core.vcxproj">
+      <Project>{1f365573-95e1-4a07-a2e0-7cb532f1854d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="enclosing\Encloser.h" />
+    <ClInclude Include="enclosing\EnclosingBall.h" />
+    <ClInclude Include="enclosing\package-info.h" />
+    <ClInclude Include="enclosing\SupportBallGenerator.h" />
+    <ClInclude Include="enclosing\WelzlEncloser.h" />
+    <ClInclude Include="euclidean\oned\Euclidean1D.h" />
+    <ClInclude Include="euclidean\oned\Interval.h" />
+    <ClInclude Include="euclidean\oned\IntervalsSet.h" />
+    <ClInclude Include="euclidean\oned\OrientedPoint.h" />
+    <ClInclude Include="euclidean\oned\package-info.h" />
+    <ClInclude Include="euclidean\oned\SubOrientedPoint.h" />
+    <ClInclude Include="euclidean\oned\Vector1D.h" />
+    <ClInclude Include="euclidean\oned\Vector1DFormat.h" />
+    <ClInclude Include="euclidean\threed\Euclidean3D.h" />
+    <ClInclude Include="euclidean\threed\FieldLine.h" />
+    <ClInclude Include="euclidean\threed\FieldRotation.h" />
+    <ClInclude Include="euclidean\threed\FieldVector3D.h" />
+    <ClInclude Include="euclidean\threed\Line.h" />
+    <ClInclude Include="euclidean\threed\OutlineExtractor.h" />
+    <ClInclude Include="euclidean\threed\package-info.h" />
+    <ClInclude Include="euclidean\threed\Plane.h" />
+    <ClInclude Include="euclidean\threed\PolyhedronsSet.h" />
+    <ClInclude Include="euclidean\threed\Rotation.h" />
+    <ClInclude Include="euclidean\threed\RotationConvention.h" />
+    <ClInclude Include="euclidean\threed\RotationOrder.h" />
+    <ClInclude Include="euclidean\threed\Segment.h" />
+    <ClInclude Include="euclidean\threed\SphereGenerator.h" />
+    <ClInclude Include="euclidean\threed\SphericalCoordinates.h" />
+    <ClInclude Include="euclidean\threed\SubLine.h" />
+    <ClInclude Include="euclidean\threed\SubPlane.h" />
+    <ClInclude Include="euclidean\threed\Vector3D.h" />
+    <ClInclude Include="euclidean\threed\Vector3DFormat.h" />
+    <ClInclude Include="euclidean\twod\DiskGenerator.h" />
+    <ClInclude Include="euclidean\twod\Euclidean2D.h" />
+    <ClInclude Include="euclidean\twod\FieldVector2D.h" />
+    <ClInclude Include="euclidean\twod\hull\AbstractConvexHullGenerator2D.h" />
+    <ClInclude Include="euclidean\twod\hull\AklToussaintHeuristic.h" />
+    <ClInclude Include="euclidean\twod\hull\ConvexHull2D.h" />
+    <ClInclude Include="euclidean\twod\hull\ConvexHullGenerator2D.h" />
+    <ClInclude Include="euclidean\twod\hull\MonotoneChain.h" />
+    <ClInclude Include="euclidean\twod\hull\package-info.h" />
+    <ClInclude Include="euclidean\twod\Line.h" />
+    <ClInclude Include="euclidean\twod\package-info.h" />
+    <ClInclude Include="euclidean\twod\PolygonsSet.h" />
+    <ClInclude Include="euclidean\twod\Segment.h" />
+    <ClInclude Include="euclidean\twod\SubLine.h" />
+    <ClInclude Include="euclidean\twod\Vector2D.h" />
+    <ClInclude Include="euclidean\twod\Vector2DFormat.h" />
+    <ClInclude Include="hull\ConvexHull.hpp" />
+    <ClInclude Include="hull\ConvexHullGenerator.h" />
+    <ClInclude Include="hull\package-info.h" />
+    <ClInclude Include="LocalizedGeometryFormats.h" />
+    <ClInclude Include="package-info.h" />
+    <ClInclude Include="partitioning\AbstractRegion.h" />
+    <ClInclude Include="partitioning\AbstractSubHyperplane.h" />
+    <ClInclude Include="partitioning\BoundaryAttribute.h" />
+    <ClInclude Include="partitioning\BoundaryBuilder.h" />
+    <ClInclude Include="partitioning\BoundaryProjection.h" />
+    <ClInclude Include="partitioning\BoundaryProjector.h" />
+    <ClInclude Include="partitioning\BoundarySizeVisitor.h" />
+    <ClInclude Include="partitioning\BSPTree.h" />
+    <ClInclude Include="partitioning\BSPTreeVisitor.h" />
+    <ClInclude Include="partitioning\Characterization.hpp" />
+    <ClInclude Include="partitioning\Embedding.h" />
+    <ClInclude Include="partitioning\Hyperplane.h" />
+    <ClInclude Include="partitioning\NodesSet.h" />
+    <ClInclude Include="partitioning\package-info.h" />
+    <ClInclude Include="partitioning\Region.h" />
+    <ClInclude Include="partitioning\RegionFactory.h" />
+    <ClInclude Include="partitioning\Side.h" />
+    <ClInclude Include="partitioning\SubHyperplane.h" />
+    <ClInclude Include="partitioning\Transform.h" />
+    <ClInclude Include="Point.hpp" />
+    <ClInclude Include="Space.h" />
+    <ClInclude Include="spherical\oned\Arc.h" />
+    <ClInclude Include="spherical\oned\ArcsSet.h" />
+    <ClInclude Include="spherical\oned\LimitAngle.h" />
+    <ClInclude Include="spherical\oned\package-info.h" />
+    <ClInclude Include="spherical\oned\S1Point.h" />
+    <ClInclude Include="spherical\oned\Sphere1D.h" />
+    <ClInclude Include="spherical\oned\SubLimitAngle.h" />
+    <ClInclude Include="spherical\twod\Circle.h" />
+    <ClInclude Include="spherical\twod\Edge.h" />
+    <ClInclude Include="spherical\twod\EdgesWithNodeInfoBuilder.h" />
+    <ClInclude Include="spherical\twod\EdgeWithNodeInfo.h" />
+    <ClInclude Include="spherical\twod\package-info.h" />
+    <ClInclude Include="spherical\twod\PropertiesComputer.h" />
+    <ClInclude Include="spherical\twod\S2Point.h" />
+    <ClInclude Include="spherical\twod\Sphere2D.h" />
+    <ClInclude Include="spherical\twod\SphericalPolygonsSet.h" />
+    <ClInclude Include="spherical\twod\SubCircle.h" />
+    <ClInclude Include="spherical\twod\Vertex.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="VectorFormat.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7ea10f6e-f0dd-4839-805d-4cd1a40d8bfe}</ProjectGuid>
+    <RootNamespace>geometry</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

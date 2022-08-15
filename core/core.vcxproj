@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\clustering\evaluation\evaluation.h" />
+    <ClInclude Include="analysis\BivariateFunction.h" />
+    <ClInclude Include="analysis\CalculusFieldBivariateFunction.hpp" />
+    <ClInclude Include="analysis\CalculusFieldMultivariateFunction.h" />
+    <ClInclude Include="analysis\CalculusFieldMultivariateMatrixFunction.hpp" />
+    <ClInclude Include="analysis\CalculusFieldMultivariateVectorFunction.hpp" />
+    <ClInclude Include="analysis\CalculusFieldUnivariateFunction.hpp" />
+    <ClInclude Include="analysis\CalculusFieldUnivariateMatrixFunction.hpp" />
+    <ClInclude Include="analysis\CalculusFieldUnivariateVectorFunction.hpp" />
+    <ClInclude Include="analysis\differentiation\Derivative.h" />
+    <ClInclude Include="analysis\differentiation\DerivativeStructure.h" />
+    <ClInclude Include="analysis\differentiation\differentiation.h" />
+    <ClInclude Include="analysis\differentiation\DSCompiler.h" />
+    <ClInclude Include="analysis\differentiation\DSFactory.h" />
+    <ClInclude Include="analysis\differentiation\FDSFactory.h" />
+    <ClInclude Include="analysis\differentiation\FieldDerivative.h" />
+    <ClInclude Include="analysis\differentiation\FieldDerivativeStructure.h" />
+    <ClInclude Include="analysis\differentiation\FieldGradient.h" />
+    <ClInclude Include="analysis\differentiation\FieldGradientField.hpp" />
+    <ClInclude Include="analysis\differentiation\FieldUnivariateDerivative.h" />
+    <ClInclude Include="analysis\differentiation\FieldUnivariateDerivative1.h" />
+    <ClInclude Include="analysis\differentiation\FieldUnivariateDerivative1Field.hpp" />
+    <ClInclude Include="analysis\differentiation\FieldUnivariateDerivative2.h" />
+    <ClInclude Include="analysis\differentiation\FieldUnivariateDerivative2Field.h" />
+    <ClInclude Include="analysis\differentiation\FiniteDifferencesDifferentiator.h" />
+    <ClInclude Include="analysis\differentiation\Gradient.h" />
+    <ClInclude Include="analysis\differentiation\GradientField.h" />
+    <ClInclude Include="analysis\differentiation\GradientFunction.h" />
+    <ClInclude Include="analysis\differentiation\JacobianFunction.h" />
+    <ClInclude Include="analysis\differentiation\MultivariateDifferentiableFunction.h" />
+    <ClInclude Include="analysis\differentiation\MultivariateDifferentiableVectorFunction.h" />
+    <ClInclude Include="analysis\differentiation\package-info.h" />
+    <ClInclude Include="analysis\differentiation\SparseGradient.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateDerivative.hpp" />
+    <ClInclude Include="analysis\differentiation\UnivariateDerivative1.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateDerivative1Field.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateDerivative2.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateDerivative2Field.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateDifferentiableFunction.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateDifferentiableMatrixFunction.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateDifferentiableVectorFunction.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateFunctionDifferentiator.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateMatrixFunctionDifferentiator.h" />
+    <ClInclude Include="analysis\differentiation\UnivariateVectorFunctionDifferentiator.h" />
+    <ClInclude Include="analysis\FieldBivariateFunction.hpp" />
+    <ClInclude Include="analysis\FieldMultivariateFunction.h" />
+    <ClInclude Include="analysis\FieldMultivariateMatrixFunction.h" />
+    <ClInclude Include="analysis\FieldMultivariateVectorFunction.h" />
+    <ClInclude Include="analysis\FieldUnivariateFunction.h" />
+    <ClInclude Include="analysis\FieldUnivariateMatrixFunction.h" />
+    <ClInclude Include="analysis\FieldUnivariateVectorFunction.h" />
+    <ClInclude Include="analysis\FunctionUtils.h" />
+    <ClInclude Include="analysis\function\Abs.h" />
+    <ClInclude Include="analysis\function\Acos.h" />
+    <ClInclude Include="analysis\function\Acosh.hpp" />
+    <ClInclude Include="analysis\function\Add.h" />
+    <ClInclude Include="analysis\function\Asin.h" />
+    <ClInclude Include="analysis\function\Asinh.h" />
+    <ClInclude Include="analysis\function\Atan.h" />
+    <ClInclude Include="analysis\function\Atan2.h" />
+    <ClInclude Include="analysis\function\Atanh.h" />
+    <ClInclude Include="analysis\function\Cbrt.h" />
+    <ClInclude Include="analysis\function\Ceil.hpp" />
+    <ClInclude Include="analysis\function\Constant.hpp" />
+    <ClInclude Include="analysis\function\Cos.h" />
+    <ClInclude Include="analysis\function\Cosh.h" />
+    <ClInclude Include="analysis\function\Divide.h" />
+    <ClInclude Include="analysis\function\Exp.h" />
+    <ClInclude Include="analysis\function\Expm1.hpp" />
+    <ClInclude Include="analysis\function\Floor.hpp" />
+    <ClInclude Include="analysis\function\function.h" />
+    <ClInclude Include="analysis\function\Gaussian.hpp" />
+    <ClInclude Include="analysis\function\HarmonicOscillator.hpp" />
+    <ClInclude Include="analysis\function\Identity.hpp" />
+    <ClInclude Include="analysis\function\Inverse.hpp" />
+    <ClInclude Include="analysis\function\Log.hpp" />
+    <ClInclude Include="analysis\function\Log10.hpp" />
+    <ClInclude Include="analysis\function\Log1p.hpp" />
+    <ClInclude Include="analysis\function\Logistic.hpp" />
+    <ClInclude Include="analysis\function\Logit.hpp" />
+    <ClInclude Include="analysis\function\Max.h" />
+    <ClInclude Include="analysis\function\Min.h" />
+    <ClInclude Include="analysis\function\Minus.hpp" />
+    <ClInclude Include="analysis\function\Multiply.h" />
+    <ClInclude Include="analysis\function\package-info.h" />
+    <ClInclude Include="analysis\function\Pow.h" />
+    <ClInclude Include="analysis\function\Power.h" />
+    <ClInclude Include="analysis\function\Rint.h" />
+    <ClInclude Include="analysis\function\Sigmoid.hpp" />
+    <ClInclude Include="analysis\function\Sin.hpp" />
+    <ClInclude Include="analysis\function\Sinc.h" />
+    <ClInclude Include="analysis\function\Sinh.hpp" />
+    <ClInclude Include="analysis\function\Sqrt.hpp" />
+    <ClInclude Include="analysis\function\StepFunction.h" />
+    <ClInclude Include="analysis\function\Subtract.h" />
+    <ClInclude Include="analysis\function\Tan.hpp" />
+    <ClInclude Include="analysis\function\Tanh.hpp" />
+    <ClInclude Include="analysis\function\Ulp.h" />
+    <ClInclude Include="analysis\integration\BaseAbstractFieldUnivariateIntegrator.h" />
+    <ClInclude Include="analysis\integration\BaseAbstractUnivariateIntegrator.h" />
+    <ClInclude Include="analysis\integration\FieldMidPointIntegrator.h" />
+    <ClInclude Include="analysis\integration\FieldRombergIntegrator.h" />
+    <ClInclude Include="analysis\integration\FieldSimpsonIntegrator.h" />
+    <ClInclude Include="analysis\integration\FieldTrapezoidIntegrator.h" />
+    <ClInclude Include="analysis\integration\FieldUnivariateIntegrator.h" />
+    <ClInclude Include="analysis\integration\gauss\AbstractRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\ConvertingRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\FieldAbstractRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\FieldGaussIntegrator.h" />
+    <ClInclude Include="analysis\integration\gauss\FieldGaussIntegratorFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\FieldHermiteRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\FieldLaguerreRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\FieldLegendreRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\FieldRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\gauss.h" />
+    <ClInclude Include="analysis\integration\gauss\GaussIntegrator.h" />
+    <ClInclude Include="analysis\integration\gauss\GaussIntegratorFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\HermiteRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\LaguerreRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\LegendreRuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\package-info.h" />
+    <ClInclude Include="analysis\integration\gauss\RuleFactory.h" />
+    <ClInclude Include="analysis\integration\gauss\SymmetricFieldGaussIntegrator.h" />
+    <ClInclude Include="analysis\integration\gauss\SymmetricGaussIntegrator.h" />
+    <ClInclude Include="analysis\integration\integration.h" />
+    <ClInclude Include="analysis\integration\IterativeLegendreFieldGaussIntegrator.h" />
+    <ClInclude Include="analysis\integration\IterativeLegendreGaussIntegrator.h" />
+    <ClInclude Include="analysis\integration\MidPointIntegrator.h" />
+    <ClInclude Include="analysis\integration\package-info.h" />
+    <ClInclude Include="analysis\integration\RombergIntegrator.h" />
+    <ClInclude Include="analysis\integration\SimpsonIntegrator.h" />
+    <ClInclude Include="analysis\integration\TrapezoidIntegrator.h" />
+    <ClInclude Include="analysis\integration\UnivariateIntegrator.h" />
+    <ClInclude Include="analysis\interpolation\AkimaSplineInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\BicubicInterpolatingFunction.h" />
+    <ClInclude Include="analysis\interpolation\BicubicInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\BilinearInterpolatingFunction.hpp" />
+    <ClInclude Include="analysis\interpolation\BilinearInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\BivariateGridInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\DividedDifferenceInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\FieldHermiteInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\FieldUnivariateInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\GridAxis.h" />
+    <ClInclude Include="analysis\interpolation\HermiteInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\InterpolatingMicrosphere.h" />
+    <ClInclude Include="analysis\interpolation\InterpolatingMicrosphere2D.h" />
+    <ClInclude Include="analysis\interpolation\interpolation.h" />
+    <ClInclude Include="analysis\interpolation\LinearInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\LoessInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\MicrosphereProjectionInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\MultivariateInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\NevilleInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\package-info.h" />
+    <ClInclude Include="analysis\interpolation\PiecewiseBicubicSplineInterpolatingFunction.hpp" />
+    <ClInclude Include="analysis\interpolation\PiecewiseBicubicSplineInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\SplineInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\TricubicInterpolatingFunction.h" />
+    <ClInclude Include="analysis\interpolation\TricubicInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\TrivariateGridInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\UnivariateInterpolator.h" />
+    <ClInclude Include="analysis\interpolation\UnivariatePeriodicInterpolator.h" />
+    <ClInclude Include="analysis\MultivariateFunction.h" />
+    <ClInclude Include="analysis\MultivariateMatrixFunction.h" />
+    <ClInclude Include="analysis\MultivariateVectorFunction.h" />
+    <ClInclude Include="analysis\package-info.h" />
+    <ClInclude Include="analysis\ParametricUnivariateFunction.h" />
+    <ClInclude Include="analysis\polynomials\FieldPolynomialFunction.h" />
+    <ClInclude Include="analysis\polynomials\FieldPolynomialSplineFunction.h" />
+    <ClInclude Include="analysis\polynomials\package-info.h" />
+    <ClInclude Include="analysis\polynomials\PolynomialFunction.hpp" />
+    <ClInclude Include="analysis\polynomials\PolynomialFunctionLagrangeForm.h" />
+    <ClInclude Include="analysis\polynomials\PolynomialFunctionNewtonForm.h" />
+    <ClInclude Include="analysis\polynomials\polynomials.h" />
+    <ClInclude Include="analysis\polynomials\PolynomialSplineFunction.h" />
+    <ClInclude Include="analysis\polynomials\PolynomialsUtils.h" />
+    <ClInclude Include="analysis\solvers\AbstractPolynomialSolver.h" />
+    <ClInclude Include="analysis\solvers\AbstractUnivariateDifferentiableSolver.h" />
+    <ClInclude Include="analysis\solvers\AbstractUnivariateSolver.h" />
+    <ClInclude Include="analysis\solvers\AllowedSolution.h" />
+    <ClInclude Include="analysis\solvers\BaseAbstractUnivariateSolver.hpp" />
+    <ClInclude Include="analysis\solvers\BaseSecantSolver.h" />
+    <ClInclude Include="analysis\solvers\BaseUnivariateSolver.hpp" />
+    <ClInclude Include="analysis\solvers\BisectionSolver.h" />
+    <ClInclude Include="analysis\solvers\BracketedRealFieldUnivariateSolver.h" />
+    <ClInclude Include="analysis\solvers\BracketedUnivariateSolver.hpp" />
+    <ClInclude Include="analysis\solvers\BracketingNthOrderBrentSolver.h" />
+    <ClInclude Include="analysis\solvers\BrentSolver.h" />
+    <ClInclude Include="analysis\solvers\FieldBracketingNthOrderBrentSolver.h" />
+    <ClInclude Include="analysis\solvers\IllinoisSolver.h" />
+    <ClInclude Include="analysis\solvers\LaguerreSolver.h" />
+    <ClInclude Include="analysis\solvers\MullerSolver.h" />
+    <ClInclude Include="analysis\solvers\MullerSolver2.h" />
+    <ClInclude Include="analysis\solvers\NewtonRaphsonSolver.h" />
+    <ClInclude Include="analysis\solvers\package-info.h" />
+    <ClInclude Include="analysis\solvers\PegasusSolver.h" />
+    <ClInclude Include="analysis\solvers\PolynomialSolver.h" />
+    <ClInclude Include="analysis\solvers\RegulaFalsiSolver.h" />
+    <ClInclude Include="analysis\solvers\RiddersSolver.h" />
+    <ClInclude Include="analysis\solvers\SecantSolver.h" />
+    <ClInclude Include="analysis\solvers\solvers.h" />
+    <ClInclude Include="analysis\solvers\UnivariateDifferentiableSolver.h" />
+    <ClInclude Include="analysis\solvers\UnivariateSolver.h" />
+    <ClInclude Include="analysis\solvers\UnivariateSolverUtils.hpp" />
+    <ClInclude Include="analysis\TrivariateFunction.h" />
+    <ClInclude Include="analysis\UnivariateFunction.h" />
+    <ClInclude Include="analysis\UnivariateMatrixFunction.h" />
+    <ClInclude Include="analysis\UnivariateVectorFunction.h" />
+    <ClInclude Include="CalculusFieldElement.hpp" />
+    <ClInclude Include="complex\Complex.h" />
+    <ClInclude Include="complex\ComplexComparator.h" />
+    <ClInclude Include="complex\ComplexField.h" />
+    <ClInclude Include="complex\ComplexFormat.h" />
+    <ClInclude Include="complex\ComplexUnivariateIntegrator.h" />
+    <ClInclude Include="complex\ComplexUtils.hpp" />
+    <ClInclude Include="complex\FieldComplex.h" />
+    <ClInclude Include="complex\FieldComplexField.h" />
+    <ClInclude Include="complex\FieldComplexUnivariateIntegrator.h" />
+    <ClInclude Include="complex\package-info.h" />
+    <ClInclude Include="complex\Quaternion.h" />
+    <ClInclude Include="complex\RootsOfUnity.h" />
+    <ClInclude Include="core.h" />
+    <ClInclude Include="dfp\Dfp.h" />
+    <ClInclude Include="dfp\DfpDec.h" />
+    <ClInclude Include="dfp\DfpField.h" />
+    <ClInclude Include="dfp\DfpMath.h" />
+    <ClInclude Include="dfp\package-info.h" />
+    <ClInclude Include="distribution\continuous.h" />
+    <ClInclude Include="distribution\continuous\AbstractRealDistribution.h" />
+    <ClInclude Include="distribution\continuous\BetaDistribution.h" />
+    <ClInclude Include="distribution\continuous\CauchyDistribution.h" />
+    <ClInclude Include="distribution\continuous\ChiSquaredDistribution.h" />
+    <ClInclude Include="distribution\continuous\ConstantRealDistribution.h" />
+    <ClInclude Include="distribution\continuous\EnumeratedRealDistribution.h" />
+    <ClInclude Include="distribution\continuous\ExponentialDistribution.h" />
+    <ClInclude Include="distribution\continuous\FDistribution.h" />
+    <ClInclude Include="distribution\continuous\GammaDistribution.h" />
+    <ClInclude Include="distribution\continuous\GumbelDistribution.h" />
+    <ClInclude Include="distribution\continuous\LaplaceDistribution.h" />
+    <ClInclude Include="distribution\continuous\LevyDistribution.h" />
+    <ClInclude Include="distribution\continuous\LogisticDistribution.h" />
+    <ClInclude Include="distribution\continuous\LogNormalDistribution.h" />
+    <ClInclude Include="distribution\continuous\NakagamiDistribution.h" />
+    <ClInclude Include="distribution\continuous\NormalDistribution.h" />
+    <ClInclude Include="distribution\continuous\package-info.h" />
+    <ClInclude Include="distribution\continuous\ParetoDistribution.h" />
+    <ClInclude Include="distribution\continuous\TDistribution.h" />
+    <ClInclude Include="distribution\continuous\TriangularDistribution.h" />
+    <ClInclude Include="distribution\continuous\UniformRealDistribution.h" />
+    <ClInclude Include="distribution\continuous\WeibullDistribution.h" />
+    <ClInclude Include="distribution\discrete.h" />
+    <ClInclude Include="distribution\discrete\AbstractIntegerDistribution.h" />
+    <ClInclude Include="distribution\discrete\BinomialDistribution.h" />
+    <ClInclude Include="distribution\discrete\EnumeratedIntegerDistribution.h" />
+    <ClInclude Include="distribution\discrete\GeometricDistribution.h" />
+    <ClInclude Include="distribution\discrete\HypergeometricDistribution.h" />
+    <ClInclude Include="distribution\discrete\package-info.h" />
+    <ClInclude Include="distribution\discrete\PascalDistribution.h" />
+    <ClInclude Include="distribution\discrete\PoissonDistribution.h" />
+    <ClInclude Include="distribution\discrete\SaddlePointExpansion.h" />
+    <ClInclude Include="distribution\discrete\UniformIntegerDistribution.h" />
+    <ClInclude Include="distribution\discrete\ZipfDistribution.h" />
+    <ClInclude Include="distribution\EnumeratedDistribution.hpp" />
+    <ClInclude Include="distribution\IntegerDistribution.h" />
+    <ClInclude Include="distribution\multivariate.h" />
+    <ClInclude Include="distribution\MultivariateRealDistribution.h" />
+    <ClInclude Include="distribution\multivariate\AbstractMultivariateRealDistribution.h" />
+    <ClInclude Include="distribution\multivariate\MixtureMultivariateNormalDistribution.h" />
+    <ClInclude Include="distribution\multivariate\MixtureMultivariateRealDistribution.hpp" />
+    <ClInclude Include="distribution\multivariate\MultivariateNormalDistribution.h" />
+    <ClInclude Include="distribution\multivariate\package-info.h" />
+    <ClInclude Include="distribution\package-info.h" />
+    <ClInclude Include="distribution\RealDistribution.h" />
+    <ClInclude Include="exception.h" />
+    <ClInclude Include="exception\DummyLocalizable.h" />
+    <ClInclude Include="exception\Localizable.h" />
+    <ClInclude Include="exception\LocalizedCoreFormats.h" />
+    <ClInclude Include="exception\LocalizedException.h" />
+    <ClInclude Include="exception\MathIllegalArgumentException.h" />
+    <ClInclude Include="exception\MathIllegalStateException.h" />
+    <ClInclude Include="exception\MathRuntimeException.h" />
+    <ClInclude Include="exception\NullArgumentException.h" />
+    <ClInclude Include="exception\package-info.h" />
+    <ClInclude Include="exception\UTF8Control.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="FieldElement.h" />
+    <ClInclude Include="fraction.h" />
+    <ClInclude Include="fraction\AbstractFormat.h" />
+    <ClInclude Include="fraction\BigFraction.h" />
+    <ClInclude Include="fraction\BigFractionField.h" />
+    <ClInclude Include="fraction\BigFractionFormat.h" />
+    <ClInclude Include="fraction\ConvergentsIterator.h" />
+    <ClInclude Include="fraction\Fraction.h" />
+    <ClInclude Include="fraction\FractionField.h" />
+    <ClInclude Include="fraction\FractionFormat.h" />
+    <ClInclude Include="fraction\package-info.h" />
+    <ClInclude Include="fraction\ProperBigFractionFormat.h" />
+    <ClInclude Include="fraction\ProperFractionFormat.h" />
+    <ClInclude Include="linear.h" />
+    <ClInclude Include="linear\AbstractFieldMatrix.h" />
+    <ClInclude Include="linear\AbstractRealMatrix.h" />
+    <ClInclude Include="linear\AnyMatrix.h" />
+    <ClInclude Include="linear\Array2DRowFieldMatrix.h" />
+    <ClInclude Include="linear\Array2DRowRealMatrix.h" />
+    <ClInclude Include="linear\ArrayFieldVector.h" />
+    <ClInclude Include="linear\ArrayRealVector.h" />
+    <ClInclude Include="linear\BiDiagonalTransformer.h" />
+    <ClInclude Include="linear\BlockFieldMatrix.h" />
+    <ClInclude Include="linear\BlockRealMatrix.h" />
+    <ClInclude Include="linear\CholeskyDecomposer.h" />
+    <ClInclude Include="linear\CholeskyDecomposition.h" />
+    <ClInclude Include="linear\ComplexEigenDecomposition.h" />
+    <ClInclude Include="linear\ConjugateGradient.h" />
+    <ClInclude Include="linear\DecompositionSolver.h" />
+    <ClInclude Include="linear\DefaultFieldMatrixChangingVisitor.h" />
+    <ClInclude Include="linear\DefaultFieldMatrixPreservingVisitor.h" />
+    <ClInclude Include="linear\DefaultIterativeLinearSolverEvent.h" />
+    <ClInclude Include="linear\DefaultRealMatrixChangingVisitor.h" />
+    <ClInclude Include="linear\DefaultRealMatrixPreservingVisitor.h" />
+    <ClInclude Include="linear\DependentVectorsHandler.h" />
+    <ClInclude Include="linear\DiagonalMatrix.h" />
+    <ClInclude Include="linear\EigenDecomposition.h" />
+    <ClInclude Include="linear\FieldDecompositionSolver.h" />
+    <ClInclude Include="linear\FieldLUDecomposition.h" />
+    <ClInclude Include="linear\FieldMatrix.hpp" />
+    <ClInclude Include="linear\FieldMatrixChangingVisitor.h" />
+    <ClInclude Include="linear\FieldMatrixPreservingVisitor.h" />
+    <ClInclude Include="linear\FieldQRDecomposition.h" />
+    <ClInclude Include="linear\FieldVector.h" />
+    <ClInclude Include="linear\FieldVectorChangingVisitor.h" />
+    <ClInclude Include="linear\FieldVectorPreservingVisitor.h" />
+    <ClInclude Include="linear\HessenbergTransformer.h" />
+    <ClInclude Include="linear\IterativeLinearSolver.h" />
+    <ClInclude Include="linear\IterativeLinearSolverEvent.h" />
+    <ClInclude Include="linear\JacobiPreconditioner.h" />
+    <ClInclude Include="linear\LUDecomposer.h" />
+    <ClInclude Include="linear\LUDecomposition.h" />
+    <ClInclude Include="linear\MatrixDecomposer.h" />
+    <ClInclude Include="linear\MatrixUtils.h" />
+    <ClInclude Include="linear\OpenMapRealMatrix.h" />
+    <ClInclude Include="linear\OpenMapRealVector.h" />
+    <ClInclude Include="linear\OrderedComplexEigenDecomposition.h" />
+    <ClInclude Include="linear\OrderedEigenDecomposition.h" />
+    <ClInclude Include="linear\package-info.h" />
+    <ClInclude Include="linear\PreconditionedIterativeLinearSolver.h" />
+    <ClInclude Include="linear\QRDecomposer.h" />
+    <ClInclude Include="linear\QRDecomposition.h" />
+    <ClInclude Include="linear\RealLinearOperator.h" />
+    <ClInclude Include="linear\RealMatrix.h" />
+    <ClInclude Include="linear\RealMatrixChangingVisitor.h" />
+    <ClInclude Include="linear\RealMatrixFormat.h" />
+    <ClInclude Include="linear\RealMatrixPreservingVisitor.h" />
+    <ClInclude Include="linear\RealVector.h" />
+    <ClInclude Include="linear\RealVectorChangingVisitor.h" />
+    <ClInclude Include="linear\RealVectorFormat.h" />
+    <ClInclude Include="linear\RealVectorPreservingVisitor.h" />
+    <ClInclude Include="linear\RectangularCholeskyDecomposition.h" />
+    <ClInclude Include="linear\RiccatiEquationSolver.h" />
+    <ClInclude Include="linear\RiccatiEquationSolverImpl.h" />
+    <ClInclude Include="linear\RRQRDecomposition.h" />
+    <ClInclude Include="linear\SchurTransformer.h" />
+    <ClInclude Include="linear\SingularValueDecomposer.h" />
+    <ClInclude Include="linear\SingularValueDecomposition.h" />
+    <ClInclude Include="linear\SparseFieldMatrix.hpp" />
+    <ClInclude Include="linear\SparseFieldVector.hpp" />
+    <ClInclude Include="linear\SparseRealMatrix.h" />
+    <ClInclude Include="linear\SparseRealVector.h" />
+    <ClInclude Include="linear\SymmLQ.h" />
+    <ClInclude Include="linear\TriDiagonalTransformer.h" />
+    <ClInclude Include="package-info.h" />
+    <ClInclude Include="random.h" />
+    <ClInclude Include="random\AbstractWell.h" />
+    <ClInclude Include="random\BaseRandomGenerator.h" />
+    <ClInclude Include="random\CorrelatedRandomVectorGenerator.h" />
+    <ClInclude Include="random\ForwardingRandomGenerator.h" />
+    <ClInclude Include="random\GaussianRandomGenerator.h" />
+    <ClInclude Include="random\HaltonSequenceGenerator.h" />
+    <ClInclude Include="random\IntRandomGenerator.h" />
+    <ClInclude Include="random\ISAACRandom.h" />
+    <ClInclude Include="random\JDKRandomGenerator.h" />
+    <ClInclude Include="random\MersenneTwister.h" />
+    <ClInclude Include="random\NormalizedRandomGenerator.h" />
+    <ClInclude Include="random\package-info.h" />
+    <ClInclude Include="random\RandomAdaptor.h" />
+    <ClInclude Include="random\RandomDataGenerator.h" />
+    <ClInclude Include="random\RandomGenerator.h" />
+    <ClInclude Include="random\RandomVectorGenerator.h" />
+    <ClInclude Include="random\SobolSequenceGenerator.h" />
+    <ClInclude Include="random\StableRandomGenerator.h" />
+    <ClInclude Include="random\SynchronizedRandomGenerator.h" />
+    <ClInclude Include="random\UncorrelatedRandomVectorGenerator.h" />
+    <ClInclude Include="random\UniformRandomGenerator.h" />
+    <ClInclude Include="random\UnitSphereRandomVectorGenerator.h" />
+    <ClInclude Include="random\Well1024a.h" />
+    <ClInclude Include="random\Well19937a.h" />
+    <ClInclude Include="random\Well19937c.h" />
+    <ClInclude Include="random\Well44497a.h" />
+    <ClInclude Include="random\Well44497b.h" />
+    <ClInclude Include="random\Well512a.h" />
+    <ClInclude Include="special.h" />
+    <ClInclude Include="special\BesselJ.h" />
+    <ClInclude Include="special\Beta.h" />
+    <ClInclude Include="special\elliptic.h" />
+    <ClInclude Include="special\elliptic\carlson.h" />
+    <ClInclude Include="special\elliptic\carlson\CarlsonEllipticIntegral.h" />
+    <ClInclude Include="special\elliptic\carlson\FieldDuplication.hpp" />
+    <ClInclude Include="special\elliptic\carlson\package-info.h" />
+    <ClInclude Include="special\elliptic\carlson\RcFieldDuplication.hpp" />
+    <ClInclude Include="special\elliptic\carlson\RcRealDuplication.h" />
+    <ClInclude Include="special\elliptic\carlson\RdFieldDuplication.hpp" />
+    <ClInclude Include="special\elliptic\carlson\RdRealDuplication.h" />
+    <ClInclude Include="special\elliptic\carlson\RealDuplication.h" />
+    <ClInclude Include="special\elliptic\carlson\RfFieldDuplication.hpp" />
+    <ClInclude Include="special\elliptic\carlson\RfRealDuplication.h" />
+    <ClInclude Include="special\elliptic\carlson\RjFieldDuplication.hpp" />
+    <ClInclude Include="special\elliptic\carlson\RjRealDuplication.h" />
+    <ClInclude Include="special\elliptic\jacobi.h" />
+    <ClInclude Include="special\elliptic\jacobi\BigParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\BoundedParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\ComplexParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\CopolarC.h" />
+    <ClInclude Include="special\elliptic\jacobi\CopolarD.h" />
+    <ClInclude Include="special\elliptic\jacobi\CopolarN.h" />
+    <ClInclude Include="special\elliptic\jacobi\CopolarS.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldBigParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldBoundedParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldComplexParameter.hpp" />
+    <ClInclude Include="special\elliptic\jacobi\FieldCopolarC.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldCopolarD.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldCopolarN.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldCopolarS.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldJacobiElliptic.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldJacobiTheta.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldNearOneParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldNearZeroParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldNegativeParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\FieldTheta.h" />
+    <ClInclude Include="special\elliptic\jacobi\JacobiElliptic.h" />
+    <ClInclude Include="special\elliptic\jacobi\JacobiEllipticBuilder.hpp" />
+    <ClInclude Include="special\elliptic\jacobi\JacobiTheta.h" />
+    <ClInclude Include="special\elliptic\jacobi\NearOneParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\NearZeroParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\NegativeParameter.h" />
+    <ClInclude Include="special\elliptic\jacobi\package-info.h" />
+    <ClInclude Include="special\elliptic\jacobi\Theta.h" />
+    <ClInclude Include="special\elliptic\legendre.h" />
+    <ClInclude Include="special\elliptic\legendre\LegendreEllipticIntegral.h" />
+    <ClInclude Include="special\elliptic\legendre\package-info.h" />
+    <ClInclude Include="special\elliptic\package-info.h" />
+    <ClInclude Include="special\Erf.h" />
+    <ClInclude Include="special\Gamma.h" />
+    <ClInclude Include="special\package-info.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="util\ArithmeticUtils.h" />
+    <ClInclude Include="util\BigInteger.h" />
+    <ClInclude Include="util\BigReal.h" />
+    <ClInclude Include="util\BigRealField.h" />
+    <ClInclude Include="util\Combinations.h" />
+    <ClInclude Include="util\CombinatoricsUtils.h" />
+    <ClInclude Include="util\Comparable.h" />
+    <ClInclude Include="util\CompositeFormat.h" />
+    <ClInclude Include="util\ContinuedFraction.h" />
+    <ClInclude Include="util\Decimal64.h" />
+    <ClInclude Include="util\Decimal64Field.h" />
+    <ClInclude Include="util\FastMath.h" />
+    <ClInclude Include="util\FastMathCalc.h" />
+    <ClInclude Include="util\FastMathLiteralArrays.h" />
+    <ClInclude Include="util\FieldSinCos.h" />
+    <ClInclude Include="util\FieldSinhCosh.h" />
+    <ClInclude Include="util\FieldTuple.h" />
+    <ClInclude Include="util\Incrementor.h" />
+    <ClInclude Include="util\IterationEvent.h" />
+    <ClInclude Include="util\IterationListener.h" />
+    <ClInclude Include="util\IterationManager.h" />
+    <ClInclude Include="util\KthSelector.h" />
+    <ClInclude Include="util\MathArrays.h" />
+    <ClInclude Include="util\MathUtils.h" />
+    <ClInclude Include="util\MultidimensionalCounter.h" />
+    <ClInclude Include="util\OpenIntToDoubleHashMap.h" />
+    <ClInclude Include="util\OpenIntToFieldHashMap.h" />
+    <ClInclude Include="util\package-info.h" />
+    <ClInclude Include="util\Pair.h" />
+    <ClInclude Include="util\PivotingStrategy.h" />
+    <ClInclude Include="util\Precision.h" />
+    <ClInclude Include="util\ResizableDoubleArray.h" />
+    <ClInclude Include="util\RyuDouble.h" />
+    <ClInclude Include="util\SinCos.h" />
+    <ClInclude Include="util\SinhCosh.h" />
+    <ClInclude Include="util\Tuple.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{1f365573-95e1-4a07-a2e0-7cb532f1854d}</ProjectGuid>
+    <RootNamespace>core</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

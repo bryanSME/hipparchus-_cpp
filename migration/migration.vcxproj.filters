@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ode\JacobianMatrices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\sampling\StepInterpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\ContinuousOutputModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\events\EventHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\sampling\StepHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\sampling\FixedStepHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\ParameterJacobianProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\MainStateJacobianProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\SecondOrderDifferentialEquations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\SecondaryEquations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\FirstOrderDifferentialEquations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\sampling\MigrationStepInterpolator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\util\LocalizedFormats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\sampling\DummyStepHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stat\regression\ModelSpecificationException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\UnknownParameterException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\SingularOperatorException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\SingularMatrixException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\NonSymmetricMatrixException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\NonSquareOperatorException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\NonSquareMatrixException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\NonPositiveDefiniteMatrixException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\NonPositiveDefiniteOperatorException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\NonSelfAdjointOperatorException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\MatrixDimensionMismatchException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\IllConditionedOperatorException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stat\regression\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stat\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="optim\linear\UnboundedSolutionException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="optim\linear\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="optim\linear\NoFeasibleSolutionException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="optim\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\sampling\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\events\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ode\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry\euclidean\threed\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry\euclidean\threed\NotARotationMatrixException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry\euclidean\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry\euclidean\CardanEulerSingularityException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="genetics\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="genetics\InvalidRepresentationException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\util\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\ZeroException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\TooManyIterationsException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\TooManyEvaluationsException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\OutOfRangeException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NumberIsTooSmallException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NumberIsTooLargeException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NotStrictlyPositiveException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NotPositiveException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NotFiniteNumberException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NotANumberException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NonMonotonicSequenceException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NoDataException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\NoBracketingException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\MultiDimensionMismatchException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\MaxCountExceededException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\MathUnsupportedOperationException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\MathParseException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\MathInternalError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\MathIllegalNumberException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\MathArithmeticException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\InsufficientDataException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\DimensionMismatchException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="exception\ConvergenceException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="package-info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalizedMigrationFormats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

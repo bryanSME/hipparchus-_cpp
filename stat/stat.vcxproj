@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="correlation\Covariance.h" />
+    <ClInclude Include="correlation\KendallsCorrelation.h" />
+    <ClInclude Include="correlation\package-info.h" />
+    <ClInclude Include="correlation\PearsonsCorrelation.h" />
+    <ClInclude Include="correlation\SpearmansCorrelation.h" />
+    <ClInclude Include="correlation\StorelessBivariateCovariance.h" />
+    <ClInclude Include="correlation\StorelessCovariance.h" />
+    <ClInclude Include="descriptive\AbstractStorelessUnivariateStatistic.h" />
+    <ClInclude Include="descriptive\AbstractUnivariateStatistic.h" />
+    <ClInclude Include="descriptive\AggregatableStatistic.hpp" />
+    <ClInclude Include="descriptive\DescriptiveStatistics.h" />
+    <ClInclude Include="descriptive\moment\FirstMoment.h" />
+    <ClInclude Include="descriptive\moment\FourthMoment.h" />
+    <ClInclude Include="descriptive\moment\GeometricMean.h" />
+    <ClInclude Include="descriptive\moment\Kurtosis.h" />
+    <ClInclude Include="descriptive\moment\Mean.h" />
+    <ClInclude Include="descriptive\moment\package-info.h" />
+    <ClInclude Include="descriptive\moment\SecondMoment.h" />
+    <ClInclude Include="descriptive\moment\SemiVariance.h" />
+    <ClInclude Include="descriptive\moment\Skewness.h" />
+    <ClInclude Include="descriptive\moment\StandardDeviation.h" />
+    <ClInclude Include="descriptive\moment\ThirdMoment.h" />
+    <ClInclude Include="descriptive\moment\Variance.h" />
+    <ClInclude Include="descriptive\MultivariateSummaryStatistics.h" />
+    <ClInclude Include="descriptive\package-info.h" />
+    <ClInclude Include="descriptive\rank\Max.h" />
+    <ClInclude Include="descriptive\rank\Median.h" />
+    <ClInclude Include="descriptive\rank\Min.h" />
+    <ClInclude Include="descriptive\rank\package-info.h" />
+    <ClInclude Include="descriptive\rank\Percentile.h" />
+    <ClInclude Include="descriptive\rank\PSquarePercentile.h" />
+    <ClInclude Include="descriptive\rank\RandomPercentile.h" />
+    <ClInclude Include="descriptive\StatisticalMultivariateSummary.h" />
+    <ClInclude Include="descriptive\StatisticalSummary.h" />
+    <ClInclude Include="descriptive\StatisticalSummaryValues.h" />
+    <ClInclude Include="descriptive\StorelessMultivariateStatistic.h" />
+    <ClInclude Include="descriptive\StorelessUnivariateStatistic.h" />
+    <ClInclude Include="descriptive\StreamingStatistics.h" />
+    <ClInclude Include="descriptive\summary\package-info.h" />
+    <ClInclude Include="descriptive\summary\Product.h" />
+    <ClInclude Include="descriptive\summary\Sum.h" />
+    <ClInclude Include="descriptive\summary\SumOfLogs.h" />
+    <ClInclude Include="descriptive\summary\SumOfSquares.h" />
+    <ClInclude Include="descriptive\UnivariateStatistic.h" />
+    <ClInclude Include="descriptive\vector\package-info.h" />
+    <ClInclude Include="descriptive\vector\VectorialCovariance.h" />
+    <ClInclude Include="descriptive\vector\VectorialStorelessStatistic.h" />
+    <ClInclude Include="descriptive\WeightedEvaluation.h" />
+    <ClInclude Include="fitting\EmpiricalDistribution.h" />
+    <ClInclude Include="fitting\MultivariateNormalMixtureExpectationMaximization.h" />
+    <ClInclude Include="fitting\package-info.h" />
+    <ClInclude Include="Frequency.hpp" />
+    <ClInclude Include="inference\AlternativeHypothesis.h" />
+    <ClInclude Include="inference\BinomialTest.h" />
+    <ClInclude Include="inference\ChiSquareTest.h" />
+    <ClInclude Include="inference\GTest.h" />
+    <ClInclude Include="inference\InferenceTestUtils.h" />
+    <ClInclude Include="inference\KolmogorovSmirnovTest.h" />
+    <ClInclude Include="inference\MannWhitneyUTest.h" />
+    <ClInclude Include="inference\OneWayAnova.h" />
+    <ClInclude Include="inference\package-info.h" />
+    <ClInclude Include="inference\TTest.h" />
+    <ClInclude Include="inference\WilcoxonSignedRankTest.h" />
+    <ClInclude Include="interval\BinomialProportion.h" />
+    <ClInclude Include="interval\ConfidenceInterval.h" />
+    <ClInclude Include="interval\package-info.h" />
+    <ClInclude Include="LocalizedStatFormats.h" />
+    <ClInclude Include="LongFrequency.h" />
+    <ClInclude Include="package-info.h" />
+    <ClInclude Include="ranking\NaNStrategy.h" />
+    <ClInclude Include="ranking\NaturalRanking.h" />
+    <ClInclude Include="ranking\package-info.h" />
+    <ClInclude Include="ranking\RankingAlgorithm.h" />
+    <ClInclude Include="ranking\TiesStrategy.h" />
+    <ClInclude Include="regression\AbstractMultipleLinearRegression.h" />
+    <ClInclude Include="regression\GLSMultipleLinearRegression.h" />
+    <ClInclude Include="regression\MillerUpdatingRegression.h" />
+    <ClInclude Include="regression\MultipleLinearRegression.h" />
+    <ClInclude Include="regression\OLSMultipleLinearRegression.h" />
+    <ClInclude Include="regression\package-info.h" />
+    <ClInclude Include="regression\RegressionResults.h" />
+    <ClInclude Include="regression\SimpleRegression.h" />
+    <ClInclude Include="regression\UpdatingMultipleLinearRegression.h" />
+    <ClInclude Include="StatUtils.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a8e11432-a635-4dd9-8668-be71d5af8b64}</ProjectGuid>
+    <RootNamespace>stat</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
