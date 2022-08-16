@@ -30,7 +30,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Composite_Format;
 //import org.hipparchus.util.Math_Utils;
 #include <string>
@@ -93,7 +93,7 @@ public:
      * Create an instance with a custom number format for both real and
      * imaginary parts.
      * @param format the custom format for both real and imaginary parts.
-     * @Null_Argument_Exception if {@code real_format} is {@code NULL}.
+     * @ if {@code real_format} is {@code NULL}.
      */
     std::complex<double>_Format(const Number_Format& format) : my_imaginary_character{ DEFAULT_IMAGINARY_CHARACTER }, my_imaginary_format{ format }, my_real_format{ format } {};
 
@@ -102,8 +102,8 @@ public:
      * custom number format for the imaginary part.
      * @param real_format the custom format for the real part.
      * @param imaginary_format the custom format for the imaginary part.
-     * @Null_Argument_Exception if {@code imaginary_format} is {@code NULL}.
-     * @Null_Argument_Exception if {@code real_format} is {@code NULL}.
+     * @ if {@code imaginary_format} is {@code NULL}.
+     * @ if {@code real_format} is {@code NULL}.
       */
     std::complex<double>_Format(const Number_Format& real_format, const Number_Format& imaginary_format) : my_imaginary_character{ DEFAULT_IMAGINARY_CHARACTER }, my_imaginary_format{ imaginary_format }, my_real_format{ real_format } {};
     {
@@ -115,7 +115,7 @@ public:
      * Create an instance with a custom imaginary character, and the default
      * number format for both real and imaginary parts.
      * @param imaginary_character The custom imaginary character.
-     * @Null_Argument_Exception if {@code imaginary_character} is
+     * @ if {@code imaginary_character} is
      * {@code NULL}.
      * @ if {@code imaginary_character} is an
      * empty string.
@@ -130,11 +130,11 @@ public:
      * format for both real and imaginary parts.
      * @param imaginary_character The custom imaginary character.
      * @param format the custom format for both real and imaginary parts.
-     * @Null_Argument_Exception if {@code imaginary_character} is
+     * @ if {@code imaginary_character} is
      * {@code NULL}.
      * @ if {@code imaginary_character} is an
      * empty string.
-     * @Null_Argument_Exception if {@code format} is {@code NULL}.
+     * @ if {@code format} is {@code NULL}.
      */
     std::complex<double>_Format(std::string imaginary_character, Number_Format format)
     {
@@ -149,19 +149,19 @@ public:
      * @param imaginary_character The custom imaginary character.
      * @param real_format the custom format for the real part.
      * @param imaginary_format the custom format for the imaginary part.
-     * @Null_Argument_Exception if {@code imaginary_character} is
+     * @ if {@code imaginary_character} is
      * {@code NULL}.
      * @ if {@code imaginary_character} is an
      * empty string.
-     * @Null_Argument_Exception if {@code imaginary_format} is {@code NULL}.
-     * @Null_Argument_Exception if {@code real_format} is {@code NULL}.
+     * @ if {@code imaginary_format} is {@code NULL}.
+     * @ if {@code real_format} is {@code NULL}.
      */
     std::complex<double>_Format(std::string imaginary_character, Number_Format real_format, Number_Format imaginary_format)
     {
         if (imaginary_character == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (imaginary_character.size() == 0) 
         {
@@ -322,7 +322,7 @@ public:
      * @param locale the specific locale used by the format.
      * @param imaginary_character Imaginary character.
      * @return the complex format specific to the given locale.
-     * @Null_Argument_Exception if {@code imaginary_character} is
+     * @ if {@code imaginary_character} is
      * {@code NULL}.
      * @ if {@code imaginary_character} is an
      * empty string.

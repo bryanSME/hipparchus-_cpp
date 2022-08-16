@@ -32,7 +32,7 @@
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.fraction.Convergents_Iterator.Convergence_Step;
 //import org.hipparchus.util.Arithmetic_Utils;
 //import org.hipparchus.util.FastMath;
@@ -130,7 +130,7 @@ public:
      * @param num the numerator, must not be {@code NULL}.
      * @param den the denominator, must not be {@code NULL}.
      * @ if the denominator is zero.
-     * @Null_Argument_Exception if either of the arguments is NULL
+     * @ if either of the arguments is NULL
      */
     Big_Fraction(BigInteger num, BigInteger den) 
     {
@@ -265,7 +265,7 @@ else
         Convergence_Step converged = Convergents_Iterator.convergent(value, max_iterations, s -> 
         {
             const double quotient = s.get_fraction_value();
-            return Precision.equals(quotient, value, 1) || std::abs(quotient - value) < epsilon;
+            return Precision::equals(quotient, value, 1) || std::abs(quotient - value) < epsilon;
         }).get_key();
         if (std::abs(converged.get_fraction_value() - value) < epsilon) 
         {
@@ -306,7 +306,7 @@ else
             {
                 last_valid[0] = s;
             }
-            return Precision.equals(s.get_fraction_value(), value, 1);
+            return Precision::equals(s.get_fraction_value(), value, 1);
         });
         if (last_valid[0] != NULL) 
         {
@@ -512,10 +512,10 @@ else
      * @param bg
      *            the {@link BigInteger} to add, must'nt be <code>null</code>.
      * @return a <code>Big_Fraction</code> instance with the resulting values.
-     * @Null_Argument_Exception
+     * @
      *             if the {@link BigInteger} is <code>null</code>.
      */
-    Big_Fraction add(const BigInteger bg) Null_Argument_Exception 
+    Big_Fraction add(const BigInteger bg)  
     {
         //Math_Utils::check_not_null(bg);
 
@@ -570,7 +570,7 @@ else
      * @param fraction
      *            the {@link Big_Fraction} to add, must not be <code>null</code>.
      * @return a {@link Big_Fraction} instance with the resulting values.
-     * @Null_Argument_Exception if the {@link Big_Fraction} is {@code NULL}.
+     * @ if the {@link Big_Fraction} is {@code NULL}.
      */
     //override
     Big_Fraction add(const Big_Fraction& fraction) 
@@ -702,7 +702,7 @@ else
      *
      * @param bg the {@code BigInteger} to divide by, must not be {@code NULL}
      * @return a {@link Big_Fraction} instance with the resulting values
-     * @Null_Argument_Exception if the {@code BigInteger} is {@code NULL}
+     * @ if the {@code BigInteger} is {@code NULL}
      * @Math_Runtime_Exception if the fraction to divide by is zero
      */
     Big_Fraction divide(const BigInteger bg) 
@@ -757,7 +757,7 @@ else
      *
      * @param fraction Fraction to divide by, must not be {@code NULL}.
      * @return a {@link Big_Fraction} instance with the resulting values.
-     * @Null_Argument_Exception if the {@code fraction} is {@code NULL}.
+     * @ if the {@code fraction} is {@code NULL}.
      * @Math_Runtime_Exception if the fraction to divide by is zero
      */
     //override
@@ -981,7 +981,7 @@ else
      *
      * @param bg the {@code BigInteger} to multiply by.
      * @return a {@code Big_Fraction} instance with the resulting values.
-     * @Null_Argument_Exception if {@code bg} is {@code NULL}.
+     * @ if {@code bg} is {@code NULL}.
      */
     Big_Fraction multiply(const BigInteger bg) 
     {
@@ -1041,7 +1041,7 @@ else
      *
      * @param fraction Fraction to multiply by, must not be {@code NULL}.
      * @return a {@link Big_Fraction} instance with the resulting values.
-     * @Null_Argument_Exception if {@code fraction} is {@code NULL}.
+     * @ if {@code fraction} is {@code NULL}.
      */
     //override
     Big_Fraction multiply(const Big_Fraction& fraction) 
@@ -1227,7 +1227,7 @@ else
      *
      * @param bg the {@link BigInteger} to subtract, cannot be {@code NULL}.
      * @return a {@code Big_Fraction} instance with the resulting values.
-     * @Null_Argument_Exception if the {@link BigInteger} is {@code NULL}.
+     * @ if the {@link BigInteger} is {@code NULL}.
      */
     Big_Fraction subtract(const BigInteger bg) 
     {
@@ -1279,7 +1279,7 @@ else
      *
      * @param fraction {@link Big_Fraction} to subtract, must not be {@code NULL}.
      * @return a {@link Big_Fraction} instance with the resulting values
-     * @Null_Argument_Exception if the {@code fraction} is {@code NULL}.
+     * @ if the {@code fraction} is {@code NULL}.
      */
     //override
     Big_Fraction subtract(const Big_Fraction& fraction) 

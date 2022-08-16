@@ -35,7 +35,7 @@ public:
      * combined dataset.
      *
      * @param other the instance to aggregate into this instance
-     * @Null_Argument_Exception if the input is NULL
+     * @ if the input is NULL
      */
     virtual void aggregate(T other) = 0;
 
@@ -48,7 +48,7 @@ public:
      * combined dataset.
      *
      * @param others the other instances to aggregate into this instance
-     * @Null_Argument_Exception if either others or any instance is NULL
+     * @ if either others or any instance is NULL
      */
      //@Suppress_Warnings("unchecked")
      //void aggregate(T... others) 
@@ -69,7 +69,7 @@ public:
       * combined dataset.
       *
       * @param others the other instances to aggregate into this instance
-      * @Null_Argument_Exception if either others or any instance is NULL
+      * @ if either others or any instance is NULL
       */
     void aggregate(const std::vector<T>& others)
     {

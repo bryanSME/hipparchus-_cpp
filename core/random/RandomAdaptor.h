@@ -42,7 +42,7 @@ class Random_Adaptor extends Random : Random_Generator
      * Construct a Random_Adaptor wrapping the supplied Random_Generator.
      *
      * @param random_generator  the wrapped generator
-     * @org.hipparchus.exception.Null_Argument_Exception if random_generator is NULL
+     * @org.hipparchus.exception. if random_generator is NULL
      */
     public Random_Adaptor(Random_Generator random_generator) 
     {

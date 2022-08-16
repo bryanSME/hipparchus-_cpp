@@ -35,7 +35,7 @@
 //import java.util.stream.Collectors;
 #include <map>
 
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Utils;
 
 /**
@@ -278,7 +278,7 @@ public:
      * by the counts represented by other.
      *
      * @param other the other {@link Frequency} object to be merged
-     * @Null_Argument_Exception if {@code other} is NULL
+     * @ if {@code other} is NULL
      */
     void merge(const Frequency<? extends T> other) 
     {
@@ -298,7 +298,7 @@ public:
      * by the counts represented by each of the others.
      *
      * @param others the other {@link Frequency} objects to be merged
-     * @Null_Argument_Exception if the collection is NULL
+     * @ if the collection is NULL
      */
     //template<typename T, typename std::enable_if<std::is_base_of<Frequency, T>::value>::type* = nullptr>
     //void merge(const std::vector<T extends Frequency< extends T>> others)

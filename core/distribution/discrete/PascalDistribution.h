@@ -19,14 +19,10 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.distribution.discrete;
 
-  //import org.hipparchus.exception.Localized_Core_Formats;
-  //import org.hipparchus.exception.;
-  //import org.hipparchus.special.Beta;
-  //import org.hipparchus.util.Combinatorics_Utils;
-  //import org.hipparchus.util.FastMath;
-  //import org.hipparchus.util.Math_Utils;
+#include "../../util/MathUtils.h"
+#include "../../util/CombinatoricsUtils.h"
+#include "../../special/Beta.h"
 
   /**
    * Implementation of the Pascal distribution.
@@ -59,17 +55,17 @@
    */
 class Pascal_Distribution : Abstract_Integer_Distribution
 {
-	
-	20160320L;
+private:
 	/** The number of successes. */
-	private const int& number_of_successes;
+	const int my_number_of_successes;
 	/** The probability of success. */
-	private const double probability_of_success;
+	const double my_probability_of_success;
 	/** The value of {@code log(p)}, where {@code p} is the probability of success, * stored for faster computation. */
-	private const double log_probability_of_success;
+	const double my_log_probability_of_success;
 	/** The value of {@code log(1-p)}, where {@code p} is the probability of success, * stored for faster computation. */
-	private const double log1m_probability_of_success;
+	const double my_log1m_probability_of_success;
 
+public:
 	/**
 	 * Create a Pascal distribution with the given number of successes and
 	 * probability of success.
@@ -80,20 +76,20 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 * @ if the probability of success is not in the
 	 * range {@code [0, 1]}.
 	 */
-	public Pascal_Distribution(const int& r, double p)
-
+	Pascal_Distribution(const int& r, const double& p)
+		:
+		my_number_of_successes{ r },
+		my_probability_of_success{ p },
+		my_log_probability_of_success{ std::log(p) },
+		my_log1m_probability_of_success{ std::log1p(-p) }
 	{
 		if (r <= 0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SUCCESSES, r);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SUCCESSES, r);
 		}
 
 		Math_Utils::check_range_inclusive(p, 0, 1);
-
-		number_of_successes = r;
-		probability_of_success = p;
-		log_probability_of_success = std::log(p);
-		log1m_probability_of_success = std::log1p(-p);
 	}
 
 	/**
@@ -101,9 +97,9 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 *
 	 * @return the number of successes.
 	 */
-	public int get_number_of_successes()
+	int get_number_of_successes() const
 	{
-		return number_of_successes;
+		return my_number_of_successes;
 	}
 
 	/**
@@ -111,14 +107,42 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 *
 	 * @return the probability of success.
 	 */
-	public double get_probability_of_success()
+	double get_probability_of_success() const
 	{
-		return probability_of_success;
+		return my_probability_of_success;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double probability(const int& x)
+	double probability(const int& x)
+	{
+		if (x < 0)
+		{
+			return 0.0;
+		}
+		return Combinatorics_Utils::binomial_coefficient_double(x +
+				my_number_of_successes - 1, my_number_of_successes - 1) *
+				std::pow(my_probability_of_success, my_number_of_successes) *
+				std::pow(1.0 - my_probability_of_success, x);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	double log_probability(const int& x)
+	{
+		if (x < 0)
+		{
+			return -INFINITY;
+		}
+		return Combinatorics_Utils::binomial_coefficient_log(x +
+			my_number_of_successes - 1, my_number_of_successes - 1) +
+			my_log_probability_of_success * my_number_of_successes +
+			my_log1m_probability_of_success * x;
+	}
+
+	/** {@inherit_doc} */
+	//override
+	double cumulative_probability(const int& x)
 	{
 		double ret;
 		if (x < 0)
@@ -127,45 +151,7 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 		}
 		else
 		{
-			ret = Combinatorics_Utils.binomial_coefficient_double(x +
-				number_of_successes - 1, number_of_successes - 1) *
-				std::pow(probability_of_success, number_of_successes) *
-				std::pow(1.0 - probability_of_success, x);
-		}
-		return ret;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public double log_probability(const int& x)
-	{
-		double ret;
-		if (x < 0)
-		{
-			ret = -INFINITY;
-		}
-		else
-		{
-			ret = Combinatorics_Utils.binomial_coefficient_log(x +
-				number_of_successes - 1, number_of_successes - 1) +
-				log_probability_of_success * number_of_successes +
-				log1m_probability_of_success * x;
-		}
-		return ret;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public double cumulative_probability(const int& x)
-	{
-		double ret;
-		if (x < 0)
-		{
-			ret = 0.0;
-		}
-		else
-		{
-			ret = Beta.regularized_beta(probability_of_success, number_of_successes, x + 1.0);
+			ret = Beta::regularized_beta(my_probability_of_success, my_number_of_successes, x + 1.0);
 		}
 		return ret;
 	}
@@ -176,7 +162,7 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 * For number of successes {@code r} and probability of success {@code p}, * the mean is {@code r * (1 - p) / p}.
 	 */
 	 //override
-	public double get_numerical_mean() const
+	double get_numerical_mean() const
 	{
 		const double p = get_probability_of_success();
 		const double r = get_number_of_successes();
@@ -189,7 +175,7 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 * For number of successes {@code r} and probability of success {@code p}, * the variance is {@code r * (1 - p) / p^2}.
 	 */
 	 //override
-	public double get_numerical_variance() const
+	double get_numerical_variance() const
 	{
 		const double p = get_probability_of_success();
 		const double r = get_number_of_successes();
@@ -204,7 +190,7 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 * @return lower bound of the support (always 0)
 	 */
 	 //override
-	public int get_support_lower_bound()
+	int get_support_lower_bound()
 	{
 		return 0;
 	}
@@ -219,7 +205,7 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 * for positive infinity)
 	 */
 	 //override
-	public int get_support_upper_bound()
+	int get_support_upper_bound()
 	{
 		return std::numeric_limits<int>::max();
 	}
@@ -232,7 +218,7 @@ class Pascal_Distribution : Abstract_Integer_Distribution
 	 * @return {@code true}
 	 */
 	 //override
-	public bool is_support_connected() const
+	bool is_support_connected() const
 	{
 		return true;
 	}

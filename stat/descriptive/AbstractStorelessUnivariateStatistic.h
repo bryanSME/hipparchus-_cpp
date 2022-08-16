@@ -73,8 +73,8 @@ public:
             return false;
         }
         Storeless_Univariate_Statistic other = (Storeless_Univariate_Statistic) object;
-        return Precision.equals_including_nan(other.get_result(), get_result()) &&
-               Precision.equals_including_nan(other.get_n(),      get_n());
+        return Precision::equals_including_nan(other.get_result(), get_result()) &&
+               Precision::equals_including_nan(other.get_n(),      get_n());
     }*/
 
     /**

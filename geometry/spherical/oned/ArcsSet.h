@@ -150,7 +150,7 @@ class Arcs_Set : public Abstract_Region<Sphere_1D, Sphere_1D>, Iterable<std::vec
         {
 
         Sphere_1D.check_tolerance(tolerance);
-        if (Precision.equals(lower, upper, 0) || (upper - lower) >= Math_Utils::TWO_PI) 
+        if (Precision::equals(lower, upper, 0) || (upper - lower) >= Math_Utils::TWO_PI) 
         {
             // the tree must cover the whole circle
             return BSP_Tree<Sphere_1D>(Boolean.TRUE);
@@ -528,7 +528,7 @@ else
                 sum  += length * (a[0] + a[1]);
             }
             set_size(size);
-            if (Precision.equals(size, Math_Utils::TWO_PI, 0)) 
+            if (Precision::equals(size, Math_Utils::TWO_PI, 0)) 
             {
                 set_barycenter(S1_Point.NaN);
             }

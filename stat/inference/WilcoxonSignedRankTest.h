@@ -28,7 +28,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.ranking.NaN_Strategy;
 //import org.hipparchus.stat.ranking.Natural_Ranking;
 //import org.hipparchus.stat.ranking.Ties_Strategy;
@@ -60,7 +60,7 @@ private:
      * @param x first sample
      * @param y second sample
      * @return the number of indices where x[i] == y[i]
-     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+     * @ if {@code x} or {@code y} are {@code NULL}.
      * @ if {@code x} or {@code y} are
      *         zero-length
      * @ if {@code x} and {@code y} do not
@@ -123,7 +123,7 @@ private:
      *
      * @param z sample
      * @return |z|
-     * @Null_Argument_Exception if {@code z} is {@code NULL}
+     * @ if {@code z} is {@code NULL}
      * @ if {@code z} is zero-length.
      */
     std::vector<double> calculate_absolute_differences(const std::vector<double>& z)
@@ -270,7 +270,7 @@ public:
      * @param x the first sample
      * @param y the second sample
      * @return wilcoxon_signed_rank statistic (the larger of W+ and W-)
-     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+     * @ if {@code x} or {@code y} are {@code NULL}.
      * @ if {@code x} or {@code y} are
      *         zero-length.
      * @ if {@code x} and {@code y} do not
@@ -341,7 +341,7 @@ public:
      * @param exact_p_value if the exact p-value is wanted (only works for
      *        x.size() &lt;= 30, if true and x.size() &gt; 30,  is thrown)
      * @return p-value
-     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+     * @ if {@code x} or {@code y} are {@code NULL}.
      * @ if {@code x} or {@code y} are
      *         zero-length or for all i, x[i] == y[i]
      * @ if {@code x} and {@code y} do not

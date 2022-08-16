@@ -205,7 +205,7 @@ class Complex_Eigen_Decomposition
     {
         for (int i{}; i < eigenvalues.size(); i++) 
         {
-            if (!Precision.equals(eigenvalues[i].get_imaginary(), 0.0, epsilon)) 
+            if (!Precision::equals(eigenvalues[i].get_imaginary(), 0.0, epsilon)) 
             {
                 return true;
             }
@@ -273,7 +273,7 @@ class Complex_Eigen_Decomposition
 
         for (int i{}; i < eigenvalues.size(); i++) 
         {
-            if (i == (eigenvalues.size() - 1) || Precision.equals(mat_t[i + 1][i], 0.0, epsilon)) 
+            if (i == (eigenvalues.size() - 1) || Precision::equals(mat_t[i + 1][i], 0.0, epsilon)) 
             {
                 eigenvalues[i] = std::complex<double>(mat_t[i][i]);
             }

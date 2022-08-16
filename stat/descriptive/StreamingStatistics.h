@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 //import java.util.function.Double_Consumer;
 
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.moment.Geometric_Mean;
 //import org.hipparchus.stat.descriptive.moment.Mean;
 //import org.hipparchus.stat.descriptive.moment.Second_Moment;
@@ -154,9 +154,9 @@ public:
      * A copy constructor. Creates a deep-copy of the {@code original}.
      *
      * @param original the {@code Streaming_Statistics} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
-    Streaming_Statistics(Streaming_Statistics original) Null_Argument_Exception 
+    Streaming_Statistics(Streaming_Statistics original)  
     {
         //Math_Utils::check_not_null(original);
 
@@ -534,15 +534,15 @@ else
         }
         Streaming_Statistics other = (Streaming_Statistics)object;
         return other.get_n() == get_n()                                                     &&
-               Precision.equals_including_nan(other.get_max(),           get_max())           &&
-               Precision.equals_including_nan(other.get_min(),           get_min())           &&
-               Precision.equals_including_nan(other.get_sum(),           get_sum())           &&
-               Precision.equals_including_nan(other.get_geometric_mean(), get_geometric_mean()) &&
-               Precision.equals_including_nan(other.get_mean(),          get_mean())          &&
-               Precision.equals_including_nan(other.get_sum_of_squares(),  get_sum_of_squares())  &&
-               Precision.equals_including_nan(other.get_sum_of_logs(),     get_sum_of_logs())     &&
-               Precision.equals_including_nan(other.get_variance(),      get_variance())      &&
-               Precision.equals_including_nan(other.get_median(),        get_median());
+               Precision::equals_including_nan(other.get_max(),           get_max())           &&
+               Precision::equals_including_nan(other.get_min(),           get_min())           &&
+               Precision::equals_including_nan(other.get_sum(),           get_sum())           &&
+               Precision::equals_including_nan(other.get_geometric_mean(), get_geometric_mean()) &&
+               Precision::equals_including_nan(other.get_mean(),          get_mean())          &&
+               Precision::equals_including_nan(other.get_sum_of_squares(),  get_sum_of_squares())  &&
+               Precision::equals_including_nan(other.get_sum_of_logs(),     get_sum_of_logs())     &&
+               Precision::equals_including_nan(other.get_variance(),      get_variance())      &&
+               Precision::equals_including_nan(other.get_median(),        get_median());
     }
 
     /**

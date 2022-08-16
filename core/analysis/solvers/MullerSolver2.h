@@ -26,6 +26,7 @@
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
 //import org.hipparchus.util.FastMath;
+#include "AbstractUnivariateSolver.h"
 
 /**
  * This class : the <a href="http://mathworld.wolfram.com/Mullers_method.html">
@@ -50,25 +51,26 @@
  *
  * @see Muller_Solver
  */
-class Muller_Solver2 extends Abstract_Univariate_Solver 
+class Muller_Solver2 : Abstract_Univariate_Solver 
 {
-
+private:
     /** Default absolute accuracy. */
-    private static const double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+    static constexpr double DEFAULT_ABSOLUTE_ACCURACY{ 1e-6 };
 
+public:
     /**
      * Construct a solver with default accuracy (1e-6).
      */
-    public Muller_Solver2() 
+    Muller_Solver2() 
     {
-        this(DEFAULT_ABSOLUTE_ACCURACY);
+        Muller_Solver2(DEFAULT_ABSOLUTE_ACCURACY);
     }
     /**
      * Construct a solver.
      *
      * @param absolute_accuracy Absolute accuracy.
      */
-    public Muller_Solver2(double absolute_accuracy) 
+    Muller_Solver2(double absolute_accuracy) 
     {
         super(absolute_accuracy);
     }
@@ -78,25 +80,25 @@ class Muller_Solver2 extends Abstract_Univariate_Solver
      * @param relative_accuracy Relative accuracy.
      * @param absolute_accuracy Absolute accuracy.
      */
-    public Muller_Solver2(double relative_accuracy, double absolute_accuracy) 
+    Muller_Solver2(double relative_accuracy, double absolute_accuracy) 
     {
         super(relative_accuracy, absolute_accuracy);
     }
 
+public:
     /**
      * {@inherit_doc}
      */
     //override
-    protected double do_solve()
-        , Math_Illegal_State_Exception 
-        {
+    double do_solve()
+    {
         const double min = get_min();
         const double max = get_max();
 
         verify_interval(min, max);
 
         const double relative_accuracy = get_relative_accuracy();
-        const double& absolute_accuracy = get_absolute_accuracy();
+        const double absolute_accuracy = get_absolute_accuracy();
         const double function_value_accuracy = get_function_value_accuracy();
 
         // x2 is the last root approximation
@@ -135,7 +137,7 @@ class Muller_Solver2 extends Abstract_Univariate_Solver
             const double c = (1 + q) * y2;
             const double delta = b * b - 4 * a * c;
             double x;
-            const double denominator;
+            double denominator;
             if (delta >= 0.0) 
             {
                 // choose a denominator larger in magnitude
@@ -143,7 +145,7 @@ class Muller_Solver2 extends Abstract_Univariate_Solver
                 double dminus = b - std::sqrt(delta);
                 denominator = std::abs(dplus) > std::abs(dminus) ? dplus : dminus;
             }
-else 
+            else 
             {
                 // take the modulus of (B +/- std::sqrt(delta))
                 denominator = std::sqrt(b * b - delta);
@@ -158,7 +160,7 @@ else
                     x += absolute_accuracy;
                 }
             }
-else 
+            else 
             {
                 // extremely rare case, get a random number to skip it
                 x = min + FastMath.random() * (max - min);
@@ -184,6 +186,4 @@ else
             oldx = x;
         }
     }
-}
-
-
+};

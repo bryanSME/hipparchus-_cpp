@@ -30,7 +30,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 #include <numbers>
 #include <vector>
 #include <cmath>
@@ -319,13 +319,13 @@ namespace Math_Utils
      * @param o Object to be checked.
      * @param pattern Message pattern.
      * @param args Arguments to replace the placeholders in {@code pattern}.
-     * @Null_Argument_Exception if {@code o} is {@code NULL}.
+     * @ if {@code o} is {@code NULL}.
      */
     //inline static void check_not_null(Object o, Localizable pattern, Object ... args)
     //{
     //    if (o == NULL) 
     //    {
-    //        throw Null_Argument_Exception(pattern, args);
+    //        throw (pattern, args);
     //    }
     //}
 
@@ -333,13 +333,13 @@ namespace Math_Utils
      * Checks that an object is not NULL.
      *
      * @param o Object to be checked.
-     * @Null_Argument_Exception if {@code o} is {@code NULL}.
+     * @ if {@code o} is {@code NULL}.
      */
     //inline static void check_not_null(Object o)
     //{
     //    if (o == NULL) 
     //    {
-    //        throw Null_Argument_Exception(hipparchus::exception::Localized_Core_Formats_Type::NULL_NOT_ALLOWED);
+    //        throw (hipparchus::exception::Localized_Core_Formats_Type::NULL_NOT_ALLOWED);
     //    }
     //}
 

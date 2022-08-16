@@ -23,7 +23,7 @@
 //import org.hipparchus.Field;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Field_Sin_Cos;
 //import org.hipparchus.util.Field_Sinh_Cosh;
@@ -245,10 +245,10 @@ public:
      *
      * @param  addend Value to be added to this {@code std::complex<double>}.
      * @return {@code this + addend}.
-     * @Null_Argument_Exception if {@code addend} is {@code NULL}.
+     * @ if {@code addend} is {@code NULL}.
      */
     //override
-    Field_Complex<T> add(Field_Complex<T> addend) Null_Argument_Exception 
+    Field_Complex<T> add(Field_Complex<T> addend)  
     {
         //Math_Utils::check_not_null(addend);
         if (is_nan || addend.is_nan) 
@@ -356,7 +356,7 @@ public:
      *
      * @param divisor Value by which this {@code std::complex<double>} is to be divided.
      * @return {@code this / divisor}.
-     * @Null_Argument_Exception if {@code divisor} is {@code NULL}.
+     * @ if {@code divisor} is {@code NULL}.
      */
     //override
     Field_Complex<T> divide(const Field_Complex<T>& divisor)
@@ -538,8 +538,8 @@ public:
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
     static bool equals(Field_Complex<T> x, Field_Complex<T> y, int max_ulps) 
     {
-        return Precision.equals(x.real.get_real(), y.real.get_real(), max_ulps) &&
-               Precision.equals(x.imaginary.get_real(), y.imaginary.get_real(), max_ulps);
+        return Precision::equals(x.real.get_real(), y.real.get_real(), max_ulps) &&
+               Precision::equals(x.imaginary.get_real(), y.imaginary.get_real(), max_ulps);
     }
 
     /**
@@ -575,8 +575,8 @@ public:
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
     static bool equals(Field_Complex<T> x, Field_Complex<T> y, double eps) 
     {
-        return Precision.equals(x.real.get_real(), y.real.get_real(), eps) &&
-               Precision.equals(x.imaginary.get_real(), y.imaginary.get_real(), eps);
+        return Precision::equals(x.real.get_real(), y.real.get_real(), eps) &&
+               Precision::equals(x.imaginary.get_real(), y.imaginary.get_real(), eps);
     }
 
     /**
@@ -597,8 +597,8 @@ public:
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
     static bool equals_with_relative_tolerance(Field_Complex<T> x, Field_Complex<T> y, double eps) 
     {
-        return Precision.equals_with_relative_tolerance(x.real.get_real(), y.real.get_real(), eps) &&
-               Precision.equals_with_relative_tolerance(x.imaginary.get_real(), y.imaginary.get_real(), eps);
+        return Precision::equals_with_relative_tolerance(x.real.get_real(), y.real.get_real(), eps) &&
+               Precision::equals_with_relative_tolerance(x.imaginary.get_real(), y.imaginary.get_real(), eps);
     }
 
     /**
@@ -735,11 +735,11 @@ public:
      *
      * @param  factor value to be multiplied by this {@code std::complex<double>}.
      * @return {@code this * factor}.
-     * @Null_Argument_Exception if {@code factor} is {@code NULL}.
+     * @ if {@code factor} is {@code NULL}.
      */
     //override
     Field_Complex<T> multiply(Field_Complex<T> factor)
-        Null_Argument_Exception 
+         
         {
         //Math_Utils::check_not_null(factor);
         if (is_nan || factor.is_nan) 
@@ -877,11 +877,11 @@ public:
      *
      * @param  subtrahend value to be subtracted from this {@code std::complex<double>}.
      * @return {@code this - subtrahend}.
-     * @Null_Argument_Exception if {@code subtrahend} is {@code NULL}.
+     * @ if {@code subtrahend} is {@code NULL}.
      */
     //override
     Field_Complex<T> subtract(Field_Complex<T> subtrahend)
-        Null_Argument_Exception 
+         
         {
         //Math_Utils::check_not_null(subtrahend);
         if (is_nan || subtrahend.is_nan) 
@@ -1232,11 +1232,11 @@ else
      *
      * @param  x exponent to which this {@code std::complex<double>} is to be raised.
      * @return <code> this<sup>x</sup></code>.
-     * @Null_Argument_Exception if x is {@code NULL}.
+     * @ if x is {@code NULL}.
      */
     //override
     Field_Complex<T> pow(Field_Complex<T> x)
-        Null_Argument_Exception 
+         
         {
 
         //Math_Utils::check_not_null(x);

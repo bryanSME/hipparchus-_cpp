@@ -69,7 +69,7 @@ class Field_Univariate_Integrator
      * or the integrator detects convergence problems otherwise
      * @ if {@code min > max} or the endpoints do not
      * satisfy the requirements specified by the integrator
-     * @Null_Argument_Exception if {@code f} is {@code NULL}.
+     * @ if {@code f} is {@code NULL}.
      */
     virtual T integrate(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max) = 0;
 

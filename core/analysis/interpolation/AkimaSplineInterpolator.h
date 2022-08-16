@@ -31,7 +31,7 @@
 //import org.hipparchus.analysis.polynomials.Polynomial_Spline_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Precision;
@@ -112,7 +112,7 @@ class Akima_Spline_Interpolator
         if (xvals == NULL || yvals == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
 
         Math_Arrays::check_equal_length(xvals, yvals);
@@ -152,8 +152,8 @@ class Akima_Spline_Interpolator
         {
             const double wP = weights[i + 1];
             const double wM = weights[i - 1];
-            if (Precision.equals(wP, 0.0) &&
-                Precision.equals(wM, 0.0)) 
+            if (Precision::equals(wP, 0.0) &&
+                Precision::equals(wM, 0.0)) 
                 {
                 const double xv = xvals[i];
                 const double xv_p = xvals[i + 1];
@@ -197,7 +197,7 @@ else
         if (xvals == NULL || yvals == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
 
         Math_Arrays::check_equal_length(xvals, yvals);
@@ -233,8 +233,8 @@ else
         {
             const T wP = weights[i + 1];
             const T wM = weights[i - 1];
-            if (Precision.equals(wP.get_real(), 0.0) &&
-                Precision.equals(wM.get_real(), 0.0)) 
+            if (Precision::equals(wP.get_real(), 0.0) &&
+                Precision::equals(wM.get_real(), 0.0)) 
                 {
                 const T xv = xvals[i];
                 const T xv_p = xvals[i + 1];
@@ -346,7 +346,7 @@ else
 
         const int size = xvals.size() - 1;
         const Polynomial_Function[] polynomials = Polynomial_Function[size];
-        const auto coefficients = std::vector<double>(4);
+        auto coefficients = std::vector<double>(4);
 
         for (int i{}; i < polynomials.size(); i++) 
         {

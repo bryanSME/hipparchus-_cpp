@@ -27,7 +27,7 @@
 //import org.hipparchus.distribution.continuous.F_Distribution;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.Localized_Stat_Formats;
 //import org.hipparchus.stat.descriptive.Streaming_Statistics;
 //import org.hipparchus.util.Math_Utils;
@@ -62,7 +62,7 @@ private:
      *            <code>Collection</code> of <code>std::vector<double></code> arrays each
      *            containing data for one category
      * @return computed Anova_Stats
-     * @Null_Argument_Exception
+     * @
      *             if <code>category_data</code> is <code>null</code>
      * @
      *             if the length of the <code>category_data</code> array is less
@@ -99,7 +99,7 @@ private:
  * @param allow_one_element_data if true, allow computation for one category
  * only or for one data element per category
  * @return computed Anova_Stats
- * @Null_Argument_Exception if <code>category_data</code> is <code>null</code>
+ * @ if <code>category_data</code> is <code>null</code>
  * @ if <code>allow_one_element_data</code> is false and the number of
  * categories is less than 2 or a contained Summary_Statistics does not contain
  * at least two values
@@ -227,7 +227,7 @@ public:
      * @param category_data <code>Collection</code> of <code>std::vector<double></code>
      * arrays each containing data for one category
      * @return Fvalue
-     * @Null_Argument_Exception if <code>category_data</code> is <code>null</code>
+     * @ if <code>category_data</code> is <code>null</code>
      * @ if the length of the <code>category_data</code>
      * array is less than 2 or a contained <code>std::vector<double></code> array does not have
      * at least two values
@@ -259,7 +259,7 @@ public:
      * @param category_data <code>Collection</code> of <code>std::vector<double></code>
      * arrays each containing data for one category
      * @return Pvalue
-     * @Null_Argument_Exception if <code>category_data</code> is <code>null</code>
+     * @ if <code>category_data</code> is <code>null</code>
      * @ if the length of the <code>category_data</code>
      * array is less than 2 or a contained <code>std::vector<double></code> array does not have
      * at least two values
@@ -297,7 +297,7 @@ public:
      * @param allow_one_element_data if true, allow computation for one catagory
      * only or for one data element per category
      * @return Pvalue
-     * @Null_Argument_Exception if <code>category_data</code> is <code>null</code>
+     * @ if <code>category_data</code> is <code>null</code>
      * @ if the length of the <code>category_data</code>
      * array is less than 2 or a contained {@link Streaming_Statistics} does not have
      * at least two values
@@ -339,7 +339,7 @@ public:
      * @param alpha significance level of the test
      * @return true if the NULL hypothesis can be rejected with
      * confidence 1 - alpha
-     * @Null_Argument_Exception if <code>category_data</code> is <code>null</code>
+     * @ if <code>category_data</code> is <code>null</code>
      * @ if the length of the <code>category_data</code>
      * array is less than 2 or a contained <code>std::vector<double></code> array does not have
      * at least two values

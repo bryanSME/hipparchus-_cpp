@@ -40,7 +40,7 @@ class Parameter_Jacobian_Provider extends Named_Parameter_Jacobian_Provider
      */
     //override
     default std::vector<double> compute_parameter_jacobian(const double t, const std::vector<double> y, const std::vector<double> y_dot, const std::string param_name)
-        , Math_Illegal_State_Exception 
+         
         {
         const std::vector<double> df_dp = std::vector<double>(y.size()];
         compute_parameter_jacobian(t, y, y_dot, param_name, df_dp);
@@ -62,7 +62,7 @@ class Parameter_Jacobian_Provider extends Named_Parameter_Jacobian_Provider
      * @exception  if the parameter is not supported
      */
     void compute_parameter_jacobian(double t, std::vector<double> y, std::vector<double> y_dot, std::string param_name, std::vector<double> df_dp)
-        , Math_Illegal_State_Exception;
+        ;
 
 }
 

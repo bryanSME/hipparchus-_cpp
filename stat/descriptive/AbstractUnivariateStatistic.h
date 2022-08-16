@@ -45,7 +45,7 @@ protected:
      * of the {@code original}.
      *
      * @param original the instance to copy
-     * @org.hipparchus.exception.Null_Argument_Exception  if original is NULL
+     * @org.hipparchus.exception.  if original is NULL
      */
     Abstract_Univariate_Statistic(const Abstract_Univariate_Statistic& original) 
     {

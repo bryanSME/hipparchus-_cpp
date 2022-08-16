@@ -24,7 +24,7 @@
 
 //import org.hipparchus.analysis.Univariate_Function;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 
 #include "AnyMatrix.h"
@@ -306,7 +306,7 @@ class Real_Matrix : Any_Matrix
      * @param selected_columns Array of column indices.
      * @return The sub_matrix containing the data in the specified rows and
      * columns
-     * @Null_Argument_Exception if the row or column selections are
+     * @ if the row or column selections are
      * {@code NULL}
      * @ if the row or column selections are empty (zero
      * length).
@@ -340,7 +340,7 @@ class Real_Matrix : Any_Matrix
      * @param destination The arrays where the submatrix data should be copied
      * (if larger than rows/columns counts, only the upper-left part will be
      * used)
-     * @Null_Argument_Exception if the row or column selections are
+     * @ if the row or column selections are
      * {@code NULL}
      * @ if the row or column selections are empty (zero
      * length).
@@ -375,7 +375,7 @@ class Real_Matrix : Any_Matrix
     * this matrix from element in {@code (row, column)}.
     * @ if {@code sub_matrix} is not rectangular
     * (not all rows have the same length) or empty.
-    * @Null_Argument_Exception if {@code sub_matrix} is {@code NULL}.
+    * @ if {@code sub_matrix} is {@code NULL}.
     */
     virtual void set_sub_matrix(std::vector<std::vector<double>> sub_matrix, int row, int column) = 0;
 

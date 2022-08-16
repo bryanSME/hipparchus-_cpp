@@ -26,7 +26,7 @@
   //import org.hipparchus.exception.Localized_Core_Formats;
   //import org.hipparchus.exception.;
   //import org.hipparchus.exception.Math_Illegal_State_Exception;
-  //import org.hipparchus.exception.Null_Argument_Exception;
+  //import org.hipparchus.exception.;
   //import org.hipparchus.util.Incrementor;
   //import org.hipparchus.util.Math_Utils;
 #include "UnivariateIntegrator.h"
@@ -233,7 +233,7 @@ class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 	 * @param f the integrand function
 	 * @param lower the min bound for the interval
 	 * @param upper the upper bound for the interval
-	 * @Null_Argument_Exception if {@code f} is {@code NULL}.
+	 * @ if {@code f} is {@code NULL}.
 	 * @ if {@code min >= max}.
 	 */
 	protected void setup(const int max_eval, const Univariate_Function& f, const double lower, const double upper)

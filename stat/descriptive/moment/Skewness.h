@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Arrays;
@@ -91,9 +91,9 @@ class Skewness : public Abstract_Storeless_Univariate_Statistic
      * to the {@code original}.
      *
      * @param original the {@code Skewness} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
-    public Skewness(Skewness original) Null_Argument_Exception 
+    public Skewness(Skewness original)  
     {
         //Math_Utils::check_not_null(original);
         this.moment    = original.moment.copy();

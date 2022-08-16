@@ -197,7 +197,7 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 */
 	 //override
 	public List<Centroid_Cluster<T>> cluster(const Collection<T> points)
-		, Math_Illegal_State_Exception
+		
 	{
 		// sanity checks
 		//Math_Utils::check_not_null(points);

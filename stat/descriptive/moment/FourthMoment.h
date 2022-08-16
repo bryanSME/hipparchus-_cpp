@@ -23,7 +23,7 @@
 
 //import java.io.Serializable;
 
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 /**
  * Computes a statistic related to the Fourth Central Moment. Specifically, * what is computed is the sum of
@@ -78,9 +78,9 @@ class Fourth_Moment extends Third_Moment
      * to the {@code original}.
      *
      * @param original the {@code Fourth_Moment} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
-    Fourth_Moment(Fourth_Moment original) Null_Argument_Exception 
+    Fourth_Moment(Fourth_Moment original)  
     {
         super(original);
         this.m4 = original.m4;

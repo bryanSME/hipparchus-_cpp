@@ -58,7 +58,7 @@ class Proper_fractionFormat extends Fraction_Format
      * Create a proper formatting instance with a custom number format for the
      * whole, numerator, and denominator.
      * @param format the custom format for the whole, numerator, and denominator.
-     * @org.hipparchus.exception.Null_Argument_Exception if the provided format is NULL.
+     * @org.hipparchus.exception. if the provided format is NULL.
      */
     public Proper_fractionFormat(Number_Format format) 
     {
@@ -71,7 +71,7 @@ class Proper_fractionFormat extends Fraction_Format
      * @param whole_format the custom format for the whole.
      * @param numerator_format the custom format for the numerator.
      * @param denominator_format the custom format for the denominator.
-     * @org.hipparchus.exception.Null_Argument_Exception if either provided format is NULL.
+     * @org.hipparchus.exception. if either provided format is NULL.
      */
     public Proper_fractionFormat(Number_Format whole_format, Number_Format numerator_format, Number_Format denominator_format) 
     {

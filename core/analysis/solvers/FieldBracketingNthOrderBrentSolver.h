@@ -28,7 +28,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Incrementor;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
@@ -177,12 +177,12 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
      * @param allowed_solution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a value where the function is zero.
-     * @exception Null_Argument_Exception if f is NULL.
+     * @exception  if f is NULL.
      * @exception  if root cannot be bracketed
      */
     //override
     public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const Allowed_Solution allowed_solution)
-        , Null_Argument_Exception 
+         
         {
         return solve(max_eval, f, min, max, min.add(max).divide(2), allowed_solution);
     }
@@ -201,12 +201,12 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
      * @param allowed_solution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a value where the function is zero.
-     * @exception Null_Argument_Exception if f is NULL.
+     * @exception  if f is NULL.
      * @exception  if root cannot be bracketed
      */
     //override
     public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const T start_value, const Allowed_Solution allowed_solution)
-        , Null_Argument_Exception 
+         
         {
         // find interval containing root
         return solve_interval(max_eval, f, min, max, start_value).get_side(allowed_solution);
@@ -215,7 +215,7 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
     /** {@inherit_doc} */
     //override
     public Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, T start_value)
-            , Math_Illegal_State_Exception 
+             
             {
 
         // Checks.

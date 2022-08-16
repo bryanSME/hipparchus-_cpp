@@ -28,7 +28,7 @@
 //import org.hipparchus.Field_Element;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
@@ -1121,7 +1121,7 @@ else
     /** {@inherit_doc} */
     //override
     public void set_sub_matrix(const std::vector<std::vector<T>> sub_matrix, const int& row, const int column)
-        , Null_Argument_Exception 
+         
         {
         // safety checks
         //Math_Utils::check_not_null(sub_matrix);

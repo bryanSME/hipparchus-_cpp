@@ -27,7 +27,7 @@
 
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.Localized_Stat_Formats;
 //import org.hipparchus.stat.descriptive.Abstract_Univariate_Statistic;
 //import org.hipparchus.stat.ranking.NaN_Strategy;
@@ -132,7 +132,7 @@ protected:
      * @param nan_strategy one of {@link NaN_Strategy} to handle with NaNs
      * @param kth_selector a {@link Kth_Selector} to use for pivoting during search
      * @ if p is not within (0,100]
-     * @Null_Argument_Exception if type or NaN_Strategy passed is NULL
+     * @ if type or NaN_Strategy passed is NULL
      */
     Percentile(const double& quantile, const Estimation_Type& estimation_type, const NaN_Strategy& nan_strategy, const Kth_Selector& kth_selector)
     {
@@ -228,7 +228,7 @@ public:
      * to the {@code original}
      *
      * @param original the {@code Percentile} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
     Percentile(const Percentile& original)
     {
@@ -457,7 +457,7 @@ public:
         auto temp = copy_of(values, begin, length);
         for (const int i{}; i < length; i++)
         {
-            temp[i] = Precision.equals_including_nan(original, temp[i]) ?
+            temp[i] = Precision::equals_including_nan(original, temp[i]) ?
                       replacement : temp[i];
         }
         return temp;
@@ -480,7 +480,7 @@ public:
         const Bit_Set bits = Bit_Set(length);
         for (int i{ begin }; i < begin+length; i++) 
         {
-            if (Precision.equals_including_nan(removed_value, values[i])) 
+            if (Precision::equals_including_nan(removed_value, values[i])) 
             {
                 bits.set(i - begin);
             }
@@ -564,7 +564,7 @@ public:
      *
      * @param new_estimation_type estimation type for the instance
      * @return a instance, with changed estimation type
-     * @Null_Argument_Exception when new_estimation_type is NULL
+     * @ when new_estimation_type is NULL
      */
     public Percentile with_estimation_type(const Estimation_Type new_estimation_type) 
     {
@@ -598,7 +598,7 @@ public:
      *
      * @param new_nan_strategy NaN strategy for the instance
      * @return a instance, with changed NaN handling strategy
-     * @Null_Argument_Exception when new_nan_strategy is NULL
+     * @ when new_nan_strategy is NULL
      */
     public Percentile with_na_n_strategy(const NaN_Strategy new_nan_strategy) 
     {
@@ -641,7 +641,7 @@ public:
      *
      * @param new_kth_selector Kth_Selector for the instance
      * @return a instance, with changed Kth_Selector
-     * @Null_Argument_Exception when new_kth_selector is NULL
+     * @ when new_kth_selector is NULL
      */
     public Percentile with_kth_selector(const Kth_Selector new_kth_selector) 
     {
@@ -1015,7 +1015,7 @@ public:
          * @param selector a {@link Kth_Selector} used for pivoting during search
          * @return estimated percentile
          * @ if p is out of range
-         * @Null_Argument_Exception if work array is NULL
+         * @ if work array is NULL
          */
         protected double evaluate(const std::vector<double> work, const std::vector<int> pivots_heap, const double p, const Kth_Selector selector) 
         {
@@ -1039,7 +1039,7 @@ public:
          * @return estimated percentile
          * @param selector a {@link Kth_Selector} used for pivoting during search
          * @ if length or p is out of range
-         * @Null_Argument_Exception if work array is NULL
+         * @ if work array is NULL
          */
         public double evaluate(const std::vector<double> work, const double p, const Kth_Selector selector) 
         {

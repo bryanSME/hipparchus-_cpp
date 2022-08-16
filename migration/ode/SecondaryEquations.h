@@ -62,7 +62,7 @@ class Secondary_Equations extends Secondary_ODE
      */
     //override
     default std::vector<double> compute_derivatives(const double t, const std::vector<double> primary, const std::vector<double> primary_dot, const std::vector<double> secondary)
-        , Math_Illegal_State_Exception 
+         
         {
         const std::vector<double> secondary_dot = std::vector<double>(secondary.size()];
         compute_derivatives(t, primary, primary_dot, secondary, secondary_dot);
@@ -79,7 +79,7 @@ class Secondary_Equations extends Secondary_ODE
      * @exception  if arrays dimensions do not match equations settings
      */
     void compute_derivatives(double t, std::vector<double> primary, std::vector<double> primary_dot, std::vector<double> secondary, std::vector<double> secondary_dot)
-        , Math_Illegal_State_Exception;
+        ;
 
 }
 

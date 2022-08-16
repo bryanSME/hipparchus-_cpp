@@ -27,7 +27,7 @@
 #include<cmath>
 #include<algorithm>
 #include "PivotingStrategy.h"
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 
 /**
@@ -102,7 +102,7 @@ public:
      * Constructor with specified pivoting strategy
      *
      * @param pivoting_strategy pivoting strategy to use
-     * @Null_Argument_Exception when pivoting_strategy is NULL
+     * @ when pivoting_strategy is NULL
      */
     Kth_Selector(const Pivoting_Strategy& pivoting_strategy)
     {

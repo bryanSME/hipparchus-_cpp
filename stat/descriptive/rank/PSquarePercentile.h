@@ -138,7 +138,7 @@ public:
      * to the {@code original}.
      *
      * @param original the {@code P_Square_Percentile} instance to copy
-     * @org.hipparchus.exception.Null_Argument_Exception if original is NULL
+     * @org.hipparchus.exception. if original is NULL
      */
     P_Square_Percentile(P_Square_Percentile original) 
     {

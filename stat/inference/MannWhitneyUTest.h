@@ -29,7 +29,7 @@
 ////import org.hipparchus.exception.Localized_Core_Formats;
 ////import org.hipparchus.exception.;
 ////import org.hipparchus.exception.Math_Illegal_State_Exception;
-////import org.hipparchus.exception.Null_Argument_Exception;
+////import org.hipparchus.exception.;
 ////import org.hipparchus.stat.Localized_Stat_Formats;
 ////import org.hipparchus.stat.ranking.NaN_Strategy;
 ////import org.hipparchus.stat.ranking.Natural_Ranking;
@@ -114,12 +114,12 @@
 //     * @param y the second sample
 //     * @return Mann-Whitney U statistic (minimum of U<sup>x</sup> and
 //     *         U<sup>y</sup>)
-//     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+//     * @ if {@code x} or {@code y} are {@code NULL}.
 //     * @ if {@code x} or {@code y} are
 //     *         zero-length.
 //     */
 //    public double mann_whitney_u(const std::vector<double> x, const std::vector<double> y)
-//        , Null_Argument_Exception 
+//         
 //        {
 //
 //        ensure_data_conformance(x, y);
@@ -195,12 +195,12 @@
 //     * @param x the first sample
 //     * @param y the second sample
 //     * @return approximate 2-sized p-value
-//     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+//     * @ if {@code x} or {@code y} are {@code NULL}.
 //     * @ if {@code x} or {@code y} are
 //     *         zero-length
 //     */
 //    public double mann_whitney_u_test(const std::vector<double> x, const std::vector<double> y)
-//        , Null_Argument_Exception 
+//         
 //        {
 //        ensure_data_conformance(x, y);
 //
@@ -249,13 +249,13 @@
 //     * @param exact true means compute the p-value exactly, false means use the
 //     *        normal approximation
 //     * @return approximate 2-sided p-value
-//     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+//     * @ if {@code x} or {@code y} are {@code NULL}.
 //     * @ if {@code x} or {@code y} are
 //     *         zero-length or if {@code exact} is {@code true} and ties are
 //     *         present in the data
 //     */
 //    public double mann_whitney_u_test(const std::vector<double> x, const std::vector<double> y, const bool exact)
-//        , Null_Argument_Exception 
+//         
 //        {
 //        ensure_data_conformance(x, y);
 //        const Map<Double, Integer> ties_map = ties_map(x, y);
@@ -277,17 +277,17 @@
 //     *
 //     * @param x first sample
 //     * @param y second sample
-//     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+//     * @ if {@code x} or {@code y} are {@code NULL}.
 //     * @ if {@code x} or {@code y} are
 //     *         zero-length.
 //     */
 //    private void ensure_data_conformance(const std::vector<double> x, const std::vector<double> y)
-//        , Null_Argument_Exception 
+//         
 //        {
 //
 //        if (x == NULL || y == NULL) 
 //        {
-//            throw Null_Argument_Exception();
+//            throw ();
 //        }
 //        if (x.size() == 0 || y.size() == 0) 
 //        {
@@ -320,7 +320,7 @@
 //        const double mu = static_cast<long>( n1 * n2 / 2.0;
 //
 //        // If u == mu, return 1
-//        if (Precision.equals(mu, u)) 
+//        if (Precision::equals(mu, u)) 
 //        {
 //            return 1;
 //        }

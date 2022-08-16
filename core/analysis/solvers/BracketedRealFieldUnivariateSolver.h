@@ -171,7 +171,7 @@ class Bracketed_Real_Field_Univariate_Solver
      *                                      exceeded.
      */
     default Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max)
-            , Math_Illegal_State_Exception 
+             
             {
         return this.solve_interval(max_eval, f, min, max, min.add(max.subtract(min).multiply(0.5)));
     }
@@ -200,7 +200,7 @@ class Bracketed_Real_Field_Univariate_Solver
      *                                      exceeded.
      */
     Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, T start_value)
-            , Math_Illegal_State_Exception;
+            ;
 
     /**
      * An interval of a function that brackets a root.

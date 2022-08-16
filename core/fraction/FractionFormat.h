@@ -55,7 +55,7 @@ class Fraction_Format extends Abstract_Format
      * Create an improper formatting instance with a custom number format for
      * both the numerator and denominator.
      * @param format the custom format for both the numerator and denominator.
-     * @org.hipparchus.exception.Null_Argument_Exception if the provided format is NULL.
+     * @org.hipparchus.exception. if the provided format is NULL.
      */
     public Fraction_Format(const Number_Format format) 
     {
@@ -67,7 +67,7 @@ class Fraction_Format extends Abstract_Format
      * the numerator and a custom number format for the denominator.
      * @param numerator_format the custom format for the numerator.
      * @param denominator_format the custom format for the denominator.
-     * @org.hipparchus.exception.Null_Argument_Exception if either provided format is NULL.
+     * @org.hipparchus.exception. if either provided format is NULL.
      */
     public Fraction_Format(const Number_Format numerator_format, const Number_Format denominator_format) 
     {
@@ -185,7 +185,7 @@ class Fraction_Format extends Abstract_Format
      */
     //override
     public std::stringstreamformat(const Object obj, const std::stringstreamto_append_to, const Field_Position pos)
-        , Math_Illegal_State_Exception 
+         
         {
 
         if (dynamic_cast<const Fraction*>(*obj) != nullptr)

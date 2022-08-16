@@ -27,7 +27,7 @@
   //import org.hipparchus.exception.Localized_Core_Formats;
   //import org.hipparchus.exception.;
   //import org.hipparchus.exception.Math_Illegal_State_Exception;
-  //import org.hipparchus.exception.Null_Argument_Exception;
+  //import org.hipparchus.exception.;
   //import org.hipparchus.util.FastMath;
 #include <limits>
 #include <complex>
@@ -195,7 +195,7 @@ public:
 	 * @return the point at which the function value is zero.
 	 * @org.hipparchus.exception.Math_Illegal_State_Exception
 	 * if the maximum number of evaluations is exceeded.
-	 * @Null_Argument_Exception if the {@code coefficients} is
+	 * @ if the {@code coefficients} is
 	 * {@code NULL}.
 	 * @ if the {@code coefficients} array is empty.
 	 */
@@ -215,7 +215,7 @@ public:
 	 * @return the point at which the function value is zero.
 	 * @org.hipparchus.exception.Math_Illegal_State_Exception
 	 * if the maximum number of evaluations is exceeded.
-	 * @Null_Argument_Exception if the {@code coefficients} is
+	 * @ if the {@code coefficients} is
 	 * {@code NULL}.
 	 * @ if the {@code coefficients} array is empty.
 	 */
@@ -261,7 +261,7 @@ public:
 		 * @return the point at which the function value is zero.
 		 * @org.hipparchus.exception.Math_Illegal_State_Exception
 		 * if the maximum number of evaluations is exceeded.
-		 * @Null_Argument_Exception if the {@code coefficients} is
+		 * @ if the {@code coefficients} is
 		 * {@code NULL}.
 		 * @ if the {@code coefficients} array is empty.
 		 */
@@ -270,7 +270,7 @@ public:
 			if (coefficients == NULL)
 			{
 				throw std::exception("not implemented");
-				//throw Null_Argument_Exception();
+				//throw ();
 			}
 			const int n = coefficients.size() - 1;
 			if (n == 0)
@@ -314,7 +314,7 @@ public:
 		 * @return the point at which the function value is zero.
 		 * @org.hipparchus.exception.Math_Illegal_State_Exception
 		 * if the maximum number of evaluations is exceeded.
-		 * @Null_Argument_Exception if the {@code coefficients} is
+		 * @ if the {@code coefficients} is
 		 * {@code NULL}.
 		 * @ if the {@code coefficients} array is empty.
 		 */
@@ -322,7 +322,7 @@ public:
 		{
 			if (coefficients == NULL)
 			{
-				throw Null_Argument_Exception();
+				throw ();
 			}
 
 			const int n = coefficients.size() - 1;

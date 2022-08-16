@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
@@ -120,9 +120,9 @@ class Standard_Deviation : public Abstract_Storeless_Univariate_Statistic
      * to the {@code original}.
      *
      * @param original the {@code Standard_Deviation} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
-    public Standard_Deviation(Standard_Deviation original) Null_Argument_Exception 
+    public Standard_Deviation(Standard_Deviation original)  
     {
         //Math_Utils::check_not_null(original);
         this.variance = original.variance.copy();

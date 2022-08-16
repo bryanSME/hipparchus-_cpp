@@ -21,7 +21,7 @@
 //import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
@@ -58,7 +58,7 @@ class Field_Polynomial_Function : Calculus_Field_Univariate_Function<T>
      * the coefficients property.</p>
      *
      * @param c Polynomial coefficients.
-     * @Null_Argument_Exception if {@code c} is {@code NULL}.
+     * @ if {@code c} is {@code NULL}.
      * @ if {@code c} is empty.
      */
     public Field_Polynomial_Function(const T c[])
@@ -154,7 +154,7 @@ class Field_Polynomial_Function : Calculus_Field_Univariate_Function<T>
      * @param <T> the type of the field elements
      * @return the value of the polynomial.
      * @ if {@code coefficients} is empty.
-     * @Null_Argument_Exception if {@code coefficients} is {@code NULL}.
+     * @ if {@code coefficients} is {@code NULL}.
      */
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
     protected static  T evaluate(std::vector<T> coefficients, T argument)
@@ -278,7 +278,7 @@ else
      * @param <T> the type of the field elements
      * @return the coefficients of the derivative or {@code NULL} if coefficients has length 1.
      * @ if {@code coefficients} is empty.
-     * @Null_Argument_Exception if {@code coefficients} is {@code NULL}.
+     * @ if {@code coefficients} is {@code NULL}.
      */
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
     protected static  std::vector<T> differentiate(std::vector<T> coefficients)

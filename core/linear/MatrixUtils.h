@@ -35,7 +35,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.fraction.Big_Fraction;
 //import org.hipparchus.fraction.Fraction;
 //import org.hipparchus.util.FastMath;
@@ -211,7 +211,7 @@ public:
      * @org.hipparchus.exception.
      * if {@code data} is not rectangular (not all rows have the same length).
      * @ if a row or column is empty.
-     * @Null_Argument_Exception if either {@code data} or {@code data[0]}
+     * @ if either {@code data} or {@code data[0]}
      * is {@code NULL}.
      * @ if {@code data} is not rectangular.
      * @see #create_real_matrix(int, int)
@@ -221,7 +221,7 @@ public:
         if (data == NULL || data[0] == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         return (data.size() * data[0].size() <= 4096)
             ? Array_2D_Row_Real_Matrix(data)
@@ -242,7 +242,7 @@ public:
      * @org.hipparchus.exception.
      * if {@code data} is not rectangular (not all rows have the same length).
      * @ if a row or column is empty.
-     * @Null_Argument_Exception if either {@code data} or {@code data[0]}
+     * @ if either {@code data} or {@code data[0]}
      * is {@code NULL}.
      * @see #create_field_matrix(Field, int, int)
      */
@@ -251,7 +251,7 @@ public:
         if (data == NULL || data[0] == NULL) 
         {
             throw std::exception("not implemented"); 
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         return (data.size() * data[0].size() <= 4096)
             ? Array2DRowField_Matrix<T>(data)
@@ -342,14 +342,14 @@ public:
      * @param data the input data
      * @return a data.size() Real_Vector
      * @ if {@code data} is empty.
-     * @Null_Argument_Exception if {@code data} is {@code NULL}.
+     * @ if {@code data} is {@code NULL}.
      */
     static Real_Vector create_real__vector(const std::vector<double>& data)
     {
         if (data == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         return Array_Real_Vector(data, true);
     }
@@ -373,7 +373,7 @@ public:
      * @param data the input data
      * @return a data.size() Field_Vector
      * @ if {@code data} is empty.
-     * @Null_Argument_Exception if {@code data} is {@code NULL}.
+     * @ if {@code data} is {@code NULL}.
      * @ if {@code data} has 0 elements
      */
     static <T extends Field_Element<T>> Field_Vector<T> create_field_vector(const std::vector<T> data)
@@ -381,7 +381,7 @@ public:
         if (data == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (data.size() == 0) 
         {
@@ -412,14 +412,14 @@ public:
      * @param row_data the input row data
      * @return a 1 x row_data.size() Real_Matrix
      * @ if {@code row_data} is empty.
-     * @Null_Argument_Exception if {@code row_data} is {@code NULL}.
+     * @ if {@code row_data} is {@code NULL}.
      */
     static Real_Matrix createRowReal_Matrix(const std::vector<double>& row_data) 
     {
         if (row_data == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         const int n_cols = row_data.size();
         const Real_Matrix m = create_real_matrix(1, n_cols);
@@ -438,14 +438,14 @@ public:
      * @param row_data the input row data
      * @return a 1 x row_data.size() Field_Matrix
      * @ if {@code row_data} is empty.
-     * @Null_Argument_Exception if {@code row_data} is {@code NULL}.
+     * @ if {@code row_data} is {@code NULL}.
      */
     static <T extends Field_Element<T>> Field_Matrix<T> createRowField_Matrix(const std::vector<T> row_data)
     {
         if (row_data == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         const int& n_cols = row_data.size();
         if (n_cols == 0) 
@@ -468,14 +468,14 @@ public:
      * @param column_data  the input column data
      * @return a column_data x 1 Real_Matrix
      * @ if {@code column_data} is empty.
-     * @Null_Argument_Exception if {@code column_data} is {@code NULL}.
+     * @ if {@code column_data} is {@code NULL}.
      */
     static Real_Matrix create_column_real__matrix(const std::vector<double>& column_data)
     {
         if (column_data == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         const int& n_rows = column_data.size();
         const Real_Matrix m = create_real_matrix(n_rows, 1);
@@ -494,7 +494,7 @@ public:
      * @param column_data  the input column data
      * @return a column_data x 1 Field_Matrix
      * @ if {@code data} is empty.
-     * @Null_Argument_Exception if {@code column_data} is {@code NULL}.
+     * @ if {@code column_data} is {@code NULL}.
      */
     static <T extends Field_Element<T>> Field_Matrix<T> createColumnField_Matrix(const std::vector<T>& column_data)
     {
@@ -625,7 +625,7 @@ public:
      * @param m Matrix.
      * @param selected_rows Array of row indices.
      * @param selected_columns Array of column indices.
-     * @Null_Argument_Exception if {@code selected_rows} or
+     * @ if {@code selected_rows} or
      * {@code selected_columns} are {@code NULL}.
      * @ if the row or column selections are empty (zero
      * length).
@@ -636,12 +636,12 @@ public:
         if (selected_rows == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (selected_columns == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (selected_rows.size() == 0) 
         {
@@ -1256,12 +1256,12 @@ public:
      *
      * @param matrix Matrix whose inverse shall be computed
      * @return the inverse of {@code matrix}
-     * @Null_Argument_Exception if {@code matrix} is {@code NULL}
+     * @ if {@code matrix} is {@code NULL}
      * @ if m is singular
      * @ if matrix is not square
      */
     public static Real_Matrix inverse(Real_Matrix matrix)
-            , Null_Argument_Exception 
+             
             {
         return inverse(matrix, 0);
     }
@@ -1274,12 +1274,12 @@ public:
      * @param matrix Matrix whose inverse shall be computed
      * @param threshold Singularity threshold
      * @return the inverse of {@code m}
-     * @Null_Argument_Exception if {@code matrix} is {@code NULL}
+     * @ if {@code matrix} is {@code NULL}
      * @ if matrix is singular
      * @ if matrix is not square
      */
     public static Real_Matrix inverse(Real_Matrix matrix, double threshold)
-            , Null_Argument_Exception 
+             
             {
 
         //Math_Utils::check_not_null(matrix);

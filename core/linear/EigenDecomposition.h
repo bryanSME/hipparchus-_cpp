@@ -302,7 +302,7 @@ else if (Precision.compare_to(imag_eigenvalues[i], 0.0, epsilon) < 0)
     {
         for (int i{}; i < imag_eigenvalues.size(); i++) 
         {
-            if (!Precision.equals(imag_eigenvalues[i], 0.0, epsilon)) 
+            if (!Precision::equals(imag_eigenvalues[i], 0.0, epsilon)) 
             {
                 return true;
             }
@@ -574,7 +574,7 @@ else if (Precision.compare_to(imag_eigenvalues[i], 0.0, epsilon) < 0)
             {
                 // Looking for eigenvalues that are 0, where we consider anything much much smaller
                 // than the largest eigenvalue to be effectively 0.
-                if (Precision.equals(eigenvalue_norm(i) / largest_eigenvalue_norm, 0, epsilon)) 
+                if (Precision::equals(eigenvalue_norm(i) / largest_eigenvalue_norm, 0, epsilon)) 
                 {
                     return false;
                 }
@@ -868,7 +868,7 @@ else
         for (int i{}; i < real_eigenvalues.size(); i++) 
         {
             if (i == (real_eigenvalues.size() - 1) ||
-                Precision.equals(mat_t[i + 1][i], 0.0, norm * epsilon)) 
+                Precision::equals(mat_t[i + 1][i], 0.0, norm * epsilon)) 
                 {
                 real_eigenvalues[i] = mat_t[i][i];
             }
@@ -926,7 +926,7 @@ else
         }
 
         // we can not handle a matrix with zero norm
-        if (Precision.equals(norm, 0.0, epsilon)) 
+        if (Precision::equals(norm, 0.0, epsilon)) 
         {
            throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
         }
@@ -942,7 +942,7 @@ else
             double p = real_eigenvalues[idx];
             double q = imag_eigenvalues[idx];
 
-            if (Precision.equals(q, 0.0)) 
+            if (Precision::equals(q, 0.0)) 
             {
                 // Real vector
                 int l = idx;
@@ -963,7 +963,7 @@ else
 else 
                     {
                         l = i;
-                        if (Precision.equals(imag_eigenvalues[i], 0.0)) 
+                        if (Precision::equals(imag_eigenvalues[i], 0.0)) 
                         {
                             if (w != 0.0) 
                             {
@@ -1046,7 +1046,7 @@ else
 else 
                     {
                         l = i;
-                        if (Precision.equals(imag_eigenvalues[i], 0.0)) 
+                        if (Precision::equals(imag_eigenvalues[i], 0.0)) 
                         {
                             const std::complex<double> c = cdiv(-ra, -sa, w, q);
                             matrix_t[i][idx - 1] = c.get_real();
@@ -1060,7 +1060,7 @@ else
                             double vr = (real_eigenvalues[i] - p) * (real_eigenvalues[i] - p) +
                                         imag_eigenvalues[i] * imag_eigenvalues[i] - q * q;
                             const double vi = (real_eigenvalues[i] - p) * 2.0 * q;
-                            if (Precision.equals(vr, 0.0) && Precision.equals(vi, 0.0)) 
+                            if (Precision::equals(vr, 0.0) && Precision::equals(vi, 0.0)) 
                             {
                                 vr = Precision.EPSILON * norm *
                                      (std::abs(w) + std::abs(q) + std::abs(x) +

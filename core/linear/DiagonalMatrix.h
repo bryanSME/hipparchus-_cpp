@@ -25,7 +25,7 @@
 
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
 //import org.hipparchus.util.Precision;
@@ -48,7 +48,7 @@ private:
      */
     void ensure_zero(const double value)
     {
-        /*if (!Precision.equals(0.0, value, 1))
+        /*if (!Precision::equals(0.0, value, 1))
         {
             throw std::exception("not implemented");
             //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, std::abs(value), 0);
@@ -93,7 +93,7 @@ public:
      *
      * @param d Data for matrix.
      * @param copy_array if {@code true}, the input array will be copied, * otherwise it will be referenced.
-     * @exception Null_Argument_Exception if d is NULL
+     * @exception  if d is NULL
      */
     Diagonal_Matrix(const std::vector<double>& d, const bool& copy_array) 
     {
@@ -456,7 +456,7 @@ public:
     {
         for (int i{}; i < my_data.size(); i++)
         {
-            if (Precision.equals(my_data[i], 0.0, threshold))
+            if (Precision::equals(my_data[i], 0.0, threshold))
             {
                 return true;
             }

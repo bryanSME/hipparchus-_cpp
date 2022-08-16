@@ -41,7 +41,7 @@ public:
         throw std::exception("not implemented");
         //if (xval == NULL || yval == NULL || fval == NULL || fval[0] == NULL)
         //{
-        //    throw Null_Argument_Exception();
+        //    throw ();
         //}
 
         //if (xval.size() == 0 || yval.size() == 0 || fval.size() == 0)

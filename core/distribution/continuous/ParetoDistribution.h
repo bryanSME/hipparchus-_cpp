@@ -45,23 +45,22 @@
  * @see <a href="http://mathworld.wolfram.com/Pareto_Distribution.html">
  * Pareto distribution (MathWorld)</a>
  */
-class Pareto_Distribution extends Abstract_Real_Distribution 
+class Pareto_Distribution : Abstract_Real_Distribution 
 {
-
-    
-    20130424L;
+private:
 
     /** The scale parameter of this distribution. */
-    private const double scale;
+    const double my_scale{};
     /** The shape parameter of this distribution. */
-    private const double shape;
+    const double my_shape{};
 
+public:
     /**
      * Create a Pareto distribution with a scale of {@code 1} and a shape of {@code 1}.
      */
-    public Pareto_Distribution() 
+    Pareto_Distribution() 
     {
-        this(1, 1);
+        Pareto_Distribution(1, 1);
     }
 
     /**
@@ -71,10 +70,9 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * @param shape the shape parameter of this distribution
      * @ if {@code scale <= 0} or {@code shape <= 0}.
      */
-    public Pareto_Distribution(double scale, double shape)
-         
-        {
-        this(scale, shape, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
+    Pareto_Distribution(const double& scale, const double& shape)
+    {
+        Pareto_Distribution(scale, shape, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
     }
 
     /**
@@ -85,9 +83,11 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * @param inverse_cum_accuracy Inverse cumulative probability accuracy.
      * @ if {@code scale <= 0} or {@code shape <= 0}.
      */
-    public Pareto_Distribution(double scale, double shape, double inverse_cum_accuracy)
-         
-        {
+    Pareto_Distribution(const double& scale, const double& shape, const double& inverse_cum_accuracy)     
+        :
+        my_scale{ scale },
+        my_shape{ shape }
+    {
         super(inverse_cum_accuracy);
 
         if (scale <= 0) 
@@ -101,9 +101,6 @@ class Pareto_Distribution extends Abstract_Real_Distribution
             throw std::exception("not implemented");
             //throw (hipparchus::exception::Localized_Core_Formats_Type::SHAPE, shape);
         }
-
-        this.scale = scale;
-        this.shape = shape;
     }
 
     /**
@@ -111,9 +108,9 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      *
      * @return the scale parameter
      */
-    public double get_scale() 
+    double get_scale() const 
     {
-        return scale;
+        return my_scale;
     }
 
     /**
@@ -121,9 +118,9 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      *
      * @return the shape parameter
      */
-    public double get_shape() 
+    double get_shape() const
     {
-        return shape;
+        return my_shape;
     }
 
     /**
@@ -137,13 +134,13 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * </ul>
      */
     //override
-    public double density(double x) 
+    double density(const double& x) const
     {
-        if (x < scale) 
+        if (x < my_scale) 
         {
             return 0;
         }
-        return std::pow(scale, shape) / std::pow(x, shape + 1) * shape;
+        return std::pow(my_scale, my_shape) / std::pow(x, my_shape + 1) * my_shape;
     }
 
     /** {@inherit_doc}
@@ -151,13 +148,13 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * See documentation of {@link #densitystatic_cast<double>(} for computation details.
      */
     //override
-    public double log_density(double x) 
+    double log_density(const double& x) const 
     {
-        if (x < scale) 
+        if (x < my_scale) 
         {
             return -INFINITY;
         }
-        return std::log(scale) * shape - std::log(x) * (shape + 1) + std::log(shape);
+        return std::log(my_scale) * my_shape - std::log(x) * (my_shape + 1) + std::log(my_shape);
     }
 
     /**
@@ -170,13 +167,13 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * </ul>
      */
     //override
-    public double cumulative_probability(const double& x)  
+    double cumulative_probability(const double& x) const
     {
-        if (x <= scale) 
+        if (x <= my_scale) 
         {
             return 0;
         }
-        return 1 - std::pow(scale / x, shape);
+        return 1 - std::pow(my_scale / x, my_shape);
     }
 
     /**
@@ -189,13 +186,13 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * </ul>
      */
     //override
-    public double get_numerical_mean() const 
+    double get_numerical_mean() const 
     {
-        if (shape <= 1) 
+        if (my_shape <= 1) 
         {
             return INFINITY;
         }
-        return shape * scale / (shape - 1);
+        return my_shape * my_scale / (my_shape - 1);
     }
 
     /**
@@ -208,14 +205,14 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * </ul>
      */
     //override
-    public double get_numerical_variance() const 
+    double get_numerical_variance() const 
     {
-        if (shape <= 2) 
+        if (my_shape <= 2) 
         {
             return INFINITY;
         }
-        double s = shape - 1;
-        return scale * scale * shape / (s * s) / (shape - 2);
+        double s = my_shape - 1;
+        return my_scale * my_scale * my_shape / (s * s) / (my_shape - 2);
     }
 
     /**
@@ -226,9 +223,9 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * @return lower bound of the support
      */
     //override
-    public double get_support_lower_bound() const 
+    double get_support_lower_bound() const 
     {
-        return scale;
+        return my_scale;
     }
 
     /**
@@ -239,7 +236,7 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * @return upper bound of the support (always {@code INFINITY})
      */
     //override
-    public double get_support_upper_bound() const 
+    double get_support_upper_bound() const 
     {
         return INFINITY;
     }
@@ -252,10 +249,8 @@ class Pareto_Distribution extends Abstract_Real_Distribution
      * @return {@code true}
      */
     //override
-    public bool is_support_connected() const 
+    bool is_support_connected() const 
     {
         return true;
     }
-}
-
-
+};

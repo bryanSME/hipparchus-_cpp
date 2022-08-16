@@ -27,7 +27,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 /**
  * A variable length primitive double array implementation that automatically
@@ -258,7 +258,7 @@ public:
      * @param expansion_mode Expansion mode.
      * @param data Initial contents of the array.
      * @ if the parameters are not valid.
-     * @Null_Argument_Exception if expansion_mode is NULL
+     * @ if expansion_mode is NULL
      */
     Resizable_Double_Array(const int& initial_capacity, double expansion_factor, double contraction_criterion, Expansion_Mode expansion_mode, double ... data)
     {
@@ -287,10 +287,10 @@ public:
      * Copy constructor.
      * <p>
      * Creates a Resizable_Double_Array that is a deep, fresh copy of the original.
-     * Original may not be NULL; otherwise a {@link Null_Argument_Exception} is thrown.
+     * Original may not be NULL; otherwise a {@link } is thrown.
      *
      * @param original array to copy
-     * @exception Null_Argument_Exception if original is NULL
+     * @exception  if original is NULL
      */
     Resizable_Double_Array(const Resizable_Double_Array original)
     {

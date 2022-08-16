@@ -28,6 +28,8 @@
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
 //import org.hipparchus.special.Gamma;
+#include <vector>
+#include <cmath>
 
 /**
  * Combinatorial utilities.
@@ -38,7 +40,28 @@ class Combinatorics_Utils
     /** All long-representable factorials */
     static const std::vector<long> FACTORIALS = 
     {
-                       1l,                  1l,                   2l, 6l,                 24l,                 120l, 720l,               5040l,               40320l, 362880l,            3628800l,            39916800l, 479001600l,         6227020800l,         87178291200l, 1307674368000l,     20922789888000l,     355687428096000l, 6402373705728000l, 121645100408832000l, 2432902008176640000l };
+                       1l,
+                       1l,
+                       2l,
+                       6l,
+                       24l,
+                       120l, 
+                       720l,          
+                       5040l,             
+                       40320l,
+                       362880l,
+                       3628800l,
+                       39916800l,
+                       479001600l,    
+                       6227020800l,
+                       87178291200l,
+                       1307674368000l,  
+                       20922789888000l,  
+                       355687428096000l,
+                       6402373705728000l,
+                       121645100408832000l,
+                       2432902008176640000l 
+    };
 
     /** Stirling numbers of the second kind. */
     static const Atomic_Reference<long[][]> STIRLING_S2 = Atomic_Reference<> (null);
@@ -83,8 +106,7 @@ class Combinatorics_Utils
      * represented by a long integer.
      */
     public static long binomial_coefficient(const int& n, const int& k)
-        , Math_Runtime_Exception 
-        {
+    {
         Combinatorics_Utils.check_binomial(n, k);
         if ((n == k) || (k == 0)) 
         {
@@ -116,7 +138,7 @@ class Combinatorics_Utils
                 i++;
             }
         }
-else if (n <= 66) 
+        else if (n <= 66) 
         {
             // For n > 61 but n <= 66, the result cannot overflow, // but we must take care not to overflow intermediate values.
             int i = n - k + 1;
@@ -132,7 +154,7 @@ else if (n <= 66)
                 i++;
             }
         }
-else 
+        else 
         {
             // For n > 66, a result overflow might occur, so we check
             // the multiplication, taking care to not overflow
@@ -173,12 +195,11 @@ else
      * represented by a long integer.
      */
     public static double binomial_coefficient_double(const int& n, const int& k)
-        , Math_Runtime_Exception 
-        {
+    {
         Combinatorics_Utils.check_binomial(n, k);
         if ((n == k) || (k == 0)) 
         {
-            return 1d;
+            return 1;
         }
         if ((k == 1) || (k == n - 1)) 
         {
@@ -193,7 +214,7 @@ else
             return binomial_coefficient(n,k);
         }
 
-        double result = 1d;
+        double result = 1;
         for (int i{ 1 }; i <= k; i++) 
         {
              result *= static_cast<double>((n - k + i) / static_cast<double>(i;
@@ -224,9 +245,8 @@ else
      * represented by a long integer.
      */
     public static double binomial_coefficient_log(const int& n, const int& k)
-        , Math_Runtime_Exception 
-        {
-        Combinatorics_Utils.check_binomial(n, k);
+    {
+        Combinatorics_Utils::check_binomial(n, k);
         if ((n == k) || (k == 0)) 
         {
             return 0;
@@ -375,8 +395,7 @@ else
      * k between 20 and n-2 (S(n,n-1) is handled specifically and does not overflow)
      */
     public static long stirling_s2(const int& n, const int& k)
-        , Math_Runtime_Exception 
-        {
+    {
         if (k < 0) 
         {
             throw std::exception("not implemented");
@@ -422,26 +441,26 @@ else
             // the number is in the small cache
             return stirling_s2[n][k];
         }
-else 
+        else 
         {
             // use explicit formula to compute the number without caching it
             if (k == 0) 
             {
                 return 0;
             }
-else if (k == 1 || k == n) 
+            else if (k == 1 || k == n) 
             {
                 return 1;
             }
-else if (k == 2) 
+            else if (k == 2) 
             {
                 return (1l << (n - 1)) - 1l;
             }
-else if (k == n - 1) 
+            else if (k == n - 1) 
             {
                 return binomial_coefficient(n, 2);
             }
-else 
+            else 
             {
                 // definition formula: note that this may trigger some overflow
                 long sum = 0;
@@ -449,11 +468,12 @@ else
                 for (int j{ 1 }; j <= k; ++j) 
                 {
                     sign = -sign;
-                    sum += sign * binomial_coefficient(k, j) * Arithmetic_Utils.pow(j, n);
+                    sum += sign * binomial_coefficient(k, j) * Arithmetic_Utils::pow(j, n);
                     if (sum < 0) 
                     {
                         // there was an overflow somewhere
-                        throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, n, 0, stirling_s2.size() - 1);
+                        throw std::exception("not implemented");
+                        //throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, n, 0, stirling_s2.size() - 1);
                     }
                 }
                 return sum / factorial(k);
@@ -496,8 +516,7 @@ else
      * @ if {@code k > n}.
      */
     public static void check_binomial(const int& n, const int& k)
-         
-        {
+    {
         if (n < k) 
         {
             throw std::exception("not implemented");
@@ -518,11 +537,12 @@ else
      */
     public static const class Factorial_Log 
     {
+    private:
         /**
          * Precomputed values of the function:
          * {@code LOG_FACTORIALS[i] = log(i!)}.
          */
-        private const std::vector<double> LOG_FACTORIALS;
+        std::vector<double> LOG_FACTORIALS;
 
         /**
          * Creates an instance, reusing the already computed values if available.
@@ -531,7 +551,7 @@ else
          * @param cache Existing cache.
          * @throw  if {@code n < 0}.
          */
-        private Factorial_Log(const int& num_values, std::vector<double> cache) 
+        Factorial_Log(const int& num_values, const std::vector<double>& cache) 
         {
             if (num_values < 0) 
             {
@@ -541,29 +561,29 @@ else
 
             LOG_FACTORIALS = std::vector<double>(num_values];
 
-            const int begin_copy = 2;
+            const int begin_copy{ 2 };
             const int end_copy = cache == NULL || cache.size() <= begin_copy ?
                 begin_copy : cache.size() <= num_values ?
                 cache.size() : num_values;
 
             // Copy available values.
-            for (int i = begin_copy; i < end_copy; i++) 
+            for (int i{ begin_copy }; i < end_copy; i++)
             {
                 LOG_FACTORIALS[i] = cache[i];
             }
 
             // Precompute.
-            for (int i = end_copy; i < num_values; i++) 
+            for (int i{ end_copy }; i < num_values; i++)
             {
                 LOG_FACTORIALS[i] = LOG_FACTORIALS[i - 1] + std::log(i);
             }
         }
-
+    public:
         /**
          * Creates an instance with no precomputed values.
          * @return instance with no precomputed values
          */
-        public static Factorial_Log create() 
+        static Factorial_Log create() 
         {
             return Factorial_Log(0, NULL);
         }
@@ -576,7 +596,7 @@ else
          * precomputed.
          * @ if {@code n < 0}.
          */
-        public Factorial_Log with_cache(const int cache_size) 
+        Factorial_Log with_cache(const int& cache_size) 
         {
             return Factorial_Log(cache_size, LOG_FACTORIALS);
         }
@@ -588,7 +608,7 @@ else
          * @return {@code log(n!)}.
          * @ if {@code n < 0}.
          */
-        public double value(const int& n) 
+        double value(const int& n) 
         {
             if (n < 0) 
             {
@@ -612,6 +632,4 @@ else
             return Gamma::log_gamma(n + 1);
         }
     }
-}
-
-
+};

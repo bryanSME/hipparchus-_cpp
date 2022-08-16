@@ -156,7 +156,7 @@ class G_Test
      * p-value.
      */
     public double g_test(const std::vector<double> expected, const std::vector<long> observed)
-            , Math_Illegal_State_Exception 
+             
             {
 
         const Chi_Squared_Distribution distribution =
@@ -186,7 +186,7 @@ class G_Test
      * p-value.
      */
     public double g_test_intrinsic(const std::vector<double> expected, const std::vector<long> observed)
-            , Math_Illegal_State_Exception 
+             
             {
 
         const Chi_Squared_Distribution distribution =
@@ -238,7 +238,7 @@ class G_Test
      * and less than or equal to 0.5
      */
     public bool g_test(const std::vector<double> expected, const std::vector<long> observed, const double& alpha)
-            , Math_Illegal_State_Exception 
+             
             {
 
         if ((alpha <= 0) || (alpha > 0.5)) 
@@ -487,7 +487,7 @@ class G_Test
      * p-value.
      */
     public double g_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-            , Math_Illegal_State_Exception 
+             
             {
 
         const Chi_Squared_Distribution distribution =
@@ -540,7 +540,7 @@ class G_Test
      */
     public bool g_test_data_sets_comparison(
             const std::vector<long> observed1, const std::vector<long> observed2, const double& alpha)
-            , Math_Illegal_State_Exception 
+             
             {
 
         if (alpha <= 0 || alpha > 0.5) 

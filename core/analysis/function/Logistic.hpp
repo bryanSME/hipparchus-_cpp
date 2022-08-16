@@ -27,7 +27,7 @@
   //import org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function;
   //import org.hipparchus.exception.Localized_Core_Formats;
   //import org.hipparchus.exception.;
-  //import org.hipparchus.exception.Null_Argument_Exception;
+  //import org.hipparchus.exception.;
   //import org.hipparchus.util.FastMath;
   //import org.hipparchus.util.Math_Utils;
 #include <type_traits>
@@ -135,7 +135,7 @@ public:
 		 * @param x Value for which the function must be computed.
 		 * @param param Values for {@code k}, {@code m}, {@code b}, {@code q}, * {@code a} and  {@code n}.
 		 * @return the value of the function.
-		 * @Null_Argument_Exception if {@code param} is {@code NULL}.
+		 * @ if {@code param} is {@code NULL}.
 		 * @ if the size of {@code param} is
 		 * not 6.
 		 * @ if {@code param[5] <= 0}.
@@ -156,7 +156,7 @@ public:
 		 * @param x Value at which the gradient must be computed.
 		 * @param param Values for {@code k}, {@code m}, {@code b}, {@code q}, * {@code a} and  {@code n}.
 		 * @return the gradient vector at {@code x}.
-		 * @Null_Argument_Exception if {@code param} is {@code NULL}.
+		 * @ if {@code param} is {@code NULL}.
 		 * @ if the size of {@code param} is
 		 * not 6.
 		 * @ if {@code param[5] <= 0}.
@@ -194,7 +194,7 @@ public:
 		 * methods.
 		 *
 		 * @param param Values for {@code k}, {@code m}, {@code b}, {@code q}, * {@code a} and {@code n}.
-		 * @Null_Argument_Exception if {@code param} is {@code NULL}.
+		 * @ if {@code param} is {@code NULL}.
 		 * @ if the size of {@code param} is
 		 * not 6.
 		 * @ if {@code param[5] <= 0}.

@@ -414,7 +414,7 @@ class Schur_Transformer
                 q = matrix_t[k + 1][k - 1];
                 r = notlast ? matrix_t[k + 2][k - 1] : 0.0;
                 shift.x = std::abs(p) + std::abs(q) + std::abs(r);
-                if (Precision.equals(shift.x, 0.0, epsilon)) 
+                if (Precision::equals(shift.x, 0.0, epsilon)) 
                 {
                     continue;
                 }

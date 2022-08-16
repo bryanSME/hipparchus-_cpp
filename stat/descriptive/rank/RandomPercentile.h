@@ -31,7 +31,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.random.Random_Generator;
 //import org.hipparchus.random.Well19937c;
 //import org.hipparchus.stat.Stat_Utils;
@@ -1404,7 +1404,7 @@ public:
      * aggregate results, {@link #reduce(double, Collection)} is faster, * may be more accurate and does not require the buffer sizes to be the same.
      *
      * @param other the instance to aggregate into this instance
-     * @Null_Argument_Exception if the input is NULL
+     * @ if the input is NULL
      * @Illegal_Argument_Exception if other has different buffer size than this
      */
     //override
@@ -1413,7 +1413,7 @@ public:
         if (other == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (other.s != my_s) 
         {

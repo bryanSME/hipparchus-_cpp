@@ -32,7 +32,7 @@
 #include <vector>
 #include "../FieldElement.h"
 #include "../Field.h"
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 /**
  * Interface defining field-valued matrix with basic algebraic operations.
@@ -204,7 +204,7 @@ class Field_Matrix : public Any_Matrix
     * specified rows and columns.
     * @ if {@code selected_rows} or
     * {@code selected_columns} is empty
-    * @Null_Argument_Exception if {@code selected_rows} or
+    * @ if {@code selected_rows} or
     * {@code selected_columns} is {@code NULL}.
     * @ if row or column selections are not valid.
     */
@@ -240,7 +240,7 @@ class Field_Matrix : public Any_Matrix
    * {@code destination} do not match those of {@code this}.
    * @ if {@code selected_rows} or
    * {@code selected_columns} is empty
-   * @Null_Argument_Exception if {@code selected_rows} or
+   * @ if {@code selected_rows} or
    * {@code selected_columns} is {@code NULL}.
    * @ if the indices are not valid.
    */
@@ -278,7 +278,7 @@ class Field_Matrix : public Any_Matrix
      * @ if a row or column of {@code sub_matrix} is empty.
      * @ if {@code sub_matrix} is not
      * rectangular (not all rows have the same length).
-     * @Null_Argument_Exception if {@code sub_matrix} is {@code NULL}.
+     * @ if {@code sub_matrix} is {@code NULL}.
      */
    virtual void set_sub_matrix(const std::vector<std::vector<T>>& sub_matrix, const int& row, const int& column);
 

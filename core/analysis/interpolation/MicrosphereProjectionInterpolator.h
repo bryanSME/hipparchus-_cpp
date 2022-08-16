@@ -24,7 +24,7 @@
 //import org.hipparchus.analysis.Multivariate_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.random.UnitSphereRandom_Vector_Generator;
 
 /**
@@ -115,12 +115,12 @@ class Microsphere_Projection_Interpolator
      */
     //override
     public Multivariate_Function interpolate(const std::vector<std::vector<double>> xval, const std::vector<double> yval)
-        , Null_Argument_Exception 
+         
         {
         if (xval == NULL || yval == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (xval.size() == 0) 
         {
@@ -135,7 +135,7 @@ class Microsphere_Projection_Interpolator
         if (xval[0] == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         const int dimension = microsphere.get_dimension();
         if (dimension != xval[0].size()) 

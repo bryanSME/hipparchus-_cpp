@@ -30,11 +30,9 @@
  *
  * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
  */
-@Deprecated
-class Non_Monotonic_Sequence_Exception extends Math_illegalNumberException 
+//@Deprecated
+class Non_Monotonic_Sequence_Exception //: Math_illegalNumberException 
 {
-    /** Serializable version Id. */
-    3596849179428944575L;
     /**
      * Direction (positive for increasing, negative for decreasing).
      */
@@ -61,9 +59,9 @@ class Non_Monotonic_Sequence_Exception extends Math_illegalNumberException
      * @param previous Previous value in the sequence.
      * @param index Index of the value that did not match the requirements.
      */
-    public Non_Monotonic_Sequence_Exception(Number wrong, Number previous, int index) 
+    public Non_Monotonic_Sequence_Exception(Number wrong, Number previous, int index)
     {
-        this(wrong, previous, index, Math_Arrays.Order_Direction.INCREASING, true);
+        this(wrong, previous, index, Math_Arrays.Order_Direction::INCREASING, true);
     }
 
     /**
@@ -77,15 +75,15 @@ class Non_Monotonic_Sequence_Exception extends Math_illegalNumberException
      * @param strict Whether the sequence must be strictly increasing or
      * decreasing.
      */
-    public Non_Monotonic_Sequence_Exception(Number wrong, Number previous, int index, Math_Arrays.Order_Direction direction, bool strict) 
+    public Non_Monotonic_Sequence_Exception(Number wrong, Number previous, int index, Math_Arrays.Order_Direction direction, bool strict)
     {
-        super(direction == Math_Arrays.Order_Direction.INCREASING ?
-              (strict ?
-               Localized_Formats.NOT_STRICTLY_INCREASING_SEQUENCE :
-               Localized_Formats.NOT_INCREASING_SEQUENCE) :
-              (strict ?
-               Localized_Formats.NOT_STRICTLY_DECREASING_SEQUENCE :
-               Localized_Formats.NOT_DECREASING_SEQUENCE), wrong, previous, Integer.value_of(index), Integer.value_of(index - 1));
+        super(direction == Math_Arrays.Order_Direction::INCREASING ?
+            (strict ?
+                Localized_Formats.NOT_STRICTLY_INCREASING_SEQUENCE :
+                Localized_Formats.NOT_INCREASING_SEQUENCE) :
+            (strict ?
+                Localized_Formats.NOT_STRICTLY_DECREASING_SEQUENCE :
+                Localized_Formats.NOT_DECREASING_SEQUENCE), wrong, previous, Integer.value_of(index), Integer.value_of(index - 1));
 
         this.direction = direction;
         this.strict = strict;
@@ -96,7 +94,7 @@ class Non_Monotonic_Sequence_Exception extends Math_illegalNumberException
     /**
      * @return the order direction.
      **/
-    public Math_Arrays.Order_Direction get_direction() 
+    public Math_Arrays.Order_Direction get_direction()
     {
         return direction;
     }
@@ -111,17 +109,15 @@ class Non_Monotonic_Sequence_Exception extends Math_illegalNumberException
      *
      * @return the current index.
      */
-    public int get_index() 
+    public int get_index()
     {
         return index;
     }
     /**
      * @return the previous value.
      */
-    public Number get_previous() 
+    public Number get_previous()
     {
         return previous;
     }
-}
-
-
+};

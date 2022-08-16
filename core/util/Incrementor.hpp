@@ -95,7 +95,7 @@ public:
 	 *
 	 * @param max Maximal count.
 	 * @param cb Function to be called when the maximal count has been reached.
-	 * @Null_Argument_Exception if {@code cb} is {@code NULL}.
+	 * @ if {@code cb} is {@code NULL}.
 	 * @ if {@code max} is negative.
 	 */
 	Incrementor<T>(const int& max, const Max_Count_Exceeded_Callback<T>& cb)
@@ -109,7 +109,7 @@ public:
 	 * @param count Initial counter value.
 	 * @param max Maximal count.
 	 * @param cb Function to be called when the maximal count has been reached.
-	 * @Null_Argument_Exception if {@code cb} is {@code NULL}.
+	 * @ if {@code cb} is {@code NULL}.
 	 * @ if {@code max} is negative.
 	 */
 	Incrementor<T>(const int& count, const int& max, const Max_Count_Exceeded_Callback<T>& cb)
@@ -121,7 +121,7 @@ public:
 		throw std::exception("not implemented");
 		//if (cb == NULL)
 		//{
-		//	throw Null_Argument_Exception();
+		//	throw ();
 		//}
 		//if (max < 0)
 		//{

@@ -43,7 +43,7 @@ class Main_State_Jacobian_Provider extends Ordinary_Differential_Equation
      * @exception  if arrays dimensions do not match equations settings
      */
     std::vector<std::vector<double>> compute_main_state_jacobian(double t, std::vector<double> y, std::vector<double> y_dot)
-        , Math_Illegal_State_Exception;
+        ;
 
 }
 

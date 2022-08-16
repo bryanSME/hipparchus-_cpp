@@ -29,7 +29,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
 #include "MatrixUtils.h"
@@ -74,10 +74,10 @@ private:
      * @param in Data to copy.
      * @ if the input array is empty.
      * @ if the input array is not rectangular.
-     * @Null_Argument_Exception if the input array is {@code NULL}.
+     * @ if the input array is {@code NULL}.
      */
     void copy_in(const std::vector<std::vector<T>> in)
-        , Null_Argument_Exception
+        
     {
     set_sub_matrix(in, 0, 0);
     }
@@ -115,7 +115,7 @@ public:
      *
      * @param d Data for the matrix.
      * @ if {@code d} is not rectangular.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if there are not at least one row and one column.
      * @see #Array2DRowField_Matrix(Field_Element[][], bool)
      */
@@ -134,7 +134,7 @@ public:
      * @param field Field to which the elements belong.
      * @param d Data for the matrix.
      * @ if {@code d} is not rectangular.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if there are not at least one row and one column.
      * @see #Array2DRowField_Matrix(Field_Element[][], bool)
      */
@@ -156,7 +156,7 @@ public:
      * @param copy_array Whether to copy or reference the input array.
      * @ if {@code d} is not rectangular.
      * @ if there are not at least one row and one column.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @see #Array2DRowField_Matrix(Field_Element[][])
      */
     Array2DRowField_Matrix(const std::vector<std::vector<T>>& d, const bool copy_array)
@@ -177,7 +177,7 @@ public:
      * @param copy_array Whether to copy or reference the input array.
      * @ if {@code d} is not rectangular.
      * @ if there are not at least one row and one column.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @see #Array2DRowField_Matrix(Field_Element[][])
      */
     Array2DRowField_Matrix(const Field<T>& field, const std::vector<std::vector<T>>& d, const bool copy_array) // NOPMD - array copy is taken care of by parameter

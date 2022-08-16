@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
 //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
 //import org.hipparchus.stat.descriptive.Weighted_Evaluation;
@@ -74,7 +74,7 @@ public:
      * to the {@code original}.
      *
      * @param original the {@code Product} instance to copy
-     * @Null_Argument_Exception  if original is NULL
+     * @  if original is NULL
      */
     Product(const Product& original) : my_n{ original.get_n() }, my_value{ original.get_status() }
     {

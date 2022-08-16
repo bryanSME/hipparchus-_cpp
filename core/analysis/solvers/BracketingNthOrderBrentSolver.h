@@ -271,7 +271,7 @@ protected:
                                 get_relative_accuracy() * std::max(std::abs(x_a), std::abs(x_b));
             if (x_b - x_a <= x_tol ||
                     std::max(abs_ya, abs_y_b) < get_function_value_accuracy() ||
-                    Precision.equals(x_a, x_b, 1)) 
+                    Precision::equals(x_a, x_b, 1)) 
                     {
                 return Interval(x_a, y_a, x_b, yB);
             }

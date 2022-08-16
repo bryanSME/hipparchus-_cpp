@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.Stat_Utils;
 //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
 //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
@@ -115,7 +115,7 @@ public:
      * to the {@code original}.
      *
      * @param original the {@code Mean} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
     Mean(Mean original)
     {

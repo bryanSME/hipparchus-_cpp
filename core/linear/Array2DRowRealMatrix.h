@@ -27,7 +27,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
 #include  "MatrixUtils.h"
@@ -67,7 +67,7 @@ private:
      * @param in Data to copy.
      * @ if the input array is empty.
      * @ if the input array is not rectangular.
-     * @Null_Argument_Exception if the input array is {@code NULL}.
+     * @ if the input array is {@code NULL}.
      */
     void copy_in(const auto in)
     {
@@ -107,7 +107,7 @@ public:
      * @param d Data for the matrix.
      * @ if {@code d} is not rectangular.
      * @ if {@code d} row or column dimension is zero.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @see #Array_2D_Row_Real_Matrix(std::vector<std::vector<double>>, bool)
      */
     Array_2D_Row_Real_Matrix(const auto d) 
@@ -127,7 +127,7 @@ public:
      * @param copy_array if {@code true}, the input array will be copied, * otherwise it will be referenced.
      * @ if {@code d} is not rectangular.
      * @ if {@code d} row or column dimension is zero.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @see #Array_2D_Row_Real_Matrix(std::vector<std::vector<double>>)
      */
     Array_2D_Row_Real_Matrix(const auto& d, const bool copy_array) // NOPMD - array copy is taken care of by parameter
@@ -140,7 +140,7 @@ public:
         {
             //if (d == NULL)
             //{
-            //    throw Null_Argument_Exception();
+            //    throw ();
             //}
             const int& n_rows = d.size();
             if (d.empty())

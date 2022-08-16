@@ -29,7 +29,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
 
@@ -95,12 +95,12 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
      * use the {@link #ArrayField_Vector(Field, Field_Element[])} constructor.
      *
      * @param d Array.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if {@code d} is empty.
      * @see #ArrayField_Vector(Field, Field_Element[])
      */
     public ArrayField_Vector(std::vector<T> d)
-            , Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(d);
         try 
@@ -119,11 +119,11 @@ catch (Array_indexOutOfboundsException e)
      *
      * @param field Field to which the elements belong.
      * @param d Array.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @see #ArrayField_Vector(Field_Element[])
      */
     public ArrayField_Vector(Field<T> field, std::vector<T> d)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(d);
         this.field = field;
@@ -145,13 +145,13 @@ catch (Array_indexOutOfboundsException e)
      *
      * @param d Data for the vector.
      * @param copy_array If {@code true}, the input array will be copied, * otherwise it will be referenced.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if {@code d} is empty.
      * @see #ArrayField_Vector(Field_Element[])
      * @see #ArrayField_Vector(Field, Field_Element[], bool)
      */
     public ArrayField_Vector(std::vector<T> d, bool copy_array)
-            , Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(d);
         if (d.size() == 0) 
@@ -174,11 +174,11 @@ catch (Array_indexOutOfboundsException e)
      * @param field Field to which the elements belong.
      * @param d Data for the vector.
      * @param copy_array If {@code true}, the input array will be copied, * otherwise it will be referenced.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @see #ArrayField_Vector(Field_Element[], bool)
      */
     public ArrayField_Vector(Field<T> field, std::vector<T> d, bool copy_array)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(d);
         this.field = field;
@@ -191,12 +191,12 @@ catch (Array_indexOutOfboundsException e)
      * @param d Array.
      * @param pos Position of the first entry.
      * @param size Number of entries to copy.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if the size of {@code d} is less
      * than {@code pos + size}.
      */
     public ArrayField_Vector(std::vector<T> d, int pos, int size)
-            , Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(d);
         if (d.size() < pos + size) 
@@ -216,7 +216,7 @@ catch (Array_indexOutOfboundsException e)
      * @param d Array.
      * @param pos Position of the first entry.
      * @param size Number of entries to copy.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if the size of {@code d} is less
      * than {@code pos + size}.
      */
@@ -237,10 +237,10 @@ catch (Array_indexOutOfboundsException e)
      * Construct a vector from another vector, using a deep copy.
      *
      * @param v Vector to copy.
-     * @Null_Argument_Exception if {@code v} is {@code NULL}.
+     * @ if {@code v} is {@code NULL}.
      */
     public ArrayField_Vector(Field_Vector<T> v)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v);
         field = v.get_field();
@@ -255,10 +255,10 @@ catch (Array_indexOutOfboundsException e)
      * Construct a vector from another vector, using a deep copy.
      *
      * @param v Vector to copy.
-     * @Null_Argument_Exception if {@code v} is {@code NULL}.
+     * @ if {@code v} is {@code NULL}.
      */
     public ArrayField_Vector(ArrayField_Vector<T> v)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v);
         field = v.get_field();
@@ -271,10 +271,10 @@ catch (Array_indexOutOfboundsException e)
      * @param v Vector to copy.
      * @param deep If {@code true} perform a deep copy, otherwise perform
      * a shallow copy
-     * @Null_Argument_Exception if {@code v} is {@code NULL}.
+     * @ if {@code v} is {@code NULL}.
      */
     public ArrayField_Vector(ArrayField_Vector<T> v, bool deep)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v);
         field = v.get_field();
@@ -286,11 +286,11 @@ catch (Array_indexOutOfboundsException e)
      *
      * @param v1 First vector (will be put in front of the vector).
      * @param v2 Second vector (will be put at back of the vector).
-     * @Null_Argument_Exception if {@code v1} or {@code v2} is
+     * @ if {@code v1} or {@code v2} is
      * {@code NULL}.
      */
     public ArrayField_Vector(Field_Vector<T> v1, Field_Vector<T> v2)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v1);
         //Math_Utils::check_not_null(v2);
@@ -309,11 +309,11 @@ catch (Array_indexOutOfboundsException e)
      *
      * @param v1 First vector (will be put in front of the vector).
      * @param v2 Second vector (will be put at back of the vector).
-     * @Null_Argument_Exception if {@code v1} or {@code v2} is
+     * @ if {@code v1} or {@code v2} is
      * {@code NULL}.
      */
     public ArrayField_Vector(Field_Vector<T> v1, std::vector<T> v2)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v1);
         //Math_Utils::check_not_null(v2);
@@ -330,11 +330,11 @@ catch (Array_indexOutOfboundsException e)
      *
      * @param v1 First vector (will be put in front of the vector).
      * @param v2 Second vector (will be put at back of the vector).
-     * @Null_Argument_Exception if {@code v1} or {@code v2} is
+     * @ if {@code v1} or {@code v2} is
      * {@code NULL}.
      */
     public ArrayField_Vector(std::vector<T> v1, Field_Vector<T> v2)
-            Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v1);
         //Math_Utils::check_not_null(v2);
@@ -356,13 +356,13 @@ catch (Array_indexOutOfboundsException e)
      *
      * @param v1 First vector (will be put in front of the vector).
      * @param v2 Second vector (will be put at back of the vector).
-     * @Null_Argument_Exception if {@code v1} or {@code v2} is
+     * @ if {@code v1} or {@code v2} is
      * {@code NULL}.
      * @ if both arrays are empty.
      * @see #ArrayField_Vector(Field, Field_Element[], Field_Element[])
      */
     public ArrayField_Vector(std::vector<T> v1, std::vector<T> v2)
-            , Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v1);
         //Math_Utils::check_not_null(v2);
@@ -383,13 +383,13 @@ catch (Array_indexOutOfboundsException e)
      * @param field Field to which the elements belong.
      * @param v1 First vector (will be put in front of the vector).
      * @param v2 Second vector (will be put at back of the vector).
-     * @Null_Argument_Exception if {@code v1} or {@code v2} is
+     * @ if {@code v1} or {@code v2} is
      * {@code NULL}.
      * @ if both arrays are empty.
      * @see #ArrayField_Vector(Field_Element[], Field_Element[])
      */
     public ArrayField_Vector(Field<T> field, std::vector<T> v1, std::vector<T> v2)
-            , Null_Argument_Exception 
+             
             {
         //Math_Utils::check_not_null(v1);
         //Math_Utils::check_not_null(v2);
@@ -493,7 +493,7 @@ catch (Array_indexOutOfboundsException e)
 
     /** {@inherit_doc} */
     //override
-    public Field_Vector<T> map_add(T d) Null_Argument_Exception 
+    public Field_Vector<T> map_add(T d)  
     {
         std::vector<T> out = Math_Arrays::build_array(field, data.size());
         for (int i{}; i < data.size(); i++) 
@@ -505,7 +505,7 @@ catch (Array_indexOutOfboundsException e)
 
     /** {@inherit_doc} */
     //override
-    public Field_Vector<T> map_add_to_self(T d) Null_Argument_Exception 
+    public Field_Vector<T> map_add_to_self(T d)  
     {
         for (int i{}; i < data.size(); i++) 
         {
@@ -516,7 +516,7 @@ catch (Array_indexOutOfboundsException e)
 
     /** {@inherit_doc} */
     //override
-    public Field_Vector<T> map_subtract(T d) Null_Argument_Exception 
+    public Field_Vector<T> map_subtract(T d)  
     {
         std::vector<T> out = Math_Arrays::build_array(field, data.size());
         for (int i{}; i < data.size(); i++) 
@@ -528,7 +528,7 @@ catch (Array_indexOutOfboundsException e)
 
     /** {@inherit_doc} */
     //override
-    public Field_Vector<T> map_subtract_to_self(T d) Null_Argument_Exception 
+    public Field_Vector<T> map_subtract_to_self(T d)  
     {
         for (int i{}; i < data.size(); i++) 
         {
@@ -539,7 +539,7 @@ catch (Array_indexOutOfboundsException e)
 
     /** {@inherit_doc} */
     //override
-    public Field_Vector<T> map_multiply(T d) Null_Argument_Exception 
+    public Field_Vector<T> map_multiply(T d)  
     {
         std::vector<T> out = Math_Arrays::build_array(field, data.size());
         for (int i{}; i < data.size(); i++) 
@@ -551,7 +551,7 @@ catch (Array_indexOutOfboundsException e)
 
     /** {@inherit_doc} */
     //override
-    public Field_Vector<T> map_multiply_to_self(T d) Null_Argument_Exception 
+    public Field_Vector<T> map_multiply_to_self(T d)  
     {
         for (int i{}; i < data.size(); i++) 
         {
@@ -563,7 +563,7 @@ catch (Array_indexOutOfboundsException e)
     /** {@inherit_doc} */
     //override
     public Field_Vector<T> map_divide(T d)
-        Null_Argument_Exception, Math_Runtime_Exception 
+        , Math_Runtime_Exception 
         {
         //Math_Utils::check_not_null(d);
         std::vector<T> out = Math_Arrays::build_array(field, data.size());
@@ -577,7 +577,7 @@ catch (Array_indexOutOfboundsException e)
     /** {@inherit_doc} */
     //override
     public Field_Vector<T> map_divide_to_self(T d)
-        Null_Argument_Exception, Math_Runtime_Exception 
+        , Math_Runtime_Exception 
         {
         //Math_Utils::check_not_null(d);
         for (int i{}; i < data.size(); i++) 

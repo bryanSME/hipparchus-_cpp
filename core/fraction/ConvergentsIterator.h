@@ -49,22 +49,23 @@ class Convergents_Iterator
     /** Container for one convergent step. */
     static class Convergence_Step 
     {
+    private:
         /** Numerator of previous convergent. */
-        private const long   p0;
+        const long   p0;
 
         /** Denominator of previous convergent. */
-        private const long   q0;
+        const long   q0;
 
         /** Numerator of current convergent. */
-        private const long   p1;
+        const long   p1;
 
         /** Denominator of current convergent. */
-        private const long   q1;
+        const long   q1;
 
         /** Remainder of current convergent. */
-        private const double r1;
+        const double r1;
 
-        private Convergence_Step(const long p0, const long q0, const long p1, const long q1, const double r1) 
+        Convergence_Step(const long& p0, const long& q0, const long& p1, const long& q1, const double& r1) 
         {
             this.p0 = p1;
             this.q0 = q1;
@@ -75,16 +76,18 @@ class Convergents_Iterator
                 this.q1 = FastMath.add_exact(Math.multiply_exact(a1, q1), q0);
                 this.r1 = 1.0 / (r1 - a1);
             }
-catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_exact() is slower
-                throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::FRACTION_CONVERSION_OVERFLOW, r1, p1, q1);
+            catch (Arithmetic_Exception e)
+            { // unlike the name implies FastMath's multiply_exact() is slower
+                throw std::exception("not implemented");
+                //throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::FRACTION_CONVERSION_OVERFLOW, r1, p1, q1);
             }
         }
-
+    public:
         /** Builder from a double value.
          * @param value value to approximate
          * @return first step in approximation
          */
-        public static Convergence_Step start(double value) 
+        static Convergence_Step start(const double& value) 
         {
             return Convergence_Step(0, 1, 1, 0, value);
         }
@@ -92,7 +95,7 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
         /** Compute next step in convergence.
          * @return next convergence step
          */
-        public Convergence_Step next() 
+        Convergence_Step next() 
         {
             return Convergence_Step(p0, q0, p1, q1, r1);
         }
@@ -100,7 +103,7 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
         /** Get the numerator of current convergent.
          * @return numerator of current convergent
          */
-        public long get_numerator() 
+        long get_numerator() 
         {
             return p1;
         }
@@ -108,7 +111,7 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
         /** Get the denominator of current convergent.
          * @return denominator of current convergent
          */
-        public long get_denominator() 
+        long get_denominator() const
         {
             return q1;
         }
@@ -116,7 +119,7 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
         /** Compute double value of current convergent.
          * @return double value of current convergent
          */
-        public double get_fraction_value() 
+        double get_fraction_value() 
         {
             return get_numerator() / static_cast<double>( get_denominator();
         }
@@ -125,11 +128,10 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
          * @return string representation of convergent
          */
         //override
-        public std::string to_string() const 
+        std::string to_string() const 
         {
             return get_numerator() + "/" + get_denominator();
         }
-
     }
 
     /**
@@ -149,7 +151,7 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
      * @return the pair of last element of the series of convergents and a bool
      *         indicating if that element satisfies the specified convergent test
      */
-    static Pair<Convergence_Step, Boolean> convergent(const double& value, int max_convergents, Predicate<Convergence_Step> convergence_tests) 
+    static std::pair<Convergence_Step, bool> convergent(const double& value, const int& max_convergents, Predicate<Convergence_Step> convergence_tests) 
     {
         Convergence_Step step = Convergence_Step.start(value);
         for (int i{ 1 }; i < max_convergents; i++) { // start performs first iteration
@@ -171,7 +173,7 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
      * @return stream of {@link Convergence_Step convergent-steps} approximating
      *         {@code value}
      */
-    static Stream<Convergence_Step> convergents(const double& value, const int max_convergents) 
+    static Stream<Convergence_Step> convergents(const double& value, const int& max_convergents) 
     {
         return Stream_Support.stream(Spliterators.spliterator_unknown_size(new Iterator<Convergence_Step>() 
         {
@@ -191,20 +193,13 @@ catch (Arithmetic_Exception e) { // unlike the name implies FastMath's multiply_
             public Convergence_Step next() 
             {
                 const Convergence_Step ret = next;
-                if (Precision.equals(ret.get_fraction_value(), value, 1)) 
-                {
-                    next = NULL; // stop if precision has been reached
-                }
-else 
-                {
-                    next = next.next();
-                }
+                next = (Precision::equals(ret.get_fraction_value(), value, 1))
+                    ? NULL // stop if precision has been reached
+                    : next.next();
                 return ret;
             }
 
         }, Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE | Spliterator.ORDERED), false).
         limit(max_convergents);
     }
-}
-
-
+};

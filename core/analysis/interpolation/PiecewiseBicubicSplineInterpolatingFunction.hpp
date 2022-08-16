@@ -30,7 +30,7 @@
 //import org.hipparchus.analysis.polynomials.Polynomial_Spline_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Arrays;
 #include <type_traits>
 #include <vector>
@@ -120,7 +120,7 @@ public:
      *        of elements.
      * @ if {@code x} or {@code y} are not
      *         strictly increasing.
-     * @Null_Argument_Exception if any of the arguments are NULL
+     * @ if any of the arguments are NULL
      * @ if any of the arrays has zero length.
      * @ if the length of x and y don't match the row, column
      *         height of f
@@ -133,7 +133,7 @@ public:
             f[0] == NULL)
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
 
         const int x_len = x.size();

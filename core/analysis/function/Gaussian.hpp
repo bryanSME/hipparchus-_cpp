@@ -34,7 +34,7 @@
 //import org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
 //import org.hipparchus.util.Precision;
@@ -99,7 +99,7 @@ public:
      */
     Gaussian(const double& mean, const double& sigma)
     {
-        this(1 / (sigma * std::sqrt(2 * std::numbers::pi)), mean, sigma);
+        Gaussian(1 / (sigma * std::sqrt(2 * std::numbers::pi)), mean, sigma);
     }
 
     /**
@@ -107,12 +107,12 @@ public:
      */
     Gaussian() 
     {
-        this(0, 1);
+        Gaussian(0, 1);
     }
 
     /** {@inherit_doc} */
     //override
-    double value(double x) 
+    double value(const double& x) 
     {
         return value(x - my_mean, my_norm, my_i2s2);
     }
@@ -121,7 +121,7 @@ public:
      */
      //override
     template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
-    T value(T t)
+    T value(const T& t)
     {
         const double u = is * (t.get_value() - mean);
         auto f = std::vector<double>(t.get_order() + 1];
@@ -194,7 +194,7 @@ public:
          * @param x Value for which the function must be computed.
          * @param param Values of norm, mean and standard deviation.
          * @return the value of the function.
-         * @Null_Argument_Exception if {@code param} is {@code NULL}.
+         * @ if {@code param} is {@code NULL}.
          * @ if the size of {@code param} is
          * not 3.
          * @ if {@code param[2]} is negative.
@@ -218,7 +218,7 @@ public:
          * @param x Value at which the gradient must be computed.
          * @param param Values of norm, mean and standard deviation.
          * @return the gradient vector at {@code x}.
-         * @Null_Argument_Exception if {@code param} is {@code NULL}.
+         * @ if {@code param} is {@code NULL}.
          * @ if the size of {@code param} is
          * not 3.
          * @ if {@code param[2]} is negative.
@@ -246,18 +246,13 @@ public:
          * methods.
          *
          * @param param Values of norm, mean and standard deviation.
-         * @Null_Argument_Exception if {@code param} is {@code NULL}.
+         * @ if {@code param} is {@code NULL}.
          * @ if the size of {@code param} is
          * not 3.
          * @ if {@code param[2]} is negative.
          */
-        void validate_parameters(std::vector<double> param)
+        void validate_parameters(const std::vector<double>& param)
         {
-            if (param == NULL) 
-            {
-                throw std::exception("not implemented");
-                //throw Null_Argument_Exception();
-            }
             Math_Utils::check_dimension(param.size(), 3);
             if (param[2] <= 0) 
             {

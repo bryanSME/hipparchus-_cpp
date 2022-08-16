@@ -33,7 +33,7 @@
 ////import org.hipparchus.Calculus_Field_Element;
 ////import org.hipparchus.exception.Localized_Core_Formats;
 ////import org.hipparchus.exception.;
-////import org.hipparchus.exception.Null_Argument_Exception;
+////import org.hipparchus.exception.;
 ////import org.hipparchus.util.FastMath;
 ////import org.hipparchus.util.Field_Sin_Cos;
 ////import org.hipparchus.util.Field_Sinh_Cosh;
@@ -196,7 +196,7 @@
 //     *
 //     * @param  addend Value to be added to this {@code std::complex<double>}.
 //     * @return {@code this + addend}.
-//     * @Null_Argument_Exception if {@code addend} is {@code NULL}.
+//     * @ if {@code addend} is {@code NULL}.
 //     */
 //    //override
 //    std::complex<double> add(const std::complex<double>& addend)
@@ -291,7 +291,7 @@
 //     *
 //     * @param divisor Value by which this {@code std::complex<double>} is to be divided.
 //     * @return {@code this / divisor}.
-//     * @Null_Argument_Exception if {@code divisor} is {@code NULL}.
+//     * @ if {@code divisor} is {@code NULL}.
 //     */
 //    //override
 //    std::complex<double> divide(const std::complex<double>& divisor)
@@ -443,8 +443,8 @@
 //     */
 //    static bool equals(const std::complex<double>& x, const std::complex<double>& y, const int& max_ulps) 
 //    {
-//        return Precision.equals(x.get_real(), y.get_real(), max_ulps) &&
-//               Precision.equals(x.get_imaginary(), y.get_imaginary(), max_ulps);
+//        return Precision::equals(x.get_real(), y.get_real(), max_ulps) &&
+//               Precision::equals(x.get_imaginary(), y.get_imaginary(), max_ulps);
 //    }
 //
 //    /**
@@ -476,8 +476,8 @@
 //     */
 //    static bool equals(std::complex<double> x, std::complex<double> y, double eps) 
 //    {
-//        return Precision.equals(x.get_real(), y.get_real(), eps) &&
-//               Precision.equals(x.get_imaginary(), y.get_imaginary(), eps);
+//        return Precision::equals(x.get_real(), y.get_real(), eps) &&
+//               Precision::equals(x.get_imaginary(), y.get_imaginary(), eps);
 //    }
 //
 //    /**
@@ -496,8 +496,8 @@
 //     */
 //    static bool equals_with_relative_tolerance(std::complex<double> x, std::complex<double> y, double eps) 
 //    {
-//        return Precision.equals_with_relative_tolerance(x.get_real(), y.get_real(), eps) &&
-//               Precision.equals_with_relative_tolerance(x.get_imaginary(), y.get_imaginary(), eps);
+//        return Precision::equals_with_relative_tolerance(x.get_real(), y.get_real(), eps) &&
+//               Precision::equals_with_relative_tolerance(x.get_imaginary(), y.get_imaginary(), eps);
 //    }
 //
 //    /**
@@ -645,11 +645,11 @@
 //     *
 //     * @param  factor value to be multiplied by this {@code std::complex<double>}.
 //     * @return {@code this * factor}.
-//     * @Null_Argument_Exception if {@code factor} is {@code NULL}.
+//     * @ if {@code factor} is {@code NULL}.
 //     */
 //    //override
 //    std::complex<double> multiply(std::complex<double> factor)
-//        Null_Argument_Exception 
+//         
 //        {
 //        //Math_Utils::check_not_null(factor);
 //        if (is_nan || factor.is_nan) 
@@ -764,11 +764,11 @@
 //     *
 //     * @param  subtrahend value to be subtracted from this {@code std::complex<double>}.
 //     * @return {@code this - subtrahend}.
-//     * @Null_Argument_Exception if {@code subtrahend} is {@code NULL}.
+//     * @ if {@code subtrahend} is {@code NULL}.
 //     */
 //    //override
 //    std::complex<double> subtract(std::complex<double> subtrahend)
-//        Null_Argument_Exception 
+//         
 //        {
 //        //Math_Utils::check_not_null(subtrahend);
 //        if (is_nan || subtrahend.is_nan) 
@@ -1105,11 +1105,11 @@
 //     *
 //     * @param  x exponent to which this {@code std::complex<double>} is to be raised.
 //     * @return <code> this<sup>x</sup></code>.
-//     * @Null_Argument_Exception if x is {@code NULL}.
+//     * @ if x is {@code NULL}.
 //     */
 //    //override
 //    std::complex<double> pow(std::complex<double> x)
-//        Null_Argument_Exception 
+//         
 //        {
 //
 //        //Math_Utils::check_not_null(x);

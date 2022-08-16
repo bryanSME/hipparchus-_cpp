@@ -1118,7 +1118,7 @@ else
         if (dynamic_cast<const Sparse_Gradient*>(*other) != nullptr)
         {
             const Sparse_Gradient rhs = (Sparse_Gradient)other;
-            if (!Precision.equals(value, rhs.value, 1)) 
+            if (!Precision::equals(value, rhs.value, 1)) 
             {
                 return false;
             }
@@ -1132,7 +1132,7 @@ else
                 {
                     return false;
                 }
-                if (!Precision.equals(entry.get_value(), rhs.derivatives.get(entry.get_key()), 1)) 
+                if (!Precision::equals(entry.get_value(), rhs.derivatives.get(entry.get_key()), 1)) 
                 {
                     return false;
                 }

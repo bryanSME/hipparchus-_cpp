@@ -23,7 +23,7 @@
   //import org.hipparchus.exception.Localized_Core_Formats;
   //import org.hipparchus.exception.;
 #include <vector>
-#include "Gamma::h"
+#include "Gamma.h"
 #include "../util/MathUtils.h"
 #include "../util/ContinuedFraction.h"
 

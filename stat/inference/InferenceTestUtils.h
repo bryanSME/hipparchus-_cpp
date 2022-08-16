@@ -26,7 +26,7 @@
 //import org.hipparchus.distribution.Real_Distribution;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Statistical_Summary;
 
 /**
@@ -65,7 +65,7 @@ class Inference_Test_Utils
      * @see T_Test#homoscedastic_t(std::vector<double>, std::vector<double>)
      */
     public static double homoscedastic_t(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception 
+         
         {
         return T_TEST.homoscedastic_t(sample1, sample2);
     }
@@ -74,7 +74,7 @@ class Inference_Test_Utils
      * @see T_Test#homoscedastic_t(Statistical_Summary, Statistical_Summary)
      */
     public static double homoscedastic_t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception 
+         
         {
         return T_TEST.homoscedastic_t(sample_stats1, sample_stats2);
     }
@@ -83,7 +83,7 @@ class Inference_Test_Utils
      * @see T_Test#homoscedastic_t_test(std::vector<double>, std::vector<double>, double)
      */
     public static bool homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.homoscedastic_t_test(sample1, sample2, alpha);
     }
@@ -92,7 +92,7 @@ class Inference_Test_Utils
      * @see T_Test#homoscedastic_t_test(std::vector<double>, std::vector<double>)
      */
     public static double homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.homoscedastic_t_test(sample1, sample2);
     }
@@ -101,7 +101,7 @@ class Inference_Test_Utils
      * @see T_Test#homoscedastic_t_test(Statistical_Summary, Statistical_Summary)
      */
     public static double homoscedastic_t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.homoscedastic_t_test(sample_stats1, sample_stats2);
     }
@@ -110,7 +110,7 @@ class Inference_Test_Utils
      * @see T_Test#paired_t(std::vector<double>, std::vector<double>)
      */
     public static double paired_t(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception 
+         
         {
         return T_TEST.paired_t(sample1, sample2);
     }
@@ -119,7 +119,7 @@ class Inference_Test_Utils
      * @see T_Test#paired_t_test(std::vector<double>, std::vector<double>, double)
      */
     public static bool paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.paired_t_test(sample1, sample2, alpha);
     }
@@ -128,7 +128,7 @@ class Inference_Test_Utils
      * @see T_Test#paired_t_test(std::vector<double>, std::vector<double>)
      */
     public static double paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.paired_t_test(sample1, sample2);
     }
@@ -137,7 +137,7 @@ class Inference_Test_Utils
      * @see T_Test#t(double, std::vector<double>)
      */
     public static double t(const double& mu, const std::vector<double> observed)
-        , Null_Argument_Exception 
+         
         {
         return T_TEST.t(mu, observed);
     }
@@ -146,7 +146,7 @@ class Inference_Test_Utils
      * @see T_Test#t(double, Statistical_Summary)
      */
     public static double t(const double& mu, const Statistical_Summary sample_stats)
-        , Null_Argument_Exception 
+         
         {
         return T_TEST.t(mu, sample_stats);
     }
@@ -155,7 +155,7 @@ class Inference_Test_Utils
      * @see T_Test#t(std::vector<double>, std::vector<double>)
      */
     public static double t(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception 
+         
         {
         return T_TEST.t(sample1, sample2);
     }
@@ -164,7 +164,7 @@ class Inference_Test_Utils
      * @see T_Test#t(Statistical_Summary, Statistical_Summary)
      */
     public static double t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception 
+         
         {
         return T_TEST.t(sample_stats1, sample_stats2);
     }
@@ -173,7 +173,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(double, std::vector<double>, double)
      */
     public static bool t_test(const double& mu, const std::vector<double> sample, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(mu, sample, alpha);
     }
@@ -182,7 +182,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(double, std::vector<double>)
      */
     public static double t_test(const double& mu, const std::vector<double> sample)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(mu, sample);
     }
@@ -191,7 +191,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(double, Statistical_Summary, double)
      */
     public static bool t_test(const double& mu, const Statistical_Summary sample_stats, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(mu, sample_stats, alpha);
     }
@@ -200,7 +200,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(double, Statistical_Summary)
      */
     public static double t_test(const double& mu, const Statistical_Summary sample_stats)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(mu, sample_stats);
     }
@@ -209,7 +209,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(std::vector<double>, std::vector<double>, double)
      */
     public static bool t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(sample1, sample2, alpha);
     }
@@ -218,7 +218,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(std::vector<double>, std::vector<double>)
      */
     public static double t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(sample1, sample2);
     }
@@ -227,7 +227,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(Statistical_Summary, Statistical_Summary, double)
      */
     public static bool t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(sample_stats1, sample_stats2, alpha);
     }
@@ -236,7 +236,7 @@ class Inference_Test_Utils
      * @see T_Test#t_test(Statistical_Summary, Statistical_Summary)
      */
     public static double t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return T_TEST.t_test(sample_stats1, sample_stats2);
     }
@@ -254,7 +254,7 @@ class Inference_Test_Utils
      * @see Chi_Square_Test#chi_square(long[][])
      */
     public static double chi_square(const std::vector<std::vector<long>> counts)
-        , Null_Argument_Exception 
+         
         {
         return CHI_SQUARE_TEST.chi_square(counts);
     }
@@ -263,7 +263,7 @@ class Inference_Test_Utils
      * @see Chi_Square_Test#chi_square_test(std::vector<double>, long[], double)
      */
     public static bool chi_square_test(const std::vector<double> expected, const std::vector<long> observed, const double& alpha)
-        , Math_Illegal_State_Exception 
+         
         {
         return CHI_SQUARE_TEST.chi_square_test(expected, observed, alpha);
     }
@@ -272,7 +272,7 @@ class Inference_Test_Utils
      * @see Chi_Square_Test#chi_square_test(std::vector<double>, long[])
      */
     public static double chi_square_test(const std::vector<double> expected, const std::vector<long> observed)
-        , Math_Illegal_State_Exception 
+         
         {
         return CHI_SQUARE_TEST.chi_square_test(expected, observed);
     }
@@ -281,7 +281,7 @@ class Inference_Test_Utils
      * @see Chi_Square_Test#chi_square_test(long[][], double)
      */
     public static bool chi_square_test(const std::vector<std::vector<long>> counts, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return CHI_SQUARE_TEST.chi_square_test(counts, alpha);
     }
@@ -290,7 +290,7 @@ class Inference_Test_Utils
      * @see Chi_Square_Test#chi_square_test(long[][])
      */
     public static double chi_square_test(const std::vector<std::vector<long>> counts)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return CHI_SQUARE_TEST.chi_square_test(counts);
     }
@@ -308,7 +308,7 @@ class Inference_Test_Utils
      * @see Chi_Square_Test#chi_square_test_data_sets_comparison(long[], long[])
      */
     public static double chi_square_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-        , Math_Illegal_State_Exception 
+         
         {
         return CHI_SQUARE_TEST.chi_square_test_data_sets_comparison(observed1, observed2);
     }
@@ -317,7 +317,7 @@ class Inference_Test_Utils
      * @see Chi_Square_Test#chi_square_test_data_sets_comparison(long[], long[], double)
      */
     public static bool chi_square_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2, const double& alpha)
-        , Math_Illegal_State_Exception 
+         
         {
         return CHI_SQUARE_TEST.chi_square_test_data_sets_comparison(observed1, observed2, alpha);
     }
@@ -326,7 +326,7 @@ class Inference_Test_Utils
      * @see OneWay_anova#anova_f_value(Collection)
      */
     public static double one_way_anova_f_value(const Collection<std::vector<double>> category_data)
-        , Null_Argument_Exception 
+         
         {
         return ONE_WAY_ANANOVA.anova_f_value(category_data);
     }
@@ -335,7 +335,7 @@ class Inference_Test_Utils
      * @see OneWay_anova#anova_p_value(Collection)
      */
     public static double one_way_anova_p_value(const Collection<std::vector<double>> category_data)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return ONE_WAY_ANANOVA.anova_p_value(category_data);
     }
@@ -344,7 +344,7 @@ class Inference_Test_Utils
      * @see OneWay_anova#anova_test(Collection,double)
      */
     public static bool one_way_anova_test(const Collection<std::vector<double>> category_data, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         return ONE_WAY_ANANOVA.anova_test(category_data, alpha);
     }
@@ -362,7 +362,7 @@ class Inference_Test_Utils
      * @see G_Test#g_test( std::vector<double>,  std::vector<long> )
      */
     public static double g_test(const std::vector<double> expected, const std::vector<long> observed)
-        , Math_Illegal_State_Exception 
+         
         {
         return G_TEST.g_test(expected, observed);
     }
@@ -371,7 +371,7 @@ class Inference_Test_Utils
      * @see G_Test#g_test_intrinsic(std::vector<double>, std::vector<long> )
      */
     public static double g_test_intrinsic(const std::vector<double> expected, const std::vector<long> observed)
-        , Math_Illegal_State_Exception 
+         
         {
         return G_TEST.g_test_intrinsic(expected, observed);
     }
@@ -380,7 +380,7 @@ class Inference_Test_Utils
      * @see G_Test#g_test( std::vector<double>,long[],double)
      */
     public static bool g_test(const std::vector<double> expected, const std::vector<long> observed, const double& alpha)
-        , Math_Illegal_State_Exception 
+         
         {
         return G_TEST.g_test(expected, observed, alpha);
     }
@@ -408,7 +408,7 @@ class Inference_Test_Utils
      * @see G_Test#g_test_data_sets_comparison(long[], long[])
      */
     public static double g_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-        , Math_Illegal_State_Exception 
+         
         {
         return G_TEST.g_test_data_sets_comparison(observed1, observed2);
     }
@@ -417,7 +417,7 @@ class Inference_Test_Utils
      * @see G_Test#g_test_data_sets_comparison(long[],long[],double)
      */
     public static bool g_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2, const double& alpha)
-        , Math_Illegal_State_Exception 
+         
         {
         return G_TEST.g_test_data_sets_comparison(observed1, observed2, alpha);
     }
@@ -426,7 +426,7 @@ class Inference_Test_Utils
      * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_statistic(Real_Distribution, std::vector<double>)
      */
     public static double kolmogorov_smirnov_statistic(Real_Distribution dist, std::vector<double> data)
-            , Null_Argument_Exception 
+             
             {
         return KS_TEST.kolmogorov_smirnov_statistic(dist, data);
     }
@@ -435,7 +435,7 @@ class Inference_Test_Utils
      * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>)
      */
     public static double kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data)
-            , Null_Argument_Exception 
+             
             {
         return KS_TEST.kolmogorov_smirnov_test(dist, data);
     }
@@ -444,7 +444,7 @@ class Inference_Test_Utils
      * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>, bool)
      */
     public static double kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data, bool strict)
-            , Null_Argument_Exception 
+             
             {
         return KS_TEST.kolmogorov_smirnov_test(dist, data, strict);
     }
@@ -453,7 +453,7 @@ class Inference_Test_Utils
      * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>, double)
      */
     public static bool kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data, double alpha)
-            , Null_Argument_Exception 
+             
             {
         return KS_TEST.kolmogorov_smirnov_test(dist, data, alpha);
     }
@@ -462,7 +462,7 @@ class Inference_Test_Utils
      * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_statistic(std::vector<double>, std::vector<double>)
      */
     public static double kolmogorov_smirnov_statistic(std::vector<double> x, std::vector<double> y)
-            , Null_Argument_Exception 
+             
             {
         return KS_TEST.kolmogorov_smirnov_statistic(x, y);
     }
@@ -471,7 +471,7 @@ class Inference_Test_Utils
      * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(std::vector<double>, std::vector<double>)
      */
     public static double kolmogorov_smirnov_test(std::vector<double> x, std::vector<double> y)
-            , Null_Argument_Exception 
+             
             {
         return KS_TEST.kolmogorov_smirnov_test(x, y);
     }
@@ -480,7 +480,7 @@ class Inference_Test_Utils
      * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(std::vector<double>, std::vector<double>, bool)
      */
     public static double kolmogorov_smirnov_test(std::vector<double> x, std::vector<double> y, bool strict)
-            , Null_Argument_Exception  
+              
             {
         return KS_TEST.kolmogorov_smirnov_test(x, y, strict);
     }

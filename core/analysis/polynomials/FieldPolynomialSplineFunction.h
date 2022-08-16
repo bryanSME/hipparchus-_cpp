@@ -87,7 +87,7 @@ public:
      *
      * @param knots Spline segment interval delimiters.
      * @param polynomials Polynomial functions that make up the spline.
-     * @Null_Argument_Exception if either of the input arrays is {@code NULL}.
+     * @ if either of the input arrays is {@code NULL}.
      * @ if knots has length less than 2.
      * @ if {@code polynomials.size() != knots.size() - 1}.
      * @ if the {@code knots} array is not strictly increasing.
@@ -100,7 +100,7 @@ public:
         //if (knots == NULL || polynomials == NULL) 
         //{
         //    throw std::exception("not implemented");
-        //    //throw Null_Argument_Exception();
+        //    //throw ();
         //}
         //if (knots.size() < 2) 
         //{

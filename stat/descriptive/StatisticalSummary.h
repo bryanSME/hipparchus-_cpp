@@ -42,7 +42,7 @@ class Statistical_Summary
      *
      * @param statistics Statistical_Summary instances to aggregate
      * @return summary statistics for the combined dataset
-     * @org.hipparchus.exception.Null_Argument_Exception if the input is NULL
+     * @org.hipparchus.exception. if the input is NULL
      */
     static Statistical_Summary aggregate(Statistical_Summary... statistics) 
     {
@@ -60,7 +60,7 @@ class Statistical_Summary
      *
      * @param statistics iterable of Statistical_Summary instances to aggregate
      * @return summary statistics for the combined dataset
-     * @org.hipparchus.exception.Null_Argument_Exception if the input is NULL
+     * @org.hipparchus.exception. if the input is NULL
      */
     static Statistical_Summary aggregate(Iterable<? extends Statistical_Summary> statistics) 
     {

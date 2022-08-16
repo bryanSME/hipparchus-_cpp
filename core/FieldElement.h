@@ -22,7 +22,7 @@
   //package org.hipparchus;
 
   //import org.hipparchus.exception.Math_Runtime_Exception;
-  //import org.hipparchus.exception.Null_Argument_Exception;
+  //import org.hipparchus.exception.;
 
   /**
    * Interface representing <a href="http://mathworld.wolfram.com/Field.html">field</a> elements.
@@ -41,14 +41,14 @@ class Field_Element
 	/** Compute this + a.
 	 * @param a element to add
 	 * @return a element representing this + a
-	 * @Null_Argument_Exception if {@code a} is {@code NULL}.
+	 * @ if {@code a} is {@code NULL}.
 	 */
 	virtual T add(T a) = 0;
 
 	/** Compute this - a.
 	 * @param a element to subtract
 	 * @return a element representing this - a
-	 * @Null_Argument_Exception if {@code a} is {@code NULL}.
+	 * @ if {@code a} is {@code NULL}.
 	 */
 	virtual T subtract(T a) = 0;
 
@@ -71,14 +71,14 @@ class Field_Element
 	/** Compute this &times; a.
 	 * @param a element to multiply
 	 * @return a element representing this &times; a
-	 * @Null_Argument_Exception if {@code a} is {@code NULL}.
+	 * @ if {@code a} is {@code NULL}.
 	 */
 	virtual T multiply(T a) = 0;
 
 	/** Compute this &divide; a.
 	 * @param a element to divide by
 	 * @return a element representing this &divide; a
-	 * @Null_Argument_Exception if {@code a} is {@code NULL}.
+	 * @ if {@code a} is {@code NULL}.
 	 * @Math_Runtime_Exception if {@code a} is zero
 	 */
 	virtual T divide(T a) = 0;

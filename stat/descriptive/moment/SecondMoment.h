@@ -25,7 +25,7 @@
 #include <numbers>
 #include "FirstMoment.h"
 #include "../AggregatableStatistic.hpp"
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
 
 /**
@@ -75,7 +75,7 @@ public:
      * to the {@code original}.
      *
      * @param original the {@code Second_Moment} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
     Second_Moment(Second_Moment original)
     {

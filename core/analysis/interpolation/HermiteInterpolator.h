@@ -32,7 +32,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Combinatorics_Utils;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
@@ -255,7 +255,7 @@ public:
      * @param order maximum derivation order
      * @return interpolated value and derivatives (value in row 0, * 1<sup>st</sup> derivative in row 1, ... n<sup>th</sup> derivative in row n)
      * @exception  if sample is empty
-     * @Null_Argument_Exception if x is NULL
+     * @ if x is NULL
      */
     std::vector<std::vector<double>> derivatives(const double& x, const int& order)
     {

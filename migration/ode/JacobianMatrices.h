@@ -446,7 +446,7 @@ else
         /** {@inherit_doc} */
         //override
         public std::vector<double> compute_derivatives(const double t, const std::vector<double> y, const std::vector<double> y_dot, const std::vector<double> z)
-            , Math_Illegal_State_Exception 
+             
             {
 
             try 
@@ -586,7 +586,7 @@ catch (Instantiation_Exception | Illegal_Access_Exception | Illegal_Argument_Exc
         /** {@inherit_doc} */
         //override
         public std::vector<double> compute_derivatives(double t, std::vector<double> y)
-            , Math_Illegal_State_Exception 
+             
             {
             return ode.compute_derivatives(t, y);
         }
@@ -594,7 +594,7 @@ catch (Instantiation_Exception | Illegal_Access_Exception | Illegal_Argument_Exc
         /** {@inherit_doc} */
         //override
         public std::vector<std::vector<double>> compute_main_state_jacobian(double t, std::vector<double> y, std::vector<double> y_dot)
-            , Math_Illegal_State_Exception 
+             
             {
 
             const int n = ode.get_dimension();

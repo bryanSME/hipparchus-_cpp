@@ -24,7 +24,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Iteration_Manager;
 
 /**
@@ -119,10 +119,10 @@ class Conjugate_Gradient
      * @param delta the &delta; parameter for the default stopping criterion
      * @param check {@code true} if positive definiteness of both matrix and
      * preconditioner should be checked
-     * @Null_Argument_Exception if {@code manager} is {@code NULL}
+     * @ if {@code manager} is {@code NULL}
      */
     public Conjugate_Gradient(const Iteration_Manager manager, const double delta, const bool check)
-        Null_Argument_Exception 
+         
         {
         super(manager);
         this.delta = delta;
@@ -149,7 +149,7 @@ class Conjugate_Gradient
      */
     //override
     public Real_Vector solve_in_place(const Real_Linear_Operator a, const Real_Linear_Operator m, const Real_Vector b, const Real_Vector x0)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         check_parameters(a, m, b, x0);
         const Iteration_Manager manager = get_iteration_manager();

@@ -25,7 +25,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.Localized_Stat_Formats;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Arrays;
@@ -236,7 +236,7 @@ public:
      *
      * @param counts array representation of 2-way table
      * @return chi_square test statistic
-     * @Null_Argument_Exception if the array is NULL
+     * @ if the array is NULL
      * @ if the array is not rectangular
      * @ if {@code counts} has negative entries
      */
@@ -300,7 +300,7 @@ public:
      *
      * @param counts array representation of 2-way table
      * @return p-value
-     * @Null_Argument_Exception if the array is NULL
+     * @ if the array is NULL
      * @ if the array is not rectangular
      * @ if {@code counts} has negative entries
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
@@ -345,7 +345,7 @@ public:
      * @param alpha significance level of the test
      * @return true iff NULL hypothesis can be rejected with confidence
      * 1 - alpha
-     * @Null_Argument_Exception if the array is NULL
+     * @ if the array is NULL
      * @ if the array is not rectangular
      * @ if {@code counts} has any negative entries
      * @ if <code>alpha</code> is not in the range (0, 0.5]
@@ -567,7 +567,7 @@ private:
      * Checks to make sure that the input std::vector<std::vector<long>> array is rectangular, * has at least 2 rows and 2 columns, and has all non-negative entries.
      *
      * @param in input 2-way table to check
-     * @Null_Argument_Exception if the array is NULL
+     * @ if the array is NULL
      * @ if the array is not valid
      * @ if the array contains any negative entries
      */

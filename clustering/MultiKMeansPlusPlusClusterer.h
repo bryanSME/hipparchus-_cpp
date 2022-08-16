@@ -109,7 +109,7 @@ class MultiK_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<
      */
     //override
     public List<Centroid_Cluster<T>> cluster(const Collection<T> points)
-        , Math_Illegal_State_Exception 
+         
         {
 
         // at first, we have not found any clusters list yet

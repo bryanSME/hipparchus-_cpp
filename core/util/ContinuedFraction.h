@@ -132,7 +132,7 @@ class Continued_Fraction
 		double h_prev = get_a(0, x);
 
 		// use the value of small as epsilon criteria for zero checks
-		if (Precision.equals(h_prev, 0.0, small))
+		if (Precision::equals(h_prev, 0.0, small))
 		{
 			h_prev = small;
 		}
@@ -148,12 +148,12 @@ class Continued_Fraction
 			const double b = get_b(n, x);
 
 			double dN = a + b * d_prev;
-			if (Precision.equals(dN, 0.0, small))
+			if (Precision::equals(dN, 0.0, small))
 			{
 				dN = small;
 			}
 			double cN = a + b / c_prev;
-			if (Precision.equals(cN, 0.0, small))
+			if (Precision::equals(cN, 0.0, small))
 			{
 				cN = small;
 			}

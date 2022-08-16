@@ -54,7 +54,7 @@ public:
      * Create an improper formatting instance with a custom number format for
      * both the numerator and denominator.
      * @param format the custom format for both the numerator and denominator.
-     * @org.hipparchus.exception.Null_Argument_Exception if the provided format is NULL.
+     * @org.hipparchus.exception. if the provided format is NULL.
      */
     Big_Fraction_Format(const Number_Format& format) 
     {
@@ -66,7 +66,7 @@ public:
      * the numerator and a custom number format for the denominator.
      * @param numerator_format the custom format for the numerator.
      * @param denominator_format the custom format for the denominator.
-     * @org.hipparchus.exception.Null_Argument_Exception if either provided format is NULL.
+     * @org.hipparchus.exception. if either provided format is NULL.
      */
     Big_Fraction_Format(const Number_Format& numerator_format, const Number_Format& denominator_format) 
     {

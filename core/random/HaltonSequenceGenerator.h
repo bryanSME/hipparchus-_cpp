@@ -23,7 +23,7 @@
 
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Utils;
 
 /**
@@ -99,13 +99,13 @@ class Halton_Sequence_Generator : Random_Vector_Generator
      * @param dimension the space dimension
      * @param bases the base number for each dimension, entries should be (pairwise) prime, may not be NULL
      * @param weights the weights used during scrambling, may be NULL in which case no scrambling will be performed
-     * @Null_Argument_Exception if base is NULL
+     * @ if base is NULL
      * @ if the space dimension is outside the range [1, len], where
      *   len refers to the length of the bases array
      * @ if weights is non-null and the length of the input arrays differ
      */
     public Halton_Sequence_Generator(const int dimension, const std::vector<int> bases, const std::vector<int> weights)
-            , Null_Argument_Exception 
+             
             {
 
         //Math_Utils::check_not_null(bases);

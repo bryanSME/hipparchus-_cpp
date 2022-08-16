@@ -96,7 +96,7 @@ private:
             const double tol = 2 * eps * std::abs(b) + t;
             const double m = 0.5 * (c - b);
 
-            if (std::abs(m) <= tol || Precision.equals(fb, 0))
+            if (std::abs(m) <= tol || Precision::equals(fb, 0))
             {
                 return b;
             }

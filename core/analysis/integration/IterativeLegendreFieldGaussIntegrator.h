@@ -124,7 +124,7 @@ class IterativeLegendreFieldGauss_Integrator
     /** {@inherit_doc} */
     //override
     protected T do_integrate()
-        , Math_Illegal_State_Exception 
+         
         {
         // Compute first estimate with a single step.
         T oldt = stage(1);

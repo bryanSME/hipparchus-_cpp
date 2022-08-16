@@ -23,7 +23,7 @@
 
 //import java.io.Serializable;
 
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 
 /**
@@ -81,9 +81,9 @@ class Third_Moment extends Second_Moment
      * to the {@code original}.
      *
      * @param original the {@code Third_Moment} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
-    Third_Moment(Third_Moment original) Null_Argument_Exception 
+    Third_Moment(Third_Moment original)  
     {
         super(original);
         this.m3     = original.m3;

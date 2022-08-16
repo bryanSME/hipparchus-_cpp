@@ -77,7 +77,7 @@ class First_Order_Differential_Equations extends Ordinary_Differential_Equation
      * @exception  if arrays dimensions do not match equations settings
      */
     void compute_derivatives(double t, std::vector<double> y, std::vector<double> y_dot)
-        , Math_Illegal_State_Exception;
+        ;
 
 }
 

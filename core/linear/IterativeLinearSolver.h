@@ -24,7 +24,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Iteration_Manager;
 //import org.hipparchus.util.Math_Utils;
 #include "../util/IterationManager.h"
@@ -52,7 +52,7 @@ protected:
  * @param a the linear operator A of the system
  * @param b the right-hand side vector
  * @param x0 the initial guess of the solution
- * @Null_Argument_Exception if one of the parameters is {@code NULL}
+ * @ if one of the parameters is {@code NULL}
  * @ if {@code a} is not square
  * @ if {@code b} or {@code x0} have
  * dimensions inconsistent with {@code a}
@@ -95,7 +95,7 @@ public:
      * Creates a instance of this class, with custom iteration manager.
      *
      * @param manager the custom iteration manager
-     * @Null_Argument_Exception if {@code manager} is {@code NULL}
+     * @ if {@code manager} is {@code NULL}
      */
     Iterative_Linear_Solver(const Iteration_Manager& manager)
     {
@@ -120,7 +120,7 @@ public:
      * @param a the linear operator A of the system
      * @param b the right-hand side vector
      * @return a vector containing the solution
-     * @Null_Argument_Exception if one of the parameters is {@code NULL}
+     * @ if one of the parameters is {@code NULL}
      * @ if {@code a} is not square
      * @ if {@code b} has dimensions
      * inconsistent with {@code a}
@@ -144,7 +144,7 @@ public:
      * @param b the right-hand side vector
      * @param x0 the initial guess of the solution
      * @return a vector containing the solution
-     * @Null_Argument_Exception if one of the parameters is {@code NULL}
+     * @ if one of the parameters is {@code NULL}
      * @ if {@code a} is not square
      * @ if {@code b} or {@code x0} have
      * dimensions inconsistent with {@code a}
@@ -167,7 +167,7 @@ public:
      * @param x0 initial guess of the solution
      * @return a reference to {@code x0} (shallow copy) updated with the
      * solution
-     * @Null_Argument_Exception if one of the parameters is {@code NULL}
+     * @ if one of the parameters is {@code NULL}
      * @ if {@code a} is not square
      * @ if {@code b} or {@code x0} have
      * dimensions inconsistent with {@code a}

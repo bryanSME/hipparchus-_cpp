@@ -161,12 +161,12 @@ public:
             return false;
         }
         auto other = static_cast<Statistical_Summary>(object);
-        return Precision.equals_including_nan(other.get_max(), get_max()) &&
-            Precision.equals_including_nan(other.get_my_mean(), get_my_mean()) &&
-            Precision.equals_including_nan(other.get_min(), get_min()) &&
-            Precision.equals_including_nan(other.get_n(), get_n()) &&
-            Precision.equals_including_nan(other.get_sum(), get_sum()) &&
-            Precision.equals_including_nan(other.get_my_variance(), get_my_variance());
+        return Precision::equals_including_nan(other.get_max(), get_max()) &&
+            Precision::equals_including_nan(other.get_my_mean(), get_my_mean()) &&
+            Precision::equals_including_nan(other.get_min(), get_min()) &&
+            Precision::equals_including_nan(other.get_n(), get_n()) &&
+            Precision::equals_including_nan(other.get_sum(), get_sum()) &&
+            Precision::equals_including_nan(other.get_my_variance(), get_my_variance());
     }
 
     /**

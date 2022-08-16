@@ -31,7 +31,7 @@
 //import org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
 #include <algorithm>
@@ -86,7 +86,7 @@ protected:
      * @param argument Input value.
      * @return the value of the polynomial.
      * @ if {@code coefficients} is empty.
-     * @Null_Argument_Exception if {@code coefficients} is {@code NULL}.
+     * @ if {@code coefficients} is {@code NULL}.
      */
     static double evaluate(const std::vector<double>& coefficients, const double& argument)
     {
@@ -111,7 +111,7 @@ protected:
      * @param coefficients Coefficients of the polynomial to differentiate.
      * @return the coefficients of the derivative or {@code NULL} if coefficients has length 1.
      * @ if {@code coefficients} is empty.
-     * @Null_Argument_Exception if {@code coefficients} is {@code NULL}.
+     * @ if {@code coefficients} is {@code NULL}.
      */
     static std::vector<double> differentiate(std::vector<double> coefficients)
     {
@@ -146,7 +146,7 @@ public:
      * the coefficients property.</p>
      *
      * @param c Polynomial coefficients.
-     * @Null_Argument_Exception if {@code c} is {@code NULL}.
+     * @ if {@code c} is {@code NULL}.
      * @ if {@code c} is empty.
      */
     Polynomial_Function(std::vector<double>& c)
@@ -211,7 +211,7 @@ public:
 
     /** {@inherit_doc}
      * @ if {@code coefficients} is empty.
-     * @Null_Argument_Exception if {@code coefficients} is {@code NULL}.
+     * @ if {@code coefficients} is {@code NULL}.
      */
     //override
     template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
@@ -234,7 +234,7 @@ public:
 
     /** {@inherit_doc}
      * @ if {@code coefficients} is empty.
-     * @Null_Argument_Exception if {@code coefficients} is {@code NULL}.
+     * @ if {@code coefficients} is {@code NULL}.
      * @since 1.3
      */
     //override

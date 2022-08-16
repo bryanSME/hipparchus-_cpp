@@ -136,7 +136,7 @@ public Fraction(const double& value, double epsilon, int max_iterations)
 	Convergence_Step converged = convergent(value, max_iterations, s ->
 	{
 		double quotient = s.get_fraction_value();
-		return Precision.equals(quotient, value, 1) || std::abs(quotient - value) < epsilon;
+		return Precision::equals(quotient, value, 1) || std::abs(quotient - value) < epsilon;
 	}).get_key();
 	if (std::abs(converged.get_fraction_value() - value) < epsilon)
 	{
@@ -176,7 +176,7 @@ public Fraction(const double& value, int max_denominator)
 			{
 				last_valid[0] = s;
 			}
-			return Precision.equals(s.get_fraction_value(), value, 1);
+			return Precision::equals(s.get_fraction_value(), value, 1);
 		});
 	}
 catch (Math_Illegal_State_Exception e) { // ignore overflows and just take the last valid result
@@ -527,7 +527,7 @@ else
 		  *
 		  * @param fraction  the fraction to add, must not be {@code NULL}
 		  * @return a {@code Fraction} instance with the resulting values
-		  * @org.hipparchus.exception.Null_Argument_Exception if the fraction is {@code NULL}
+		  * @org.hipparchus.exception. if the fraction is {@code NULL}
 		  * @Math_Runtime_Exception if the resulting numerator or denominator exceeds
 		  *  {@code std::numeric_limits<int>::max()}
 		  */
@@ -552,7 +552,7 @@ else
 		   *
 		   * @param fraction  the fraction to subtract, must not be {@code NULL}
 		   * @return a {@code Fraction} instance with the resulting values
-		   * @org.hipparchus.exception.Null_Argument_Exception if the fraction is {@code NULL}
+		   * @org.hipparchus.exception. if the fraction is {@code NULL}
 		   * @Math_Runtime_Exception if the resulting numerator or denominator
 		   *   cannot be represented in an {@code int}.
 		   */
@@ -578,7 +578,7 @@ else
 			* @param fraction the fraction to subtract, must not be {@code NULL}
 			* @param is_add true to add, false to subtract
 			* @return a {@code Fraction} instance with the resulting values
-			* @org.hipparchus.exception.Null_Argument_Exception if the fraction is {@code NULL}
+			* @org.hipparchus.exception. if the fraction is {@code NULL}
 			* @Math_Runtime_Exception if the resulting numerator or denominator
 			*   cannot be represented in an {@code int}.
 			*/
@@ -635,7 +635,7 @@ else
 			*
 			* @param fraction  the fraction to multiply by, must not be {@code NULL}
 			* @return a {@code Fraction} instance with the resulting values
-			* @org.hipparchus.exception.Null_Argument_Exception if the fraction is {@code NULL}
+			* @org.hipparchus.exception. if the fraction is {@code NULL}
 			* @Math_Runtime_Exception if the resulting numerator or denominator exceeds
 			*  {@code std::numeric_limits<int>::max()}
 			*/

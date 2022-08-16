@@ -259,7 +259,7 @@ private:
      *         {@code y} represent samples from the same underlying distribution
      * @ if either {@code x} or {@code y} does not have length at
      *         least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if either {@code x} or {@code y} is NULL
+     * @org.hipparchus.exception. if either {@code x} or {@code y} is NULL
      */
     long integral_kolmogorov_smirnov_statistic(const std::vector<double>& x, const std::vector<double>& y)
     {
@@ -579,7 +579,7 @@ private:
      * Verifies that {@code array} has length at least 2.
      *
      * @param array array to test
-     * @org.hipparchus.exception.Null_Argument_Exception if array is NULL
+     * @org.hipparchus.exception. if array is NULL
      * @ if array is too short
      */
     void check_array(std::vector<double>& arr)
@@ -710,7 +710,7 @@ public:
      * @return the p-value associated with the NULL hypothesis that {@code data} is a sample from
      *         {@code distribution}
      * @ if {@code data} does not have length at least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if {@code data} is NULL
+     * @org.hipparchus.exception. if {@code data} is NULL
      */
     double kolmogorov_smirnov_test(const Real_Distribution& distribution, const std::vector<double>& data, bool exact) 
     {
@@ -727,7 +727,7 @@ public:
      * @param data sample being evaluated
      * @return Kolmogorov-Smirnov statistic \(D_n\)
      * @ if {@code data} does not have length at least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if {@code data} is NULL
+     * @org.hipparchus.exception. if {@code data} is NULL
      */
     double kolmogorov_smirnov_statistic(const Real_Distribution& distribution, const std::vector<double>& data) 
     {
@@ -784,7 +784,7 @@ public:
      *         samples from the same distribution
      * @ if either {@code x} or {@code y} does not have length at
      *         least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if either {@code x} or {@code y} is NULL
+     * @org.hipparchus.exception. if either {@code x} or {@code y} is NULL
      * @see #bootstrap(std::vector<double>, std::vector<double>, int, bool)
      */
     double kolmogorov_smirnov_test(const std::vector<double>& x, const std::vector<double>& y, bool strict) 
@@ -823,7 +823,7 @@ public:
      *         samples from the same distribution
      * @ if either {@code x} or {@code y} does not have length at
      *         least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if either {@code x} or {@code y} is NULL
+     * @org.hipparchus.exception. if either {@code x} or {@code y} is NULL
      */
     double kolmogorov_smirnov_test(const std::vector<double>& x, const std::vector<double>& y) 
     {
@@ -842,7 +842,7 @@ public:
      *         {@code y} represent samples from the same underlying distribution
      * @ if either {@code x} or {@code y} does not have length at
      *         least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if either {@code x} or {@code y} is NULL
+     * @org.hipparchus.exception. if either {@code x} or {@code y} is NULL
      */
     double kolmogorov_smirnov_statistic(const std::vector<double>& x, const std::vector<double>& y) 
     {
@@ -859,7 +859,7 @@ public:
      * @return the p-value associated with the NULL hypothesis that {@code data} is a sample from
      *         {@code distribution}
      * @ if {@code data} does not have length at least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if {@code data} is NULL
+     * @org.hipparchus.exception. if {@code data} is NULL
      */
     double kolmogorov_smirnov_test(const Real_Distribution& distribution, const std::vector<double>& data) 
     {
@@ -876,7 +876,7 @@ public:
      * @return true iff the NULL hypothesis that {@code data} is a sample from {@code distribution}
      *         can be rejected with confidence 1 - {@code alpha}
      * @ if {@code data} does not have length at least 2
-     * @org.hipparchus.exception.Null_Argument_Exception if {@code data} is NULL
+     * @org.hipparchus.exception. if {@code data} is NULL
      */
     bool kolmogorov_smirnov_test(const Real_Distribution& distribution, const std::vector<double>& data, const double& alpha) 
     {

@@ -26,7 +26,7 @@
   //import org.hipparchus.analysis.Univariate_Function;
   //import org.hipparchus.exception.Localized_Core_Formats;
   //import org.hipparchus.exception.;
-  //import org.hipparchus.exception.Null_Argument_Exception;
+  //import org.hipparchus.exception.;
   //import org.hipparchus.util.FastMath;
   //import org.hipparchus.util.Math_Arrays;
   //import org.hipparchus.util.Math_Utils;
@@ -93,7 +93,7 @@ public:
 	 * @return a value where the function is zero.
 	 * @ if the function has the same sign at the
 	 * endpoints.
-	 * @Null_Argument_Exception if {@code function} is {@code NULL}.
+	 * @ if {@code function} is {@code NULL}.
 	 */
 	static double solve(const Univariate_Function& function, const double& x0, const double& x1)
 	{
@@ -113,7 +113,7 @@ public:
 		 * @return a value where the function is zero.
 		 * @ if the function has the same sign at the
 		 * endpoints.
-		 * @Null_Argument_Exception if {@code function} is {@code NULL}.
+		 * @ if {@code function} is {@code NULL}.
 		 */
 		static double solve(const Univariate_Function& function, const double& x0, const double& x1, const double& absolute_accuracy)
 		{
@@ -237,7 +237,7 @@ public:
 	 * @return a two-element array holding a and b.
 	 * @ if a root cannot be bracketed.
 	 * @ if {@code maximum_iterations <= 0}.
-	 * @Null_Argument_Exception if {@code function} is {@code NULL}.
+	 * @ if {@code function} is {@code NULL}.
 	 */
 	static std::vector<double> bracket(const Univariate_Function& function, const double& initial, const double& lower_bound, const double& upper_bound)
 	{
@@ -258,7 +258,7 @@ public:
 	* @ if the algorithm fails to find a and b
 	* satisfying the desired conditions.
 	* @ if {@code maximum_iterations <= 0}.
-	* @Null_Argument_Exception if {@code function} is {@code NULL}.
+	* @ if {@code function} is {@code NULL}.
 	*/
 	static std::vector<double> bracket(const Univariate_Function& function, const double& initial, const double& lower_bound, const double& upper_bound, const int& maximum_iterations)
 	{
@@ -411,7 +411,7 @@ public:
 	 * @return a two-element array holding a and b.
 	 * @ if a root cannot be bracketed.
 	 * @ if {@code maximum_iterations <= 0}.
-	 * @Null_Argument_Exception if {@code function} is {@code NULL}.
+	 * @ if {@code function} is {@code NULL}.
 	 * @since 1.2
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
@@ -435,7 +435,7 @@ public:
 	 * @ if the algorithm fails to find a and b
 	 * satisfying the desired conditions.
 	 * @ if {@code maximum_iterations <= 0}.
-	 * @Null_Argument_Exception if {@code function} is {@code NULL}.
+	 * @ if {@code function} is {@code NULL}.
 	 * @since 1.2
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
@@ -607,7 +607,7 @@ public:
 	 * @param upper Upper endpoint.
 	 * @return {@code true} if the function values have opposite signs at the
 	 * given points.
-	 * @Null_Argument_Exception if {@code function} is {@code NULL}.
+	 * @ if {@code function} is {@code NULL}.
 	 */
 	static bool is_bracketing(const Univariate_Function& function, const double& lower, const double& upper)
 	{
@@ -671,7 +671,7 @@ public:
 	 * @param upper Upper endpoint.
 	 * @ if the function has the same sign at the
 	 * endpoints.
-	 * @Null_Argument_Exception if {@code function} is {@code NULL}.
+	 * @ if {@code function} is {@code NULL}.
 	 */
 	static void verify_bracketing(const Univariate_Function& function, const double& lower, const double& upper)
 	{

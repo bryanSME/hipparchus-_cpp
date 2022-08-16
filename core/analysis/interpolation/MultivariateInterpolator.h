@@ -23,7 +23,7 @@
 
 //import org.hipparchus.analysis.Multivariate_Function;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 /**
  * Interface representing a univariate real interpolating function.
@@ -46,10 +46,10 @@ class Multivariate_Interpolator
      * made by the interpolation algorithm.
      * @ when the array dimensions are not consistent.
      * @ if an array has zero-length.
-     * @Null_Argument_Exception if the arguments are {@code NULL}.
+     * @ if the arguments are {@code NULL}.
      */
     Multivariate_Function interpolate(std::vector<std::vector<double>> xval, std::vector<double> yval)
-        , Null_Argument_Exception;
+        ;
 }
 
 

@@ -85,7 +85,7 @@ public:
          * @param x Value for which the function must be computed.
          * @param param Values of norm, mean and standard deviation.
          * @return the value of the function.
-         * @Null_Argument_Exception if {@code param} is {@code NULL}.
+         * @ if {@code param} is {@code NULL}.
          * @ if the size of {@code param} is
          * not 3.
          */
@@ -105,7 +105,7 @@ public:
          * @param x Value at which the gradient must be computed.
          * @param param Values of amplitude, angular frequency and phase.
          * @return the gradient vector at {@code x}.
-         * @Null_Argument_Exception if {@code param} is {@code NULL}.
+         * @ if {@code param} is {@code NULL}.
          * @ if the size of {@code param} is
          * not 3.
          */
@@ -133,7 +133,7 @@ public:
          * methods.
          *
          * @param param Values of norm, mean and standard deviation.
-         * @Null_Argument_Exception if {@code param} is {@code NULL}.
+         * @ if {@code param} is {@code NULL}.
          * @ if the size of {@code param} is
          * not 3.
          */

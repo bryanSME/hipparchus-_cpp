@@ -62,7 +62,7 @@ public:
      * to the {@code original}.
      *
      * @param original the {@code Min} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
     Min(const Min& original) : my_n{ original.get_n() }, my_value{ original.get_result() }
     {

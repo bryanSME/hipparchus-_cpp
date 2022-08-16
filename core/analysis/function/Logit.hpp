@@ -30,7 +30,7 @@
 //import org.hipparchus.analysis.differentiation.Derivative;
 //import org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
 
@@ -152,7 +152,7 @@ public:
 		 * @param x Value for which the function must be computed.
 		 * @param param Values of lower bound and higher bounds.
 		 * @return the value of the function.
-		 * @Null_Argument_Exception if {@code param} is {@code NULL}.
+		 * @ if {@code param} is {@code NULL}.
 		 * @ if the size of {@code param} is
 		 * not 2.
 		 */
@@ -172,7 +172,7 @@ public:
 		 * @param x Value at which the gradient must be computed.
 		 * @param param Values for lower and higher bounds.
 		 * @return the gradient vector at {@code x}.
-		 * @Null_Argument_Exception if {@code param} is {@code NULL}.
+		 * @ if {@code param} is {@code NULL}.
 		 * @ if the size of {@code param} is
 		 * not 2.
 		 */
@@ -194,7 +194,7 @@ public:
 		 * methods.
 		 *
 		 * @param param Values for lower and higher bounds.
-		 * @Null_Argument_Exception if {@code param} is {@code NULL}.
+		 * @ if {@code param} is {@code NULL}.
 		 * @ if the size of {@code param} is
 		 * not 2.
 		 */

@@ -27,7 +27,7 @@
 //import org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Utils;
 #include <vector>
 #include "../../analysis/FieldUnivariateFunction.h"
@@ -107,7 +107,7 @@ protected:
      *
      * @param a the coefficients in Newton form formula
      * @param c the centers
-     * @Null_Argument_Exception if any argument is {@code NULL}.
+     * @ if any argument is {@code NULL}.
      * @ if any array has zero length.
      * @ if the size difference between
      * {@code a} and {@code c} is not equal to 1.
@@ -139,7 +139,7 @@ public:
      *
      * @param a Coefficients in Newton form formula.
      * @param c Centers.
-     * @Null_Argument_Exception if any argument is {@code NULL}.
+     * @ if any argument is {@code NULL}.
      * @ if any array has zero length.
      * @ if the size difference between
      * {@code a} and {@code c} is not equal to 1.
@@ -268,7 +268,7 @@ public:
      * @param c Centers.
      * @param z Point at which the function value is to be computed.
      * @return the function value.
-     * @Null_Argument_Exception if any argument is {@code NULL}.
+     * @ if any argument is {@code NULL}.
      * @ if any array has zero length.
      * @ if the size difference between
      * {@code a} and {@code c} is not equal to 1.

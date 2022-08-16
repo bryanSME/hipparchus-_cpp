@@ -24,7 +24,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Iteration_Manager;
 //import org.hipparchus.util.Math_Utils;
@@ -881,7 +881,7 @@ else
      */
     //override
     public Real_Vector solve(const Real_Linear_Operator a, const Real_Linear_Operator m, const Real_Vector b) throws
-        , Null_Argument_Exception, Math_Illegal_State_Exception,  
+        ,  
         {
         //Math_Utils::check_not_null(a);
         const Real_Vector x = Array_Real_Vector(a.get_column_dimension());
@@ -913,7 +913,7 @@ else
      * contain a large multiple of {@code b}
      * @param shift the amount to be subtracted to all diagonal elements of A
      * @return a reference to {@code x} (shallow copy)
-     * @Null_Argument_Exception if one of the parameters is {@code NULL}
+     * @ if one of the parameters is {@code NULL}
      * @ if {@code a} or {@code m} is not square
      * @ if {@code m} or {@code b} have dimensions
      * inconsistent with {@code a}
@@ -927,7 +927,7 @@ else
      * @ if {@code a} is ill-conditioned
      */
     public Real_Vector solve(const Real_Linear_Operator a, const Real_Linear_Operator m, const Real_Vector b, const bool goodb, const double shift)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         //Math_Utils::check_not_null(a);
         const Real_Vector x = Array_Real_Vector(a.get_column_dimension());
@@ -947,7 +947,7 @@ else
      */
     //override
     public Real_Vector solve(const Real_Linear_Operator a, const Real_Linear_Operator m, const Real_Vector b, const Real_Vector x)
-        , Null_Argument_Exception, , Math_Illegal_State_Exception 
+        ,  
         {
         //Math_Utils::check_not_null(x);
         return solve_in_place(a, m, b, x.copy(), false, 0.);
@@ -962,7 +962,7 @@ else
      */
     //override
     public Real_Vector solve(const Real_Linear_Operator a, const Real_Vector b)
-        , Null_Argument_Exception, , Math_Illegal_State_Exception 
+        ,  
         {
         //Math_Utils::check_not_null(a);
         const Real_Vector x = Array_Real_Vector(a.get_column_dimension());
@@ -992,7 +992,7 @@ else
      * contain a large multiple of {@code b}
      * @param shift the amount to be subtracted to all diagonal elements of A
      * @return a reference to {@code x}
-     * @Null_Argument_Exception if one of the parameters is {@code NULL}
+     * @ if one of the parameters is {@code NULL}
      * @ if {@code a} is not square
      * @ if {@code b} has dimensions
      * inconsistent with {@code a}
@@ -1004,7 +1004,7 @@ else
      * @ if {@code a} is ill-conditioned
      */
     public Real_Vector solve(const Real_Linear_Operator a, const Real_Vector b, const bool goodb, const double shift)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         //Math_Utils::check_not_null(a);
         const Real_Vector x = Array_Real_Vector(a.get_column_dimension());
@@ -1021,7 +1021,7 @@ else
      * @ if {@code a} is ill-conditioned
      */
     //override
-    public Real_Vector solve(const Real_Linear_Operator a, const Real_Vector b, const Real_Vector x) , Null_Argument_Exception, , Math_Illegal_State_Exception 
+    public Real_Vector solve(const Real_Linear_Operator a, const Real_Vector b, const Real_Vector x) ,  
     {
         //Math_Utils::check_not_null(x);
         return solve_in_place(a, NULL, b, x.copy(), false, 0.);
@@ -1040,7 +1040,7 @@ else
      */
     //override
     public Real_Vector solve_in_place(const Real_Linear_Operator a, const Real_Linear_Operator m, const Real_Vector b, const Real_Vector x)
-        , Null_Argument_Exception, , Math_Illegal_State_Exception 
+        ,  
         {
         return solve_in_place(a, m, b, x, false, 0.);
     }
@@ -1072,7 +1072,7 @@ else
      * contain a large multiple of {@code b}
      * @param shift the amount to be subtracted to all diagonal elements of A
      * @return a reference to {@code x} (shallow copy).
-     * @Null_Argument_Exception if one of the parameters is {@code NULL}
+     * @ if one of the parameters is {@code NULL}
      * @ if {@code a} or {@code m} is not square
      * @ if {@code m}, {@code b} or {@code x}
      * have dimensions inconsistent with {@code a}.
@@ -1085,7 +1085,7 @@ else
      * @ if {@code a} is ill-conditioned
      */
     public Real_Vector solve_in_place(const Real_Linear_Operator a, const Real_Linear_Operator m, const Real_Vector b, const Real_Vector x, const bool goodb, const double shift)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
         check_parameters(a, m, b, x);
 
@@ -1138,7 +1138,7 @@ else
      * @ if {@code a} is ill-conditioned
      */
     //override
-    public Real_Vector solve_in_place(const Real_Linear_Operator a, const Real_Vector b, const Real_Vector x) , Null_Argument_Exception, , Math_Illegal_State_Exception 
+    public Real_Vector solve_in_place(const Real_Linear_Operator a, const Real_Vector b, const Real_Vector x) ,  
     {
         return solve_in_place(a, NULL, b, x, false, 0.);
     }

@@ -993,7 +993,7 @@ else
             int j = (i + 1) % loop.size();
             const Segment next = loop.get(j);
             if (next != NULL &&
-                Precision.equals(previous.get_line().get_angle(), next.get_line().get_angle(), Precision.EPSILON)) 
+                Precision::equals(previous.get_line().get_angle(), next.get_line().get_angle(), Precision.EPSILON)) 
                 {
                 // the vertex between the two edges is a spurious one
                 // replace the two segments by a single one

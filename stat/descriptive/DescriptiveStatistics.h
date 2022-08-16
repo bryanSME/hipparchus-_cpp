@@ -83,7 +83,7 @@ protected:
      * is a copy of original.
      *
      * @param original Descriptive_Statistics instance to copy
-     * @org.hipparchus.exception.Null_Argument_Exception if original is NULL
+     * @org.hipparchus.exception. if original is NULL
      */
     Descriptive_Statistics(const Descriptive_Statistics& original)
     {
@@ -163,7 +163,7 @@ public:
      * and the initial data values in std::vector<double> initial_double_array.
      *
      * @param initial_double_array the initial std::vector<double>.
-     * @org.hipparchus.exception.Null_Argument_Exception if the input array is NULL
+     * @org.hipparchus.exception. if the input array is NULL
      */
     Descriptive_Statistics(std::vector<double> initial_double_array) 
     {
@@ -178,7 +178,7 @@ public:
      * @param window_size the window size
      * @param has_initial_values if initial values have been provided
      * @param initial_values the initial values
-     * @org.hipparchus.exception.Null_Argument_Exception if initial_values is NULL
+     * @org.hipparchus.exception. if initial_values is NULL
      * @ if window size is less than 1 but
      * not equal to {@link #INFINITE_WINDOW}
      */

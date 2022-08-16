@@ -25,7 +25,7 @@
 //import org.hipparchus.analysis.Univariate_Function;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 /**
  * Interface for univariate real integration algorithms.
@@ -75,7 +75,7 @@ class Univariate_Integrator
      * or the integrator detects convergence problems otherwise
      * @ if {@code min > max} or the endpoints do not
      * satisfy the requirements specified by the integrator
-     * @Null_Argument_Exception if {@code f} is {@code NULL}.
+     * @ if {@code f} is {@code NULL}.
      */
     virtual double integrate(const int& max_eval, const Univariate_Function& f, const double& min, double max)
 

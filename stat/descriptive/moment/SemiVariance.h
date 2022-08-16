@@ -25,7 +25,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.Stat_Utils;
 //import org.hipparchus.stat.descriptive.Abstract_Univariate_Statistic;
 //import org.hipparchus.util.Math_Arrays;
@@ -141,9 +141,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
      * to the {@code original}.
      *
      * @param original the {@code Semi_Variance} instance to copy
-     * @Null_Argument_Exception  if original is NULL
+     * @  if original is NULL
      */
-    public Semi_Variance(const Semi_Variance original) Null_Argument_Exception 
+    public Semi_Variance(const Semi_Variance original)  
     {
         super(original);
         this.bias_corrected     = original.bias_corrected;

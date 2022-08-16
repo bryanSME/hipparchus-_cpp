@@ -28,7 +28,7 @@
 //import org.hipparchus.analysis.Univariate_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
 #include "MatrixUtils.h"
@@ -121,7 +121,7 @@ public:
      *
      * @param d Data for the vector.
      * @param copy_array if {@code true}, the input array will be copied, * otherwise it will be referenced.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @see #Array_Real_Vector(std::vector<double>)
      */
     Array_Real_Vector(const std::vector<double>& d, const bool copy_array)
@@ -135,7 +135,7 @@ public:
      * @param d Array.
      * @param pos Position of first entry.
      * @param size Number of entries to copy.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if the size of {@code d} is less
      * than {@code pos + size}.
      */
@@ -144,7 +144,7 @@ public:
         if (d == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (d.size() < pos + size) 
         {
@@ -161,7 +161,7 @@ public:
      * @param d Array.
      * @param pos Position of first entry.
      * @param size Number of entries to copy.
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @ if the size of {@code d} is less
      * than {@code pos + size}.
      */
@@ -170,7 +170,7 @@ public:
         if (d == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (d.size() < pos + size) 
         {
@@ -188,7 +188,7 @@ public:
      * Construct a vector from another vector, using a deep copy.
      *
      * @param v vector to copy.
-     * @Null_Argument_Exception if {@code v} is {@code NULL}.
+     * @ if {@code v} is {@code NULL}.
      */
     Array_Real_Vector(const Real_Vector& v)
     {
@@ -203,7 +203,7 @@ public:
      * Construct a vector from another vector, using a deep copy.
      *
      * @param v Vector to copy.
-     * @Null_Argument_Exception if {@code v} is {@code NULL}.
+     * @ if {@code v} is {@code NULL}.
      */
     Array_Real_Vector(const Array_Real_Vector& v) 
     {

@@ -29,7 +29,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
 
@@ -86,7 +86,7 @@ public:
      * @exception Math_Runtime_Exception if the number of derivatives is larger
      * than 20, which prevents computation of a factorial
      * @ if derivative structures are inconsistent
-     * @Null_Argument_Exception if x is NULL
+     * @ if x is NULL
      */
     //@Safe_Varargs
     const void add_sample_point(const T& x, const std::vector<T> ... value)
@@ -142,9 +142,9 @@ public:
      * @param x interpolation abscissa
      * @return interpolated value
      * @exception  if sample is empty
-     * @Null_Argument_Exception if x is NULL
+     * @ if x is NULL
      */
-    std::vector<T> value(T x) , Null_Argument_Exception 
+    std::vector<T> value(T x)  
     {
         // safety check
         //Math_Utils::check_not_null(x);
@@ -176,9 +176,9 @@ public:
      * @param order maximum derivation order
      * @return interpolated value and derivatives (value in row 0, * 1<sup>st</sup> derivative in row 1, ... n<sup>th</sup> derivative in row n)
      * @exception  if sample is empty
-     * @Null_Argument_Exception if x is NULL
+     * @ if x is NULL
      */
-    std::vector<std::vector<T>> derivatives(T x, int order) , Null_Argument_Exception 
+    std::vector<std::vector<T>> derivatives(T x, int order)  
     {
         // safety check
         //Math_Utils::check_not_null(x);

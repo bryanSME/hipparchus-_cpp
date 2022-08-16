@@ -160,7 +160,7 @@ else
     /** {@inherit_doc} */
     //override
     protected T do_integrate()
-        , Math_Illegal_State_Exception 
+         
         {
 
         T oldt = stage(this, 0);

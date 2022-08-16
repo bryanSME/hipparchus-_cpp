@@ -29,7 +29,7 @@
 //import org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
 #include <vector>
@@ -104,7 +104,7 @@ private:
      *
      * @param knots Spline segment interval delimiters.
      * @param polynomials Polynomial functions that make up the spline.
-     * @Null_Argument_Exception if either of the input arrays is {@code NULL}.
+     * @ if either of the input arrays is {@code NULL}.
      * @ if knots has length less than 2.
      * @ if {@code polynomials.size() != knots.size() - 1}.
      * @ if the {@code knots} array is not strictly increasing.

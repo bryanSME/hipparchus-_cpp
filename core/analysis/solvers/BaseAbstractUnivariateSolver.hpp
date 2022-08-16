@@ -25,7 +25,7 @@
 //import org.hipparchus.analysis.Univariate_Function;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Incrementor;
 //import org.hipparchus.util.Math_Utils;
 #include <type_traits>
@@ -131,7 +131,7 @@ protected:
      * @param max Upper bound for the interval.
      * @param start_value Start value to use.
      * @param max_eval Maximum number of evaluations.
-     * @exception Null_Argument_Exception if f is NULL
+     * @exception  if f is NULL
      */
     void setup(const int& max_eval, const F& f, const double& min, const double& max, const double& start_value)
     {
@@ -216,7 +216,7 @@ protected:
      *
      * @param lower Lower endpoint.
      * @param upper Upper endpoint.
-     * @Null_Argument_Exception if the function has not been set.
+     * @ if the function has not been set.
      * @ if the function has the same sign at
      * the endpoints.
      */

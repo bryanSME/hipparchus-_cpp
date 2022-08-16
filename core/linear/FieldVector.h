@@ -25,7 +25,7 @@
 //import org.hipparchus.Field_Element;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 
 /**
  * Interface defining a field-valued vector with basic algebraic operations.
@@ -47,7 +47,7 @@
  * </pre>
  * <p>
  * Note that as almost all operations on {@link Field_Element} throw {@link
- * Null_Argument_Exception} when operating on a NULL element, it is the responsibility
+ * } when operating on a NULL element, it is the responsibility
  * of <code>Field_Vector</code> implementations to make sure no NULL elements
  * are inserted into the vector. This must be done in all constructors and
  * all setters.
@@ -90,73 +90,73 @@ class Field_Vector<T extends Field_Element<T>>
      * Map an addition operation to each entry.
      * @param d value to be added to each entry
      * @return {@code this + d}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      */
-    Field_Vector<T> map_add(T d) Null_Argument_Exception;
+    Field_Vector<T> map_add(T d) ;
 
     /**
      * Map an addition operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to be added to each entry
      * @return for convenience, return {@code this}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      */
-    Field_Vector<T> map_add_to_self(T d) Null_Argument_Exception;
+    Field_Vector<T> map_add_to_self(T d) ;
 
     /**
      * Map a subtraction operation to each entry.
      * @param d value to be subtracted to each entry
      * @return {@code this - d}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}
+     * @ if {@code d} is {@code NULL}
      */
-    Field_Vector<T> map_subtract(T d) Null_Argument_Exception;
+    Field_Vector<T> map_subtract(T d) ;
 
     /**
      * Map a subtraction operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to be subtracted to each entry
      * @return for convenience, return {@code this}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}
+     * @ if {@code d} is {@code NULL}
      */
-    Field_Vector<T> map_subtract_to_self(T d) Null_Argument_Exception;
+    Field_Vector<T> map_subtract_to_self(T d) ;
 
     /**
      * Map a multiplication operation to each entry.
      * @param d value to multiply all entries by
      * @return {@code this * d}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      */
-    Field_Vector<T> map_multiply(T d) Null_Argument_Exception;
+    Field_Vector<T> map_multiply(T d) ;
 
     /**
      * Map a multiplication operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to multiply all entries by
      * @return for convenience, return {@code this}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      */
-    Field_Vector<T> map_multiply_to_self(T d) Null_Argument_Exception;
+    Field_Vector<T> map_multiply_to_self(T d) ;
 
     /**
      * Map a division operation to each entry.
      * @param d value to divide all entries by
      * @return {@code this / d}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @Math_Runtime_Exception if {@code d} is zero.
      */
     Field_Vector<T> map_divide(T d)
-        Null_Argument_Exception, Math_Runtime_Exception;
+        , Math_Runtime_Exception;
 
     /**
      * Map a division operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to divide all entries by
      * @return for convenience, return {@code this}
-     * @Null_Argument_Exception if {@code d} is {@code NULL}.
+     * @ if {@code d} is {@code NULL}.
      * @Math_Runtime_Exception if {@code d} is zero.
      */
     Field_Vector<T> map_divide_to_self(T d)
-        Null_Argument_Exception, Math_Runtime_Exception;
+        , Math_Runtime_Exception;
 
     /**
      * Map the 1/x function to each entry.

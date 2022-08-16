@@ -25,7 +25,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.Localized_Stat_Formats;
 //import org.hipparchus.stat.Stat_Utils;
 //import org.hipparchus.stat.descriptive.Statistical_Summary;
@@ -77,13 +77,13 @@ class T_Test
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
      * @return t statistic
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the arrays are empty
      * @ if the length of the arrays is not equal
      * @ if the length of the arrays is &lt; 2
      */
     public double paired_t(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception 
+         
         {
 
         check_sample_data(sample1);
@@ -122,14 +122,14 @@ class T_Test
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
      * @return p-value for t-test
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the arrays are empty
      * @ if the length of the arrays is not equal
      * @ if the length of the arrays is &lt; 2
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public double paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         double mean_difference = Stat_Utils.mean_difference(sample1, sample2);
@@ -165,7 +165,7 @@ class T_Test
      * @param alpha significance level of the test
      * @return true if the NULL hypothesis can be rejected with
      * confidence 1 - alpha
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the arrays are empty
      * @ if the length of the arrays is not equal
      * @ if the length of the arrays is &lt; 2
@@ -173,7 +173,7 @@ class T_Test
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public bool paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_significance_level(alpha);
@@ -194,11 +194,11 @@ class T_Test
      * @param mu comparison constant
      * @param observed array of values
      * @return t statistic
-     * @Null_Argument_Exception if <code>observed</code> is <code>null</code>
+     * @ if <code>observed</code> is <code>null</code>
      * @ if the length of <code>observed</code> is &lt; 2
      */
     public double t(const double& mu, const std::vector<double> observed)
-        , Null_Argument_Exception 
+         
         {
 
         check_sample_data(observed);
@@ -220,11 +220,11 @@ class T_Test
      * @param mu comparison constant
      * @param sample_stats Descriptive_Statistics holding sample summary statitstics
      * @return t statistic
-     * @Null_Argument_Exception if <code>sample_stats</code> is <code>null</code>
+     * @ if <code>sample_stats</code> is <code>null</code>
      * @ if the number of samples is &lt; 2
      */
     public double t(const double& mu, const Statistical_Summary sample_stats)
-        , Null_Argument_Exception 
+         
         {
 
         check_sample_data(sample_stats);
@@ -262,11 +262,11 @@ class T_Test
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
      * @return t statistic
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the length of the arrays is &lt; 2
      */
     public double homoscedastic_t(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception 
+         
         {
 
         check_sample_data(sample1);
@@ -301,11 +301,11 @@ class T_Test
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
      * @return t statistic
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the length of the arrays is &lt; 2
      */
     public double t(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception 
+         
         {
 
         check_sample_data(sample1);
@@ -343,11 +343,11 @@ class T_Test
      * @param sample_stats1 Statistical_Summary describing data from the first sample
      * @param sample_stats2 Statistical_Summary describing data from the second sample
      * @return t statistic
-     * @Null_Argument_Exception if the sample statistics are <code>null</code>
+     * @ if the sample statistics are <code>null</code>
      * @ if the number of samples is &lt; 2
      */
     public double t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception 
+         
         {
 
         check_sample_data(sample_stats1);
@@ -388,11 +388,11 @@ class T_Test
      * @param sample_stats1 Statistical_Summary describing data from the first sample
      * @param sample_stats2 Statistical_Summary describing data from the second sample
      * @return t statistic
-     * @Null_Argument_Exception if the sample statistics are <code>null</code>
+     * @ if the sample statistics are <code>null</code>
      * @ if the number of samples is &lt; 2
      */
     public double homoscedastic_t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception 
+         
         {
 
         check_sample_data(sample_stats1);
@@ -423,12 +423,12 @@ class T_Test
      * @param mu constant value to compare sample mean against
      * @param sample array of sample data values
      * @return p-value
-     * @Null_Argument_Exception if the sample array is <code>null</code>
+     * @ if the sample array is <code>null</code>
      * @ if the length of the array is &lt; 2
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public double t_test(const double& mu, const std::vector<double> sample)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_sample_data(sample);
@@ -468,13 +468,13 @@ class T_Test
      * @param sample array of sample data values
      * @param alpha significance level of the test
      * @return p-value
-     * @Null_Argument_Exception if the sample array is <code>null</code>
+     * @ if the sample array is <code>null</code>
      * @ if the length of the array is &lt; 2
      * @ if <code>alpha</code> is not in the range (0, 0.5]
      * @Math_Illegal_State_Exception if an error computing the p-value
      */
     public bool t_test(const double& mu, const std::vector<double> sample, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_significance_level(alpha);
@@ -506,12 +506,12 @@ class T_Test
      * @param mu constant value to compare sample mean against
      * @param sample_stats Statistical_Summary describing sample data
      * @return p-value
-     * @Null_Argument_Exception if <code>sample_stats</code> is <code>null</code>
+     * @ if <code>sample_stats</code> is <code>null</code>
      * @ if the number of samples is &lt; 2
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public double t_test(const double& mu, const Statistical_Summary sample_stats)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_sample_data(sample_stats);
@@ -551,13 +551,13 @@ class T_Test
      * @param sample_stats Statistical_Summary describing sample data values
      * @param alpha significance level of the test
      * @return p-value
-     * @Null_Argument_Exception if <code>sample_stats</code> is <code>null</code>
+     * @ if <code>sample_stats</code> is <code>null</code>
      * @ if the number of samples is &lt; 2
      * @ if <code>alpha</code> is not in the range (0, 0.5]
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public bool t_test(const double& mu, const Statistical_Summary sample_stats, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_significance_level(alpha);
@@ -596,12 +596,12 @@ class T_Test
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
      * @return p-value for t-test
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the length of the arrays is &lt; 2
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public double t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_sample_data(sample1);
@@ -640,12 +640,12 @@ class T_Test
      * @param sample1 array of sample data values
      * @param sample2 array of sample data values
      * @return p-value for t-test
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the length of the arrays is &lt; 2
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public double homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_sample_data(sample1);
@@ -699,13 +699,13 @@ class T_Test
      * @param alpha significance level of the test
      * @return true if the NULL hypothesis can be rejected with
      * confidence 1 - alpha
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the length of the arrays is &lt; 2
      * @ if <code>alpha</code> is not in the range (0, 0.5]
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public bool t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_significance_level(alpha);
@@ -759,13 +759,13 @@ class T_Test
      * @param alpha significance level of the test
      * @return true if the NULL hypothesis can be rejected with
      * confidence 1 - alpha
-     * @Null_Argument_Exception if the arrays are <code>null</code>
+     * @ if the arrays are <code>null</code>
      * @ if the length of the arrays is &lt; 2
      * @ if <code>alpha</code> is not in the range (0, 0.5]
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public bool homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_significance_level(alpha);
@@ -803,12 +803,12 @@ class T_Test
      * @param sample_stats1  Statistical_Summary describing data from the first sample
      * @param sample_stats2  Statistical_Summary describing data from the second sample
      * @return p-value for t-test
-     * @Null_Argument_Exception if the sample statistics are <code>null</code>
+     * @ if the sample statistics are <code>null</code>
      * @ if the number of samples is &lt; 2
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public double t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_sample_data(sample_stats1);
@@ -846,12 +846,12 @@ class T_Test
      * @param sample_stats1  Statistical_Summary describing data from the first sample
      * @param sample_stats2  Statistical_Summary describing data from the second sample
      * @return p-value for t-test
-     * @Null_Argument_Exception if the sample statistics are <code>null</code>
+     * @ if the sample statistics are <code>null</code>
      * @ if the number of samples is &lt; 2
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public double homoscedastic_t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_sample_data(sample_stats1);
@@ -909,13 +909,13 @@ class T_Test
      * @param alpha significance level of the test
      * @return true if the NULL hypothesis can be rejected with
      * confidence 1 - alpha
-     * @Null_Argument_Exception if the sample statistics are <code>null</code>
+     * @ if the sample statistics are <code>null</code>
      * @ if the number of samples is &lt; 2
      * @ if <code>alpha</code> is not in the range (0, 0.5]
      * @Math_Illegal_State_Exception if an error occurs computing the p-value
      */
     public bool t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2, const double& alpha)
-        , Null_Argument_Exception, Math_Illegal_State_Exception 
+         
         {
 
         check_significance_level(alpha);
@@ -1002,7 +1002,7 @@ class T_Test
      * @ if n is not greater than 1
      */
     protected double t_test(const double m, const double& mu, const double v, const double n)
-        , Math_Illegal_State_Exception 
+         
         {
 
         const double t = std::abs(t(m, mu, v, n));
@@ -1029,7 +1029,7 @@ class T_Test
      * strictly positive
      */
     protected double t_test(const double m1, const double m2, const double v1, const double v2, const double n1, const double n2)
-        , Math_Illegal_State_Exception 
+         
         {
 
         const double t = std::abs(t(m1, m2, v1, v2, n1, n2));
@@ -1057,7 +1057,7 @@ class T_Test
      * strictly positive
      */
     protected double homoscedastic_t_test(double m1, double m2, double v1, double v2, double n1, double n2)
-        , Math_Illegal_State_Exception 
+         
         {
 
         const double t = std::abs(homoscedastic_t(m1, m2, v1, v2, n1, n2));
@@ -1088,11 +1088,11 @@ class T_Test
      * Check sample data.
      *
      * @param data Sample data.
-     * @Null_Argument_Exception if {@code data} is {@code NULL}.
+     * @ if {@code data} is {@code NULL}.
      * @ if there is not enough sample data.
      */
     private void check_sample_data(const std::vector<double> data)
-        , Null_Argument_Exception 
+         
         {
 
         //Math_Utils::check_not_null(data, hipparchus::exception::Localized_Core_Formats_Type::INPUT_ARRAY);
@@ -1108,11 +1108,11 @@ class T_Test
      * Check sample data.
      *
      * @param stat Statistical summary.
-     * @Null_Argument_Exception if {@code data} is {@code NULL}.
+     * @ if {@code data} is {@code NULL}.
      * @ if there is not enough sample data.
      */
     private void check_sample_data(const Statistical_Summary stat)
-        , Null_Argument_Exception 
+         
         {
 
         //Math_Utils::check_not_null(stat);

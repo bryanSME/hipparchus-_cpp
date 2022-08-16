@@ -23,7 +23,7 @@
 
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Utils;
 //import org.hipparchus.util.Sin_Cos;
@@ -62,7 +62,7 @@ public:
      * @param generator underlying random generator to use
      * @param alpha Stability parameter. Must be in range (0, 2]
      * @param beta Skewness parameter. Must be in range [-1, 1]
-     * @Null_Argument_Exception if generator is NULL
+     * @ if generator is NULL
      * @ if {@code alpha <= 0} or {@code alpha > 2}
      * or {@code beta < -1} or {@code beta > 1}
      */

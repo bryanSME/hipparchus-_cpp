@@ -151,7 +151,7 @@ class FieldMid_pointIntegrator : public BaseAbstractField_Univariate_Integrator<
     /** {@inherit_doc} */
     //override
     protected T do_integrate()
-        , Math_Illegal_State_Exception 
+         
         {
 
         const T min = get_min();

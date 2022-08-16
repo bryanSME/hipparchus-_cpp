@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Abstract_Univariate_Statistic;
 //import org.hipparchus.stat.descriptive.rank.Percentile.Estimation_Type;
 //import org.hipparchus.stat.ranking.NaN_Strategy;
@@ -60,7 +60,7 @@ private:
      * @param nan_strategy one of {@link NaN_Strategy} to handle with NaNs
      * @param kth_selector {@link Kth_Selector} to use for pivoting during search
      * @ if p is not within (0,100]
-     * @Null_Argument_Exception if type or NaN_Strategy passed is NULL
+     * @ if type or NaN_Strategy passed is NULL
      */
     Median(const Estimation_Type& estimation_type, const NaN_Strategy& nan_strategy, const Kth_Selector& kth_selector) : my_percentile{ Percentile(FIXED_QUANTILE_50, estimation_type, nan_strategy, kth_selector) } {};
 
@@ -82,7 +82,7 @@ public:
      * to the {@code original}
      *
      * @param original the {@code Median} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
     Median(const Median& original) 
     {
@@ -122,7 +122,7 @@ public:
      *
      * @param new_estimation_type estimation type for the instance
      * @return a instance, with changed estimation type
-     * @Null_Argument_Exception when new_estimation_type is NULL
+     * @ when new_estimation_type is NULL
      */
     Median with_estimation_type(const Estimation_Type new_estimation_type)
     {
@@ -144,7 +144,7 @@ public:
      *
      * @param new_nan_strategy NaN strategy for the instance
      * @return a instance, with changed NaN handling strategy
-     * @Null_Argument_Exception when new_nan_strategy is NULL
+     * @ when new_nan_strategy is NULL
      */
     Median with_na_n_strategy(const NaN_Strategy new_nan_strategy)
     {
@@ -166,7 +166,7 @@ public:
      *
      * @param new_kth_selector Kth_Selector for the instance
      * @return a instance, with changed Kth_Selector
-     * @Null_Argument_Exception when new_kth_selector is NULL
+     * @ when new_kth_selector is NULL
      */
     Median with_kth_selector(const Kth_Selector& new_kth_selector)
     {

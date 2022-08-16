@@ -219,7 +219,7 @@ public:
                 scale += std::abs(householder_vectors[i][m - 1]);
             }
 
-            if (!Precision.equals(scale, 0)) 
+            if (!Precision::equals(scale, 0)) 
             {
                 // Compute Householder transformation.
                 double h = 0;

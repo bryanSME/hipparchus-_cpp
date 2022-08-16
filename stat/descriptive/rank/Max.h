@@ -63,7 +63,7 @@ public:
      * to the {@code original}.
      *
      * @param original the {@code Max} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
     Max(const Max& original) : my_n{ original.get_n() }, my_value{ original.get_result()}
     {

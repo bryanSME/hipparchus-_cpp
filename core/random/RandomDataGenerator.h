@@ -1081,7 +1081,7 @@ private:
 			} while (r + alpha * (std::log(alpha) - std::log(b + w)) < t);
 
 			w = std::min(w, Double.MAX_VALUE);
-			return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+			return Precision::equals(a, a0) ? w / (b + w) : b / (b + w);
 		}
 
 		/**
@@ -1139,7 +1139,7 @@ private:
 			}
 
 			w = std::min(w, Double.MAX_VALUE);
-			return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+			return Precision::equals(a, a0) ? w / (b + w) : b / (b + w);
 		}
 	}
 

@@ -53,7 +53,7 @@ public:
      * @param y Values of the function.
      * @
      * if the {@code x} array is not sorted in strictly increasing order.
-     * @Null_Argument_Exception if {@code x} or {@code y} are {@code NULL}.
+     * @ if {@code x} or {@code y} are {@code NULL}.
      * @ if {@code x} or {@code y} are zero-length.
      * @ if {@code x} and {@code y} do not
      * have the same length.

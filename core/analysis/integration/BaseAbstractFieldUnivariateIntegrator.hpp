@@ -185,7 +185,7 @@ protected:
 	 * @param f the integrand function
 	 * @param lower the min bound for the interval
 	 * @param upper the upper bound for the interval
-	 * @Null_Argument_Exception if {@code f} is {@code NULL}.
+	 * @ if {@code f} is {@code NULL}.
 	 * @ if {@code min >= max}.
 	 */
 	void setup(const int& max_eval, const Calculus_Field_Univariate_Function<T> f, const T lower, const T upper)

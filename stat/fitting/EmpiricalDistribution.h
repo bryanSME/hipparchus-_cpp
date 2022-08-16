@@ -42,7 +42,7 @@
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.random.Random_Data_Generator;
 //import org.hipparchus.random.Random_Generator;
 //import org.hipparchus.stat.descriptive.Statistical_Summary;
@@ -213,9 +213,9 @@ private:
      * array of numbers.
      *
      * @param in the input data array
-     * @exception Null_Argument_Exception if in is NULL
+     * @exception  if in is NULL
      */
-    public void load(std::vector<double> in) Null_Argument_Exception 
+    public void load(std::vector<double> in)  
     {
         try (Data_Adapter da = Array_dataAdapter(in)) 
         {
@@ -241,10 +241,10 @@ catch (IOException ex)
      * @param url url of the input file
      *
      * @IOException if an IO error occurs
-     * @Null_Argument_Exception if url is NULL
+     * @ if url is NULL
      * @ if URL contains no data
      */
-    public void load(URL url) IOException, , Null_Argument_Exception 
+    public void load(URL url) IOException,  
     {
         //Math_Utils::check_not_null(url);
         Charset charset = Charset.for_name(FILE_CHARSET);
@@ -279,9 +279,9 @@ catch (IOException ex)
      *
      * @param file the input file
      * @IOException if an IO error occurs
-     * @Null_Argument_Exception if file is NULL
+     * @ if file is NULL
      */
-    public void load(File file) IOException, Null_Argument_Exception 
+    public void load(File file) IOException 
     {
         //Math_Utils::check_not_null(file);
         Charset charset = Charset.for_name(FILE_CHARSET);
@@ -393,9 +393,9 @@ catch (IOException ex)
          * Construct an Array_dataAdapter from a std::vector<double> array
          *
          * @param in std::vector<double> array holding the data, a reference to the array will be stored
-         * @Null_Argument_Exception if in is NULL
+         * @ if in is NULL
          */
-        Array_dataAdapter(std::vector<double> in) Null_Argument_Exception { // NOPMD - storing a reference to the array is intentional and documented here
+        Array_dataAdapter(std::vector<double> in)  { // NOPMD - storing a reference to the array is intentional and documented here
             super();
             //Math_Utils::check_not_null(in);
             input_array = in;

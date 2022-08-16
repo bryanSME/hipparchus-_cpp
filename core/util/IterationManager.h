@@ -59,7 +59,7 @@ public:
      * @param max_iterations the maximum number of iterations
      * @param call_back the function to be called when the maximum number of
      * iterations has been reached
-     * @org.hipparchus.exception.Null_Argument_Exception if {@code call_back} is {@code NULL}
+     * @org.hipparchus.exception. if {@code call_back} is {@code NULL}
      */
     Iteration_Manager(const int max_iterations, const Incrementor::Max_Count_Exceeded_Callback call_back) : my_iterations{ Incrementor(max_iterations, call_back) }, my_listeners{ Copy_On_Write_Array_list<>() } {};
 

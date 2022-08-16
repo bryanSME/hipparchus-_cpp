@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
 //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
 //import org.hipparchus.stat.descriptive.summary.SumOf_logs;
@@ -93,9 +93,9 @@ class Geometric_Mean : public Abstract_Storeless_Univariate_Statistic
      * to the {@code original}.
      *
      * @param original the {@code Geometric_Mean} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
-    public Geometric_Mean(Geometric_Mean original) Null_Argument_Exception 
+    public Geometric_Mean(Geometric_Mean original)  
     {
         //Math_Utils::check_not_null(original);
         this.sum_of_logs    = original.sum_of_logs.copy();

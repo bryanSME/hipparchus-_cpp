@@ -37,7 +37,7 @@
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
 //import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.random.Random_Generator;
 //import org.hipparchus.random.Well19937c;
 #include <vector>
@@ -45,6 +45,7 @@
 #include "MathUtils.h"
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
+#include  "Precision.h"
 
 /**
  * Arrays utilities.
@@ -457,7 +458,7 @@ public:
      * @since 1.5
      */
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    /*static  bool check_equal_length(const std::vector<T>& a, const std::vector<T>& b, bool abort) 
+    static bool check_equal_length(const std::vector<T>& a, const std::vector<T>& b, bool abort) 
     {
         if (a.size() == b.size()) 
         {
@@ -469,7 +470,7 @@ public:
             //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, a.size(), b.size());
         }
         return false;
-    }*/
+    }
 
     /**
      * Check that both arrays have the same length.
@@ -481,10 +482,10 @@ public:
      * @since 1.5
      */
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    /*static  void check_equal_length(const std::vector<T>& a, const std::vector<T>& b) 
+    static void check_equal_length(const std::vector<T>& a, const std::vector<T>& b) 
     {
         check_equal_length(a, b, true);
-    }*/
+    }
 
     /**
      * Check that both arrays have the same length.
@@ -629,7 +630,7 @@ public:
      */
     //static void check_order(const std::vector<double>& val)  
     //{
-    //    check_order(val, Order_Direction.INCREASING, true);
+    //    check_order(val, Order_Direction::INCREASING, true);
     //}
 
     /**
@@ -747,14 +748,14 @@ public:
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
     //static  void check_order(const std::vector<T>& val)  
     //{
-    //    check_order(val, Order_Direction.INCREASING, true);
+    //    check_order(val, Order_Direction::INCREASING, true);
     //}
 
     /**
      * Throws  if the input array is not rectangular.
      *
      * @param in array to be tested
-     * @Null_Argument_Exception if input array is NULL
+     * @ if input array is NULL
      * @ if input array is not rectangular
      */
     static void check_rectangular(const std::vector<std::vector<long>>& in)
@@ -903,13 +904,13 @@ public:
      */
     static double safe_norm(const std::vector<double>& v) 
     {
-        double rdwarf = 3.834e-20;
-        double rgiant = 1.304e+19;
-        double s1 = 0;
-        double s2 = 0;
-        double s3 = 0;
-        double x1max = 0;
-        double x3max = 0;
+        double rdwarf{ 3.834e-20 };
+        double rgiant{ 1.304e+19 };
+        double s1{};
+        double s2{};
+        double s3{};
+        double x1max{};
+        double x3max{};
         double floatn = v.size();
         double agiant = rgiant / floatn;
         for (int i{}; i < v.size(); i++) 
@@ -954,30 +955,17 @@ public:
                 s2 += xabs * xabs;
             }
         }
-        double norm;
         if (s1 != 0) 
         {
-            norm = x1max * Math.sqrt(s1 + (s2 / x1max) / x1max);
+            return x1max * std::sqrt(s1 + (s2 / x1max) / x1max);
         }
-        else 
+        if (s2 == 0)
         {
-            if (s2 == 0) 
-            {
-                norm = x3max * Math.sqrt(s3);
-            }
-            else 
-            {
-                if (s2 >= x3max) 
-                {
-                    norm = Math.sqrt(s2 * (1 + (x3max / s2) * (x3max * s3)));
-                }
-                else 
-                {
-                    norm = Math.sqrt(x3max * ((s2 / x3max) + (x3max * s3)));
-                }
-            }
+            return x3max * std::sqrt(s3);
         }
-        return norm;
+        return (s2 >= x3max)
+            ? std::sqrt(s2 * (1 + (x3max / s2) * (x3max * s3)))
+            : std::sqrt(x3max * ((s2 / x3max) + (x3max * s3)));
     }
 
     /**
@@ -992,11 +980,11 @@ public:
      * those performed on {@code x}.
      * @ if any {@code y} is not the same
      * size as {@code x}.
-     * @Null_Argument_Exception if {@code x} or any {@code y} is NULL.
+     * @ if {@code x} or any {@code y} is NULL.
      */
     static void sort_in_place(const std::vector<double>& x, const std::vector<double>... y_list)
     {
-        sort_in_place(x, Order_Direction.INCREASING, y_list);
+        sort_in_place(x, Order_Direction::INCREASING, y_list);
     }
 
     /**
@@ -1044,7 +1032,7 @@ public:
      * those performed on {@code x}.
      * @ if any {@code y} is not the same
      * size as {@code x}.
-     * @Null_Argument_Exception if {@code x} or any {@code y} is NULL
+     * @ if {@code x} or any {@code y} is NULL
      */
     static void sort_in_place(const std::vector<double>& x, const Order_Direction& dir, const std::vector<double>&... y_list)
     {
@@ -1057,7 +1045,7 @@ public:
             if (y == NULL) 
             {
                 throw std::exception("not implemented");
-                //throw Null_Argument_Exception();
+                //throw ();
             }
             if (y.size() != len) 
             {
@@ -1067,7 +1055,7 @@ public:
         }
 
         // Associate each abscissa "x[i]" with its index "i".
-        const List<Pair_Double_Integer> list = Array_list<>(len);
+        const std::vector<Pair_Double_Integer> list = Array_list<>(len);
         for (int i{}; i < len; i++) 
         {
             list.add(new Pair_Double_Integer(x[i], i));
@@ -1101,10 +1089,10 @@ public:
         // Modify the original array so that its elements are in
         // the prescribed order.
         // Retrieve indices of original locations.
-        const std::vector<int> indices = int[len];
+        auto indices = std::vector<int>(len);
         for (int i{}; i < len; i++) 
         {
-            const Pair_Double_Integer e = list.get(i);
+            const Pair_Double_Integer e = list.at(i);
             x[i] = e.get_key();
             indices[i] = e.get_value();
         }
@@ -1114,8 +1102,8 @@ public:
         for (int j{}; j < y_list_len; j++) 
         {
             // Input array will be modified in place.
-            std::vector<double> y_in_place = y_list[j];
-            const std::vector<double> y_orig = y_in_place.clone();
+            auto y_in_place = y_list[j];
+            const auto y_orig = y_in_place;
 
             for (int i{}; i < len; i++) 
             {
@@ -1140,7 +1128,7 @@ public:
      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
      * @ if arrays dimensions don't match
      */
-    static double linear_combination(const std::vector<double> a, const std::vector<double> b)
+    static double linear_combination(const std::vector<double>& a, const std::vector<double>& b)
     {
         check_equal_length(a, b);
         const int len = a.size();
@@ -1151,7 +1139,7 @@ public:
             return a[0] * b[0];
         }
 
-        const std::vector<double> prod_high = std::vector<double>(len];
+        auto prod_high = std::vector<double>(len);
         double prod_low_sum = 0;
 
         for (int i{}; i < len; i++) 
@@ -1481,7 +1469,7 @@ public:
      * @return true if the values are both NULL or have same dimension
      * and equal elements.
      */
-    static bool equals(std::vector<float> x, std::vector<float> y) 
+    static bool equals(const std::vector<float>& x, const std::vector<float>& y) 
     {
         if ((x == NULL) || (y == NULL)) 
         {
@@ -1493,7 +1481,7 @@ public:
         }
         for (int i{}; i < x.size(); ++i) 
         {
-            if (!Precision.equals(x[i], y[i])) 
+            if (!Precision::equals(x[i], y[i])) 
             {
                 return false;
             }
@@ -1511,7 +1499,7 @@ public:
      * @return true if the values are both NULL or have same dimension and
      * equal elements
      */
-    static bool equals_including_nan(std::vector<float> x, std::vector<float> y) 
+    static bool equals_including_nan(const std::vector<float>& x, const std::vector<float>& y) 
     {
         if ((x == NULL) || (y == NULL)) 
         {
@@ -1523,7 +1511,7 @@ public:
         }
         for (int i{}; i < x.size(); ++i) 
         {
-            if (!Precision.equals_including_nan(x[i], y[i])) 
+            if (!Precision::equals_including_nan(x[i], y[i])) 
             {
                 return false;
             }
@@ -1541,7 +1529,7 @@ public:
      * @return {@code true} if the values are both {@code NULL} or have same
      * dimension and equal elements.
      */
-    static bool equals(std::vector<double> x, std::vector<double> y) 
+    static bool equals(const std::vector<double>& x, const std::vector<double>& y) 
     {
         if ((x == NULL) || (y == NULL)) 
         {
@@ -1553,7 +1541,7 @@ public:
         }
         for (int i{}; i < x.size(); ++i) 
         {
-            if (!Precision.equals(x[i], y[i])) 
+            if (!Precision::equals(x[i], y[i])) 
             {
                 return false;
             }
@@ -1571,7 +1559,7 @@ public:
      * @return {@code true} if the values are both {@code NULL} or have same
      * dimension and equal elements.
      */
-    static bool equals_including_nan(std::vector<double> x, std::vector<double> y) 
+    static bool equals_including_nan(const std::vector<double>& x, const std::vector<double>& y) 
     {
         if ((x == NULL) || (y == NULL)) 
         {
@@ -1583,7 +1571,7 @@ public:
         }
         for (int i{}; i < x.size(); ++i) 
         {
-            if (!Precision.equals_including_nan(x[i], y[i])) 
+            if (!Precision::equals_including_nan(x[i], y[i])) 
             {
                 return false;
             }
@@ -1629,7 +1617,7 @@ public:
      * @return {@code true} if the values are both {@code NULL} or have same
      * dimension and equal elements.
      */
-    static bool equals(const std::vector<int>& x, std::vector<int> y) 
+    static bool equals(const std::vector<int>& x, const std::vector<int>& y) 
     {
         if ((x == NULL) || (y == NULL)) 
         {
@@ -1658,7 +1646,7 @@ public:
      * @return {@code true} if the values are both {@code NULL} or have same
      * dimension and equal elements.
      */
-    static bool equals(std::vector<std::byte>x, std::vector<std::byte>y) 
+    static bool equals(const std::vector<std::byte>& x, const std::vector<std::byte>& y) 
     {
         if ((x == NULL) || (y == NULL)) 
         {
@@ -1687,7 +1675,7 @@ public:
      * @return {@code true} if the values are both {@code NULL} or have same
      * dimension and equal elements.
      */
-    static bool equals(std::vector<short>& x, std::vector<short>& y) 
+    static bool equals(const std::vector<short>& x, const std::vector<short>& y) 
     {
         if ((x == NULL) || (y == NULL)) 
         {
@@ -1876,7 +1864,7 @@ public:
      * Typically, this sequence will represent the impulse response of the system.
      * @return the convolution of {@code x} and {@code h}.
      * This array's length will be {@code x.size() + h.size() - 1}.
-     * @Null_Argument_Exception if either {@code x} or {@code h} is {@code NULL}.
+     * @ if either {@code x} or {@code h} is {@code NULL}.
      * @ if either {@code x} or {@code h} is empty.
      */
     static std::vector<double> convolve(const std::vector<double>& x, const std::vector<double>& h)
@@ -1895,12 +1883,12 @@ public:
 
         // initialize the output array
         const int total_length = x_len + h_len - 1;
-        const std::vector<double> y = std::vector<double>(total_length];
+        auto y = std::vector<double>(total_length);
 
         // straightforward implementation of the convolution sum
         for (int n{}; n < total_length; n++) 
         {
-            double yn = 0;
+            double yn{};
             int k = std::max(0, n + 1 - x_len);
             int j = n - k;
             while (k < h_len && j >= 0) 
@@ -1956,7 +1944,7 @@ public:
      * or the beginning (if {@link Position#HEAD}) of the array.
      * @param rng Random number generator.
      */
-    static void shuffle(const std::vector<int>& list, const int& start, const Position& pos, const Random_Generator& rng) 
+    static void shuffle(std::vector<int>& list, const int& start, const Position& pos, const Random_Generator& rng) 
     {
         switch (pos) 
         {
@@ -1981,7 +1969,8 @@ public:
             break;
 
         default:
-            throw Math_Runtime_Exception.create_internal_error(); // Should never happen.
+            throw std::exception("not implemented");
+            //throw Math_Runtime_Exception.create_internal_error(); // Should never happen.
         }
     }
 
@@ -1995,7 +1984,7 @@ public:
      */
     static void shuffle(const std::vector<int>& list, const Random_Generator& rng) 
     {
-        shuffle(list, 0, Position.TAIL, rng);
+        shuffle(list, 0, Position::TAIL, rng);
     }
 
     /**
@@ -2088,7 +2077,6 @@ public:
      */
     static bool verify_values(const std::vector<double>& values, const int& begin, const int& length, const bool allow_empty)  
     {
-
         //Math_Utils::check_not_null(values, hipparchus::exception::Localized_Core_Formats_Type::INPUT_ARRAY);
 
         if (begin < 0) 
@@ -2177,7 +2165,7 @@ public:
      * @param length the number of elements to include.
      * @param allow_empty if {@code true} than allow zero length arrays to pass.
      * @return {@code true} if the parameters are valid.
-     * @Null_Argument_Exception if either of the arrays are NULL
+     * @ if either of the arrays are NULL
      * @ if the array indices are not valid, * the weights array contains NaN, infinite or negative elements, or there
      * are no positive weights.
      */
@@ -2235,12 +2223,12 @@ public:
     static std::vector<double> concatenate(const std::vector<double>... x) 
     {
         int combined_length{};
-        for (std::vector<double> a : x) 
+        for (const auto& a : x) 
         {
             combined_length += a.size();
         }
         int offset{};
-        const std::vector<double> combined = std::vector<double>(combined_length];
+        auto combined = std::vector<double>(combined_length);
         for (int i{}; i < x.size(); i++) 
         {
             const int cur_length = x[i].size();
@@ -2263,14 +2251,14 @@ public:
      */
     static std::vector<double> unique(std::vector<double>& data) 
     {
-        Tree_Set<Double> values = Tree_Set<>();
+        Tree_Set<double> values = Tree_Set<>();
         for (int i{}; i < data.size(); i++) 
         {
             values.add(data[i]);
         }
         const int count = values.size();
-        auto out = std::vector<double>(count];
-        Iterator<Double> iterator = values.descending_iterator();
+        auto out = std::vector<double>(count);
+        Iterator<double> iterator = values.descending_iterator();
         int i{};
         while (iterator.has_next()) 
         {

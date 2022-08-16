@@ -23,7 +23,7 @@
 
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.linear.Array_2D_Row_Real_Matrix;
 //import org.hipparchus.linear.Array_Real_Vector;
 //import org.hipparchus.linear.Real_Matrix;
@@ -115,7 +115,7 @@ public:
      * @param data input data array
      * @param nobs number of observations (rows)
      * @param nvars number of independent variables (columns, not counting y)
-     * @Null_Argument_Exception if the data array is NULL
+     * @ if the data array is NULL
      * @ if the length of the data array is not equal
      * to <code>nobs * (nvars + 1)</code>
      * @ if <code>nobs</code> is less than
@@ -154,7 +154,7 @@ public:
      * Loads y sample data, overriding any previous data.
      *
      * @param y the array representing the y sample
-     * @Null_Argument_Exception if y is NULL
+     * @ if y is NULL
      * @ if y is empty
      */
     protected void new_y_sample_data(std::vector<double> y) 
@@ -162,7 +162,7 @@ public:
         if (y == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (y.size() == 0) 
         {
@@ -193,7 +193,7 @@ public:
      * specifying a model including an intercept term.
      * </p>
      * @param x the rectangular array representing the x sample
-     * @Null_Argument_Exception if x is NULL
+     * @ if x is NULL
      * @ if x is empty
      * @ if x is not rectangular
      */
@@ -202,7 +202,7 @@ public:
         if (x == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (x.size() == 0) 
         {
@@ -237,7 +237,7 @@ else { // Augment design matrix with initial unitary column
      *
      * @param x the [n,k] array representing the x data
      * @param y the [n,1] array representing the y data
-     * @Null_Argument_Exception if {@code x} or {@code y} is NULL
+     * @ if {@code x} or {@code y} is NULL
      * @ if {@code x} and {@code y} do not
      * have the same length
      * @ if {@code x} or {@code y} are zero-length
@@ -250,7 +250,7 @@ else { // Augment design matrix with initial unitary column
         if ((x == NULL) || (y == NULL)) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         Math_Utils::check_dimension(x.size(), y.size());
         if (x.size() == 0) {  // Must be no y data either

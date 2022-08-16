@@ -215,7 +215,7 @@ class Gaussian_curveFitter : public Abstract_Curve_Fitter
 		 *
 		 * @param observations Observed points from which to guess the
 		 * parameters of the Gaussian.
-		 * @org.hipparchus.exception.Null_Argument_Exception if {@code observations} is
+		 * @org.hipparchus.exception. if {@code observations} is
 		 * {@code NULL}.
 		 * @ if there are less than 3
 		 * observations.

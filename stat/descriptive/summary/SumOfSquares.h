@@ -24,7 +24,7 @@
 //import java.io.Serializable;
 
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
 //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
 //import org.hipparchus.util.Math_Arrays;
@@ -69,7 +69,7 @@ public:
      * to the {@code original}.
      *
      * @param original the {@code Sum_Of_Squares} instance to copy
-     * @Null_Argument_Exception if original is NULL
+     * @ if original is NULL
      */
     Sum_Of_Squares(const Sum_Of_Squares& original) 
     {

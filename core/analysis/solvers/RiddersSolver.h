@@ -72,7 +72,7 @@ class Ridders_Solver : Abstract_Univariate_Solver
      */
     //override
     protected double do_solve()
-        , Math_Illegal_State_Exception 
+         
         {
         double min = get_min();
         double max = get_max();

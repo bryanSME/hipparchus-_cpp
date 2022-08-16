@@ -33,7 +33,7 @@
 //import org.hipparchus.clustering.distance.Euclidean_Distance;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Utils;
 
 /**
@@ -141,10 +141,10 @@ class DBSCAN_Clusterer<T extends Clusterable> extends Clusterer<T>
      *
      * @param points the points to cluster
      * @return the list of clusters
-     * @Null_Argument_Exception if the data points are NULL
+     * @ if the data points are NULL
      */
     //override
-    public List<Cluster<T>> cluster(const Collection<T> points) Null_Argument_Exception 
+    public List<Cluster<T>> cluster(const Collection<T> points)  
     {
 
         // sanity checks

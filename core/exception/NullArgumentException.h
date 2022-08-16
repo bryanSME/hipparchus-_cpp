@@ -48,22 +48,22 @@ namespace hipparchus
          *
          */
         template <typename... Args>
-        class Null_Argument_Exception : public Localized_Exception //, Null_Pointer_Exception
+        class  : public Localized_Exception //, Null_Pointer_Exception
         {
         public:
             /**
              * Default constructor.
              */
-            Null_Argument_Exception()
+            ()
             {
-                Null_Argument_Exception(Localized_Core_Formats::NULL_NOT_ALLOWED);
+                (Localized_Core_Formats::NULL_NOT_ALLOWED);
             }
 
             /** Simple constructor.
              * @param specifier format specifier (to be translated).
              * @param parts parts to insert in the format (no translation).
              */
-            Null_Argument_Exception(const Localizable specifier, const Args&&... parts)
+            (const Localizable specifier, const Args&&... parts)
             {
                 my_specifier = specifier;
                 my_parts = (std::is_null_pointer(parts)) ? Object[0] : parts.clone();

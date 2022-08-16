@@ -28,7 +28,7 @@
 //import org.hipparchus.Field_Element;
 //import org.hipparchus.exception.Localized_Core_Formats;
 //import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
+//import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Arrays;
 #include <type_traits>
 #include <vector>
@@ -97,7 +97,7 @@ protected:
      * @param <T> Type of the field elements.
      * @param d Data array.
      * @return the field to which the array elements belong.
-     * @Null_Argument_Exception if the array is {@code NULL}.
+     * @ if the array is {@code NULL}.
      * @ if the array is empty.
      */
     static Field<T> extract_field(const std::vector<std::vector<T>> d)
@@ -105,7 +105,7 @@ protected:
         if (d == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (d.size() == 0) 
         {
@@ -377,7 +377,7 @@ public:
     /** {@inherit_doc} */
     //override
     public Field_Matrix<T> get_sub_matrix(const std::vector<int> selected_rows, const std::vector<int> selected_columns)
-    , Null_Argument_Exception 
+     
     {
 
         // safety checks
@@ -473,12 +473,12 @@ public:
     /** {@inherit_doc} */
     //override
     public void set_sub_matrix(const std::vector<std::vector<T>> sub_matrix, const int& row, const int column)
-        , Null_Argument_Exception 
+         
         {
         if (sub_matrix == NULL) 
         {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         const int n_rows = sub_matrix.size();
         if (n_rows == 0) 
@@ -1229,17 +1229,17 @@ public:
      *
      * @param selected_rows Array of row indices.
      * @param selected_columns Array of column indices.
-     * @Null_Argument_Exception if the arrays are {@code NULL}.
+     * @ if the arrays are {@code NULL}.
      * @ if the arrays have zero length.
      * @ if row or column selections are not valid.
      */
     protected void check_sub_matrix_index(const std::vector<int> selected_rows, const std::vector<int> selected_columns)
-        , Null_Argument_Exception 
+         
         {
         if (selected_rows == NULL || selected_columns == NULL) 
             {
             throw std::exception("not implemented");
-            //throw Null_Argument_Exception();
+            //throw ();
         }
         if (selected_rows.size() == 0 || selected_columns.size() == 0) 
         {

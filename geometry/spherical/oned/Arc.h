@@ -68,7 +68,7 @@ class Arc
     {
         Sphere_1D.check_tolerance(tolerance);
         this.tolerance = tolerance;
-        if (Precision.equals(lower, upper, 0) || (upper - lower) >= Math_Utils::TWO_PI) 
+        if (Precision::equals(lower, upper, 0) || (upper - lower) >= Math_Utils::TWO_PI) 
         {
             // the arc must cover the whole circle
             this.lower  = 0;

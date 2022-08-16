@@ -184,7 +184,7 @@ public:
             //throw (hipparchus::exception::Localized_Core_Formats_Type::WEIGHT_AT_LEAST_ONE_NON_ZERO);
         }
         std::vector<double> norm_wt;
-        if (Precision.equals(sum_wt, 1, 10)) // allow small error (10 ulps)
+        if (Precision::equals(sum_wt, 1, 10)) // allow small error (10 ulps)
         {
             norm_wt = weights;
         }
