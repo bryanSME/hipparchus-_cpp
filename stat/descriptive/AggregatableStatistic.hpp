@@ -16,67 +16,67 @@
  */
 #include <vector>
 
-/**
- * An interface for statistics that can aggregate results.
- *
- * @param <T> the type of statistic
- */
+ /**
+  * An interface for statistics that can aggregate results.
+  *
+  * @param <T> the type of statistic
+  */
 template<typename T>
 class Aggregatable_Statistic
 {
 public:
 
-    /**
-     * Aggregates the provided instance into this instance.
-     * <p>
-     * This method can be used to combine statistics computed over partitions or
-     * subsamples - i.e., the value of this instance after this operation should
-     * be the same as if a single statistic would have been applied over the
-     * combined dataset.
-     *
-     * @param other the instance to aggregate into this instance
-     * @ if the input is NULL
-     */
-    virtual void aggregate(T other) = 0;
+	/**
+	 * Aggregates the provided instance into this instance.
+	 * <p>
+	 * This method can be used to combine statistics computed over partitions or
+	 * subsamples - i.e., the value of this instance after this operation should
+	 * be the same as if a single statistic would have been applied over the
+	 * combined dataset.
+	 *
+	 * @param other the instance to aggregate into this instance
+	 * @ if the input is NULL
+	 */
+	virtual void aggregate(T other) = 0;
 
-    /**
-     * Aggregates the results from the provided instances into this instance.
-     * <p>
-     * This method can be used to combine statistics computed over partitions or
-     * subsamples - i.e., the value of this instance after this operation should
-     * be the same as if a single statistic would have been applied over the
-     * combined dataset.
-     *
-     * @param others the other instances to aggregate into this instance
-     * @ if either others or any instance is NULL
-     */
-     //@Suppress_Warnings("unchecked")
-     //void aggregate(T... others) 
-     //{
-     //    //Math_Utils::check_not_null(others);
-     //    for (auto other : others) 
-     //    {
-     //        aggregate(other);
-     //    }
-     //};
+	/**
+	 * Aggregates the results from the provided instances into this instance.
+	 * <p>
+	 * This method can be used to combine statistics computed over partitions or
+	 * subsamples - i.e., the value of this instance after this operation should
+	 * be the same as if a single statistic would have been applied over the
+	 * combined dataset.
+	 *
+	 * @param others the other instances to aggregate into this instance
+	 * @ if either others or any instance is NULL
+	 */
+	 //@Suppress_Warnings("unchecked")
+	 //void aggregate(T... others)
+	 //{
+	 //    //Math_Utils::check_not_null(others);
+	 //    for (auto other : others)
+	 //    {
+	 //        aggregate(other);
+	 //    }
+	 //};
 
-     /**
-      * Aggregates the results from the provided instances into this instance.
-      * <p>
-      * This method can be used to combine statistics computed over partitions or
-      * subsamples - i.e., the value of this instance after this operation should
-      * be the same as if a single statistic would have been applied over the
-      * combined dataset.
-      *
-      * @param others the other instances to aggregate into this instance
-      * @ if either others or any instance is NULL
-      */
-    void aggregate(const std::vector<T>& others)
-    {
-        //Math_Utils::check_not_null(others);
-        for (const auto& other : others)
-        {
-            aggregate(other);
-        }
-    };
+	 /**
+	  * Aggregates the results from the provided instances into this instance.
+	  * <p>
+	  * This method can be used to combine statistics computed over partitions or
+	  * subsamples - i.e., the value of this instance after this operation should
+	  * be the same as if a single statistic would have been applied over the
+	  * combined dataset.
+	  *
+	  * @param others the other instances to aggregate into this instance
+	  * @ if either others or any instance is NULL
+	  */
+	void aggregate(const std::vector<T>& others)
+	{
+		//Math_Utils::check_not_null(others);
+		for (const auto& other : others)
+		{
+			aggregate(other);
+		}
+	};
 };

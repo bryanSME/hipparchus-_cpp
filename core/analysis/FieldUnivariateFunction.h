@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.Field;
+ //import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Field;
 #include "CalculusFieldUnivariateFunction.h"
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
@@ -33,31 +33,30 @@
  */
 class Field_Univariate_Function
 {
+	/** Convert to a {@link Calculus_Field_Univariate_Function} with a specific type.
+	 * @param <T> the type of the field elements
+	 * @param field field for the argument and value
+	 * @return converted function
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	Calculus_Field_Univariate_Function<T> to_calculus__field__univariate__function(Field<T> field)
+	{
+		return this::value;
+	}
 
-    /** Convert to a {@link Calculus_Field_Univariate_Function} with a specific type.
-     * @param <T> the type of the field elements
-     * @param field field for the argument and value
-     * @return converted function
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    Calculus_Field_Univariate_Function<T> to_calculus__field__univariate__function(Field<T> field)
-    {
-        return this::value;
-    }
-
-    /**
-     * Compute the value of the function.
-     *
-     * @param <T> the type of the field elements
-     * @param x Point at which the function value should be computed.
-     * @return the value of the function.
-     * @Illegal_Argument_Exception when the activated method itself can
-     * ascertain that a precondition, specified in the API expressed at the
-     * level of the activated method, has been violated.
-     * When Hipparchus an {@code Illegal_Argument_Exception}, it is
-     * usually the consequence of checking the actual parameters passed to
-     * the method.
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    virtual T value(T x) = 0;
+	/**
+	 * Compute the value of the function.
+	 *
+	 * @param <T> the type of the field elements
+	 * @param x Point at which the function value should be computed.
+	 * @return the value of the function.
+	 * @Illegal_Argument_Exception when the activated method itself can
+	 * ascertain that a precondition, specified in the API expressed at the
+	 * level of the activated method, has been violated.
+	 * When Hipparchus an {@code Illegal_Argument_Exception}, it is
+	 * usually the consequence of checking the actual parameters passed to
+	 * the method.
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	virtual T value(T x) = 0;
 };

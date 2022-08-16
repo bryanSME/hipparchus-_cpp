@@ -15,17 +15,15 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- * <p>
- * This //package provides interfaces and classes related to the convex hull problem.
- * </p>
- *
- */
-//package org.hipparchus.geometry.hull;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   * <p>
+   * This //package provides interfaces and classes related to the convex hull problem.
+   * </p>
+   *
+   */
+   //package org.hipparchus.geometry.hull;

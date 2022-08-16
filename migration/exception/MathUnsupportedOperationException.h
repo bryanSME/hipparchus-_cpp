@@ -15,47 +15,44 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.Math_Runtime_Exception;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Base class for all unsupported features.
- * It is used for all the exceptions that have the semantics of the standard
- * {@link Unsupported_Operation_Exception}, but must also provide a localized
- * message.
- *
- * @deprecated as of 1.0, replaced with {@link Math_Runtime_Exception}
- */
+  /**
+   * Base class for all unsupported features.
+   * It is used for all the exceptions that have the semantics of the standard
+   * {@link Unsupported_Operation_Exception}, but must also provide a localized
+   * message.
+   *
+   * @deprecated as of 1.0, replaced with {@link Math_Runtime_Exception}
+   */
 @Deprecated
-class MathUnsupported_Operation_Exception extends Math_Runtime_Exception 
+class MathUnsupported_Operation_Exception extends Math_Runtime_Exception
 {
-    /** Serializable version Id. */
-    -6024911025449780478L;
+	/** Serializable version Id. */
+	-6024911025449780478L;
 
-    /**
-     * Default constructor.
-     */
-    public MathUnsupported_Operation_Exception() 
-    {
-        this(Localized_Formats.UNSUPPORTED_OPERATION);
-    }
-    /**
-     * @param pattern Message pattern providing the specific context of
-     * the error.
-     * @param args Arguments.
-     */
-    public MathUnsupported_Operation_Exception(Localizable pattern, Object ... args) 
-    {
-        super(pattern, args);
-    }
-
+	/**
+	 * Default constructor.
+	 */
+	public MathUnsupported_Operation_Exception()
+	{
+		this(Localized_Formats.UNSUPPORTED_OPERATION);
+	}
+	/**
+	 * @param pattern Message pattern providing the specific context of
+	 * the error.
+	 * @param args Arguments.
+	 */
+	public MathUnsupported_Operation_Exception(Localizable pattern, Object ... args)
+	{
+		super(pattern, args);
+	}
 }
-
-

@@ -15,47 +15,45 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.Math_Illegal_State_Exception;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.Math_Illegal_State_Exception;
 
-/**
- * Error thrown when a numerical computation can not be performed because the
- * numerical result failed to converge to a finite value.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
- */
+  /**
+   * Error thrown when a numerical computation can not be performed because the
+   * numerical result failed to converge to a finite value.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
+   */
 @Deprecated
-class Convergence_Exception extends Math_Illegal_State_Exception 
+class Convergence_Exception extends Math_Illegal_State_Exception
 {
-    /** Serializable version Id. */
-    4330003017885151975L;
+	/** Serializable version Id. */
+	4330003017885151975L;
 
-    /**
-     * Construct the exception.
-     */
-    public Convergence_Exception() 
-    {
-        this(hipparchus::exception::Localized_Core_Formats_Type::CONVERGENCE_FAILED);
-    }
+	/**
+	 * Construct the exception.
+	 */
+	public Convergence_Exception()
+	{
+		this(hipparchus::exception::Localized_Core_Formats_Type::CONVERGENCE_FAILED);
+	}
 
-    /**
-     * Construct the exception with a specific context and arguments.
-     *
-     * @param pattern Message pattern providing the specific context of
-     * the error.
-     * @param args Arguments.
-     */
-    public Convergence_Exception(Localizable pattern, Object ... args) 
-    {
-        super(pattern, args);
-    }
+	/**
+	 * Construct the exception with a specific context and arguments.
+	 *
+	 * @param pattern Message pattern providing the specific context of
+	 * the error.
+	 * @param args Arguments.
+	 */
+	public Convergence_Exception(Localizable pattern, Object ... args)
+	{
+		super(pattern, args);
+	}
 }
-
-

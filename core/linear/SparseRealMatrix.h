@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include "RealMatrix.h"
 
-/**
- * Marker interface for {@link Real_Matrix} implementations that require sparse backing storage
- *
- * <p>
- *  Caveat: Implementation are allowed to assume that, for any {@code x}, *  the equality {@code x * 0 == 0} holds. But it is is not true for
- *  {@code NaN}. Moreover, zero entries will lose their sign.
- *  Some operations (that involve {@code NaN} and/or infinities) may
- *  thus give incorrect results.
- * </p>
- */
+  /**
+   * Marker interface for {@link Real_Matrix} implementations that require sparse backing storage
+   *
+   * <p>
+   *  Caveat: Implementation are allowed to assume that, for any {@code x}, *  the equality {@code x * 0 == 0} holds. But it is is not true for
+   *  {@code NaN}. Moreover, zero entries will lose their sign.
+   *  Some operations (that involve {@code NaN} and/or infinities) may
+   *  thus give incorrect results.
+   * </p>
+   */
 class Sparse_Real_Matrix : public Real_Matrix
 {
 };

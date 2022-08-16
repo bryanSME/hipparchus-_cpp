@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * Convenience routines and common data structures used throughout the Hipparchus library.
- */
-//package org.hipparchus.util;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * Convenience routines and common data structures used throughout the Hipparchus library.
+   */
+   //package org.hipparchus.util;

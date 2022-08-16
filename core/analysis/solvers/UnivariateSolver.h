@@ -15,20 +15,19 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include "BaseUnivariateSolver.hpp"
 #include "../UnivariateFunction.h"
 
-
-/**
- * Interface for (univariate real) root-finding algorithms.
- * Implementations will search for only one zero in the given interval.
- *
- */
+  /**
+   * Interface for (univariate real) root-finding algorithms.
+   * Implementations will search for only one zero in the given interval.
+   *
+   */
 class Univariate_Solver : public Base_Univariate_Solver<Univariate_Function>
 {
 };

@@ -15,25 +15,25 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <cmath>
 #include "../BivariateFunction.h"
 
-/**
- * Arc-tangent function.
- *
- */
+  /**
+   * Arc-tangent function.
+   *
+   */
 class Atan2 : public Bivariate_Function
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    double value(const double& x, const double& y) const
-    {
-        return std::atan2(x, y);
-    }
+	/** {@inherit_doc} */
+	//override
+	double value(const double& x, const double& y) const
+	{
+		return std::atan2(x, y);
+	}
 };

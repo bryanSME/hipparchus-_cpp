@@ -15,31 +15,28 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.inference;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.inference;
 
-/**
- * Represents an alternative hypothesis for a hypothesis test.
- *
- */
-enum Alternative_Hypothesis 
+  /**
+   * Represents an alternative hypothesis for a hypothesis test.
+   *
+   */
+enum Alternative_Hypothesis
 {
-
-    /**
-     * Represents a two-sided test. H0: p=p0, H1: p &ne; p0
-     */
-    TWO_SIDED, 
-    /**
-     * Represents a right-sided test. H0: p &le; p0, H1: p &gt; p0.
-     */
-    GREATER_THAN, 
-    /**
-     * Represents a left-sided test. H0: p &ge; p0, H1: p &lt; p0.
-     */
-    LESS_THAN
+	/**
+	 * Represents a two-sided test. H0: p=p0, H1: p &ne; p0
+	 */
+	TWO_SIDED,
+	/**
+	 * Represents a right-sided test. H0: p &le; p0, H1: p &gt; p0.
+	 */
+	 GREATER_THAN,
+	 /**
+	  * Represents a left-sided test. H0: p &ge; p0, H1: p &lt; p0.
+	  */
+	  LESS_THAN
 }
-
-

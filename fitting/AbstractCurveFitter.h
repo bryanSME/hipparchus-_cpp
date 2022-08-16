@@ -162,7 +162,7 @@ protected:
 			{
 				/** {@inherit_doc} */
 				//override
-				public std::vector<std::vector<double>> value(const std::vector<double>& p)
+				public std::vector<std::vector<double>> value(const std::vector<double>&p)
 				{
 					const int len = points.size();
 					auto jacobian = std::vector<std::vector<double>>(len);

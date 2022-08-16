@@ -150,8 +150,6 @@ public:
 	 */
 	virtual Vector<S> parse(std::string source, Parse_Position pos);
 
-
-
 private:
 	/** Prefix. */
 	const std::string my_prefix;

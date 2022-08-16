@@ -15,61 +15,57 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.regression;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.regression;
 
-/**
- * The multiple linear regression can be represented in matrix-notation.
- * <pre>
- *  y=X*b+u
- * </pre>
- * where y is an <code>n-vector</code> <b>regressand</b>, X is a <code>[n,k]</code> matrix whose <code>k</code> columns are called
- * <b>regressors</b>, b is <code>k-vector</code> of <b>regression parameters</b> and <code>u</code> is an <code>n-vector</code>
- * of <b>error terms</b> or <b>residuals</b>.
- *
- * The notation is quite standard in literature, * cf eg <a href="http://www.econ.queensu.ca/ETM">Davidson and Mac_Kinnon, Econometrics Theory and Methods, 2004</a>.
- */
-class Multiple_Linear_Regression 
+  /**
+   * The multiple linear regression can be represented in matrix-notation.
+   * <pre>
+   *  y=X*b+u
+   * </pre>
+   * where y is an <code>n-vector</code> <b>regressand</b>, X is a <code>[n,k]</code> matrix whose <code>k</code> columns are called
+   * <b>regressors</b>, b is <code>k-vector</code> of <b>regression parameters</b> and <code>u</code> is an <code>n-vector</code>
+   * of <b>error terms</b> or <b>residuals</b>.
+   *
+   * The notation is quite standard in literature, * cf eg <a href="http://www.econ.queensu.ca/ETM">Davidson and Mac_Kinnon, Econometrics Theory and Methods, 2004</a>.
+   */
+class Multiple_Linear_Regression
 {
+	/**
+	 * Estimates the regression parameters b.
+	 *
+	 * @return The [k,1] array representing b
+	 */
+	std::vector<double> estimate_regression_parameters();
 
-    /**
-     * Estimates the regression parameters b.
-     *
-     * @return The [k,1] array representing b
-     */
-    std::vector<double> estimate_regression_parameters();
+	/**
+	 * Estimates the variance of the regression parameters, ie Var(b).
+	 *
+	 * @return The [k,k] array representing the variance of b
+	 */
+	std::vector<std::vector<double>> estimate_regression_parameters_variance();
 
-    /**
-     * Estimates the variance of the regression parameters, ie Var(b).
-     *
-     * @return The [k,k] array representing the variance of b
-     */
-    std::vector<std::vector<double>> estimate_regression_parameters_variance();
+	/**
+	 * Estimates the residuals, ie u = y - X*b.
+	 *
+	 * @return The [n,1] array representing the residuals
+	 */
+	std::vector<double> estimate_residuals();
 
-    /**
-     * Estimates the residuals, ie u = y - X*b.
-     *
-     * @return The [n,1] array representing the residuals
-     */
-    std::vector<double> estimate_residuals();
+	/**
+	 * Returns the variance of the regressand, ie Var(y).
+	 *
+	 * @return The double representing the variance of y
+	 */
+	double estimate_regressand_variance();
 
-    /**
-     * Returns the variance of the regressand, ie Var(y).
-     *
-     * @return The double representing the variance of y
-     */
-    double estimate_regressand_variance();
-
-    /**
-     * Returns the standard errors of the regression parameters.
-     *
-     * @return standard errors of estimated regression parameters
-     */
-     std::vector<double> estimate_regression_parameters_standard_errors();
-
+	/**
+	 * Returns the standard errors of the regression parameters.
+	 *
+	 * @return standard errors of estimated regression parameters
+	 */
+	std::vector<double> estimate_regression_parameters_standard_errors();
 }
-
-

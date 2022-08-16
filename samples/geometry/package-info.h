@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-/**
- * Geometry examples.
- */
-//package org.hipparchus.samples.geometry;
-
-
+ /**
+  * Geometry examples.
+  */
+  //package org.hipparchus.samples.geometry;

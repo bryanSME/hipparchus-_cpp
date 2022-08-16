@@ -15,49 +15,47 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.linear;
+  //package org.hipparchus.linear;
 
-//import org.hipparchus.Field_Element;
+  //import org.hipparchus.Field_Element;
 
-/**
- * Interface defining a visitor for matrix entries.
- *
- * @param <T> the type of the field elements
- */
-class Field_Matrix_Changing_Visitor<T extends Field_Element<?>> 
+  /**
+   * Interface defining a visitor for matrix entries.
+   *
+   * @param <T> the type of the field elements
+   */
+class Field_Matrix_Changing_Visitor<T extends Field_Element< ? >>
 {
-    /**
-     * Start visiting a matrix.
-     * <p>This method is called once before any entry of the matrix is visited.</p>
-     * @param rows number of rows of the matrix
-     * @param columns number of columns of the matrix
-     * @param start_row Initial row index
-     * @param end_row Final row index (inclusive)
-     * @param start_column Initial column index
-     * @param end_column Final column index (inclusive)
-     */
-    void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column);
+	/**
+	 * Start visiting a matrix.
+	 * <p>This method is called once before any entry of the matrix is visited.</p>
+	 * @param rows number of rows of the matrix
+	 * @param columns number of columns of the matrix
+	 * @param start_row Initial row index
+	 * @param end_row Final row index (inclusive)
+	 * @param start_column Initial column index
+	 * @param end_column Final column index (inclusive)
+	 */
+	void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column);
 
-    /**
-     * Visit one matrix entry.
-     * @param row row index of the entry
-     * @param column column index of the entry
-     * @param value current value of the entry
-     * @return the value to be set for the entry
-     */
-    T visit(const int& row, const int& column, T value);
+	/**
+	 * Visit one matrix entry.
+	 * @param row row index of the entry
+	 * @param column column index of the entry
+	 * @param value current value of the entry
+	 * @return the value to be set for the entry
+	 */
+	T visit(const int& row, const int& column, T value);
 
-    /**
-     * End visiting a matrix.
-     * <p>This method is called once after all entries of the matrix have been visited.</p>
-     * @return the value that the <code>walk_in_xxx_order</code> must return
-     */
-    T end();
+	/**
+	 * End visiting a matrix.
+	 * <p>This method is called once after all entries of the matrix have been visited.</p>
+	 * @return the value that the <code>walk_in_xxx_order</code> must return
+	 */
+	T end();
 }
-
-

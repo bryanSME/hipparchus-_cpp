@@ -15,14 +15,12 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * std::complex<double> number type and implementations of complex transcendental
- * functions.
- */
-//package org.hipparchus.complex;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * std::complex<double> number type and implementations of complex transcendental
+   * functions.
+   */
+   //package org.hipparchus.complex;

@@ -16,58 +16,58 @@
  */
 #include "CopolarN.h"
 
-/** Copolar trio with pole at point c in Glaisher’s Notation.
- * <p>
- * This is a container for the three subsidiary Jacobi elliptic functions
- * {@code dc(u|m)}, {@code nc(u|m)}, and {@code sc(u|m)}.
- * </p>
- * @since 2.0
- */
+ /** Copolar trio with pole at point c in Glaisher’s Notation.
+  * <p>
+  * This is a container for the three subsidiary Jacobi elliptic functions
+  * {@code dc(u|m)}, {@code nc(u|m)}, and {@code sc(u|m)}.
+  * </p>
+  * @since 2.0
+  */
 class Copolar_C
 {
 private:
 
-    /** Value of the dc function. */
-    const double my_dc;
+	/** Value of the dc function. */
+	const double my_dc;
 
-    /** Value of the nc function. */
-    const double my_nc;
+	/** Value of the nc function. */
+	const double my_nc;
 
-    /** Value of the sc function. */
-    const double my_sc;
+	/** Value of the sc function. */
+	const double my_sc;
 
 public:
-    /** Simple constructor.
-     * @param trio_n copolar trio with pole at point n in Glaisher’s Notation
-     */
-    Copolar_C(const Copolar_N& trio_n)
-        :
-        my_nc{ 1.0 / trio_n.cn() },
-        my_sc{ my_nc * trio_n.sn() },
-        my_dc{ my_nc * trio_n.dn() }
-    {};
+	/** Simple constructor.
+	 * @param trio_n copolar trio with pole at point n in Glaisher’s Notation
+	 */
+	Copolar_C(const Copolar_N& trio_n)
+		:
+		my_nc{ 1.0 / trio_n.cn() },
+		my_sc{ my_nc * trio_n.sn() },
+		my_dc{ my_nc * trio_n.dn() }
+	{};
 
-    /** Get the value of the dc function.
-     * @return dc(u|m)
-     */
-    double dc() const
-    {
-        return my_dc;
-    }
+	/** Get the value of the dc function.
+	 * @return dc(u|m)
+	 */
+	double dc() const
+	{
+		return my_dc;
+	}
 
-    /** Get the value of the nc function.
-     * @return nc(u|m)
-     */
-    double nc() const
-    {
-        return my_nc;
-    }
+	/** Get the value of the nc function.
+	 * @return nc(u|m)
+	 */
+	double nc() const
+	{
+		return my_nc;
+	}
 
-    /** Get the value of the sc function.
-     * @return sc(u|m)
-     */
-    double sc() const
-    {
-        return my_sc;
-    }
+	/** Get the value of the sc function.
+	 * @return sc(u|m)
+	 */
+	double sc() const
+	{
+		return my_sc;
+	}
 };

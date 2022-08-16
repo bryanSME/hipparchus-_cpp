@@ -15,35 +15,35 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 
-/**
- * An interface representing a real function that depends on one independent
- * variable plus some extra parameters.
- *
- */
-class Parametric_Univariate_Function 
+  /**
+   * An interface representing a real function that depends on one independent
+   * variable plus some extra parameters.
+   *
+   */
+class Parametric_Univariate_Function
 {
-    /**
-     * Compute the value of the function.
-     *
-     * @param x Point for which the function value should be computed.
-     * @param parameters Function parameters.
-     * @return the value.
-     */
-    virtual double value(const double& x, double ... parameters);
+	/**
+	 * Compute the value of the function.
+	 *
+	 * @param x Point for which the function value should be computed.
+	 * @param parameters Function parameters.
+	 * @return the value.
+	 */
+	virtual double value(const double& x, double ... parameters);
 
-    /**
-     * Compute the gradient of the function with respect to its parameters.
-     *
-     * @param x Point for which the function value should be computed.
-     * @param parameters Function parameters.
-     * @return the value.
-     */
-    virtual std::vector<double> gradient(const double& x, double ... parameters);
+	/**
+	 * Compute the gradient of the function with respect to its parameters.
+	 *
+	 * @param x Point for which the function value should be computed.
+	 * @param parameters Function parameters.
+	 * @return the value.
+	 */
+	virtual std::vector<double> gradient(const double& x, double ... parameters);
 };

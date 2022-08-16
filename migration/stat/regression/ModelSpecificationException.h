@@ -15,32 +15,30 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.stat.regression;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.stat.regression;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.;
 
-/**
- * Exception thrown when a regression model is not correctly specified.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * Exception thrown when a regression model is not correctly specified.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
-class Model_Specification_Exception extends  
+class Model_Specification_Exception extends
 {
-    /**
-     * @param pattern message pattern describing the specification error.
-     *
-     * @param args arguments.
-     */
-    public Model_Specification_Exception(Localizable pattern, Object ... args) 
-    {
-        super(pattern, args);
-    }
+	/**
+	 * @param pattern message pattern describing the specification error.
+	 *
+	 * @param args arguments.
+	 */
+	public Model_Specification_Exception(Localizable pattern, Object ... args)
+	{
+		super(pattern, args);
+	}
 }
-
-

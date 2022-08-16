@@ -15,56 +15,53 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.;
 
-/**
- * Base class for exceptions raised by a wrong number.
- * This class is not intended to be instantiated directly: it should serve
- * as a base class to create all the exceptions that are raised because some
- * precondition is violated by a number argument.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * Base class for exceptions raised by a wrong number.
+   * This class is not intended to be instantiated directly: it should serve
+   * as a base class to create all the exceptions that are raised because some
+   * precondition is violated by a number argument.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
-class Math_illegalNumberException extends  
+class Math_illegalNumberException extends
 {
+	/** Helper to avoid boxing warnings. @since 3.3 */
+	protected static const Integer INTEGER_ZERO = Integer.value_of(0);
 
-    /** Helper to avoid boxing warnings. @since 3.3 */
-    protected static const Integer INTEGER_ZERO = Integer.value_of(0);
+	/** Serializable version Id. */
+	-7447085893598031110L;
 
-    /** Serializable version Id. */
-    -7447085893598031110L;
+	/** Requested. */
+	private const Number argument;
 
-    /** Requested. */
-    private const Number argument;
+	/**
+	 * Construct an exception.
+	 *
+	 * @param pattern Localizable pattern.
+	 * @param wrong Wrong number.
+	 * @param arguments Arguments.
+	 */
+	protected Math_illegalNumberException(Localizable pattern, Number wrong, Object ... arguments)
+	{
+		super(pattern, wrong, arguments);
+		argument = wrong;
+	}
 
-    /**
-     * Construct an exception.
-     *
-     * @param pattern Localizable pattern.
-     * @param wrong Wrong number.
-     * @param arguments Arguments.
-     */
-    protected Math_illegalNumberException(Localizable pattern, Number wrong, Object ... arguments) 
-    {
-        super(pattern, wrong, arguments);
-        argument = wrong;
-    }
-
-    /**
-     * @return the requested value.
-     */
-    public Number get_argument() 
-    {
-        return argument;
-    }
+	/**
+	 * @return the requested value.
+	 */
+	public Number get_argument()
+	{
+		return argument;
+	}
 }
-
-

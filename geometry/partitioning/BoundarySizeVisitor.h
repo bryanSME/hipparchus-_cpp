@@ -15,69 +15,65 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include "../Space.h"
 #include <type_traits>
 
-/** Visitor computing the boundary size.
- * @param <S> Type of the space.
- */
+  /** Visitor computing the boundary size.
+   * @param <S> Type of the space.
+   */
 template<typename S, typename std::enable_if<std::is_base_of<Space, S>::value>::type* = nullptr>
-class Boundary_size_visitor<S> : public BSP_Tree_Visitor<S> 
+class Boundary_size_visitor<S> : public BSP_Tree_Visitor<S>
 {
+	/** Size of the boundary. */
+	private double boundary_size;
 
-    /** Size of the boundary. */
-    private double boundary_size;
+	/** Simple constructor.
+	 */
+	Boundary_size_visitor()
+	{
+		boundary_size = 0;
+	}
 
-    /** Simple constructor.
-     */
-    Boundary_size_visitor() 
-    {
-        boundary_size = 0;
-    }
+	/** {@inherit_doc}*/
+	//override
+	public Order visit_order(const BSP_Tree<S> node)
+	{
+		return Order.MINUS_SUB_PLUS;
+	}
 
-    /** {@inherit_doc}*/
-    //override
-    public Order visit_order(const BSP_Tree<S> node) 
-    {
-        return Order.MINUS_SUB_PLUS;
-    }
+	/** {@inherit_doc}*/
+	//override
+	public void visit_internal_node(const BSP_Tree<S> node)
+	{
+		//@Suppress_Warnings("unchecked")
+		const Boundary_Attribute<S> attribute =
+			(Boundary_Attribute<S>) node.get_attribute();
+		if (attribute.get_plus_outside() != NULL)
+		{
+			boundary_size += attribute.get_plus_outside().get_size();
+		}
+		if (attribute.get_plus_inside() != NULL)
+		{
+			boundary_size += attribute.get_plus_inside().get_size();
+		}
+	}
 
-    /** {@inherit_doc}*/
-    //override
-    public void visit_internal_node(const BSP_Tree<S> node) 
-    {
-        //@Suppress_Warnings("unchecked")
-        const Boundary_Attribute<S> attribute =
-            (Boundary_Attribute<S>) node.get_attribute();
-        if (attribute.get_plus_outside() != NULL) 
-        {
-            boundary_size += attribute.get_plus_outside().get_size();
-        }
-        if (attribute.get_plus_inside() != NULL) 
-        {
-            boundary_size += attribute.get_plus_inside().get_size();
-        }
-    }
+	/** {@inherit_doc}*/
+	//override
+	public void visit_leaf_node(const BSP_Tree<S> node)
+	{
+	}
 
-    /** {@inherit_doc}*/
-    //override
-    public void visit_leaf_node(const BSP_Tree<S> node) 
-    {
-    }
-
-    /** Get the size of the boundary.
-     * @return size of the boundary
-     */
-    public double get_size() 
-    {
-        return boundary_size;
-    }
-
+	/** Get the size of the boundary.
+	 * @return size of the boundary
+	 */
+	public double get_size()
+	{
+		return boundary_size;
+	}
 }
-
-

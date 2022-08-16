@@ -15,72 +15,67 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.partitioning;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.partitioning;
 
-//import org.hipparchus.geometry.Point;
-//import org.hipparchus.geometry.Space;
+  //import org.hipparchus.geometry.Point;
+  //import org.hipparchus.geometry.Space;
 
+  /** This interface represents an inversible affine transform in a space.
+   * <p>Inversible affine transform include for example scalings, * translations, rotations.</p>
 
-/** This interface represents an inversible affine transform in a space.
- * <p>Inversible affine transform include for example scalings, * translations, rotations.</p>
+   * <p>Transforms are dimension-specific. The consistency rules between
+   * the three {@code apply} methods are the following ones for a
+   * transformed defined for dimension D:</p>
+   * <ul>
+   *   <li>
+   *     the transform can be applied to a point in the
+   *     D-dimension space using its {@link #apply(Point)}
+   *     method
+   *   </li>
+   *   <li>
+   *     the transform can be applied to a (D-1)-dimension
+   *     hyperplane in the D-dimension space using its
+   *     {@link #apply(Hyperplane)} method
+   *   </li>
+   *   <li>
+   *     the transform can be applied to a (D-2)-dimension
+   *     sub-hyperplane in a (D-1)-dimension hyperplane using
+   *     its {@link #apply(Sub_Hyperplane, Hyperplane, Hyperplane)}
+   *     method
+   *   </li>
+   * </ul>
 
- * <p>Transforms are dimension-specific. The consistency rules between
- * the three {@code apply} methods are the following ones for a
- * transformed defined for dimension D:</p>
- * <ul>
- *   <li>
- *     the transform can be applied to a point in the
- *     D-dimension space using its {@link #apply(Point)}
- *     method
- *   </li>
- *   <li>
- *     the transform can be applied to a (D-1)-dimension
- *     hyperplane in the D-dimension space using its
- *     {@link #apply(Hyperplane)} method
- *   </li>
- *   <li>
- *     the transform can be applied to a (D-2)-dimension
- *     sub-hyperplane in a (D-1)-dimension hyperplane using
- *     its {@link #apply(Sub_Hyperplane, Hyperplane, Hyperplane)}
- *     method
- *   </li>
- * </ul>
+   * @param <S> Type of the embedding space.
+   * @param <T> Type of the embedded sub-space.
 
- * @param <S> Type of the embedding space.
- * @param <T> Type of the embedded sub-space.
-
- */
-class Transform<S extends Space, T extends Space> 
+   */
+class Transform<S extends Space, T extends Space>
 {
+	/** Transform a point of a space.
+	 * @param point point to transform
+	 * @return a object representing the transformed point
+	 */
+	Point<S> apply(Point<S> point);
 
-    /** Transform a point of a space.
-     * @param point point to transform
-     * @return a object representing the transformed point
-     */
-    Point<S> apply(Point<S> point);
+	/** Transform an hyperplane of a space.
+	 * @param hyperplane hyperplane to transform
+	 * @return a object representing the transformed hyperplane
+	 */
+	Hyperplane<S> apply(Hyperplane<S> hyperplane);
 
-    /** Transform an hyperplane of a space.
-     * @param hyperplane hyperplane to transform
-     * @return a object representing the transformed hyperplane
-     */
-    Hyperplane<S> apply(Hyperplane<S> hyperplane);
-
-    /** Transform a sub-hyperplane embedded in an hyperplane.
-     * @param sub sub-hyperplane to transform
-     * @param original hyperplane in which the sub-hyperplane is
-     * defined (this is the original hyperplane, the transform has
-     * <em>not</em> been applied to it)
-     * @param transformed hyperplane in which the sub-hyperplane is
-     * defined (this is the transformed hyperplane, the transform
-     * <em>has</em> been applied to it)
-     * @return a object representing the transformed sub-hyperplane
-     */
-    Sub_Hyperplane<T> apply(Sub_Hyperplane<T> sub, Hyperplane<S> original, Hyperplane<S> transformed);
-
+	/** Transform a sub-hyperplane embedded in an hyperplane.
+	 * @param sub sub-hyperplane to transform
+	 * @param original hyperplane in which the sub-hyperplane is
+	 * defined (this is the original hyperplane, the transform has
+	 * <em>not</em> been applied to it)
+	 * @param transformed hyperplane in which the sub-hyperplane is
+	 * defined (this is the transformed hyperplane, the transform
+	 * <em>has</em> been applied to it)
+	 * @return a object representing the transformed sub-hyperplane
+	 */
+	Sub_Hyperplane<T> apply(Sub_Hyperplane<T> sub, Hyperplane<S> original, Hyperplane<S> transformed);
 }
-
-

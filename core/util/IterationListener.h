@@ -15,48 +15,48 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//import java.util.Event_Listener;
+  //import java.util.Event_Listener;
 #include "IterationEvent.h"
 
 /**
  * The listener interface for receiving events occurring in an iterative
  * algorithm.
  */
-class Iteration_Listener// : public Event_Listener 
+class Iteration_Listener// : public Event_Listener
 {
-    /**
-     * Invoked after completion of the initial phase of the iterative algorithm
-     * (prior to the main iteration loop).
-     *
-     * @param e The {@link Iteration_Event} object.
-     */
-    virtual void initialization_performed(Iteration_Event e) = 0;
+	/**
+	 * Invoked after completion of the initial phase of the iterative algorithm
+	 * (prior to the main iteration loop).
+	 *
+	 * @param e The {@link Iteration_Event} object.
+	 */
+	virtual void initialization_performed(Iteration_Event e) = 0;
 
-    /**
-     * Invoked each time an iteration is completed (in the main iteration loop).
-     *
-     * @param e The {@link Iteration_Event} object.
-     */
-    virtual void iteration_performed(Iteration_Event e) = 0;
+	/**
+	 * Invoked each time an iteration is completed (in the main iteration loop).
+	 *
+	 * @param e The {@link Iteration_Event} object.
+	 */
+	virtual void iteration_performed(Iteration_Event e) = 0;
 
-    /**
-     * Invoked each time a iteration is completed (in the main iteration
-     * loop).
-     *
-     * @param e The {@link Iteration_Event} object.
-     */
-    virtual void iteration_started(Iteration_Event e) = 0;
+	/**
+	 * Invoked each time a iteration is completed (in the main iteration
+	 * loop).
+	 *
+	 * @param e The {@link Iteration_Event} object.
+	 */
+	virtual void iteration_started(Iteration_Event e) = 0;
 
-    /**
-     * Invoked after completion of the operations which occur after breaking out
-     * of the main iteration loop.
-     *
-     * @param e The {@link Iteration_Event} object.
-     */
-    virtual void termination_performed(Iteration_Event e) = 0;
+	/**
+	 * Invoked after completion of the operations which occur after breaking out
+	 * of the main iteration loop.
+	 *
+	 * @param e The {@link Iteration_Event} object.
+	 */
+	virtual void termination_performed(Iteration_Event e) = 0;
 };

@@ -15,30 +15,27 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.linear;
 
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
 
-/**
- * Exception to be thrown when trying to invert a singular operator.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * Exception to be thrown when trying to invert a singular operator.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
-class Singular_Operator_Exception  
+class Singular_Operator_Exception
 {
-
-    /**
-     * Creates a instance of this class.
-     */
-    public Singular_Operator_Exception() 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.SINGULAR_OPERATOR);
-    }
+	/**
+	 * Creates a instance of this class.
+	 */
+	public Singular_Operator_Exception()
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.SINGULAR_OPERATOR);
+	}
 }
-
-

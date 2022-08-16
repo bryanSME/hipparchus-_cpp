@@ -15,33 +15,33 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-/**
- * Interface defining very basic matrix operations.
- */
+  /**
+   * Interface defining very basic matrix operations.
+   */
 class Any_Matrix
 {
-    /**
-     * Is this a square matrix?
-     * @return true if the matrix is square (row_dimension = column_dimension)
-     */
-    virtual bool is_square() = 0;
+	/**
+	 * Is this a square matrix?
+	 * @return true if the matrix is square (row_dimension = column_dimension)
+	 */
+	virtual bool is_square() = 0;
 
-    /**
-     * Returns the number of rows in the matrix.
-     *
-     * @return row_dimension
-     */
-    virtual int get_row_dimension() = 0;
+	/**
+	 * Returns the number of rows in the matrix.
+	 *
+	 * @return row_dimension
+	 */
+	virtual int get_row_dimension() = 0;
 
-    /**
-     * Returns the number of columns in the matrix.
-     *
-     * @return column_dimension
-     */
-    virtual int get_column_dimension() = 0;
+	/**
+	 * Returns the number of columns in the matrix.
+	 *
+	 * @return column_dimension
+	 */
+	virtual int get_column_dimension() = 0;
 };

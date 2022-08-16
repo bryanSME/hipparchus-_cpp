@@ -15,48 +15,47 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 
-/**
- * Base interface implemented by storeless multivariate statistics.
- */
+  /**
+   * Base interface implemented by storeless multivariate statistics.
+   */
 class Storeless_Multivariate_Statistic
 {
+	/**
+	 * Updates the internal state of the statistic to reflect
+	 * the addition of the value.
+	 *
+	 * @param d the value
+	 */
+	virtual void increment(std::vector<double> d) = 0;
 
-    /**
-     * Updates the internal state of the statistic to reflect
-     * the addition of the value.
-     *
-     * @param d the value
-     */
-    virtual void increment(std::vector<double> d) = 0;
+	/**
+	 * Returns the current value of the Statistic.
+	 * @return value of the statistic, <code>Double.NaN</code> if it
+	 * has been cleared or just instantiated.
+	 */
+	virtual std::vector<double> get_result() = 0;
 
-    /**
-     * Returns the current value of the Statistic.
-     * @return value of the statistic, <code>Double.NaN</code> if it
-     * has been cleared or just instantiated.
-     */
-    virtual std::vector<double> get_result() = 0;
+	/**
+	 * Returns the number of values that have been added.
+	 * @return the number of values.
+	 */
+	virtual long get_n() = 0;
 
-    /**
-     * Returns the number of values that have been added.
-     * @return the number of values.
-     */
-    virtual long get_n() = 0;
+	/**
+	 * Clears the internal state of the statistic.
+	 */
+	virtual void clear() = 0;
 
-    /**
-     * Clears the internal state of the statistic.
-     */
-    virtual void clear() = 0;
-
-    /**
-     * Returns the dimension of the statistic.
-     * @return the dimension of the statistic
-     */
-    virtual int get_dimension() = 0;
+	/**
+	 * Returns the dimension of the statistic.
+	 * @return the dimension of the statistic
+	 */
+	virtual int get_dimension() = 0;
 };

@@ -15,41 +15,37 @@
  * limitations under the License.
  */
 
-//package org.hipparchus.linear;
+ //package org.hipparchus.linear;
 
-/** Matrix decomposer using Cholseky decomposition.
- * @since 1.3
- */
-class Cholesky_Decomposer : Matrix_Decomposer 
+ /** Matrix decomposer using Cholseky decomposition.
+  * @since 1.3
+  */
+class Cholesky_Decomposer : Matrix_Decomposer
 {
+	/** Threshold above which off-diagonal elements are considered too different and matrix not symmetric. */
+	private const double relative_symmetry_threshold;
 
-    /** Threshold above which off-diagonal elements are considered too different and matrix not symmetric. */
-    private const double relative_symmetry_threshold;
+	/** Threshold below which diagonal elements are considered NULL and matrix not positive definite. */
+	private const double& absolute_positivity_threshold;
 
-    /** Threshold below which diagonal elements are considered NULL and matrix not positive definite. */
-    private const double& absolute_positivity_threshold;
+	/**
+	 * Creates a Cholesky decomposer with specify threshold for several matrices.
+	 * @param relative_symmetry_threshold threshold above which off-diagonal
+	 * elements are considered too different and matrix not symmetric
+	 * @param absolute_positivity_threshold threshold below which diagonal
+	 * elements are considered NULL and matrix not positive definite
+	 */
+	public Cholesky_Decomposer(const double relative_symmetry_threshold, const double& absolute_positivity_threshold)
+	{
+		this.relative_symmetry_threshold = relative_symmetry_threshold;
+		this.absolute_positivity_threshold = absolute_positivity_threshold;
+	}
 
-    /**
-     * Creates a Cholesky decomposer with specify threshold for several matrices.
-     * @param relative_symmetry_threshold threshold above which off-diagonal
-     * elements are considered too different and matrix not symmetric
-     * @param absolute_positivity_threshold threshold below which diagonal
-     * elements are considered NULL and matrix not positive definite
-     */
-    public Cholesky_Decomposer(const double relative_symmetry_threshold, const double& absolute_positivity_threshold) 
-    {
-        this.relative_symmetry_threshold   = relative_symmetry_threshold;
-        this.absolute_positivity_threshold = absolute_positivity_threshold;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public Decomposition_Solver decompose(const Real_Matrix& a) 
-    {
-        return Cholesky_Decomposition(a, relative_symmetry_threshold, absolute_positivity_threshold).
-               get_solver();
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public Decomposition_Solver decompose(const Real_Matrix& a)
+	{
+		return Cholesky_Decomposition(a, relative_symmetry_threshold, absolute_positivity_threshold).
+			get_solver();
+	}
 }
-
-

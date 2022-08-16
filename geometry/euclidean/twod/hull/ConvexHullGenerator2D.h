@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 #include "../../../hull/ConvexHullGenerator.h"
@@ -26,14 +26,13 @@
 #include "../../twod/Euclidean2D.h"
 #include "../../twod/Vector2D.h"
 
-/**
- * Interface for convex hull generators in the two-dimensional euclidean space.
- *
- */
+  /**
+   * Interface for convex hull generators in the two-dimensional euclidean space.
+   *
+   */
 class Convex_Hull_Generator_2D : public Convex_Hull_Generator<Euclidean_2D, Vector_2D>
 {
-    /** {@inherit_doc} */
-    //override
-    Convex_Hull_2D generate(std::vector<Vector_2D> points);
-
+	/** {@inherit_doc} */
+	//override
+	Convex_Hull_2D generate(std::vector<Vector_2D> points);
 };

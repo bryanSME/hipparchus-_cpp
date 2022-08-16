@@ -15,33 +15,33 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include "../../analysis/differentiation/UnivariateDifferentiableFunction.h"
 #include "cmath"
 
-/**
- * Absolute value function.
- *
- */
+  /**
+   * Absolute value function.
+   *
+   */
 class Abs : public Univariate_Differentiable_Function
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    double value(const double& x) const
-    {
-        return std::abs(x);
-    }
+	/** {@inherit_doc} */
+	//override
+	double value(const double& x) const
+	{
+		return std::abs(x);
+	}
 
-    /** {@inherit_doc} */
-    //override
-    template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
-    T value(T x) const
-    {
-        return x.abs();
-    }
+	/** {@inherit_doc} */
+	//override
+	template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
+	T value(T x) const
+	{
+		return x.abs();
+	}
 };

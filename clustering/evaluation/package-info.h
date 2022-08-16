@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * Cluster evaluation methods.
- */
-//package org.hipparchus.clustering.evaluation;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * Cluster evaluation methods.
+   */
+   //package org.hipparchus.clustering.evaluation;

@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.descriptive.summary;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.descriptive.summary;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.;
-//import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
-//import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
+  //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
+  //import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.util.Math_Utils;
 #include <limits>
 #include <cmath>
 #include <vector>
@@ -52,108 +52,106 @@ class Sum_Of_Squares : public Abstract_Storeless_Univariate_Statistic //, public
 {
 private:
 
-    /** Number of values that have been added */
-    long my_n;
+	/** Number of values that have been added */
+	long my_n;
 
-    /** The currently running sum_sq */
-    double my_value;
+	/** The currently running sum_sq */
+	double my_value;
 
 public:
-    /**
-     * Create a Sum_Of_Squares instance.
-     */
-    Sum_Of_Squares() : my_n{}, my_value{} {};
+	/**
+	 * Create a Sum_Of_Squares instance.
+	 */
+	Sum_Of_Squares() : my_n{}, my_value{} {};
 
-    /**
-     * Copy constructor, creates a {@code Sum_Of_Squares} identical
-     * to the {@code original}.
-     *
-     * @param original the {@code Sum_Of_Squares} instance to copy
-     * @ if original is NULL
-     */
-    Sum_Of_Squares(const Sum_Of_Squares& original) 
-    {
-        //Math_Utils::check_not_null(original);
-        my_n = original.get_n();
-        my_value = original.get_result();
-    }
+	/**
+	 * Copy constructor, creates a {@code Sum_Of_Squares} identical
+	 * to the {@code original}.
+	 *
+	 * @param original the {@code Sum_Of_Squares} instance to copy
+	 * @ if original is NULL
+	 */
+	Sum_Of_Squares(const Sum_Of_Squares& original)
+	{
+		//Math_Utils::check_not_null(original);
+		my_n = original.get_n();
+		my_value = original.get_result();
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void increment(const double& d) 
-    {
-        my_value += d * d;
-        my_n++;
-    }
+	/** {@inherit_doc} */
+	//override
+	void increment(const double& d)
+	{
+		my_value += d * d;
+		my_n++;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double get_result() const
-    {
-        return my_value;
-    }
+	/** {@inherit_doc} */
+	//override
+	double get_result() const
+	{
+		return my_value;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    long get_n() const
-    {
-        return my_n;
-    }
+	/** {@inherit_doc} */
+	//override
+	long get_n() const
+	{
+		return my_n;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void clear() 
-    {
-        my_value = 0;
-        my_n = 0;
-    }
+	/** {@inherit_doc} */
+	//override
+	void clear()
+	{
+		my_value = 0;
+		my_n = 0;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void aggregate(const Sum_Of_Squares& other) 
-    {
-        //Math_Utils::check_not_null(other);
-        if (other.get_n() > 0)
-        {
-            my_n     += other.get_n();
-            my_value += other.get_result();
-        }
-    }
+	/** {@inherit_doc} */
+	//override
+	void aggregate(const Sum_Of_Squares& other)
+	{
+		//Math_Utils::check_not_null(other);
+		if (other.get_n() > 0)
+		{
+			my_n += other.get_n();
+			my_value += other.get_result();
+		}
+	}
 
-    /**
-     * Returns the sum of the squares of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
-     *
-     * @param values the input array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return the sum of the squares of the values or 0 if length = 0
-     * @ if the array is NULL or the array index
-     *  parameters are not valid
-     */
-    //override
-    double evaluate(const std::vector<double>& values, const int& begin, const int& length)
-         
-        {
+	/**
+	 * Returns the sum of the squares of the entries in the specified portion of
+	 * the input array, or <code>Double.NaN</code> if the designated subarray
+	 * is empty.
+	 *
+	 * @param values the input array
+	 * @param begin index of the first array element to include
+	 * @param length the number of elements to include
+	 * @return the sum of the squares of the values or 0 if length = 0
+	 * @ if the array is NULL or the array index
+	 *  parameters are not valid
+	 */
+	 //override
+	double evaluate(const std::vector<double>& values, const int& begin, const int& length)
 
-        double sum_sq = std::numeric_limits<double>::quiet_NaN();
-        if (Math_Arrays::verify_values(values, begin, length, true)) 
-        {
-            sum_sq = 0.0;
-            for (int i{ begin }; i < begin + length; i++) 
-            {
-                sum_sq += values[i] * values[i];
-            }
-        }
-        return sum_sq;
-    }
+	{
+		double sum_sq = std::numeric_limits<double>::quiet_NaN();
+		if (Math_Arrays::verify_values(values, begin, length, true))
+		{
+			sum_sq = 0.0;
+			for (int i{ begin }; i < begin + length; i++)
+			{
+				sum_sq += values[i] * values[i];
+			}
+		}
+		return sum_sq;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    //Sum_Of_Squares copy() 
-    //{
-    //    return Sum_Of_Squares(this);
-    //}
-
+	/** {@inherit_doc} */
+	//override
+	//Sum_Of_Squares copy()
+	//{
+	//    return Sum_Of_Squares(this);
+	//}
 };

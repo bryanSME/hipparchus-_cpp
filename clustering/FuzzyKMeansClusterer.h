@@ -424,7 +424,7 @@ public:
 	 *     of clusters is larger than the number of data points
 	 */
 	 //override
-	std::vector<Centroid_Cluster<T>>> cluster(const Collection<T>& data_points)
+	std::vector<Centroid_Cluster<T>> > cluster(const Collection<T>& data_points)
 	{
 		// sanity checks
 		//Math_Utils::check_not_null(data_points);

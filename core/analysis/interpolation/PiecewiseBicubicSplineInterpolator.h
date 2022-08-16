@@ -15,44 +15,44 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 #include <exception>
 #include "BivariateGridInterpolator.h"
 #include "PiecewiseBicubicSplineInterpolatingFunction.hpp"
 
-/**
- * Generates a piecewise-bicubic interpolating function.
- *
- */
+  /**
+   * Generates a piecewise-bicubic interpolating function.
+   *
+   */
 class PiecewiseBicubicSpline_Interpolator : public Bivariate_Grid_Interpolator
 {
 public:
-    /**
-     * {@inherit_doc}
-     */
-     //override
-    Piecewise_Bicubic_Spline_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>>& fval)
-    {
-        throw std::exception("not implemented");
-        //if (xval == NULL || yval == NULL || fval == NULL || fval[0] == NULL)
-        //{
-        //    throw ();
-        //}
+	/**
+	 * {@inherit_doc}
+	 */
+	 //override
+	Piecewise_Bicubic_Spline_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>>& fval)
+	{
+		throw std::exception("not implemented");
+		//if (xval == NULL || yval == NULL || fval == NULL || fval[0] == NULL)
+		//{
+		//    throw ();
+		//}
 
-        //if (xval.size() == 0 || yval.size() == 0 || fval.size() == 0)
-        //{
-        //    throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
-        //}
+		//if (xval.size() == 0 || yval.size() == 0 || fval.size() == 0)
+		//{
+		//    throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+		//}
 
-        //Math_Arrays::check_order(xval);
-        //Math_Arrays::check_order(yval);
+		//Math_Arrays::check_order(xval);
+		//Math_Arrays::check_order(yval);
 
-        //return Piecewise_Bicubic_Spline_Interpolating_Function(xval, yval, fval);
-    }
+		//return Piecewise_Bicubic_Spline_Interpolating_Function(xval, yval, fval);
+	}
 };

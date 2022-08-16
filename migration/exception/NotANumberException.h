@@ -15,33 +15,30 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Exception to be thrown when a number is not a number.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when a number is not a number.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
-class Not_A_Number_Exception extends Math_illegalNumberException 
+class Not_A_Number_Exception extends Math_illegalNumberException
 {
-    /** Serializable version Id. */
-    20120906L;
+	/** Serializable version Id. */
+	20120906L;
 
-    /**
-     * Construct the exception.
-     */
-    public Not_A_Number_Exception() 
-    {
-        super(Localized_Formats.NAN_NOT_ALLOWED, Double.value_of(Double.NaN));
-    }
-
+	/**
+	 * Construct the exception.
+	 */
+	public Not_A_Number_Exception()
+	{
+		super(Localized_Formats.NAN_NOT_ALLOWED, Double.value_of(Double.NaN));
+	}
 }
-
-

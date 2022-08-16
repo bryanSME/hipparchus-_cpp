@@ -15,24 +15,20 @@
  * limitations under the License.
  */
 
-//package org.hipparchus.linear;
+ //package org.hipparchus.linear;
 
-//import org.hipparchus.exception.;
+ //import org.hipparchus.exception.;
 
-/** Interface for all algorithms providing matrix decomposition.
- * @since 1.3
- */
-class Matrix_Decomposer 
+ /** Interface for all algorithms providing matrix decomposition.
+  * @since 1.3
+  */
+class Matrix_Decomposer
 {
-
-    /**
-     * Get a solver for finding the A &times; X = B solution in least square sense.
-     * @param a coefficient matrix A to decompose
-     * @return a solver
-     * @ if decomposition fails
-     */
-    Decomposition_Solver decompose(Real_Matrix a) ;
-
+	/**
+	 * Get a solver for finding the A &times; X = B solution in least square sense.
+	 * @param a coefficient matrix A to decompose
+	 * @return a solver
+	 * @ if decomposition fails
+	 */
+	Decomposition_Solver decompose(Real_Matrix a);
 }
-
-

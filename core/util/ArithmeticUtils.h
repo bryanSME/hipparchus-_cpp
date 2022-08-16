@@ -339,5 +339,5 @@ private:
 	 * @Math_Runtime_Exception if the result cannot be represented
 	 * as a {@code long}.
 	 */
-	//static long add_and_check(const long& a, const long& b, const Localizable& pattern);
+	 //static long add_and_check(const long& a, const long& b, const Localizable& pattern);
 };

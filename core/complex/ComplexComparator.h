@@ -19,27 +19,27 @@
 #include "../util/Comparable.h"
 #include <complex>
 
-/**
- * Comparator for std::complex<double> Numbers.
- *
- */
+ /**
+  * Comparator for std::complex<double> Numbers.
+  *
+  */
 class Complex_Comparator : public Comparable<std::complex<double>>
 {
 public:
 
-    /** Compare two complex numbers, using real ordering as the primary sort order and
-     * imaginary ordering as the secondary sort order.
-     * @param o1 first complex number
-     * @param o2 second complex number
-     * @return a negative value if o1 real part is less than o2 real part
-     * or if real parts are equal and o1 imaginary part is less than o2 imaginary part
-     */
-     //override
-    double compare(const std::complex<double>& o1, const std::complex<double>& o2) override
-    {
-        auto cR = o1.real() - o2.real();
-        return cR == 0
-            ? o1.imag() - o2.imag()
-            : cR;
-    }
+	/** Compare two complex numbers, using real ordering as the primary sort order and
+	 * imaginary ordering as the secondary sort order.
+	 * @param o1 first complex number
+	 * @param o2 second complex number
+	 * @return a negative value if o1 real part is less than o2 real part
+	 * or if real parts are equal and o1 imaginary part is less than o2 imaginary part
+	 */
+	 //override
+	double compare(const std::complex<double>& o1, const std::complex<double>& o2) override
+	{
+		auto cR = o1.real() - o2.real();
+		return cR == 0
+			? o1.imag() - o2.imag()
+			: cR;
+	}
 };

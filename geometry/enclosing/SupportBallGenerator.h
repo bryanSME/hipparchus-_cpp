@@ -15,35 +15,31 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.enclosing;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.enclosing;
 
-//import java.util.List;
+  //import java.util.List;
 
-//import org.hipparchus.geometry.Point;
-//import org.hipparchus.geometry.Space;
+  //import org.hipparchus.geometry.Point;
+  //import org.hipparchus.geometry.Space;
 
-/** Interface for generating balls based on support points.
- * <p>
- * This generator is used in the {@link Welzl_Encloser Emo Welzl} algorithm
- * and its derivatives.
- * </p>
- * @param <S> Space type.
- * @param <P> Point type.
- * @see Enclosing_Ball
- */
-class Support_Ball_Generator<S extends Space, P extends Point<S>> 
+  /** Interface for generating balls based on support points.
+   * <p>
+   * This generator is used in the {@link Welzl_Encloser Emo Welzl} algorithm
+   * and its derivatives.
+   * </p>
+   * @param <S> Space type.
+   * @param <P> Point type.
+   * @see Enclosing_Ball
+   */
+class Support_Ball_Generator<S extends Space, P extends Point<S>>
 {
-
-    /** Create a ball whose boundary lies on prescribed support points.
-     * @param support support points (may be empty)
-     * @return ball whose boundary lies on the prescribed support points
-     */
-    Enclosing_Ball<S, P> ball_on_support(List<P> support);
-
+	/** Create a ball whose boundary lies on prescribed support points.
+	 * @param support support points (may be empty)
+	 * @return ball whose boundary lies on the prescribed support points
+	 */
+	Enclosing_Ball<S, P> ball_on_support(List<P> support);
 }
-
-

@@ -15,33 +15,33 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 #include "../UnivariateFunction.h"
 #include "Derivative.h"
 #include <type_traits>
 
-/** Interface for univariate functions derivatives.
- * <p>This interface represents a simple function which computes
- * both the value and the first derivative of a mathematical function.
- * The derivative is computed with respect to the input variable.</p>
- * @see Univariate_Differentiable_Function
- * @see Univariate_Function_differentiator
- */
+  /** Interface for univariate functions derivatives.
+   * <p>This interface represents a simple function which computes
+   * both the value and the first derivative of a mathematical function.
+   * The derivative is computed with respect to the input variable.</p>
+   * @see Univariate_Differentiable_Function
+   * @see Univariate_Function_differentiator
+   */
 class Univariate_Differentiable_Function : public Univariate_Function
 {
 public:
-    /**
-     * Compute the value for the function.
-     * @param x the point for which the function value should be computed
-     * @param <T> the type of the field elements
-     * @return the value
-     * @exception  if {@code x} does not
-     * satisfy the function's constraints (argument out of bound, or unsupported
-     * derivative order for example)
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
-    T value(T x);
+	/**
+	 * Compute the value for the function.
+	 * @param x the point for which the function value should be computed
+	 * @param <T> the type of the field elements
+	 * @return the value
+	 * @exception  if {@code x} does not
+	 * satisfy the function's constraints (argument out of bound, or unsupported
+	 * derivative order for example)
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
+	T value(T x);
 };

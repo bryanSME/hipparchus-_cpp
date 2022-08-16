@@ -19,46 +19,44 @@
 #include "Derivative.h"
 #include "DerivativeStructure.h"
 
-
-/** Abstract class representing both the value and the differentials of a function.
- * @param <T> the type of the function derivative
- * @since 1.7
- */
-//<T extends Univariate_Derivative<T>>
+ /** Abstract class representing both the value and the differentials of a function.
+  * @param <T> the type of the function derivative
+  * @since 1.7
+  */
+  //<T extends Univariate_Derivative<T>>
 template<typename T, typename std::enable_if<std::is_base_of<Univariate_Derivative, T>::value>::type* = nullptr>
 class Univariate_Derivative : public Derivative<T>, public Calculus_Field_Element<T>
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    int get_free_parameters()
-    {
-        return 1;
-    }
+	/** {@inherit_doc} */
+	//override
+	int get_free_parameters()
+	{
+		return 1;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double get_partial_derivative(const int ... orders)
-    {
-        if (orders.size() != 1)
-        {
-            throw std::exception("not implmented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, orders.size(), 1);
-        }
-        return get_derivative(orders[0]);
-    }
+	/** {@inherit_doc} */
+	//override
+	double get_partial_derivative(const int ... orders)
+	{
+		if (orders.size() != 1)
+		{
+			throw std::exception("not implmented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, orders.size(), 1);
+		}
+		return get_derivative(orders[0]);
+	}
 
-    /** Get a derivative from the univariate derivative.
-     * @param n derivation order (must be between 0 and {@link #get_order()}, both inclusive)
-     * @return n<sup>th</sup> derivative
-     * @exception  if n is
-     * either negative or strictly larger than {@link #get_order()}
-     */
-    virtual double get_derivative(const int& n);
+	/** Get a derivative from the univariate derivative.
+	 * @param n derivation order (must be between 0 and {@link #get_order()}, both inclusive)
+	 * @return n<sup>th</sup> derivative
+	 * @exception  if n is
+	 * either negative or strictly larger than {@link #get_order()}
+	 */
+	virtual double get_derivative(const int& n);
 
-    /** Convert the instance to a {@link Derivative_Structure}.
-     * @return derivative structure with same value and derivative as the instance
-     */
-    virtual Derivative_Structure to_derivative_structure();
-
+	/** Convert the instance to a {@link Derivative_Structure}.
+	 * @return derivative structure with same value and derivative as the instance
+	 */
+	virtual Derivative_Structure to_derivative_structure();
 };

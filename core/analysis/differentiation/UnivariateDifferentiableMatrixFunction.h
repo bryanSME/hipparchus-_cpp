@@ -15,34 +15,30 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.differentiation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.differentiation;
 
-//import org.hipparchus.analysis.Univariate_Matrix_Function;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.analysis.Univariate_Matrix_Function;
+  //import org.hipparchus.exception.;
 
-/**
- * Extension of {@link Univariate_Matrix_Function} representing a univariate differentiable matrix function.
- *
- */
+  /**
+   * Extension of {@link Univariate_Matrix_Function} representing a univariate differentiable matrix function.
+   *
+   */
 class Univariate_Differentiable_Matrix_Function
-    extends Univariate_Matrix_Function 
-    {
-
-    /**
-     * Compute the value for the function.
-     * @param x the point for which the function value should be computed
-     * @param <T> the type of the field elements
-     * @return the value
-     * @exception  if {@code x} does not
-     * satisfy the function's constraints (argument out of bound, or unsupported
-     * derivative order for example)
-     */
-    <T extends Derivative<T>> std::vector<std::vector<T>> value(T x) ;
-
+	extends Univariate_Matrix_Function
+{
+	/**
+	 * Compute the value for the function.
+	 * @param x the point for which the function value should be computed
+	 * @param <T> the type of the field elements
+	 * @return the value
+	 * @exception  if {@code x} does not
+	 * satisfy the function's constraints (argument out of bound, or unsupported
+	 * derivative order for example)
+	 */
+	<T extends Derivative<T>> std::vector<std::vector<T>> value(T x);
 }
-
-

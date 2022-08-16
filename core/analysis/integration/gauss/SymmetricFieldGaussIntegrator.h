@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.integration.gauss;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.integration.gauss;
 
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Pair;
+  //import org.hipparchus.Calculus_Field_Element;
+  //import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.util.Pair;
 #include <type_traits>
 #include "../../../CalculusFieldElement.hpp"
 
@@ -37,85 +37,83 @@
  * @since 2.0
  */
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-class SymmetricFieldGauss_Integrator extends FieldGauss_Integrator<T> 
+class SymmetricFieldGauss_Integrator extends FieldGauss_Integrator<T>
 {
-    /**
-     * Creates an integrator from the given {@code points} and {@code weights}.
-     * The integration interval is defined by the first and last value of
-     * {@code points} which must be sorted in increasing order.
-     *
-     * @param points Integration points.
-     * @param weights Weights of the corresponding integration nodes.
-     * @ if the {@code points} are not
-     * sorted in increasing order.
-     * @ if points and weights don't have the same length
-     */
-    public SymmetricFieldGauss_Integrator(std::vector<T> points, std::vector<T> weights)
-         
-        {
-        super(points, weights);
-    }
+	/**
+	 * Creates an integrator from the given {@code points} and {@code weights}.
+	 * The integration interval is defined by the first and last value of
+	 * {@code points} which must be sorted in increasing order.
+	 *
+	 * @param points Integration points.
+	 * @param weights Weights of the corresponding integration nodes.
+	 * @ if the {@code points} are not
+	 * sorted in increasing order.
+	 * @ if points and weights don't have the same length
+	 */
+	public SymmetricFieldGauss_Integrator(std::vector<T> points, std::vector<T> weights)
 
-    /**
-     * Creates an integrator from the given pair of points (first element of
-     * the pair) and weights (second element of the pair.
-     *
-     * @param points_and_weights Integration points and corresponding weights.
-     * @ if the {@code points} are not
-     * sorted in increasing order.
-     *
-     * @see #SymmetricFieldGauss_Integrator(Calculus_Field_Element[], Calculus_Field_Element[])
-     */
-    public SymmetricFieldGauss_Integrator(Pair<std::vector<T>, std::vector<T>> points_and_weights)
-         
-        {
-        this(points_and_weights.get_first(), points_and_weights.get_second());
-    }
+	{
+		super(points, weights);
+	}
 
-    /**
-     * {@inherit_doc}
-     */
-    //override
-    public T integrate(Calculus_Field_Univariate_Function<T> f) 
-    {
-        const int rule_length = get_number_of_points();
+	/**
+	 * Creates an integrator from the given pair of points (first element of
+	 * the pair) and weights (second element of the pair.
+	 *
+	 * @param points_and_weights Integration points and corresponding weights.
+	 * @ if the {@code points} are not
+	 * sorted in increasing order.
+	 *
+	 * @see #SymmetricFieldGauss_Integrator(Calculus_Field_Element[], Calculus_Field_Element[])
+	 */
+	public SymmetricFieldGauss_Integrator(Pair<std::vector<T>, std::vector<T>> points_and_weights)
 
-        const T zero = get_point(0).get_field().get_zero();
-        if (rule_length == 1) 
-        {
-            return get_weight(0).multiply(f.value(zero));
-        }
+	{
+		this(points_and_weights.get_first(), points_and_weights.get_second());
+	}
 
-        const int i_max = rule_length / 2;
-        T s = zero;
-        T c = zero;
-        for (int i{}; i < i_max; i++) 
-        {
-            const T p = get_point(i);
-            const T w = get_weight(i);
+	/**
+	 * {@inherit_doc}
+	 */
+	 //override
+	public T integrate(Calculus_Field_Univariate_Function<T> f)
+	{
+		const int rule_length = get_number_of_points();
 
-            const T f1 = f.value(p);
-            const T f2 = f.value(p.negate());
+		const T zero = get_point(0).get_field().get_zero();
+		if (rule_length == 1)
+		{
+			return get_weight(0).multiply(f.value(zero));
+		}
 
-            const T y = w.multiply(f1.add(f2)).subtract(c);
-            const T t = s.add(y);
+		const int i_max = rule_length / 2;
+		T s = zero;
+		T c = zero;
+		for (int i{}; i < i_max; i++)
+		{
+			const T p = get_point(i);
+			const T w = get_weight(i);
 
-            c = t.subtract(s).subtract(y);
-            s = t;
-        }
+			const T f1 = f.value(p);
+			const T f2 = f.value(p.negate());
 
-        if (rule_length % 2 != 0) 
-        {
-            const T w = get_weight(i_max);
+			const T y = w.multiply(f1.add(f2)).subtract(c);
+			const T t = s.add(y);
 
-            const T y = w.multiply(f.value(zero)).subtract(c);
-            const T t = s.add(y);
+			c = t.subtract(s).subtract(y);
+			s = t;
+		}
 
-            s = t;
-        }
+		if (rule_length % 2 != 0)
+		{
+			const T w = get_weight(i_max);
 
-        return s;
-    }
+			const T y = w.multiply(f.value(zero)).subtract(c);
+			const T t = s.add(y);
+
+			s = t;
+		}
+
+		return s;
+	}
 }
-
-

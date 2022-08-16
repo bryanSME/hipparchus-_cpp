@@ -15,25 +15,23 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 
-/**
- * An interface representing a multivariate matrix function.
- */
+  /**
+   * An interface representing a multivariate matrix function.
+   */
 class Multivariate_Matrix_Function
 {
-
-    /**
-     * Compute the value for the function at the given point.
-     * @param point point at which the function must be evaluated
-     * @return function value for the given point
-     * @exception Illegal_Argument_Exception if point's dimension is wrong
-     */
-    virtual std::vector<std::vector<double>> value(std::vector<double> point) = 0;
-
+	/**
+	 * Compute the value for the function at the given point.
+	 * @param point point at which the function must be evaluated
+	 * @return function value for the given point
+	 * @exception Illegal_Argument_Exception if point's dimension is wrong
+	 */
+	virtual std::vector<std::vector<double>> value(std::vector<double> point) = 0;
 };

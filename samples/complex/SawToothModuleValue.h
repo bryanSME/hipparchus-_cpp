@@ -15,39 +15,35 @@
  * limitations under the License.
  */
 
-//package org.hipparchus.samples.complex;
+ //package org.hipparchus.samples.complex;
 
-//import org.hipparchus.complex.std::complex<double>;
-//import org.hipparchus.util.FastMath;
+ //import org.hipparchus.complex.std::complex<double>;
+ //import org.hipparchus.util.FastMath;
 
-/** Domain coloring enhancing modules changes.
- * <p>
- * Value represents module but uses a sawtooth function.
- * </p>
- * <p>
- * The sawtooth function is computed from a base 2 logarithm and fractional parts.
- * It enhances modules changes with discontinuities and dark rings.
- * </p>
- */
-class Saw_Tooth_Module_Value extends Domain_coloring 
+ /** Domain coloring enhancing modules changes.
+  * <p>
+  * Value represents module but uses a sawtooth function.
+  * </p>
+  * <p>
+  * The sawtooth function is computed from a base 2 logarithm and fractional parts.
+  * It enhances modules changes with discontinuities and dark rings.
+  * </p>
+  */
+class Saw_Tooth_Module_Value extends Domain_coloring
 {
+	/** Simple constructor.
+	 * @param saturation constant saturation
+	 */
+	protected Saw_Tooth_Module_Value(const double saturation)
+	{
+		super(saturation);
+	}
 
-    /** Simple constructor.
-     * @param saturation constant saturation
-     */
-    protected Saw_Tooth_Module_Value(const double saturation) 
-    {
-        super(saturation);
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public double value(const std::complex<double> z) 
-    {
-        const double module = z.norm();
-        return std::log(module) / std::log(2.0);
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public double value(const std::complex<double> z)
+	{
+		const double module = z.norm();
+		return std::log(module) / std::log(2.0);
+	}
 }
-
-

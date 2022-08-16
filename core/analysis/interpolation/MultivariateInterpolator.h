@@ -15,41 +15,38 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.interpolation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.interpolation;
 
-//import org.hipparchus.analysis.Multivariate_Function;
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.analysis.Multivariate_Function;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
 
-/**
- * Interface representing a univariate real interpolating function.
- *
- */
-class Multivariate_Interpolator 
+  /**
+   * Interface representing a univariate real interpolating function.
+   *
+   */
+class Multivariate_Interpolator
 {
-
-    /**
-     * Computes an interpolating function for the data set.
-     *
-     * @param xval the arguments for the interpolation points.
-     * {@code xval[i][0]} is the first component of interpolation point
-     * {@code i}, {@code xval[i][1]} is the second component, and so on
-     * until {@code xval[i][d-1]}, the last component of that interpolation
-     * point (where {@code d} is thus the dimension of the space).
-     * @param yval the values for the interpolation points
-     * @return a function which interpolates the data set
-     * @ if the arguments violate assumptions
-     * made by the interpolation algorithm.
-     * @ when the array dimensions are not consistent.
-     * @ if an array has zero-length.
-     * @ if the arguments are {@code NULL}.
-     */
-    Multivariate_Function interpolate(std::vector<std::vector<double>> xval, std::vector<double> yval)
-        ;
+	/**
+	 * Computes an interpolating function for the data set.
+	 *
+	 * @param xval the arguments for the interpolation points.
+	 * {@code xval[i][0]} is the first component of interpolation point
+	 * {@code i}, {@code xval[i][1]} is the second component, and so on
+	 * until {@code xval[i][d-1]}, the last component of that interpolation
+	 * point (where {@code d} is thus the dimension of the space).
+	 * @param yval the values for the interpolation points
+	 * @return a function which interpolates the data set
+	 * @ if the arguments violate assumptions
+	 * made by the interpolation algorithm.
+	 * @ when the array dimensions are not consistent.
+	 * @ if an array has zero-length.
+	 * @ if the arguments are {@code NULL}.
+	 */
+	Multivariate_Function interpolate(std::vector<std::vector<double>> xval, std::vector<double> yval)
+		;
 }
-
-

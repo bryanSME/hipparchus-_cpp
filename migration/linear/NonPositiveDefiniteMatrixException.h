@@ -15,64 +15,59 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.linear;
 
-
-/**
- * Exception to be thrown when a positive definite matrix is expected.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when a positive definite matrix is expected.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
 class Non_Positive_Definite_Matrix_Exception
-    : org.hipparchus.migration.exception.Number_Is_Too_Small_Exception 
+	: org.hipparchus.migration.exception.Number_Is_Too_Small_Exception
 {
+	/** Index (diagonal element). */
+	private const int my_index;
+/** Threshold. */
+private const double my_threshold;
 
-    /** Index (diagonal element). */
-    private const int my_index;
-    /** Threshold. */
-    private const double my_threshold;
-
-    /**
-     * Construct an exception.
-     *
-     * @param wrong Value that fails the positivity check.
-     * @param index Row (and column) index.
-     * @param threshold Absolute positivity threshold.
-     */
-    public Non_Positive_Definite_Matrix_Exception(double wrong, int index, double threshold) 
-    {
-        super(wrong, threshold, false);
-        this.index = index;
-        this.threshold = threshold;
-
-    }
-
-    /**
-     * @return the row index.
-     */
-    public int get_row() 
-    {
-        return index;
-    }
-    /**
-     * @return the column index.
-     */
-    public int get_column() 
-    {
-        return index;
-    }
-    /**
-     * @return the absolute positivity threshold.
-     */
-    public double get_threshold() 
-    {
-        return threshold;
-    }
+/**
+ * Construct an exception.
+ *
+ * @param wrong Value that fails the positivity check.
+ * @param index Row (and column) index.
+ * @param threshold Absolute positivity threshold.
+ */
+public Non_Positive_Definite_Matrix_Exception(double wrong, int index, double threshold)
+{
+	super(wrong, threshold, false);
+	this.index = index;
+	this.threshold = threshold;
 }
 
-
+/**
+ * @return the row index.
+ */
+public int get_row()
+{
+	return index;
+}
+/**
+ * @return the column index.
+ */
+public int get_column()
+{
+	return index;
+}
+/**
+ * @return the absolute positivity threshold.
+ */
+public double get_threshold()
+{
+	return threshold;
+}
+}

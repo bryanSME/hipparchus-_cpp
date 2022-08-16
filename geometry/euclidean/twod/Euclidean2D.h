@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.geometry.euclidean.twod;
+  //package org.hipparchus.geometry.euclidean.twod;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.geometry.Space;
-//import org.hipparchus.geometry.euclidean.oned.Euclidean_1D;
+  //import org.hipparchus.geometry.Space;
+  //import org.hipparchus.geometry.euclidean.oned.Euclidean_1D;
 #include "../oned/Euclidean1D.h"
 #include "../../Space.h"
 
@@ -36,53 +36,52 @@ class Euclidean_2D : public Space
 {
 private:
 
-    /** Private constructor for the singleton.
-     */
-    Euclidean_2D() = default;
+	/** Private constructor for the singleton.
+	 */
+	Euclidean_2D() = default;
 
-    /** Get the unique instance.
-     * @return the unique instance
-     */
-    static Euclidean_2D get_instance()
-    {
-        throw std::exception("not implemented");
-        //return Lazy_Holder.INSTANCE;
-    }
+	/** Get the unique instance.
+	 * @return the unique instance
+	 */
+	static Euclidean_2D get_instance()
+	{
+		throw std::exception("not implemented");
+		//return Lazy_Holder.INSTANCE;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    int get_dimension() const
-    {
-        return 2;
-    }
+	/** {@inherit_doc} */
+	//override
+	int get_dimension() const
+	{
+		return 2;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    Euclidean_1D get_sub_space()
-    {
-        return Euclidean_1D.get_instance();
-    }
+	/** {@inherit_doc} */
+	//override
+	Euclidean_1D get_sub_space()
+	{
+		return Euclidean_1D.get_instance();
+	}
 
 private:
-    // CHECKSTYLE: stop Hide_Utility_Class_Constructor
-    /** Holder for the instance.
-     * <p>We use here the Initialization On Demand Holder Idiom.</p>
-     */
-    static class Lazy_Holder
-    {
-    private:
-        /** Cached field instance. */
-        static const Euclidean_2D INSTANCE = Euclidean_2D();
-    }
-    // CHECKSTYLE: resume Hide_Utility_Class_Constructor
+	// CHECKSTYLE: stop Hide_Utility_Class_Constructor
+	/** Holder for the instance.
+	 * <p>We use here the Initialization On Demand Holder Idiom.</p>
+	 */
+	static class Lazy_Holder
+	{
+	private:
+		/** Cached field instance. */
+		static const Euclidean_2D INSTANCE = Euclidean_2D();
+	}
+	// CHECKSTYLE: resume Hide_Utility_Class_Constructor
 
-    /** Handle deserialization of the singleton.
-     * @return the singleton instance
-     */
-    Object read_resolve()
-    {
-        // return the singleton instance
-        return Lazy_Holder.INSTANCE;
-    }
-
+	/** Handle deserialization of the singleton.
+	 * @return the singleton instance
+	 */
+	Object read_resolve()
+	{
+		// return the singleton instance
+		return Lazy_Holder.INSTANCE;
+	}
 };

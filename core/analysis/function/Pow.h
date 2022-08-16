@@ -15,28 +15,26 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.analysis.function;
+  //package org.hipparchus.analysis.function;
 
-//import org.hipparchus.analysis.Bivariate_Function;
-//import org.hipparchus.util.FastMath;
+  //import org.hipparchus.analysis.Bivariate_Function;
+  //import org.hipparchus.util.FastMath;
 
-/**
- * Power function.
- *
- */
-class Pow : Bivariate_Function 
+  /**
+   * Power function.
+   *
+   */
+class Pow : Bivariate_Function
 {
-    /** {@inherit_doc} */
-    //override
-    public double value(const double& x, double y) 
-    {
-        return std::pow(x, y);
-    }
+	/** {@inherit_doc} */
+	//override
+	public double value(const double& x, double y)
+	{
+		return std::pow(x, y);
+	}
 }
-
-

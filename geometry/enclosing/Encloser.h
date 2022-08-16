@@ -15,30 +15,26 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <type_traits>
-//import org.hipparchus.geometry.Point;
-//import org.hipparchus.geometry.Space;
+  //import org.hipparchus.geometry.Point;
+  //import org.hipparchus.geometry.Space;
 
-/** Interface for algorithms computing enclosing balls.
- * @param <S> Space type.
- * @param <P> Point type.
- * @see Enclosing_Ball
- */
+  /** Interface for algorithms computing enclosing balls.
+   * @param <S> Space type.
+   * @param <P> Point type.
+   * @see Enclosing_Ball
+   */
 template<typename T, typename std::enable_if<std::is_base_of<Point, T>::value>::type* = nullptr>
-class Encloser // <S extends Space, P extends Point<S>> 
+class Encloser // <S extends Space, P extends Point<S>>
 {
-
-    /** Find a ball enclosing a list of points.
-     * @param points points to enclose
-     * @return enclosing ball
-     */
-    Enclosing_Ball<S, P> enclose(Iterable<P> points);
-
+	/** Find a ball enclosing a list of points.
+	 * @param points points to enclose
+	 * @return enclosing ball
+	 */
+	Enclosing_Ball<S, P> enclose(Iterable<P> points);
 }
-
-

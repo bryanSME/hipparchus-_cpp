@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-/**
- * Various examples.
- */
-//package org.hipparchus.samples;
-
-
+ /**
+  * Various examples.
+  */
+  //package org.hipparchus.samples;

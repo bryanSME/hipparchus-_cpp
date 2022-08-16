@@ -15,213 +15,205 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.samples.clustering;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.samples.clustering;
 
-//import java.awt.Border_Layout;
-//import java.awt.Color;
-//import java.awt.Component;
-//import java.awt.Dimension;
-//import java.awt.Flow_Layout;
-//import java.awt.Graphics;
-//import java.awt.Grid_Layout;
-//import java.awt.event.Action_Event;
-//import java.awt.event.Action_Listener;
-//import java.awt.image.Buffered_Image;
-//import java.awt.image.Raster;
-//import java.awt.image.Writable_Raster;
-//import java.util.Array_list;
-//import java.util.List;
+  //import java.awt.Border_Layout;
+  //import java.awt.Color;
+  //import java.awt.Component;
+  //import java.awt.Dimension;
+  //import java.awt.Flow_Layout;
+  //import java.awt.Graphics;
+  //import java.awt.Grid_Layout;
+  //import java.awt.event.Action_Event;
+  //import java.awt.event.Action_Listener;
+  //import java.awt.image.Buffered_Image;
+  //import java.awt.image.Raster;
+  //import java.awt.image.Writable_Raster;
+  //import java.util.Array_list;
+  //import java.util.List;
 
-//import javax.imageio.Image_I_O;
-//import javax.swing.Border_factory;
-//import javax.swing.Box;
-//import javax.swing.Image_Icon;
-//import javax.swing.J_Button;
-//import javax.swing.J_Label;
-//import javax.swing.J_Panel;
-//import javax.swing.J_Spinner;
-//import javax.swing.SpinnerNumber_model;
+  //import javax.imageio.Image_I_O;
+  //import javax.swing.Border_factory;
+  //import javax.swing.Box;
+  //import javax.swing.Image_Icon;
+  //import javax.swing.J_Button;
+  //import javax.swing.J_Label;
+  //import javax.swing.J_Panel;
+  //import javax.swing.J_Spinner;
+  //import javax.swing.SpinnerNumber_model;
 
-//import org.hipparchus.clustering.Centroid_Cluster;
-//import org.hipparchus.clustering.Clusterable;
-//import org.hipparchus.clustering.K_Means_Plus_Plus_Clusterer;
-//import org.hipparchus.samples.Example_Utils;
-//import org.hipparchus.samples.Example_Utils.Example_Frame;
+  //import org.hipparchus.clustering.Centroid_Cluster;
+  //import org.hipparchus.clustering.Clusterable;
+  //import org.hipparchus.clustering.K_Means_Plus_Plus_Clusterer;
+  //import org.hipparchus.samples.Example_Utils;
+  //import org.hipparchus.samples.Example_Utils.Example_Frame;
 
-/**
- * This example shows how clustering can be applied to images.
- */
-////@Suppress_Warnings("serial")
-class Image_Clustering_Example 
+  /**
+   * This example shows how clustering can be applied to images.
+   */
+   ////@Suppress_Warnings("serial")
+class Image_Clustering_Example
 {
+	public static class Display : public Example_Frame
+	{
+		private Buffered_Image reference_image;
+		private Buffered_Image cluster_image;
 
-    public static class Display : public Example_Frame 
-    {
+		private Raster reference_raster;
 
-        private Buffered_Image reference_image;
-        private Buffered_Image cluster_image;
+		private Image_Painter painter;
 
-        private Raster reference_raster;
+		private J_Spinner cluster_size_spinner;
 
-        private Image_Painter painter;
+		public Display() Exception
+		{
+			set_title("Hipparchus: Image Clustering Example");
+			set_size(900, 350);
 
-        private J_Spinner cluster_size_spinner;
+			set_layout(new Flow_Layout());
 
-        public Display() Exception 
-        {
-            set_title("Hipparchus: Image Clustering Example");
-            set_size(900, 350);
+			Box bar = Box.create_horizontal_box();
 
-            set_layout(new Flow_Layout());
+			Class_Loader class_loader = Example_Utils.class.get_class_loader();
+			reference_image = Example_Utils.resize_image(
+				Image_I_O.read(class_loader.get_resource_as_stream("Colorful_Bird.jpg")), 350, 240, Buffered_Image.TYPE_INT_RGB);
 
-            Box bar = Box.create_horizontal_box();
+			reference_raster = reference_image.get_data();
 
-            Class_Loader class_loader = Example_Utils.class.get_class_loader();
-            reference_image = Example_Utils.resize_image(
-                    Image_I_O.read(class_loader.get_resource_as_stream("Colorful_Bird.jpg")), 350, 240, Buffered_Image.TYPE_INT_RGB);
+			cluster_image = Buffered_Image(reference_image.get_width(), reference_image.get_height(), Buffered_Image.TYPE_INT_RGB);
 
-            reference_raster = reference_image.get_data();
+			J_Label pic_label = J_Label(new Image_Icon(reference_image));
+			bar.add(pic_label);
 
-            cluster_image = Buffered_Image(reference_image.get_width(), reference_image.get_height(), Buffered_Image.TYPE_INT_RGB);
+			painter = Image_Painter(cluster_image.get_width(), cluster_image.get_height());
+			bar.add(painter);
 
-            J_Label pic_label = J_Label(new Image_Icon(reference_image));
-            bar.add(pic_label);
+			J_Panel control_box = J_Panel();
+			control_box.set_layout(new Grid_Layout(5, 1));
+			control_box.set_border(Border_factory.create_line_border(Color.black, 1));
 
-            painter = Image_Painter(cluster_image.get_width(), cluster_image.get_height());
-            bar.add(painter);
+			J_Panel size_box = J_Panel();
+			J_Label size_label = J_Label("Clusters:");
+			size_box.add(size_label);
 
-            J_Panel control_box = J_Panel();
-            control_box.set_layout(new Grid_Layout(5, 1));
-            control_box.set_border(Border_factory.create_line_border(Color.black, 1));
+			SpinnerNumber_model model = SpinnerNumber_model(3, 2, 10, 1);
+			cluster_size_spinner = J_Spinner(model);
 
-            J_Panel size_box = J_Panel();
-            J_Label size_label = J_Label("Clusters:");
-            size_box.add(size_label);
+			size_label.set_label_for(cluster_size_spinner);
+			size_box.add(cluster_size_spinner);
+			control_box.add(size_box, Border_Layout.NORTH);
 
-            SpinnerNumber_model model = SpinnerNumber_model(3, 2, 10, 1);
-            cluster_size_spinner = J_Spinner(model);
+			J_Button start_button = J_Button("Cluster");
+			start_button.set_action_command("cluster");
+			control_box.add(start_button, Border_Layout.CENTER);
 
-            size_label.set_label_for(cluster_size_spinner);
-            size_box.add(cluster_size_spinner);
-            control_box.add(size_box, Border_Layout.NORTH);
+			bar.add(control_box);
 
-            J_Button start_button = J_Button("Cluster");
-            start_button.set_action_command("cluster");
-            control_box.add(start_button, Border_Layout.CENTER);
+			add(bar);
 
-            bar.add(control_box);
+			start_button.add_action_listener(new Action_Listener()
+				{
+					public void action_performed(Action_Event e)
+					{
+						cluster_image();
+					}
+				});
+		}
 
-            add(bar);
+		private void cluster_image()
+		{
+			List<Pixel_Clusterable> pixels = Array_list<Pixel_Clusterable>();
+			for (int row{}; row < reference_image.get_height(); row++)
+			{
+				for (int col{}; col < reference_image.get_width(); col++)
+				{
+					pixels.add(new Pixel_Clusterable(col, row));
+				}
+			}
 
-            start_button.add_action_listener(new Action_Listener() 
-            {
-                public void action_performed(Action_Event e) 
-                {
-                    cluster_image();
-                }
-            });
-        }
+			int cluster_size = ((Number)cluster_size_spinner.get_value()).int_value();
+			K_Means_Plus_Plus_Clusterer<Pixel_Clusterable> clusterer =
+				K_Means_Plus_Plus_Clusterer<Pixel_Clusterable>(cluster_size);
+			List<Centroid_Cluster<Pixel_Clusterable>> clusters = clusterer.cluster(pixels);
 
-        private void cluster_image() 
-        {
-            List<Pixel_Clusterable> pixels = Array_list<Pixel_Clusterable>();
-            for (int row{}; row < reference_image.get_height(); row++) 
-            {
-                for (int col{};  col < reference_image.get_width(); col++) 
-                {
-                    pixels.add(new Pixel_Clusterable(col, row));
-                }
-            }
+			Writable_Raster raster = cluster_image.get_raster();
+			for (Centroid_Cluster<Pixel_Clusterable> cluster : clusters)
+			{
+				std::vector<double> color = cluster.get_center().get_point();
+				for (Pixel_Clusterable pixel : cluster.get_points())
+				{
+					raster.set_pixel(pixel.x, pixel.y, color);
+				}
+			}
 
-            int cluster_size = ((Number) cluster_size_spinner.get_value()).int_value();
-            K_Means_Plus_Plus_Clusterer<Pixel_Clusterable> clusterer =
-                    K_Means_Plus_Plus_Clusterer<Pixel_Clusterable>(cluster_size);
-            List<Centroid_Cluster<Pixel_Clusterable>> clusters = clusterer.cluster(pixels);
+			Display.this.repaint();
+		}
 
-            Writable_Raster raster = cluster_image.get_raster();
-            for (Centroid_Cluster<Pixel_Clusterable> cluster : clusters) 
-            {
-                std::vector<double> color = cluster.get_center().get_point();
-                for (Pixel_Clusterable pixel : cluster.get_points()) 
-                {
-                    raster.set_pixel(pixel.x, pixel.y, color);
-                }
-            }
+		private class Pixel_Clusterable : Clusterable
+		{
+			private const int x;
+			private const int y;
+			private std::vector<double> color;
 
-            Display.this.repaint();
-        }
+			public Pixel_Clusterable(const int& x, int y)
+			{
+				this.x = x;
+				this.y = y;
+				this.color = NULL;
+			}
 
-        private class Pixel_Clusterable : Clusterable 
-        {
+			//override
+			public std::vector<double> get_point()
+			{
+				if (color == NULL)
+				{
+					color = reference_raster.get_pixel(x, y, (std::vector<double>) NULL);
+				}
+				return color;
+			}
+		}
 
-            private const int x;
-            private const int y;
-            private std::vector<double> color;
+		private class Image_Painter extends Component
+		{
+			private int width;
+			private int height;
 
-            public Pixel_Clusterable(const int& x, int y) 
-            {
-                this.x = x;
-                this.y = y;
-                this.color = NULL;
-            }
+			public Image_Painter(const int& width, int height)
+			{
+				this.width = width;
+				this.height = height;
+			}
 
-            //override
-            public std::vector<double> get_point() 
-            {
-                if (color == NULL) 
-                {
-                    color = reference_raster.get_pixel(x, y, (std::vector<double>) NULL);
-                }
-                return color;
-            }
+			public Dimension get_preferred_size()
+			{
+				return Dimension(width, height);
+			}
 
-        }
+			//override
+			public Dimension get_minimum_size()
+			{
+				return get_preferred_size();
+			}
 
-        private class Image_Painter extends Component 
-        {
+			//override
+			public Dimension get_maximum_size()
+			{
+				return get_preferred_size();
+			}
 
-            private int width;
-            private int height;
+			public void paint(Graphics g)
+			{
+				g.draw_image(cluster_image, 0, 0, this);
+			}
+		}
+	}
 
-            public Image_Painter(const int& width, int height) 
-            {
-                this.width = width;
-                this.height = height;
-            }
-
-            public Dimension get_preferred_size() 
-            {
-                return Dimension(width, height);
-            }
-
-            //override
-            public Dimension get_minimum_size() 
-            {
-                return get_preferred_size();
-            }
-
-            //override
-            public Dimension get_maximum_size() 
-            {
-                return get_preferred_size();
-            }
-
-            public void paint(Graphics g) 
-            {
-                g.draw_image(cluster_image, 0, 0, this);
-            }
-        }
-    }
-
-    public static void main(std::string[] args) Exception 
-    {
-        Example_Utils.show_example_frame(new Display());
-    }
-
+	public static void main(std::string[] args) Exception
+	{
+		Example_Utils.show_example_frame(new Display());
+	}
 }
-
-

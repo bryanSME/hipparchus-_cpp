@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <complex>
 
 // this is a simple virtual class to compare two classes

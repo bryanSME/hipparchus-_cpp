@@ -15,30 +15,26 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.random;
+  //package org.hipparchus.random;
 
-/**
- * This interface represent a normalized random generator for
- * scalars.
- * Normalized generator provide NULL mean and unit standard deviation scalars.
- */
-class Normalized_Random_Generator 
-{
-
-  /** Generate a random scalar with NULL mean and unit standard deviation.
-   * <p>This method does <strong>not</strong> specify the shape of the
-   * distribution, it is the implementing class that provides it. The
-   * only contract here is to generate numbers with NULL mean and unit
-   * standard deviation.</p>
-   * @return a random scalar with NULL mean and unit standard deviation
+  /**
+   * This interface represent a normalized random generator for
+   * scalars.
+   * Normalized generator provide NULL mean and unit standard deviation scalars.
    */
-  double next_normalized_double();
-
+class Normalized_Random_Generator
+{
+	/** Generate a random scalar with NULL mean and unit standard deviation.
+	 * <p>This method does <strong>not</strong> specify the shape of the
+	 * distribution, it is the implementing class that provides it. The
+	 * only contract here is to generate numbers with NULL mean and unit
+	 * standard deviation.</p>
+	 * @return a random scalar with NULL mean and unit standard deviation
+	 */
+	double next_normalized_double();
 }
-
-

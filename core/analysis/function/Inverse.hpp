@@ -15,37 +15,36 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <type_traits>
 #include <cmath>
 #include "../differentiation/UnivariateDifferentiableFunction.h"
 #include "../differentiation/Derivative.h"
 
-/**
- * Inverse function.
- *
- */
+  /**
+   * Inverse function.
+   *
+   */
 class Inverse : public Univariate_Differentiable_Function
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    double value(const double& x) const
-    {
-        return 1 / x;
-    }
+	/** {@inherit_doc} */
+	//override
+	double value(const double& x) const
+	{
+		return 1 / x;
+	}
 
-    /** {@inherit_doc}
-     */
-     //override
-    template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
-    T value(const T& x) const
-    {
-        return t.reciprocal();
-    }
-
+	/** {@inherit_doc}
+	 */
+	 //override
+	template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
+	T value(const T& x) const
+	{
+		return t.reciprocal();
+	}
 };

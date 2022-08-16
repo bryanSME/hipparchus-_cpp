@@ -17,38 +17,36 @@
 
 #include "RealMatrix.h"
 
-/**
- *
- * An algebraic Riccati equation is a type of nonlinear equation that arises in
- * the context of infinite-horizon optimal control problems in continuous time
- * or discrete time.
- *
- * The continuous time algebraic Riccati equation (CARE):
- * \[
- * A^{T}X+XA-XBR^{-1}B^{T}X+Q=0
- * \}
- *
- * And the respective linear controller is:
- * \[
- * K = R^{-1}B^{T}P
- * \]
- *
- * A solver receives A, B, Q and R and computes P and K.
- *
- */
-class Riccati_Equation_Solver 
+ /**
+  *
+  * An algebraic Riccati equation is a type of nonlinear equation that arises in
+  * the context of infinite-horizon optimal control problems in continuous time
+  * or discrete time.
+  *
+  * The continuous time algebraic Riccati equation (CARE):
+  * \[
+  * A^{T}X+XA-XBR^{-1}B^{T}X+Q=0
+  * \}
+  *
+  * And the respective linear controller is:
+  * \[
+  * K = R^{-1}B^{T}P
+  * \]
+  *
+  * A solver receives A, B, Q and R and computes P and K.
+  *
+  */
+class Riccati_Equation_Solver
 {
 public:
-    /** Get the solution.
-     * @return the p
-     */
-    virtual Real_Matrix get_p();
+	/** Get the solution.
+	 * @return the p
+	 */
+	virtual Real_Matrix get_p();
 
-    /**
-     * Get the linear controller k.
-     * @return the linear controller k
-     */
-    virtual Real_Matrix get_k();
+	/**
+	 * Get the linear controller k.
+	 * @return the linear controller k
+	 */
+	virtual Real_Matrix get_k();
 }
-
-

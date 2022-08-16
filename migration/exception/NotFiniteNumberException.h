@@ -15,48 +15,46 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Exception to be thrown when a number is not finite.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when a number is not finite.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
-class Not_Finite_Number_Exception extends Math_illegalNumberException 
+class Not_Finite_Number_Exception extends Math_illegalNumberException
 {
-    /** Serializable version Id. */
-    -6100997100383932834L;
+	/** Serializable version Id. */
+	-6100997100383932834L;
 
-    /**
-     * Construct the exception.
-     *
-     * @param wrong Value that is infinite or NaN.
-     * @param args Optional arguments.
-     */
-    public Not_Finite_Number_Exception(Number wrong, Object ... args) 
-    {
-        this(Localized_Formats.NOT_FINITE_NUMBER, wrong, args);
-    }
+	/**
+	 * Construct the exception.
+	 *
+	 * @param wrong Value that is infinite or NaN.
+	 * @param args Optional arguments.
+	 */
+	public Not_Finite_Number_Exception(Number wrong, Object ... args)
+	{
+		this(Localized_Formats.NOT_FINITE_NUMBER, wrong, args);
+	}
 
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Specific context pattern.
-     * @param wrong Value that is infinite or NaN.
-     * @param args Optional arguments.
-     */
-    public Not_Finite_Number_Exception(Localizable specific, Number wrong, Object ... args) 
-    {
-        super(specific, wrong, args);
-    }
+	/**
+	 * Construct the exception with a specific context.
+	 *
+	 * @param specific Specific context pattern.
+	 * @param wrong Value that is infinite or NaN.
+	 * @param args Optional arguments.
+	 */
+	public Not_Finite_Number_Exception(Localizable specific, Number wrong, Object ... args)
+	{
+		super(specific, wrong, args);
+	}
 }
-
-

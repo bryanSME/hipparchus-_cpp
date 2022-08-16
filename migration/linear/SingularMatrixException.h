@@ -15,29 +15,27 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.linear;
 
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
 
-/**
- * Exception to be thrown when a non-singular matrix is expected.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.Math_Illegal_State_Exception}
- */
+  /**
+   * Exception to be thrown when a non-singular matrix is expected.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.Math_Illegal_State_Exception}
+   */
 @Deprecated
-class Singular_Matrix_Exception extends  
+class Singular_Matrix_Exception extends
 {
-    /**
-     * Construct an exception.
-     */
-    public Singular_Matrix_Exception() 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.SINGULAR_MATRIX);
-    }
+	/**
+	 * Construct an exception.
+	 */
+	public Singular_Matrix_Exception()
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.SINGULAR_MATRIX);
+	}
 }
-
-

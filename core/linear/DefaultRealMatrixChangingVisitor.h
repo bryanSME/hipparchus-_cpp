@@ -15,41 +15,41 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include "RealMatrixChangingVisitor.h"
 
-/**
- * Default implementation of the {@link Real_Matrix_Changing_Visitor} interface.
- * <p>
- * This class is a convenience to create custom visitors without defining all
- * methods. This class provides default implementations that do nothing.
- * </p>
- *
- */
+  /**
+   * Default implementation of the {@link Real_Matrix_Changing_Visitor} interface.
+   * <p>
+   * This class is a convenience to create custom visitors without defining all
+   * methods. This class provides default implementations that do nothing.
+   * </p>
+   *
+   */
 class Default_Real_Matrix_Changing_Visitor : Real_Matrix_Changing_Visitor
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    void start([[maybe_unused]] const int& rows, [[maybe_unused]] int columns, [[maybe_unused]] int start_row, [[maybe_unused]] int end_row, [[maybe_unused]] int start_column, [[maybe_unused]] int end_column)
-    {
-    }
+	/** {@inherit_doc} */
+	//override
+	void start([[maybe_unused]] const int& rows, [[maybe_unused]] int columns, [[maybe_unused]] int start_row, [[maybe_unused]] int end_row, [[maybe_unused]] int start_column, [[maybe_unused]] int end_column)
+	{
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double visit([[maybe_unused]] const int& row, [[maybe_unused]] const int& column, double value) const
-    {
-        return value;
-    }
+	/** {@inherit_doc} */
+	//override
+	double visit([[maybe_unused]] const int& row, [[maybe_unused]] const int& column, double value) const
+	{
+		return value;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double end() const
-    {
-        return 0;
-    }
+	/** {@inherit_doc} */
+	//override
+	double end() const
+	{
+		return 0;
+	}
 };

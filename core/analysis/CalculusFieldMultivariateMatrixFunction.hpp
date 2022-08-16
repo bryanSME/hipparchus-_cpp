@@ -19,20 +19,20 @@
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
 
-/**
- * An interface representing a matrix multivariate function.
- * @param <T> the type of the field elements
- * @see Multivariate_Matrix_Function
- * @since 2.2
- */
+ /**
+  * An interface representing a matrix multivariate function.
+  * @param <T> the type of the field elements
+  * @see Multivariate_Matrix_Function
+  * @since 2.2
+  */
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class CalculusFieldMultivariate_Matrix_Function
 {
-    /**
-     * Compute the value of the function.
-     *
-     * @param x Point at which the function value should be computed.
-     * @return the value of the function.
-     */
-    virtual std::vector<std::vector<T>> value(////@Suppress_Warnings("unchecked") T... x) = 0;
+	/**
+	 * Compute the value of the function.
+	 *
+	 * @param x Point at which the function value should be computed.
+	 * @return the value of the function.
+	 */
+	virtual std::vector<std::vector<T>> value(////@Suppress_Warnings("unchecked") T... x) = 0;
 };

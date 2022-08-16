@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- *     Specialized exceptions for algorithms errors. The exceptions can be localized
- *     using simple java properties.
- *
- */
-//package org.hipparchus.exception;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   *     Specialized exceptions for algorithms errors. The exceptions can be localized
+   *     using simple java properties.
+   *
+   */
+   //package org.hipparchus.exception;

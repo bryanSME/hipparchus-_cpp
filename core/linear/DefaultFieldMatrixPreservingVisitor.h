@@ -15,54 +15,52 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.linear;
+  //package org.hipparchus.linear;
 
-//import org.hipparchus.Field_Element;
+  //import org.hipparchus.Field_Element;
 
-/**
- * Default implementation of the {@link Field_Matrix_Preserving_Visitor} interface.
- * <p>
- * This class is a convenience to create custom visitors without defining all
- * methods. This class provides default implementations that do nothing.
- * </p>
- *
- * @param <T> the type of the field elements
- */
+  /**
+   * Default implementation of the {@link Field_Matrix_Preserving_Visitor} interface.
+   * <p>
+   * This class is a convenience to create custom visitors without defining all
+   * methods. This class provides default implementations that do nothing.
+   * </p>
+   *
+   * @param <T> the type of the field elements
+   */
 class DefaultField_Matrix_Preserving_Visitor<T extends Field_Element<T>>
-    : Field_Matrix_Preserving_Visitor<T> 
-    {
-    /** Zero element of the field. */
-    private const T zero;
+	: Field_Matrix_Preserving_Visitor<T>
+{
+	/** Zero element of the field. */
+	private const T zero;
 
-    /** Build a instance.
-     * @param zero additive identity of the field
-     */
-    public DefaultField_Matrix_Preserving_Visitor(const T zero) 
-    {
-        this.zero = zero;
-    }
+	/** Build a instance.
+	 * @param zero additive identity of the field
+	 */
+	public DefaultField_Matrix_Preserving_Visitor(const T zero)
+	{
+		this.zero = zero;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column) 
-    {
-    }
+	/** {@inherit_doc} */
+	//override
+	public void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column)
+	{
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public void visit(const int& row, const int& column, T value) {}
+	/** {@inherit_doc} */
+	//override
+	public void visit(const int& row, const int& column, T value) {}
 
-    /** {@inherit_doc} */
-    //override
-    public T end() 
-    {
-        return zero;
-    }
+	/** {@inherit_doc} */
+	//override
+	public T end()
+	{
+		return zero;
+	}
 }
-
-

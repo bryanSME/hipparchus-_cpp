@@ -24,7 +24,6 @@
 #include <cmath>
 #include <numbers>
 
-
   //import org.hipparchus.analysis.Function_Utils;
   //import org.hipparchus.analysis.Univariate_Function;
   //import org.hipparchus.complex.std::complex<double>;
@@ -92,7 +91,7 @@ public:
 	 * @ if the length of the data array is
 	 * not a power of two plus one
 	 */
-	//override
+	 //override
 	std::vector<double> transform(const std::vector<double>& f, const Transform_Type& type)
 	{
 		if (type == Transform_Type.FORWARD)
@@ -127,7 +126,7 @@ public:
 	 * @ if the number of sample points is
 	 * not a power of two plus one
 	 */
-	//override
+	 //override
 	std::vector<double> transform(const Univariate_Function& f, const double& min, const double& max, const int& n, const Transform_Type& type)
 	{
 		const std::vector<double> data = Function_Utils.sample(f, min, max, n);

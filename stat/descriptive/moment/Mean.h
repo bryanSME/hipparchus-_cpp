@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.descriptive.moment;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.descriptive.moment;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.;
-//import org.hipparchus.stat.Stat_Utils;
-//import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
-//import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
-//import org.hipparchus.stat.descriptive.Weighted_Evaluation;
-//import org.hipparchus.stat.descriptive.summary.Sum;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.stat.Stat_Utils;
+  //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
+  //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
+  //import org.hipparchus.stat.descriptive.Weighted_Evaluation;
+  //import org.hipparchus.stat.descriptive.summary.Sum;
+  //import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.util.Math_Utils;
 #include <numbers>
 #include<vector>
 #include "../AbstractStorelessUnivariateStatistic.h"
@@ -79,192 +79,189 @@
 class Mean : public Abstract_Storeless_Univariate_Statistic, public Aggregatable_Statistic<Mean>, public Weighted_Evaluation
 {
 protected:
-    /** First moment on which this statistic is based. */
-    const First_Moment moment;
+	/** First moment on which this statistic is based. */
+	const First_Moment moment;
 
-    /**
-     * Determines whether or not this statistic can be incremented or cleared.
-     * <p>
-     * Statistics based on (constructed from) external moments cannot
-     * be incremented or cleared.
-     */
-    const bool my_inc_moment;
+	/**
+	 * Determines whether or not this statistic can be incremented or cleared.
+	 * <p>
+	 * Statistics based on (constructed from) external moments cannot
+	 * be incremented or cleared.
+	 */
+	const bool my_inc_moment;
 
 public:
-    /** Constructs a Mean. */
-    Mean()
-        :
-        moment{ First_Moment() },
-        my_inc_moment{ true }
-    {
-    }
+	/** Constructs a Mean. */
+	Mean()
+		:
+		moment{ First_Moment() },
+		my_inc_moment{ true }
+	{
+	}
 
-    /**
-     * Constructs a Mean with an External Moment.
-     *
-     * @param m1 the moment
-     */
-    Mean(const First_Moment m1) 
-    {
-        my_moment = m1;
-        my_inc_moment = false;
-    }
+	/**
+	 * Constructs a Mean with an External Moment.
+	 *
+	 * @param m1 the moment
+	 */
+	Mean(const First_Moment m1)
+	{
+		my_moment = m1;
+		my_inc_moment = false;
+	}
 
-    /**
-     * Copy constructor, creates a {@code Mean} identical
-     * to the {@code original}.
-     *
-     * @param original the {@code Mean} instance to copy
-     * @ if original is NULL
-     */
-    Mean(Mean original)
-    {
-        //Math_Utils::check_not_null(original);
-        my_moment    = original.moment.copy();
-        my_inc_moment = original.inc_moment;
-    }
+	/**
+	 * Copy constructor, creates a {@code Mean} identical
+	 * to the {@code original}.
+	 *
+	 * @param original the {@code Mean} instance to copy
+	 * @ if original is NULL
+	 */
+	Mean(Mean original)
+	{
+		//Math_Utils::check_not_null(original);
+		my_moment = original.moment.copy();
+		my_inc_moment = original.inc_moment;
+	}
 
-    /**
-     * {@inherit_doc}
-     * <p>
-     * Note that when {@link #Mean(First_Moment)} is used to
-     * create a Mean, this method does nothing. In that case, the
-     * First_Moment should be incremented directly.
-     */
-    //override
-    void increment(const double& d) 
-    {
-        if (my_inc_moment)
-        {
-            my_moment.increment(d);
-        }
-    }
+	/**
+	 * {@inherit_doc}
+	 * <p>
+	 * Note that when {@link #Mean(First_Moment)} is used to
+	 * create a Mean, this method does nothing. In that case, the
+	 * First_Moment should be incremented directly.
+	 */
+	 //override
+	void increment(const double& d)
+	{
+		if (my_inc_moment)
+		{
+			my_moment.increment(d);
+		}
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void clear() 
-    {
-        if (my_inc_moment)
-        {
-            my_moment.clear();
-        }
-    }
+	/** {@inherit_doc} */
+	//override
+	void clear()
+	{
+		if (my_inc_moment)
+		{
+			my_moment.clear();
+		}
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double get_result() 
-    {
-        return my_moment.m1;
-    }
+	/** {@inherit_doc} */
+	//override
+	double get_result()
+	{
+		return my_moment.m1;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    long get_n() 
-    {
-        return my_moment.get_n();
-    }
+	/** {@inherit_doc} */
+	//override
+	long get_n()
+	{
+		return my_moment.get_n();
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void aggregate(Mean other) 
-    {
-        //Math_Utils::check_not_null(other);
-        if (my_inc_moment)
-        {
-            my_moment.aggregate(other.moment);
-        }
-    }
+	/** {@inherit_doc} */
+	//override
+	void aggregate(Mean other)
+	{
+		//Math_Utils::check_not_null(other);
+		if (my_inc_moment)
+		{
+			my_moment.aggregate(other.moment);
+		}
+	}
 
-    /**
-     * Returns the arithmetic mean of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
-     *
-     * @param values the input array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return the mean of the values orNAN if length = 0
-     * @ if the array is NULL or the array index
-     *  parameters are not valid
-     */
-    //override
-    double evaluate(const std::vector<double>& values, const int& begin, const int& length)
-    {
+	/**
+	 * Returns the arithmetic mean of the entries in the specified portion of
+	 * the input array, or <code>Double.NaN</code> if the designated subarray
+	 * is empty.
+	 *
+	 * @param values the input array
+	 * @param begin index of the first array element to include
+	 * @param length the number of elements to include
+	 * @return the mean of the values orNAN if length = 0
+	 * @ if the array is NULL or the array index
+	 *  parameters are not valid
+	 */
+	 //override
+	double evaluate(const std::vector<double>& values, const int& begin, const int& length)
+	{
+		if (Math_Arrays::verify_values(values, begin, length))
+		{
+			double sample_size = length;
 
-        if (Math_Arrays::verify_values(values, begin, length)) 
-        {
-            double sample_size = length;
+			// Compute initial estimate using definitional formula
+			double xbar = Stat_Utils.sum(values, begin, length) / sample_size;
 
-            // Compute initial estimate using definitional formula
-            double xbar = Stat_Utils.sum(values, begin, length) / sample_size;
+			// Compute correction factor in second pass
+			double correction = 0;
+			for (int i{ begin }; i < begin + length; i++)
+			{
+				correction += values[i] - xbar;
+			}
+			return xbar + (correction / sample_size);
+		}
+		return std::numeric_limits<double>::quiet_NaN();
+	}
 
-            // Compute correction factor in second pass
-            double correction = 0;
-            for (int i{ begin }; i < begin + length; i++) 
-            {
-                correction += values[i] - xbar;
-            }
-            return xbar + (correction / sample_size);
-        }
-        return std::numeric_limits<double>::quiet_NaN();
-    }
+	/**
+	 * Returns the weighted arithmetic mean of the entries in the specified portion of
+	 * the input array, or <code>Double.NaN</code> if the designated subarray
+	 * is empty.
+	 * <p>
+	 * Throws <code>Illegal_Argument_Exception</code> if either array is NULL.
+	 * <p>
+	 * See {@link Mean} for details on the computing algorithm. The two-pass algorithm
+	 * described above is used here, with weights applied in computing both the original
+	 * estimate and the correction factor.
+	 * <p>
+	 * Throws <code>Illegal_Argument_Exception</code> if any of the following are true:
+	 * <ul><li>the values array is NULL</li>
+	 *     <li>the weights array is NULL</li>
+	 *     <li>the weights array does not have the same length as the values array</li>
+	 *     <li>the weights array contains one or more infinite values</li>
+	 *     <li>the weights array contains one or more NaN values</li>
+	 *     <li>the weights array contains negative values</li>
+	 *     <li>the start and length arguments do not determine a valid array</li>
+	 * </ul>
+	 *
+	 * @param values the input array
+	 * @param weights the weights array
+	 * @param begin index of the first array element to include
+	 * @param length the number of elements to include
+	 * @return the mean of the values orNAN if length = 0
+	 * @ if the parameters are not valid
+	 */
+	 //override
+	double evaluate(const std::vector<double>& values, const std::vector<double> weights, const int& begin, const int& length)
+	{
+		if (Math_Arrays::verify_values(values, weights, begin, length))
+		{
+			Sum sum = Sum();
 
-    /**
-     * Returns the weighted arithmetic mean of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
-     * <p>
-     * Throws <code>Illegal_Argument_Exception</code> if either array is NULL.
-     * <p>
-     * See {@link Mean} for details on the computing algorithm. The two-pass algorithm
-     * described above is used here, with weights applied in computing both the original
-     * estimate and the correction factor.
-     * <p>
-     * Throws <code>Illegal_Argument_Exception</code> if any of the following are true:
-     * <ul><li>the values array is NULL</li>
-     *     <li>the weights array is NULL</li>
-     *     <li>the weights array does not have the same length as the values array</li>
-     *     <li>the weights array contains one or more infinite values</li>
-     *     <li>the weights array contains one or more NaN values</li>
-     *     <li>the weights array contains negative values</li>
-     *     <li>the start and length arguments do not determine a valid array</li>
-     * </ul>
-     *
-     * @param values the input array
-     * @param weights the weights array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return the mean of the values orNAN if length = 0
-     * @ if the parameters are not valid
-     */
-    //override
-    double evaluate(const std::vector<double>& values, const std::vector<double> weights, const int& begin, const int& length)
-    {
+			// Compute initial estimate using definitional formula
+			double sumw = sum.evaluate(weights, begin, length);
+			double xbarw = sum.evaluate(values, weights, begin, length) / sumw;
 
-        if (Math_Arrays::verify_values(values, weights, begin, length)) 
-        {
-            Sum sum = Sum();
+			// Compute correction factor in second pass
+			double correction = 0;
+			for (int i{ begin }; i < begin + length; i++)
+			{
+				correction += weights[i] * (values[i] - xbarw);
+			}
+			return xbarw + (correction / sumw);
+		}
+		return std::numeric_limits<double>::quiet_NaN();
+	}
 
-            // Compute initial estimate using definitional formula
-            double sumw = sum.evaluate(weights,begin,length);
-            double xbarw = sum.evaluate(values, weights, begin, length) / sumw;
-
-            // Compute correction factor in second pass
-            double correction = 0;
-            for (int i{ begin }; i < begin + length; i++) 
-            {
-                correction += weights[i] * (values[i] - xbarw);
-            }
-            return xbarw + (correction/sumw);
-        }
-        return std::numeric_limits<double>::quiet_NaN();
-    }
-
-    /** {@inherit_doc} */
-    //override
-    Mean copy() 
-    {
-        return Mean(*this);
-    }
-
+	/** {@inherit_doc} */
+	//override
+	Mean copy()
+	{
+		return Mean(*this);
+	}
 };

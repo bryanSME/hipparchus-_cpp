@@ -106,7 +106,7 @@ public:
 	 * @param <T> the type of the field elements
 	 * @return nome q
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T nome(const T& m)
 	{
 		const T one = m.get_field().get_one();
@@ -141,7 +141,7 @@ public:
 	static double big_k(const double& m)
 	{
 		return (m < 1.0e-8)
-			?  (1 + 0.25 * m) * Math_Utils::SEMI_PI // first terms of infinite series in Abramowitz and Stegun 17.3.11
+			? (1 + 0.25 * m) * Math_Utils::SEMI_PI // first terms of infinite series in Abramowitz and Stegun 17.3.11
 			: Carlson_Elliptic_Integral::r_f(0, 1.0 - m, 1);
 	}
 
@@ -165,7 +165,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_complete_elliptic_integralofthe_first_kind.html">Complete Elliptic Integrals of the First Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T& big_k(const T m)
 	{
 		const T zero = m.get_field().get_zero();
@@ -224,7 +224,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_complete_elliptic_integralofthe_first_kind.html">Complete Elliptic Integrals of the First Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_k(const Field_Complex<T> m)
 	{
 		const Field_Complex<T> zero = m.get_field().get_zero();
@@ -282,7 +282,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_complete_elliptic_integralofthe_first_kind.html">Complete Elliptic Integrals of the First Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_k_prime(const T& m)
 	{
 		const T zero = m.get_field().get_zero();
@@ -332,7 +332,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_complete_elliptic_integralofthe_first_kind.html">Complete Elliptic Integrals of the First Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_k_prime(const Field_Complex<T> m)
 	{
 		const Field_Complex<T> zero = m.get_field().get_zero();
@@ -380,7 +380,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/CompleteEllipticIntegraloftheSecondKind.html">Complete Elliptic Integrals of the Second Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_e(const T m)
 	{
 		const T zero = m.get_field().get_zero();
@@ -428,7 +428,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/CompleteEllipticIntegraloftheSecondKind.html">Complete Elliptic Integrals of the Second Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_e(const Field_Complex<T> m)
 	{
 		const Field_Complex<T> zero = m.get_field().get_zero();
@@ -472,7 +472,7 @@ public:
 	 * @return complete elliptic integral D(m)
 	 * @see #big_d(Calculus_Field_Element, Calculus_Field_Element)
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_d(const T m)
 	{
 		const T zero = m.get_field().get_zero();
@@ -516,7 +516,7 @@ public:
 	 * @return complete elliptic integral D(m)
 	 * @see #big_d(Field_Complex<double>, Field_Complex<double>)
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_d(const Field_Complex<T> m)
 	{
 		const Field_Complex<T> zero = m.get_field().get_zero();
@@ -569,7 +569,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_elliptic_integralofthe_third_kind.html">Elliptic Integrals of the Third Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_pi(const T n, const T m)
 	{
 		const T zero = m.get_field().get_zero();
@@ -625,7 +625,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_elliptic_integralofthe_third_kind.html">Elliptic Integrals of the Third Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_pi(const Field_Complex<T> n, const Field_Complex<T> m)
 	{
 		const Field_Complex<T> zero = m.get_field().get_zero();
@@ -687,7 +687,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/EllipticIntegraloftheFirstKind.html">Elliptic Integrals of the First Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_f(const T phi, const T m)
 	{
 		// argument reduction
@@ -799,7 +799,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/EllipticIntegraloftheFirstKind.html">Elliptic Integrals of the First Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_f(const Field_Complex<T> phi, const Field_Complex<T> m)
 	{
 		// argument reduction
@@ -844,7 +844,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/EllipticIntegraloftheFirstKind.html">Elliptic Integrals of the First Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_f(const Field_Complex<T> phi, const Field_Complex<T> m, const Field_Complex<double>_Univariate_Integrator<T> integrator, const int max_eval)
 	{
 		return integrator.integrate(max_eval, First<>(m), phi.get_field().get_zero(), phi);
@@ -902,7 +902,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/EllipticIntegraloftheSecondKind.html">Elliptic Integrals of the Second Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_e(const T phi, const T m)
 	{
 		// argument reduction
@@ -1016,7 +1016,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/EllipticIntegraloftheSecondKind.html">Elliptic Integrals of the Second Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_e(const Field_Complex<T> phi, const Field_Complex<T> m)
 	{
 		// argument reduction
@@ -1062,7 +1062,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/EllipticIntegraloftheSecondKind.html">Elliptic Integrals of the Second Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_e(const Field_Complex<T> phi, const Field_Complex<T> m, const Field_Complex<double>_Univariate_Integrator<T> integrator, const int max_eval)
 	{
 		return integrator.integrate(max_eval, Second<>(m), phi.get_field().get_zero(), phi);
@@ -1115,7 +1115,7 @@ public:
 	 * @return incomplete elliptic integral D(\xcf\x86, m)
 	 * @see #big_d(Calculus_Field_Element)
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_d(const T phi, const T m)
 	{
 		// argument reduction
@@ -1189,7 +1189,7 @@ public:
 	 * @return incomplete elliptic integral D(\xcf\x86, m)
 	 * @see #big_d(Calculus_Field_Element)
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_d(const Field_Complex<T> phi, const Field_Complex<T> m)
 	{
 		// argument reduction
@@ -1260,7 +1260,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_elliptic_integralofthe_third_kind.html">Elliptic Integrals of the Third Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static T big_pi(const T n, const T phi, const T m)
 	{
 		// argument reduction
@@ -1380,7 +1380,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_elliptic_integralofthe_third_kind.html">Elliptic Integrals of the Third Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static Field_Complex<T> big_pi(const Field_Complex<T> n, const Field_Complex<T> phi, const Field_Complex<T> m)
 	{
 		// argument reduction
@@ -1429,7 +1429,7 @@ public:
 	 * @see <a href="https://mathworld.wolfram.com/_elliptic_integralofthe_third_kind.html">Elliptic Integrals of the Third Kind (MathWorld)</a>
 	 * @see <a href="https://en.wikipedia.org/wiki/Elliptic_integral">Elliptic Integrals (Wikipedia)</a>
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	static  Field_Complex<T> big_pi(const Field_Complex<T> n, const Field_Complex<T> phi, const Field_Complex<T> m, const Field_Complex<double>_Univariate_Integrator<T> integrator, const int max_eval)
 	{
 		return integrator.integrate(max_eval, Third<>(n, m), phi.get_field().get_zero(), phi);
@@ -1469,7 +1469,7 @@ public:
 	/** Argument reduction for an incomplete integral.
 	 * @param <T> type fo the field elements
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	class Field_Argument_Reduction
 	{
 	private:
@@ -1503,7 +1503,7 @@ public:
 	/** Integrand for elliptic integrals of the first kind.
 	 * @param <T> type of the field elements
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	class First : public Calculus_Field_Univariate_Function<T>
 	{
 	private:
@@ -1529,7 +1529,7 @@ public:
 	/** Integrand for elliptic integrals of the second kind.
 	 * @param <T> type of the field elements
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	class Second : public Calculus_Field_Univariate_Function<T>
 	{
 		/** Parameter. */
@@ -1554,7 +1554,7 @@ public:
 	/** Integrand for elliptic integrals of the third kind.
 	 * @param <T> type of the field elements
 	 */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	class Third : Calculus_Field_Univariate_Function<T>
 	{
 		/** Elliptic characteristic. */

@@ -15,73 +15,67 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.partitioning;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.partitioning;
 
-//import java.util.Array_list;
-//import java.util.Iterator;
-//import java.util.List;
+  //import java.util.Array_list;
+  //import java.util.Iterator;
+  //import java.util.List;
 
-//import org.hipparchus.geometry.Space;
+  //import org.hipparchus.geometry.Space;
 
-/** Set of {@link BSP_Tree BSP tree} nodes.
- * @see Boundary_Attribute
- * @param <S> Type of the space.
- */
-class Nodes_Set<S extends Space> : Iterable<BSP_Tree<S>> 
+  /** Set of {@link BSP_Tree BSP tree} nodes.
+   * @see Boundary_Attribute
+   * @param <S> Type of the space.
+   */
+class Nodes_Set<S extends Space> : Iterable<BSP_Tree<S>>
 {
+	/** List of sub-hyperplanes. */
+	private const List<BSP_Tree<S>> list;
 
-    /** List of sub-hyperplanes. */
-    private const List<BSP_Tree<S>> list;
+	/** Simple constructor.
+	 */
+	public Nodes_Set()
+	{
+		list = Array_list<>();
+	}
 
-    /** Simple constructor.
-     */
-    public Nodes_Set() 
-    {
-        list = Array_list<>();
-    }
+	/** Add a node if not already known.
+	 * @param node node to add
+	 */
+	public void add(const BSP_Tree<S> node)
+	{
+		for (const BSP_Tree<S> existing : list)
+		{
+			if (node == existing)
+			{
+				// the node is already known, don't add it
+				return;
+			}
+		}
 
-    /** Add a node if not already known.
-     * @param node node to add
-     */
-    public void add(const BSP_Tree<S> node) 
-    {
+		// the node was not known, add it
+		list.add(node);
+	}
 
-        for (const BSP_Tree<S> existing : list) 
-        {
-            if (node == existing) 
-            {
-                // the node is already known, don't add it
-                return;
-            }
-        }
+	/** Add nodes if they are not already known.
+	 * @param iterator nodes iterator
+	 */
+	public void add_all(const Iterable<BSP_Tree<S>> iterator)
+	{
+		for (const BSP_Tree<S> node : iterator)
+		{
+			add(node);
+		}
+	}
 
-        // the node was not known, add it
-        list.add(node);
-
-    }
-
-    /** Add nodes if they are not already known.
-     * @param iterator nodes iterator
-     */
-    public void add_all(const Iterable<BSP_Tree<S>> iterator) 
-    {
-        for (const BSP_Tree<S> node : iterator) 
-        {
-            add(node);
-        }
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public Iterator<BSP_Tree<S>> iterator() 
-    {
-        return list.iterator();
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public Iterator<BSP_Tree<S>> iterator()
+	{
+		return list.iterator();
+	}
 }
-
-

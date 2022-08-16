@@ -15,30 +15,30 @@
  * limitations under the License.
  */
 
-/** Matrix decomposer using QR-decomposition.
- * @since 1.3
- */
+ /** Matrix decomposer using QR-decomposition.
+  * @since 1.3
+  */
 class QR_Decomposer : public Matrix_Decomposer
 {
 private:
-    /** Threshold under which a matrix is considered singular. */
-    const double my_singularity_threshold;
+	/** Threshold under which a matrix is considered singular. */
+	const double my_singularity_threshold;
 
 public:
-    /**
-     * Creates a QR decomposer with specify threshold for several matrices.
-     * @param singularity_threshold threshold (based on partial row norm)
-     * under which a matrix is considered singular
-     */
-    QR_Decomposer(const double& singularity_threshold)
-    {
-        QR_Decomposer.singularity_threshold = singularity_threshold;
-    }
+	/**
+	 * Creates a QR decomposer with specify threshold for several matrices.
+	 * @param singularity_threshold threshold (based on partial row norm)
+	 * under which a matrix is considered singular
+	 */
+	QR_Decomposer(const double& singularity_threshold)
+	{
+		QR_Decomposer.singularity_threshold = singularity_threshold;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    Decomposition_Solver decompose(const Real_Matrix& a)
-    {
-        return QR_Decomposition(a, singularity_threshold).get_solver();
-    }
+	/** {@inherit_doc} */
+	//override
+	Decomposition_Solver decompose(const Real_Matrix& a)
+	{
+		return QR_Decomposition(a, singularity_threshold).get_solver();
+	}
 };

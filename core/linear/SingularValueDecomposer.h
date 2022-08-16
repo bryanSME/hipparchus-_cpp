@@ -15,21 +15,17 @@
  * limitations under the License.
  */
 
-//package org.hipparchus.linear;
+ //package org.hipparchus.linear;
 
-/** Matrix decomposer using Singular Value Decomposition.
- * @since 1.3
- */
-class Singular_Value_Decomposer : Matrix_Decomposer 
+ /** Matrix decomposer using Singular Value Decomposition.
+  * @since 1.3
+  */
+class Singular_Value_Decomposer : Matrix_Decomposer
 {
-
-    /** {@inherit_doc} */
-    //override
-    public Decomposition_Solver decompose(const Real_Matrix& a) 
-    {
-        return Singular_Value_Decomposition(a).get_solver();
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public Decomposition_Solver decompose(const Real_Matrix& a)
+	{
+		return Singular_Value_Decomposition(a).get_solver();
+	}
 }
-
-

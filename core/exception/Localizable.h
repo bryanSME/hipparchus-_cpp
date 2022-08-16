@@ -15,34 +15,34 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <string>
 
-/**
- * Interface for localizable strings.
- *
- */
+  /**
+   * Interface for localizable strings.
+   *
+   */
 class Localizable
 {
 public:
 
-    /**
-     * Gets the source (non-localized) string.
-     *
-     * @return the source string.
-     */
-    virtual std::string get_source_string() const;
+	/**
+	 * Gets the source (non-localized) string.
+	 *
+	 * @return the source string.
+	 */
+	virtual std::string get_source_string() const;
 
-    /**
-     * Gets the localized string.
-     *
-     * @param locale locale into which to get the string.
-     * @return the localized string or the source string if no
-     * localized version is available.
-     */
-     virtual std::string get_localized_string(const std::locale& locale);
+	/**
+	 * Gets the localized string.
+	 *
+	 * @param locale locale into which to get the string.
+	 * @return the localized string or the source string if no
+	 * localized version is available.
+	 */
+	virtual std::string get_localized_string(const std::locale& locale);
 };

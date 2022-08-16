@@ -15,48 +15,45 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.interpolation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.interpolation;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.analysis.polynomials.Polynomial_Function_Lagrange_Form;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.analysis.polynomials.Polynomial_Function_Lagrange_Form;
+  //import org.hipparchus.exception.;
 
-/**
- * Implements the <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
- * Neville's Algorithm</a> for interpolation of real univariate functions. For
- * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, * chapter 2.
- * <p>
- * The actual code of Neville's algorithm is in Polynomial_Function_Lagrange_Form, * this class provides an easy-to-use interface to it.</p>
- *
- */
+  /**
+   * Implements the <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
+   * Neville's Algorithm</a> for interpolation of real univariate functions. For
+   * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, * chapter 2.
+   * <p>
+   * The actual code of Neville's algorithm is in Polynomial_Function_Lagrange_Form, * this class provides an easy-to-use interface to it.</p>
+   *
+   */
 class Neville_Interpolator : Univariate_Interpolator
 {
+	/** serializable version identifier */
+	static const long serial_version_uid = 3003707660147873733L;
 
-    /** serializable version identifier */
-    static const long serial_version_uid = 3003707660147873733L;
+	/**
+	 * Computes an interpolating function for the data set.
+	 *
+	 * @param x Interpolating points.
+	 * @param y Interpolating values.
+	 * @return a function which interpolates the data set
+	 * @ if the array lengths are different.
+	 * @ if the number of points is less than 2.
+	 * @ if two abscissae have the same
+	 * value.
+	 */
+	 //override
+	public Polynomial_Function_Lagrange_Form interpolate(const std::vector<double>& x, const std::vector<double>& y)
 
-    /**
-     * Computes an interpolating function for the data set.
-     *
-     * @param x Interpolating points.
-     * @param y Interpolating values.
-     * @return a function which interpolates the data set
-     * @ if the array lengths are different.
-     * @ if the number of points is less than 2.
-     * @ if two abscissae have the same
-     * value.
-     */
-    //override
-    public Polynomial_Function_Lagrange_Form interpolate(const std::vector<double>& x, const std::vector<double>& y)
-         
-        {
-        return Polynomial_Function_Lagrange_Form(x, y);
-    }
+	{
+		return Polynomial_Function_Lagrange_Form(x, y);
+	}
 }
-
-

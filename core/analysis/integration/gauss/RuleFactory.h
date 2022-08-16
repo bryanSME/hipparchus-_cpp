@@ -14,32 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.analysis.integration.gauss;
+ //package org.hipparchus.analysis.integration.gauss;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Pair;
+ //import org.hipparchus.exception.;
+ //import org.hipparchus.util.Pair;
 
-/** Interface for rules that determines the integration nodes and their weights.
- * @since 2.0
- */
-class Rule_Factory 
+ /** Interface for rules that determines the integration nodes and their weights.
+  * @since 2.0
+  */
+class Rule_Factory
 {
-
-    /**
-     * Gets a copy of the quadrature rule with the given number of integration
-     * points.
-     * The number of points is arbitrarily limited to 1000. It prevents resources
-     * exhaustion. In practice the number of points is often much lower.
-     *
-     * @param number_of_points Number of integration points.
-     * @return a copy of the integration rule.
-     * @ if {@code number_of_points < 1}.
-     * @ if {@code number_of_points > 1000}.
-     * @ if the elements of the rule pair do not
-     * have the same length.
-     */
-    Pair<std::vector<double>, std::vector<double>> get_rule(const int& number_of_points) ;
-
+	/**
+	 * Gets a copy of the quadrature rule with the given number of integration
+	 * points.
+	 * The number of points is arbitrarily limited to 1000. It prevents resources
+	 * exhaustion. In practice the number of points is often much lower.
+	 *
+	 * @param number_of_points Number of integration points.
+	 * @return a copy of the integration rule.
+	 * @ if {@code number_of_points < 1}.
+	 * @ if {@code number_of_points > 1000}.
+	 * @ if the elements of the rule pair do not
+	 * have the same length.
+	 */
+	Pair<std::vector<double>, std::vector<double>> get_rule(const int& number_of_points);
 }
-
-

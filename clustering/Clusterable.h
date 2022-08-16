@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 
-/**
- * Interface for n-dimensional points that can be clustered together.
- */
+  /**
+   * Interface for n-dimensional points that can be clustered together.
+   */
 class Clusterable
 {
 public:
-    /**
-     * Gets the n-dimensional point.
-     *
-     * @return the point array (beware, it may be a reference to an internal array)
-     */
-    virtual std::vector<double> get_point() = 0;
+	/**
+	 * Gets the n-dimensional point.
+	 *
+	 * @return the point array (beware, it may be a reference to an internal array)
+	 */
+	virtual std::vector<double> get_point() = 0;
 };

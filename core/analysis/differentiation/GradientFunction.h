@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.differentiation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.differentiation;
 
-//import org.hipparchus.analysis.Multivariate_Vector_function;
+  //import org.hipparchus.analysis.Multivariate_Vector_function;
 #include "../MultivariateVectorFunction.h"
 #include "MultivariateDifferentiableFunction.h"
 #include "DSFactory.h"
@@ -35,44 +35,42 @@
 class Gradient_Function : public Multivariate_Vector_function
 {
 private:
-    /** Underlying real-valued function. */
-    const Multivariate_Differentiable_Function my_f;
+	/** Underlying real-valued function. */
+	const Multivariate_Differentiable_Function my_f;
 
 public:
-    /** Simple constructor.
-     * @param f underlying real-valued function
-     */
-    Gradient_Function(const Multivariate_Differentiable_Function& f)
-        : my_f{ f }
-    {};
+	/** Simple constructor.
+	 * @param f underlying real-valued function
+	 */
+	Gradient_Function(const Multivariate_Differentiable_Function& f)
+		: my_f{ f }
+	{};
 
-    /** {@inherit_doc} */
-    //override
-    std::vector<double> value(const std::vector<double>& point)
-    {
-        // set up parameters
-        DS_Factory factory = DS_Factory(point.size(), 1);
-        auto ds_x = std::vector<Derivative_Structure>(point.size());
-        for (int i{}; i < point.size(); ++i)
-        {
-            ds_x[i] = factory.variable(i, point[i]);
-        }
+	/** {@inherit_doc} */
+	//override
+	std::vector<double> value(const std::vector<double>& point)
+	{
+		// set up parameters
+		DS_Factory factory = DS_Factory(point.size(), 1);
+		auto ds_x = std::vector<Derivative_Structure>(point.size());
+		for (int i{}; i < point.size(); ++i)
+		{
+			ds_x[i] = factory.variable(i, point[i]);
+		}
 
-        // compute the derivatives
-        const Derivative_Structure ds_y = my_f.value(ds_x);
+		// compute the derivatives
+		const Derivative_Structure ds_y = my_f.value(ds_x);
 
-        // extract the gradient
-        auto y = std::vector<double>(point.size());
-        auto orders = std::vector<int>(point.size());
-        for (int i{}; i < point.size(); ++i)
-        {
-            orders[i] = 1;
-            y[i] = ds_y.get_partial_derivative(orders);
-            orders[i] = 0;
-        }
+		// extract the gradient
+		auto y = std::vector<double>(point.size());
+		auto orders = std::vector<int>(point.size());
+		for (int i{}; i < point.size(); ++i)
+		{
+			orders[i] = 1;
+			y[i] = ds_y.get_partial_derivative(orders);
+			orders[i] = 0;
+		}
 
-        return y;
-
-    }
-
+		return y;
+	}
 };

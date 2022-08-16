@@ -15,72 +15,70 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Exception to be thrown when some argument is out of range.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when some argument is out of range.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
-class Out_Of_Range_Exception extends Math_illegalNumberException 
+class Out_Of_Range_Exception extends Math_illegalNumberException
 {
-    /** Serializable version Id. */
-    111601815794403609L;
-    /** Lower bound. */
-    private const Number lo;
-    /** Higher bound. */
-    private const Number hi;
+	/** Serializable version Id. */
+	111601815794403609L;
+	/** Lower bound. */
+	private const Number lo;
+	/** Higher bound. */
+	private const Number hi;
 
-    /**
-     * Construct an exception from the mismatched dimensions.
-     *
-     * @param wrong Requested value.
-     * @param lo Lower bound.
-     * @param hi Higher bound.
-     */
-    public Out_Of_Range_Exception(Number wrong, Number lo, Number hi) 
-    {
-        this(Localized_Formats.OUT_OF_RANGE_SIMPLE, wrong, lo, hi);
-    }
+	/**
+	 * Construct an exception from the mismatched dimensions.
+	 *
+	 * @param wrong Requested value.
+	 * @param lo Lower bound.
+	 * @param hi Higher bound.
+	 */
+	public Out_Of_Range_Exception(Number wrong, Number lo, Number hi)
+	{
+		this(Localized_Formats.OUT_OF_RANGE_SIMPLE, wrong, lo, hi);
+	}
 
-    /**
-     * Construct an exception from the mismatched dimensions with a
-     * specific context information.
-     *
-     * @param specific Context information.
-     * @param wrong Requested value.
-     * @param lo Lower bound.
-     * @param hi Higher bound.
-     */
-    public Out_Of_Range_Exception(Localizable specific, Number wrong, Number lo, Number hi) 
-    {
-        super(specific, wrong, lo, hi);
-        this.lo = lo;
-        this.hi = hi;
-    }
+	/**
+	 * Construct an exception from the mismatched dimensions with a
+	 * specific context information.
+	 *
+	 * @param specific Context information.
+	 * @param wrong Requested value.
+	 * @param lo Lower bound.
+	 * @param hi Higher bound.
+	 */
+	public Out_Of_Range_Exception(Localizable specific, Number wrong, Number lo, Number hi)
+	{
+		super(specific, wrong, lo, hi);
+		this.lo = lo;
+		this.hi = hi;
+	}
 
-    /**
-     * @return the lower bound.
-     */
-    public Number get_lo() 
-    {
-        return lo;
-    }
-    /**
-     * @return the higher bound.
-     */
-    public Number get_hi() 
-    {
-        return hi;
-    }
+	/**
+	 * @return the lower bound.
+	 */
+	public Number get_lo()
+	{
+		return lo;
+	}
+	/**
+	 * @return the higher bound.
+	 */
+	public Number get_hi()
+	{
+		return hi;
+	}
 }
-
-

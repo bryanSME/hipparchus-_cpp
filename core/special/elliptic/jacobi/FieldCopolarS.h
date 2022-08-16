@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 #include <type_traits>
 #include "../../../CalculusFieldElement.hpp"
 //import org.hipparchus.Calculus_Field_Element;
@@ -30,48 +30,46 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class FieldCopolar_S
 {
+	/** Value of the cs function. */
+	private const T cs;
 
-    /** Value of the cs function. */
-    private const T cs;
+	/** Value of the dn function. */
+	private const T ds;
 
-    /** Value of the dn function. */
-    private const T ds;
+	/** Value of the ns function. */
+	private const T ns;
 
-    /** Value of the ns function. */
-    private const T ns;
+	/** Simple constructor.
+	 * @param trio_n copolar trio with pole at point n in Glaisher\xe2\x80\x99s Notation
+	 */
+	FieldCopolar_S(const Field_Copolar_N<T> trio_n)
+	{
+		this.ns = trio_n.sn().reciprocal();
+		this.cs = ns.multiply(trio_n.cn());
+		this.ds = ns.multiply(trio_n.dn());
+	}
 
-    /** Simple constructor.
-     * @param trio_n copolar trio with pole at point n in Glaisher\xe2\x80\x99s Notation
-     */
-    FieldCopolar_S(const Field_Copolar_N<T> trio_n)
-    {
-        this.ns = trio_n.sn().reciprocal();
-        this.cs = ns.multiply(trio_n.cn());
-        this.ds = ns.multiply(trio_n.dn());
-    }
+	/** Get the value of the cs function.
+	 * @return cs(u|m)
+	 */
+	public T cs()
+	{
+		return cs;
+	}
 
-    /** Get the value of the cs function.
-     * @return cs(u|m)
-     */
-    public T cs()
-    {
-        return cs;
-    }
+	/** Get the value of the ds function.
+	 * @return ds(u|m)
+	 */
+	public T ds()
+	{
+		return ds;
+	}
 
-    /** Get the value of the ds function.
-     * @return ds(u|m)
-     */
-    public T ds()
-    {
-        return ds;
-    }
-
-    /** Get the value of the ns function.
-     * @return ns(u|m)
-     */
-    public T ns()
-    {
-        return ns;
-    }
-
+	/** Get the value of the ns function.
+	 * @return ns(u|m)
+	 */
+	public T ns()
+	{
+		return ns;
+	}
 };

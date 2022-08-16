@@ -15,20 +15,18 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.solvers;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.solvers;
 
-//import org.hipparchus.analysis.polynomials.Polynomial_Function;
+  //import org.hipparchus.analysis.polynomials.Polynomial_Function;
 
-/**
- * Interface for (polynomial) root-finding algorithms.
- * Implementations will search for only one zero in the given interval.
- *
- */
+  /**
+   * Interface for (polynomial) root-finding algorithms.
+   * Implementations will search for only one zero in the given interval.
+   *
+   */
 class Polynomial_Solver
-    extends Base_Univariate_Solver<Polynomial_Function> {}
-
-
+	extends Base_Univariate_Solver<Polynomial_Function> {}

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-//import org.hipparchus.Field;
-//import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Field;
+ //import org.hipparchus.Calculus_Field_Element;
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
 
@@ -27,24 +27,23 @@
  */
 class FieldUnivariate_Vector_Function
 {
+	/** Convert to a {@link CalculusFieldUnivariate_Vector_Function} with a specific type.
+	 * @param <T> the type of the field elements
+	 * @param field field for the argument and value
+	 * @return converted function
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	CalculusFieldUnivariate_Vector_Function<T> to_calculus_field_univariate__vector__function(Field<T> field)
+	{
+		return this::value;
+	}
 
-    /** Convert to a {@link CalculusFieldUnivariate_Vector_Function} with a specific type.
-     * @param <T> the type of the field elements
-     * @param field field for the argument and value
-     * @return converted function
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    CalculusFieldUnivariate_Vector_Function<T> to_calculus_field_univariate__vector__function(Field<T> field)
-    {
-        return this::value;
-    }
-
-    /**
-     * Compute the value for the function.
-     * @param <T> the type of the field elements
-     * @param x the point for which the function value should be computed
-     * @return the value
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    virtual  std::vector<T> value(T x) = 0;
+	/**
+	 * Compute the value for the function.
+	 * @param <T> the type of the field elements
+	 * @param x the point for which the function value should be computed
+	 * @return the value
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	virtual  std::vector<T> value(T x) = 0;
 };

@@ -15,35 +15,31 @@
  * limitations under the License.
  */
 
-//package org.hipparchus.samples.complex;
+ //package org.hipparchus.samples.complex;
 
-//import org.hipparchus.complex.std::complex<double>;
-//import org.hipparchus.util.FastMath;
+ //import org.hipparchus.complex.std::complex<double>;
+ //import org.hipparchus.util.FastMath;
 
-/** Classical method for domain coloring.
- * <p>
- * Value represents module.
- * </p>
- */
-class Continuous_moduleValue extends Domain_coloring 
+ /** Classical method for domain coloring.
+  * <p>
+  * Value represents module.
+  * </p>
+  */
+class Continuous_moduleValue extends Domain_coloring
 {
+	/** Simple constructor.
+	 * @param saturation constant saturation
+	 */
+	protected Continuous_moduleValue(const double saturation)
+	{
+		super(saturation);
+	}
 
-    /** Simple constructor.
-     * @param saturation constant saturation
-     */
-    protected Continuous_moduleValue(const double saturation) 
-    {
-        super(saturation);
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public double value(const std::complex<double> z) 
-    {
-        const double module = z.norm();
-        return std::pow(1.0 - 1.0 / (1.0 + module * module), 0.2);
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public double value(const std::complex<double> z)
+	{
+		const double module = z.norm();
+		return std::pow(1.0 - 1.0 / (1.0 + module * module), 0.2);
+	}
 }
-
-

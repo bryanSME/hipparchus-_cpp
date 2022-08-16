@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.linear;
 
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.Math_Runtime_Exception;
-//import org.hipparchus.util.Iteration_Event;
+  //import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.Math_Runtime_Exception;
+  //import org.hipparchus.util.Iteration_Event;
 #include "RealVector.h"
 #include "../util/IterationEvent.h"
 
@@ -35,89 +35,89 @@
 class Iterative_Linear_SolverEvent : public Iteration_Event
 {
 public:
-    /**
-     * Creates a instance of this class.
-     *
-     * @param source the iterative algorithm on which the event initially
-     * occurred
-     * @param iterations the number of iterations performed at the time
-     * {@code this} event is created
-     */
-    Iterative_Linear_SolverEvent(const Object& source, const int& iterations)
-    {
-        super(source, iterations);
-    }
+	/**
+	 * Creates a instance of this class.
+	 *
+	 * @param source the iterative algorithm on which the event initially
+	 * occurred
+	 * @param iterations the number of iterations performed at the time
+	 * {@code this} event is created
+	 */
+	Iterative_Linear_SolverEvent(const Object& source, const int& iterations)
+	{
+		super(source, iterations);
+	}
 
-    /**
-     * Returns the current right-hand side of the linear system to be solved.
-     * This method should return an unmodifiable view, or a deep copy of the
-     * actual right-hand side vector, in order not to compromise subsequent
-     * iterations of the source {@link Iterative_Linear_Solver}.
-     *
-     * @return the right-hand side vector, b
-     */
-    virtual Real_Vector get_right_hand_side_vector();
+	/**
+	 * Returns the current right-hand side of the linear system to be solved.
+	 * This method should return an unmodifiable view, or a deep copy of the
+	 * actual right-hand side vector, in order not to compromise subsequent
+	 * iterations of the source {@link Iterative_Linear_Solver}.
+	 *
+	 * @return the right-hand side vector, b
+	 */
+	virtual Real_Vector get_right_hand_side_vector();
 
-    /**
-     * Returns the norm of the residual. The returned value is not required to
-     * be <em>exact</em>. Instead, the norm of the so-called <em>updated</em>
-     * residual (if available) should be returned. For example, the
-     * {@link Conjugate_Gradient conjugate gradient} method computes a sequence
-     * of residuals, the norm of which is cheap to compute. However, due to
-     * accumulation of round-off errors, this residual might differ from the
-     * true residual after some iterations. See e.g. A. Greenbaum and
-     * Z. Strakos, <em>Predicting the Behavior of Finite Precision Lanzos and
-     * Conjugate Gradient Computations</em>, Technical Report 538, Department of
-     * Computer Science, New York University, 1991 (available
-     * <a href="http://www.archive.org/details/predictingbehavi00gree">here</a>).
-     *
-     * @return the norm of the residual, ||r||
-     */
-    virtual double get_norm_of_residual();
+	/**
+	 * Returns the norm of the residual. The returned value is not required to
+	 * be <em>exact</em>. Instead, the norm of the so-called <em>updated</em>
+	 * residual (if available) should be returned. For example, the
+	 * {@link Conjugate_Gradient conjugate gradient} method computes a sequence
+	 * of residuals, the norm of which is cheap to compute. However, due to
+	 * accumulation of round-off errors, this residual might differ from the
+	 * true residual after some iterations. See e.g. A. Greenbaum and
+	 * Z. Strakos, <em>Predicting the Behavior of Finite Precision Lanzos and
+	 * Conjugate Gradient Computations</em>, Technical Report 538, Department of
+	 * Computer Science, New York University, 1991 (available
+	 * <a href="http://www.archive.org/details/predictingbehavi00gree">here</a>).
+	 *
+	 * @return the norm of the residual, ||r||
+	 */
+	virtual double get_norm_of_residual();
 
-    /**
-     * <p>
-     * Returns the residual. This is an optional operation, as all iterative
-     * linear solvers do not provide cheap estimate of the updated residual
-     * vector, in which case
-     * </p>
-     * <ul>
-     * <li>this method should throw a
-     * {@link Math_Runtime_Exception},</li>
-     * <li>{@link #provides_residual()} returns {@code false}.</li>
-     * </ul>
-     * <p>
-     * The default implementation a
-     * {@link Math_Runtime_Exception}. If this method is overriden, * then {@link #provides_residual()} should be overriden as well.
-     * </p>
-     *
-     * @return the updated residual, r
-     */
-    Real_Vector get_residual()
-    {
-        throw std::exception("not implemented");
-        //throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
-    }
+	/**
+	 * <p>
+	 * Returns the residual. This is an optional operation, as all iterative
+	 * linear solvers do not provide cheap estimate of the updated residual
+	 * vector, in which case
+	 * </p>
+	 * <ul>
+	 * <li>this method should throw a
+	 * {@link Math_Runtime_Exception},</li>
+	 * <li>{@link #provides_residual()} returns {@code false}.</li>
+	 * </ul>
+	 * <p>
+	 * The default implementation a
+	 * {@link Math_Runtime_Exception}. If this method is overriden, * then {@link #provides_residual()} should be overriden as well.
+	 * </p>
+	 *
+	 * @return the updated residual, r
+	 */
+	Real_Vector get_residual()
+	{
+		throw std::exception("not implemented");
+		//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+	}
 
-    /**
-     * Returns the current estimate of the solution to the linear system to be
-     * solved. This method should return an unmodifiable view, or a deep copy of
-     * the actual current solution, in order not to compromise subsequent
-     * iterations of the source {@link Iterative_Linear_Solver}.
-     *
-     * @return the solution, x
-     */
-    virtual Real_Vector get_solution();
+	/**
+	 * Returns the current estimate of the solution to the linear system to be
+	 * solved. This method should return an unmodifiable view, or a deep copy of
+	 * the actual current solution, in order not to compromise subsequent
+	 * iterations of the source {@link Iterative_Linear_Solver}.
+	 *
+	 * @return the solution, x
+	 */
+	virtual Real_Vector get_solution();
 
-    /**
-     * Returns {@code true} if {@link #get_residual()} is supported. The default
-     * implementation returns {@code false}.
-     *
-     * @return {@code false} if {@link #get_residual()} a
-     * {@link Math_Runtime_Exception}
-     */
-    bool provides_residual() const
-    {
-        return false;
-    }
+	/**
+	 * Returns {@code true} if {@link #get_residual()} is supported. The default
+	 * implementation returns {@code false}.
+	 *
+	 * @return {@code false} if {@link #get_residual()} a
+	 * {@link Math_Runtime_Exception}
+	 */
+	bool provides_residual() const
+	{
+		return false;
+	}
 };

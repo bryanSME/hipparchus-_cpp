@@ -15,26 +15,23 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.differentiation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.differentiation;
 #include "../UnivariateFunction.h"
 #include "UnivariateDifferentiableFunction.h"
 //import org.hipparchus.analysis.Univariate_Function;
 
 /** Interface defining the function differentiation operation.
  */
-class Univariate_Function_differentiator 
+class Univariate_Function_differentiator
 {
-
-    /** Create an implementation of a {@link Univariate_Differentiable_Function
-     * differential} from a regular {@link Univariate_Function function}.
-     * @param function function to differentiate
-     * @return differential function
-     */
-    virtual Univariate_Differentiable_Function differentiate(Univariate_Function function) = 0;
+	/** Create an implementation of a {@link Univariate_Differentiable_Function
+	 * differential} from a regular {@link Univariate_Function function}.
+	 * @param function function to differentiate
+	 * @return differential function
+	 */
+	virtual Univariate_Differentiable_Function differentiate(Univariate_Function function) = 0;
 }
-
-

@@ -14,62 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 
-/** Copolar trio with pole at point n in Glaisher’s Notation.
- * <p>
- * This is a container for the three principal Jacobi elliptic functions
- * {@code sn(u|m)}, {@code cn(u|m)}, and {@code dn(u|m)}.
- * </p>
- * @since 2.0
- */
+ /** Copolar trio with pole at point n in Glaisher’s Notation.
+  * <p>
+  * This is a container for the three principal Jacobi elliptic functions
+  * {@code sn(u|m)}, {@code cn(u|m)}, and {@code dn(u|m)}.
+  * </p>
+  * @since 2.0
+  */
 class Copolar_N
 {
 private:
-    /** Value of the sn function. */
-    const double my_sn;
+	/** Value of the sn function. */
+	const double my_sn;
 
-    /** Value of the cn function. */
-    const double my_cn;
+	/** Value of the cn function. */
+	const double my_cn;
 
-    /** Value of the dn function. */
-    const double my_dn;
+	/** Value of the dn function. */
+	const double my_dn;
 
 public:
-    /** Simple constructor.
-     * @param sn value of the sn function
-     * @param cn value of the cn function
-     * @param dn value of the dn function
-     */
-    Copolar_N(const double& sn, const double& cn, const double& dn)
-        :
-        my_sn{ sn },
-        my_cn{ cn },
-        my_dn{ dn }
-    {};
+	/** Simple constructor.
+	 * @param sn value of the sn function
+	 * @param cn value of the cn function
+	 * @param dn value of the dn function
+	 */
+	Copolar_N(const double& sn, const double& cn, const double& dn)
+		:
+		my_sn{ sn },
+		my_cn{ cn },
+		my_dn{ dn }
+	{};
 
+	/** Get the value of the sn function.
+	 * @return sn(u|m)
+	 */
+	double sn() const
+	{
+		return my_sn;
+	}
 
-    /** Get the value of the sn function.
-     * @return sn(u|m)
-     */
-    double sn() const
-    {
-        return my_sn;
-    }
+	/** Get the value of the cn function.
+	 * @return cn(u|m)
+	 */
+	double cn() const
+	{
+		return my_cn;
+	}
 
-    /** Get the value of the cn function.
-     * @return cn(u|m)
-     */
-    double cn() const
-    {
-        return my_cn;
-    }
-
-    /** Get the value of the dn function.
-     * @return dn(u|m)
-     */
-    double dn() const
-    {
-        return my_dn;
-    }
+	/** Get the value of the dn function.
+	 * @return dn(u|m)
+	 */
+	double dn() const
+	{
+		return my_dn;
+	}
 };

@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.descriptive.summary;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.descriptive.summary;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.;
-//import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
-//import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
-//import org.hipparchus.util.FastMath;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
+  //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
+  //import org.hipparchus.util.FastMath;
+  //import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.util.Math_Utils;
 #include "../../../core/util/MathArrays.h"
 #include "../../descriptive/AbstractStorelessUnivariateStatistic.h"
 #include "../../descriptive/AggregatableStatistic.hpp"
@@ -57,103 +57,103 @@ class SumOf_logs : public Abstract_Storeless_Univariate_Statistic //, public Agg
 {
 private:
 
-    /** Number of values that have been added */
-    int my_n;
+	/** Number of values that have been added */
+	int my_n;
 
-    /** The currently running value */
-    double my_value;
+	/** The currently running value */
+	double my_value;
 
 public:
-    /**
-     * Create a SumOf_logs instance.
-     */
-    SumOf_logs() : my_value{}, my_n{} {};
+	/**
+	 * Create a SumOf_logs instance.
+	 */
+	SumOf_logs() : my_value{}, my_n{} {};
 
-    /**
-     * Copy constructor, creates a {@code SumOf_logs} identical
-     * to the {@code original}.
-     *
-     * @param original the {@code SumOf_logs} instance to copy
-     * @ if original is NULL
-     */
-    SumOf_logs(const SumOf_logs& original) : my_n{ original.get_result() }, my_value{ original.get_result() }
-    {
-        //Math_Utils::check_not_null(original);
-    }
+	/**
+	 * Copy constructor, creates a {@code SumOf_logs} identical
+	 * to the {@code original}.
+	 *
+	 * @param original the {@code SumOf_logs} instance to copy
+	 * @ if original is NULL
+	 */
+	SumOf_logs(const SumOf_logs& original) : my_n{ original.get_result() }, my_value{ original.get_result() }
+	{
+		//Math_Utils::check_not_null(original);
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void increment(const double d) 
-    {
-        my_value += std::log(d);
-        my_n++;
-    }
+	/** {@inherit_doc} */
+	//override
+	void increment(const double d)
+	{
+		my_value += std::log(d);
+		my_n++;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double get_result() const
-    {
-        return my_value;
-    }
+	/** {@inherit_doc} */
+	//override
+	double get_result() const
+	{
+		return my_value;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    long get_n() const
-    {
-        return my_n;
-    }
+	/** {@inherit_doc} */
+	//override
+	long get_n() const
+	{
+		return my_n;
+	}
 
-    /** {@inherit_doc} */
-    void clear() override
-    {
-        my_value = 0;
-        my_n = 0;
-    }
+	/** {@inherit_doc} */
+	void clear() override
+	{
+		my_value = 0;
+		my_n = 0;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void aggregate(const SumOf_logs& other) 
-    {
-        //Math_Utils::check_not_null(other);
-        if (other.get_n() > 0)
-        {
-            my_n     += other.get_n();
-            my_value += other.get_result();
-        }
-    }
+	/** {@inherit_doc} */
+	//override
+	void aggregate(const SumOf_logs& other)
+	{
+		//Math_Utils::check_not_null(other);
+		if (other.get_n() > 0)
+		{
+			my_n += other.get_n();
+			my_value += other.get_result();
+		}
+	}
 
-    /**
-     * Returns the sum of the natural logs of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
-     *
-     * @param values the input array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return the sum of the natural logs of the values or 0 if
-     * length = 0
-     * @ if the array is NULL or the array index
-     *  parameters are not valid
-     */
-    //override
-    double evaluate(const std::vector<double>& values, const int& begin, const int& length)
-    {
-        double sum_log = std::numeric_limits<double>::quiet_NaN();
-        if (Math_Arrays::verify_values(values, begin, length, true)) 
-        {
-            sum_log = 0.0;
-            for (int i{ begin }; i < begin + length; i++) 
-            {
-                sum_log += std::log(values[i]);
-            }
-        }
-        return sum_log;
-    }
+	/**
+	 * Returns the sum of the natural logs of the entries in the specified portion of
+	 * the input array, or <code>Double.NaN</code> if the designated subarray
+	 * is empty.
+	 *
+	 * @param values the input array
+	 * @param begin index of the first array element to include
+	 * @param length the number of elements to include
+	 * @return the sum of the natural logs of the values or 0 if
+	 * length = 0
+	 * @ if the array is NULL or the array index
+	 *  parameters are not valid
+	 */
+	 //override
+	double evaluate(const std::vector<double>& values, const int& begin, const int& length)
+	{
+		double sum_log = std::numeric_limits<double>::quiet_NaN();
+		if (Math_Arrays::verify_values(values, begin, length, true))
+		{
+			sum_log = 0.0;
+			for (int i{ begin }; i < begin + length; i++)
+			{
+				sum_log += std::log(values[i]);
+			}
+		}
+		return sum_log;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    /*SumOf_logs copy() 
-    {
-        return SumOf_logs(this);
-    }*/
+	/** {@inherit_doc} */
+	//override
+	/*SumOf_logs copy()
+	{
+		return SumOf_logs(this);
+	}*/
 };

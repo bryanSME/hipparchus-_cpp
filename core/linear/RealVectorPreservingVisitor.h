@@ -15,48 +15,46 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.linear;
 
-/**
- * This interface defines a visitor for the entries of a vector. Visitors
- * implementing this interface do not alter the entries of the vector being
- * visited.
- *
- */
-class Real_Vector_Preserving_Visitor 
+  /**
+   * This interface defines a visitor for the entries of a vector. Visitors
+   * implementing this interface do not alter the entries of the vector being
+   * visited.
+   *
+   */
+class Real_Vector_Preserving_Visitor
 {
-    /**
-     * Start visiting a vector. This method is called once, before any entry
-     * of the vector is visited.
-     *
-     * @param dimension the size of the vector
-     * @param start the index of the first entry to be visited
-     * @param end the index of the last entry to be visited (inclusive)
-     */
-    void start(const int& dimension, int start, int end);
+	/**
+	 * Start visiting a vector. This method is called once, before any entry
+	 * of the vector is visited.
+	 *
+	 * @param dimension the size of the vector
+	 * @param start the index of the first entry to be visited
+	 * @param end the index of the last entry to be visited (inclusive)
+	 */
+	void start(const int& dimension, int start, int end);
 
-    /**
-     * Visit one entry of the vector.
-     *
-     * @param index the index of the entry being visited
-     * @param value the value of the entry being visited
-     */
-    void visit(const int& index, double value);
+	/**
+	 * Visit one entry of the vector.
+	 *
+	 * @param index the index of the entry being visited
+	 * @param value the value of the entry being visited
+	 */
+	void visit(const int& index, double value);
 
-    /**
-     * End visiting a vector. This method is called once, after all entries of
-     * the vector have been visited.
-     *
-     * @return the value returned by
-     * {@link Real_Vector#walk_in_default_order(Real_Vector_Preserving_Visitor)}, * {@link Real_Vector#walk_in_default_order(Real_Vector_Preserving_Visitor, int, int)}, * {@link Real_Vector#walk_in_optimized_order(Real_Vector_Preserving_Visitor)}
-     * or
-     * {@link Real_Vector#walk_in_optimized_order(Real_Vector_Preserving_Visitor, int, int)}
-     */
-    double end();
+	/**
+	 * End visiting a vector. This method is called once, after all entries of
+	 * the vector have been visited.
+	 *
+	 * @return the value returned by
+	 * {@link Real_Vector#walk_in_default_order(Real_Vector_Preserving_Visitor)}, * {@link Real_Vector#walk_in_default_order(Real_Vector_Preserving_Visitor, int, int)}, * {@link Real_Vector#walk_in_optimized_order(Real_Vector_Preserving_Visitor)}
+	 * or
+	 * {@link Real_Vector#walk_in_optimized_order(Real_Vector_Preserving_Visitor, int, int)}
+	 */
+	double end();
 }
-
-

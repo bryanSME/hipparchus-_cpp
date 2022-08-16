@@ -15,47 +15,44 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Exception to be thrown when there is insufficient data to perform a computation.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * Exception to be thrown when there is insufficient data to perform a computation.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
 class Insufficient_Data_Exception
-    extends  
-    {
+	extends
+{
+	/** Serializable version Id. */
+	-2629324471511903359L;
 
-    /** Serializable version Id. */
-    -2629324471511903359L;
+	/**
+	 * Construct the exception.
+	 */
+	public Insufficient_Data_Exception()
+	{
+		this(Localized_Formats.INSUFFICIENT_DATA);
+	}
 
-    /**
-     * Construct the exception.
-     */
-    public Insufficient_Data_Exception() 
-    {
-        this(Localized_Formats.INSUFFICIENT_DATA);
-    }
-
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param pattern Message pattern providing the specific context of the error.
-     * @param arguments Values for replacing the placeholders in {@code pattern}.
-     */
-    public Insufficient_Data_Exception(Localizable pattern, Object... arguments) 
-    {
-        super(pattern, arguments);
-    }
+	/**
+	 * Construct the exception with a specific context.
+	 *
+	 * @param pattern Message pattern providing the specific context of the error.
+	 * @param arguments Values for replacing the placeholders in {@code pattern}.
+	 */
+	public Insufficient_Data_Exception(Localizable pattern, Object... arguments)
+	{
+		super(pattern, arguments);
+	}
 }
-
-

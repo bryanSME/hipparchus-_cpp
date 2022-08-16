@@ -15,70 +15,66 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.geometry.euclidean.threed;
+  //package org.hipparchus.geometry.euclidean.threed;
 
-/**
- * This enumerates is used to differentiate the semantics of a rotation.
- * @see Rotation
- */
-enum Rotation_Convention 
+  /**
+   * This enumerates is used to differentiate the semantics of a rotation.
+   * @see Rotation
+   */
+enum Rotation_Convention
 {
-
-    /** Constant for rotation that have the semantics of a vector operator.
-     * <p>
-     * According to this convention, the rotation moves vectors with respect
-     * to a fixed reference frame.
-     * </p>
-     * <p>
-     * This means that if we define rotation r is a 90 degrees rotation around
-     * the Z axis, the image of vector {@link Vector_3D#PLUS_I} would be
-     * {@link Vector_3D#PLUS_J}, the image of vector {@link Vector_3D#PLUS_J}
-     * would be {@link Vector_3D#MINUS_I}, the image of vector {@link Vector_3D#PLUS_K}
-     * would be {@link Vector_3D#PLUS_K}, and the image of vector with coordinates (1, 2, 3)
-     * would be vector (-2, 1, 3). This means that the vector rotates counterclockwise.
-     * </p>
-     * <p>
-     * This convention was the only one supported by Hipparchus up to version 3.5.
-     * </p>
-     * <p>
-     * The difference with {@link #FRAME_TRANSFORM} is only the semantics of the sign
-     * of the angle. It is always possible to create or use a rotation using either
-     * convention to really represent a rotation that would have been best created or
-     * used with the other convention, by changing accordingly the sign of the
-     * rotation angle. This is how things were done up to version 3.5.
-     * </p>
-     */
-    VECTOR_OPERATOR, 
-    /** Constant for rotation that have the semantics of a frame conversion.
-     * <p>
-     * According to this convention, the rotation considered vectors to be fixed, * but their coordinates change as they are converted from an initial frame to
-     * a destination frame rotated with respect to the initial frame.
-     * </p>
-     * <p>
-     * This means that if we define rotation r is a 90 degrees rotation around
-     * the Z axis, the image of vector {@link Vector_3D#PLUS_I} would be
-     * {@link Vector_3D#MINUS_J}, the image of vector {@link Vector_3D#PLUS_J}
-     * would be {@link Vector_3D#PLUS_I}, the image of vector {@link Vector_3D#PLUS_K}
-     * would be {@link Vector_3D#PLUS_K}, and the image of vector with coordinates (1, 2, 3)
-     * would be vector (2, -1, 3). This means that the coordinates of the vector rotates
-     * clockwise, because they are expressed with respect to a destination frame that is rotated
-     * counterclockwise.
-     * </p>
-     * <p>
-     * The difference with {@link #VECTOR_OPERATOR} is only the semantics of the sign
-     * of the angle. It is always possible to create or use a rotation using either
-     * convention to really represent a rotation that would have been best created or
-     * used with the other convention, by changing accordingly the sign of the
-     * rotation angle. This is how things were done up to version 3.5.
-     * </p>
-     */
-    FRAME_TRANSFORM;
-
+	/** Constant for rotation that have the semantics of a vector operator.
+	 * <p>
+	 * According to this convention, the rotation moves vectors with respect
+	 * to a fixed reference frame.
+	 * </p>
+	 * <p>
+	 * This means that if we define rotation r is a 90 degrees rotation around
+	 * the Z axis, the image of vector {@link Vector_3D#PLUS_I} would be
+	 * {@link Vector_3D#PLUS_J}, the image of vector {@link Vector_3D#PLUS_J}
+	 * would be {@link Vector_3D#MINUS_I}, the image of vector {@link Vector_3D#PLUS_K}
+	 * would be {@link Vector_3D#PLUS_K}, and the image of vector with coordinates (1, 2, 3)
+	 * would be vector (-2, 1, 3). This means that the vector rotates counterclockwise.
+	 * </p>
+	 * <p>
+	 * This convention was the only one supported by Hipparchus up to version 3.5.
+	 * </p>
+	 * <p>
+	 * The difference with {@link #FRAME_TRANSFORM} is only the semantics of the sign
+	 * of the angle. It is always possible to create or use a rotation using either
+	 * convention to really represent a rotation that would have been best created or
+	 * used with the other convention, by changing accordingly the sign of the
+	 * rotation angle. This is how things were done up to version 3.5.
+	 * </p>
+	 */
+	VECTOR_OPERATOR,
+	/** Constant for rotation that have the semantics of a frame conversion.
+	 * <p>
+	 * According to this convention, the rotation considered vectors to be fixed, * but their coordinates change as they are converted from an initial frame to
+	 * a destination frame rotated with respect to the initial frame.
+	 * </p>
+	 * <p>
+	 * This means that if we define rotation r is a 90 degrees rotation around
+	 * the Z axis, the image of vector {@link Vector_3D#PLUS_I} would be
+	 * {@link Vector_3D#MINUS_J}, the image of vector {@link Vector_3D#PLUS_J}
+	 * would be {@link Vector_3D#PLUS_I}, the image of vector {@link Vector_3D#PLUS_K}
+	 * would be {@link Vector_3D#PLUS_K}, and the image of vector with coordinates (1, 2, 3)
+	 * would be vector (2, -1, 3). This means that the coordinates of the vector rotates
+	 * clockwise, because they are expressed with respect to a destination frame that is rotated
+	 * counterclockwise.
+	 * </p>
+	 * <p>
+	 * The difference with {@link #VECTOR_OPERATOR} is only the semantics of the sign
+	 * of the angle. It is always possible to create or use a rotation using either
+	 * convention to really represent a rotation that would have been best created or
+	 * used with the other convention, by changing accordingly the sign of the
+	 * rotation angle. This is how things were done up to version 3.5.
+	 * </p>
+	 */
+	 FRAME_TRANSFORM;
 }
-
-

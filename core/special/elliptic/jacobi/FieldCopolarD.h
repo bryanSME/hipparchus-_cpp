@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 
-//import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Calculus_Field_Element;
 #include <type_traits>
 #include "../../../CalculusFieldElement.hpp"
 
@@ -31,47 +31,46 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class FieldCopolar_D
 {
-    /** Value of the nd function. */
-    private const T nd;
+	/** Value of the nd function. */
+	private const T nd;
 
-    /** Value of the sd function. */
-    private const T sd;
+	/** Value of the sd function. */
+	private const T sd;
 
-    /** Value of the cd function. */
-    private const T cd;
+	/** Value of the cd function. */
+	private const T cd;
 
-    /** Simple constructor.
-     * @param trio_n copolar trio with pole at point n in Glaisher\xe2\x80\x99s Notation
-     */
-    FieldCopolar_D(const Field_Copolar_N<T> trio_n)
-    {
-        this.nd = trio_n.dn().reciprocal();
-        this.sd = nd.multiply(trio_n.sn());
-        this.cd = nd.multiply(trio_n.cn());
-    }
+	/** Simple constructor.
+	 * @param trio_n copolar trio with pole at point n in Glaisher\xe2\x80\x99s Notation
+	 */
+	FieldCopolar_D(const Field_Copolar_N<T> trio_n)
+	{
+		this.nd = trio_n.dn().reciprocal();
+		this.sd = nd.multiply(trio_n.sn());
+		this.cd = nd.multiply(trio_n.cn());
+	}
 
-    /** Get the value of the nd function.
-     * @return nd(u|m)
-     */
-    public T nd()
-    {
-        return nd;
-    }
+	/** Get the value of the nd function.
+	 * @return nd(u|m)
+	 */
+	public T nd()
+	{
+		return nd;
+	}
 
-    /** Get the value of the sd function.
-     * @return sd(u|m)
-     */
-    public T sd()
-    {
-        return sd;
-    }
+	/** Get the value of the sd function.
+	 * @return sd(u|m)
+	 */
+	public T sd()
+	{
+		return sd;
+	}
 
-    /** Get the value of the cd function.
-     * @return cd(u|m)
-     */
-    public T cd()
-    {
-        return cd;
-    }
-
+	/** Get the value of the cd function.
+	 * @return cd(u|m)
+	 */
+	public T cd()
+	{
+		return cd;
+	}
 };

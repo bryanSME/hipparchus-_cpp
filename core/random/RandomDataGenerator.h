@@ -101,7 +101,7 @@ private:
 	/**
 	 * Interface for samplers of continuous distributions.
 	 */
-	//@Functional_Interface
+	 //@Functional_Interface
 	interface Real_Distribution_Sampler
 	{
 		/**

@@ -48,7 +48,7 @@ class Extended_Kalman_Filter<T extends Measurement> extends Abstract_Kalman_Filt
 
 	/** {@inherit_doc} */
  //override
-		public Process_Estimate estimation_step(const T measurement)
+	public Process_Estimate estimation_step(const T measurement)
 		Math_Runtime_Exception
 	{
 		// prediction phase

@@ -15,42 +15,40 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.interpolation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.interpolation;
 
-//import org.hipparchus.analysis.Trivariate_Function;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.analysis.Trivariate_Function;
+  //import org.hipparchus.exception.;
 
-/**
- * Interface representing a trivariate real interpolating function where the
- * sample points must be specified on a regular grid.
- *
- */
-class Trivariate_Grid_Interpolator 
+  /**
+   * Interface representing a trivariate real interpolating function where the
+   * sample points must be specified on a regular grid.
+   *
+   */
+class Trivariate_Grid_Interpolator
 {
-    /**
-     * Compute an interpolating function for the dataset.
-     *
-     * @param xval All the x-coordinates of the interpolation points, sorted
-     * in increasing order.
-     * @param yval All the y-coordinates of the interpolation points, sorted
-     * in increasing order.
-     * @param zval All the z-coordinates of the interpolation points, sorted
-     * in increasing order.
-     * @param fval the values of the interpolation points on all the grid knots:
-     * {@code fval[i][j][k] = f(xval[i], yval[j], zval[k])}.
-     * @return a function that interpolates the data set.
-     * @ if any of the arrays has zero length.
-     * @ if the array lengths are inconsistent.
-     * @ if arrays are not sorted
-     * @ if the number of points is too small for
-     * the order of the interpolation
-     */
-    Trivariate_Function interpolate(std::vector<double> xval, std::vector<double> yval, std::vector<double> zval, std::vector<std::vector<double>>[] fval)
-        ;
+	/**
+	 * Compute an interpolating function for the dataset.
+	 *
+	 * @param xval All the x-coordinates of the interpolation points, sorted
+	 * in increasing order.
+	 * @param yval All the y-coordinates of the interpolation points, sorted
+	 * in increasing order.
+	 * @param zval All the z-coordinates of the interpolation points, sorted
+	 * in increasing order.
+	 * @param fval the values of the interpolation points on all the grid knots:
+	 * {@code fval[i][j][k] = f(xval[i], yval[j], zval[k])}.
+	 * @return a function that interpolates the data set.
+	 * @ if any of the arrays has zero length.
+	 * @ if the array lengths are inconsistent.
+	 * @ if arrays are not sorted
+	 * @ if the number of points is too small for
+	 * the order of the interpolation
+	 */
+	Trivariate_Function interpolate(std::vector<double> xval, std::vector<double> yval, std::vector<double> zval, std::vector<std::vector<double>>[] fval)
+		;
 }
-
-

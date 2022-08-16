@@ -15,66 +15,63 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.linear;
 
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
 
-/**
- * Exception to be thrown when a symmetric matrix is expected.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * Exception to be thrown when a symmetric matrix is expected.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
-class Non_Symmetric_Matrix_Exception extends  
+class Non_Symmetric_Matrix_Exception extends
 {
+	/** Row. */
+	private const int my_row;
+	/** Column. */
+	private const int my_column;
+	/** Threshold. */
+	private const double my_threshold;
 
-    /** Row. */
-    private const int my_row;
-    /** Column. */
-    private const int my_column;
-    /** Threshold. */
-    private const double my_threshold;
+	/**
+	 * Construct an exception.
+	 *
+	 * @param row Row index.
+	 * @param column Column index.
+	 * @param threshold Relative symmetry threshold.
+	 */
+	public Non_Symmetric_Matrix_Exception(const int& row, const int& column, double threshold)
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.NON_SYMMETRIC_MATRIX, row, column, threshold);
+		this.row = row;
+		this.column = column;
+		this.threshold = threshold;
+	}
 
-    /**
-     * Construct an exception.
-     *
-     * @param row Row index.
-     * @param column Column index.
-     * @param threshold Relative symmetry threshold.
-     */
-    public Non_Symmetric_Matrix_Exception(const int& row, const int& column, double threshold) 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.NON_SYMMETRIC_MATRIX, row, column, threshold);
-        this.row = row;
-        this.column = column;
-        this.threshold = threshold;
-    }
-
-    /**
-     * @return the row index of the entry.
-     */
-    public int get_row() 
-    {
-        return row;
-    }
-    /**
-     * @return the column index of the entry.
-     */
-    public int get_column() 
-    {
-        return column;
-    }
-    /**
-     * @return the relative symmetry threshold.
-     */
-    public double get_threshold() 
-    {
-        return threshold;
-    }
+	/**
+	 * @return the row index of the entry.
+	 */
+	public int get_row()
+	{
+		return row;
+	}
+	/**
+	 * @return the column index of the entry.
+	 */
+	public int get_column()
+	{
+		return column;
+	}
+	/**
+	 * @return the relative symmetry threshold.
+	 */
+	public double get_threshold()
+	{
+		return threshold;
+	}
 }
-
-

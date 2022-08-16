@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-/**
- * std::complex<double> functions plots.
- */
-//package org.hipparchus.samples.complex;
-
-
+ /**
+  * std::complex<double> functions plots.
+  */
+  //package org.hipparchus.samples.complex;

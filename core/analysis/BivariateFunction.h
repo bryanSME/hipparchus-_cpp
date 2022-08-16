@@ -15,24 +15,23 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-/**
- * An interface representing a bivariate real function.
- *
- */
+  /**
+   * An interface representing a bivariate real function.
+   *
+   */
 class Bivariate_Function
 {
-    /**
-     * Compute the value for the function.
-     *
-     * @param x Abscissa for which the function value should be computed.
-     * @param y Ordinate for which the function value should be computed.
-     * @return the value.
-     */
-    virtual double value(const double& x, double y) = 0;
-
+	/**
+	 * Compute the value for the function.
+	 *
+	 * @param x Abscissa for which the function value should be computed.
+	 * @param y Ordinate for which the function value should be computed.
+	 * @return the value.
+	 */
+	virtual double value(const double& x, double y) = 0;
 };

@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.distribution;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.distribution;
 
-//import java.io.Serializable;
-//import java.util.Array_list;
-//import java.util.List;
+  //import java.io.Serializable;
+  //import java.util.Array_list;
+  //import java.util.List;
 
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Pair;
-//import org.hipparchus.util.Precision;
+  //import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.util.Pair;
+  //import org.hipparchus.util.Precision;
 #include<vector>
 
 /**
@@ -52,151 +52,149 @@
  */
 template<typename T>
 class Enumerated_Distribution
-{   
+{
 private:
-    /**
-     * List of random variable values.
-     */
-    const std::vector<T> my_singletons;
+	/**
+	 * List of random variable values.
+	 */
+	const std::vector<T> my_singletons;
 
-    /**
-     * Probabilities of respective random variable values. For i = 0, ..., singletons.size() - 1, * probability[i] is the probability that a random variable following this distribution takes
-     * the value singletons[i].
-     */
-    const std::vector<double> my_probabilities;
+	/**
+	 * Probabilities of respective random variable values. For i = 0, ..., singletons.size() - 1, * probability[i] is the probability that a random variable following this distribution takes
+	 * the value singletons[i].
+	 */
+	const std::vector<double> my_probabilities;
 
 public:
-    /**
-     * Create an enumerated distribution using the given probability mass function
-     * enumeration.
-     *
-     * @param pmf probability mass function enumerated as a list of &lt;T, probability&gt;
-     * pairs.
-     * @ of weights includes negative, NaN or infinite values or only 0's
-     */
-    Enumerated_Distribution(const std::vector<std::pair<T, double>>& pmf)     
-    {
+	/**
+	 * Create an enumerated distribution using the given probability mass function
+	 * enumeration.
+	 *
+	 * @param pmf probability mass function enumerated as a list of &lt;T, probability&gt;
+	 * pairs.
+	 * @ of weights includes negative, NaN or infinite values or only 0's
+	 */
+	Enumerated_Distribution(const std::vector<std::pair<T, double>>& pmf)
+	{
+		my_singletons = std::vector<>(pmf.size());
+		auto probs = std::vector<double>(pmf.size());
 
-        my_singletons = std::vector<>(pmf.size());
-        auto probs = std::vector<double>(pmf.size());
+		for (int i{}; i < pmf.size(); i++)
+		{
+			const auto& sample = pmf.at(i);
+			my_singletons.add(sample.first);
+			probs[i] = sample.second;
+		}
+		my_probabilities = check_and_normalize(probs);
+	}
 
-        for (int i{}; i < pmf.size(); i++) 
-        {
-            const auto& sample = pmf.at(i);
-            my_singletons.add(sample.first);
-            probs[i] = sample.second;
-        }
-        my_probabilities = check_and_normalize(probs);
-    }
+	/**
+	 * For a random variable {@code X} whose values are distributed according to
+	 * this distribution, this method returns {@code P(X = x)}. In other words, * this method represents the probability mass function (PMF) for the
+	 * distribution.
+	 * <p>
+	 * Note that if {@code x1} and {@code x2} satisfy {@code x1.equals(x2)}, * or both are NULL, then {@code probability(x1) = probability(x2)}.
+	 *
+	 * @param x the point at which the PMF is evaluated
+	 * @return the value of the probability mass function at {@code x}
+	 */
+	double probability(const T& x)
+	{
+		double probability{};
 
-    /**
-     * For a random variable {@code X} whose values are distributed according to
-     * this distribution, this method returns {@code P(X = x)}. In other words, * this method represents the probability mass function (PMF) for the
-     * distribution.
-     * <p>
-     * Note that if {@code x1} and {@code x2} satisfy {@code x1.equals(x2)}, * or both are NULL, then {@code probability(x1) = probability(x2)}.
-     *
-     * @param x the point at which the PMF is evaluated
-     * @return the value of the probability mass function at {@code x}
-     */
-    double probability(const T& x) 
-    {
-        double probability{};
+		for (int i{}; i < probabilities.size(); i++)
+		{
+			if ((x == NULL && my_singletons.get(i) == NULL) ||
+				(x != NULL && x.equals(my_singletons.get(i))))
+			{
+				probability += probabilities[i];
+			}
+		}
 
-        for (int i{}; i < probabilities.size(); i++) 
-        {
-            if ((x == NULL && my_singletons.get(i) == NULL) ||
-                (x != NULL && x.equals(my_singletons.get(i)))) 
-                {
-                probability += probabilities[i];
-            }
-        }
+		return probability;
+	}
 
-        return probability;
-    }
+	/**
+	 * Return the probability mass function as a list of (value, probability) pairs.
+	 * <p>
+	 * Note that if duplicate and / or NULL values were provided to the constructor
+	 * when creating this Enumerated_Distribution, the returned list will contain these
+	 * values.  If duplicates values exist, what is returned will not represent
+	 * a pmf (i.e., it is up to the caller to consolidate duplicate mass points).
+	 *
+	 * @return the probability mass function.
+	 */
+	std::vector<std::pair<T, double>> get_pmf()
+	{
+		auto samples = std::vector<>(probabilities.size());
 
-    /**
-     * Return the probability mass function as a list of (value, probability) pairs.
-     * <p>
-     * Note that if duplicate and / or NULL values were provided to the constructor
-     * when creating this Enumerated_Distribution, the returned list will contain these
-     * values.  If duplicates values exist, what is returned will not represent
-     * a pmf (i.e., it is up to the caller to consolidate duplicate mass points).
-     *
-     * @return the probability mass function.
-     */
-    std::vector<std::pair<T, double>> get_pmf() 
-    {
-        auto samples = std::vector<>(probabilities.size());
+		for (int i{}; i < probabilities.size(); i++)
+		{
+			samples.push_back(std::pair<>(my_singletons.get(i), probabilities[i]));
+		}
 
-        for (int i{}; i < probabilities.size(); i++) 
-        {
-            samples.push_back(std::pair<>(my_singletons.get(i), probabilities[i]));
-        }
+		return samples;
+	}
 
-        return samples;
-    }
-
-    /**
-     * Checks to make sure that weights is neither NULL nor empty and contains only non-negative, finite, * non-NaN values and if necessary normalizes it to sum to 1.
-     *
-     * @param weights input array to be used as the basis for the values of a PMF
-     * @return a possibly rescaled copy of the array that sums to 1 and contains only valid probability values
-     * @ of weights is NULL or empty or includes negative, NaN or
-     *         infinite values or only 0's
-     */
-    static std::vector<double> check_and_normalize(const std::vector<double>& weights)
-    {
-        if (weights == NULL || weights.size() == 0)
-        {
-            throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
-        }
-        const int len = weights.size();
-        double sum_wt{};
-        bool pos_wt = false;
-        for (int i{}; i < len; i++)
-        {
-            if (weights[i] < 0)
-            {
-                throw std::exception("not implemented");
-                //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, weights[i], 0);
-            }
-            if (weights[i] > 0)
-            {
-                pos_wt = true;
-            }
-            if (std::isnan(weights[i]))
-            {
-                throw std::exception("not implemented");
-                //throw (hipparchus::exception::Localized_Core_Formats_Type::NAN_ELEMENT_AT_INDEX, i);
-            }
-            if (std::isinf(weights[i]))
-            {
-                throw std::exception("not implemented");
-                //throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_ARRAY_ELEMENT, weights[i], i);
-            }
-            sum_wt += weights[i];
-        }
-        if (!pos_wt)
-        {
-            throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::WEIGHT_AT_LEAST_ONE_NON_ZERO);
-        }
-        std::vector<double> norm_wt;
-        if (Precision::equals(sum_wt, 1, 10)) // allow small error (10 ulps)
-        {
-            norm_wt = weights;
-        }
-        else
-        {
-            norm_wt = std::vector<double>(len);
-            for (int i{}; i < len; i++)
-            {
-                norm_wt[i] = weights[i] / sum_wt;
-            }
-        }
-        return norm_wt;
-    };
-
+	/**
+	 * Checks to make sure that weights is neither NULL nor empty and contains only non-negative, finite, * non-NaN values and if necessary normalizes it to sum to 1.
+	 *
+	 * @param weights input array to be used as the basis for the values of a PMF
+	 * @return a possibly rescaled copy of the array that sums to 1 and contains only valid probability values
+	 * @ of weights is NULL or empty or includes negative, NaN or
+	 *         infinite values or only 0's
+	 */
+	static std::vector<double> check_and_normalize(const std::vector<double>& weights)
+	{
+		if (weights == NULL || weights.size() == 0)
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
+		}
+		const int len = weights.size();
+		double sum_wt{};
+		bool pos_wt = false;
+		for (int i{}; i < len; i++)
+		{
+			if (weights[i] < 0)
+			{
+				throw std::exception("not implemented");
+				//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, weights[i], 0);
+			}
+			if (weights[i] > 0)
+			{
+				pos_wt = true;
+			}
+			if (std::isnan(weights[i]))
+			{
+				throw std::exception("not implemented");
+				//throw (hipparchus::exception::Localized_Core_Formats_Type::NAN_ELEMENT_AT_INDEX, i);
+			}
+			if (std::isinf(weights[i]))
+			{
+				throw std::exception("not implemented");
+				//throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_ARRAY_ELEMENT, weights[i], i);
+			}
+			sum_wt += weights[i];
+		}
+		if (!pos_wt)
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::WEIGHT_AT_LEAST_ONE_NON_ZERO);
+		}
+		std::vector<double> norm_wt;
+		if (Precision::equals(sum_wt, 1, 10)) // allow small error (10 ulps)
+		{
+			norm_wt = weights;
+		}
+		else
+		{
+			norm_wt = std::vector<double>(len);
+			for (int i{}; i < len; i++)
+			{
+				norm_wt[i] = weights[i] / sum_wt;
+			}
+		}
+		return norm_wt;
+	};
 };

@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.util.FastMath;
-//import org.hipparchus.util.Field_Sinh_Cosh;
+ //import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.util.FastMath;
+ //import org.hipparchus.util.Field_Sinh_Cosh;
 #include <type_traits>
 #include "../../../CalculusFieldElement.hpp"
 
@@ -33,30 +33,28 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class Field_Near_One_Parameter extends Field_Jacobi_Elliptic<T>
 {
+	/** Complementary parameter of the Jacobi elliptic function. */
+	private const T m1_fourth;
 
-    /** Complementary parameter of the Jacobi elliptic function. */
-    private const T m1_fourth;
+	/** Simple constructor.
+	 * @param m parameter of the Jacobi elliptic function (must be one or slightly below one here)
+	 */
+	Field_Near_One_Parameter(const T m)
+	{
+		super(m);
+		this.m1_fourth = m.get_field().get_one().subtract(m).multiply(0.25);
+	}
 
-    /** Simple constructor.
-     * @param m parameter of the Jacobi elliptic function (must be one or slightly below one here)
-     */
-    Field_Near_One_Parameter(const T m)
-    {
-        super(m);
-        this.m1_fourth = m.get_field().get_one().subtract(m).multiply(0.25);
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public Field_Copolar_N<T> values_n(const T u)
-    {
-        const Field_Sinh_Cosh<T> sch = std::sinh_cosh(u);
-        const T                sech = sch.cosh().reciprocal();
-        const T                t = sch.sinh().multiply(sech);
-        const T                factor = sch.sinh().multiply(sch.cosh()).subtract(u).multiply(sech).multiply(m1_fourth);
-        return Field_Copolar_N<>(t.add(factor.multiply(sech)),  // equation 16.15.1
-            sech.subtract(factor.multiply(t)),        // equation 16.15.2
-            sech.add(factor.multiply(t)));            // equation 16.15.3
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public Field_Copolar_N<T> values_n(const T u)
+	{
+		const Field_Sinh_Cosh<T> sch = std::sinh_cosh(u);
+		const T                sech = sch.cosh().reciprocal();
+		const T                t = sch.sinh().multiply(sech);
+		const T                factor = sch.sinh().multiply(sch.cosh()).subtract(u).multiply(sech).multiply(m1_fourth);
+		return Field_Copolar_N<>(t.add(factor.multiply(sech)),  // equation 16.15.1
+			sech.subtract(factor.multiply(t)),        // equation 16.15.2
+			sech.add(factor.multiply(t)));            // equation 16.15.3
+	}
 };

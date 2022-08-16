@@ -33,21 +33,21 @@ class Dummy_Localizable : Localizable
 {
 private:
 
-    /** Source string. */
-    const std::string my_source;
+	/** Source string. */
+	const std::string my_source;
 
 public:
-    /** Simple constructor.
-     * @param source source text
-     */
-    Dummy_Localizable(const std::string& source);
+	/** Simple constructor.
+	 * @param source source text
+	 */
+	Dummy_Localizable(const std::string& source);
 
-    /** {@inherit_doc} */
-    std::string get_source_string() const;
+	/** {@inherit_doc} */
+	std::string get_source_string() const;
 
-    /** {@inherit_doc} */
-    //std::string get_localized_string(Locale locale);
+	/** {@inherit_doc} */
+	//std::string get_localized_string(Locale locale);
 
-    /** {@inherit_doc} */
-    std::string to_string() const;
+	/** {@inherit_doc} */
+	std::string to_string() const;
 };

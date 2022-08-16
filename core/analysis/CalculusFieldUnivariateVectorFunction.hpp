@@ -18,23 +18,21 @@
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
 
-//import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Calculus_Field_Element;
 
-/**
- * An interface representing a univariate vectorial function for any field type.
- *
-     * @param <T> the type of the field elements
- * @since 1.3
- */
+ /**
+  * An interface representing a univariate vectorial function for any field type.
+  *
+	  * @param <T> the type of the field elements
+  * @since 1.3
+  */
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class CalculusFieldUnivariate_Vector_Function
 {
-
-    /**
-     * Compute the value for the function.
-     * @param x the point for which the function value should be computed
-     * @return the value
-     */
-    virtual std::vector<T> value(T x) = 0;
-
+	/**
+	 * Compute the value for the function.
+	 * @param x the point for which the function value should be computed
+	 * @return the value
+	 */
+	virtual std::vector<T> value(T x) = 0;
 };

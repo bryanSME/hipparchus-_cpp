@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.Field;
+ //import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Field;
 #include <type_traits>
 #include <vector>
 #include "../CalculusFieldElement.hpp"
@@ -29,25 +29,24 @@
  */
 class Field_Multivariate_Vector_function
 {
+	/** Convert to a {@link Calculus_Field_Multivariate_Vector_function} with a specific type.
+	 * @param <T> the type of the field elements
+	 * @param field field for the argument and value
+	 * @return converted function
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	Calculus_Field_Multivariate_Vector_function<T> to_calculus_field_multivariate_vector_function(Field<T> field)
+	{
+		return this::value;
+	}
 
-    /** Convert to a {@link Calculus_Field_Multivariate_Vector_function} with a specific type.
-     * @param <T> the type of the field elements
-     * @param field field for the argument and value
-     * @return converted function
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    Calculus_Field_Multivariate_Vector_function<T> to_calculus_field_multivariate_vector_function(Field<T> field)
-    {
-        return this::value;
-    }
-
-    /**
-     * Compute the value of the function.
-     *
-     * @param <T> the type of the field elements
-     * @param x Point at which the function value should be computed.
-     * @return the value of the function.
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    virtual std::vector<T> value(T... x) = 0;
+	/**
+	 * Compute the value of the function.
+	 *
+	 * @param <T> the type of the field elements
+	 * @param x Point at which the function value should be computed.
+	 * @return the value of the function.
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	virtual std::vector<T> value(T... x) = 0;
 };

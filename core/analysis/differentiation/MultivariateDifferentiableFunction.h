@@ -15,29 +15,28 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 #include "DerivativeStructure.h"
 #include "../MultivariateFunction.h"
 
-/**
- * Extension of {@link Multivariate_Function} representing a
- * multivariate differentiable real function.
- */
+  /**
+   * Extension of {@link Multivariate_Function} representing a
+   * multivariate differentiable real function.
+   */
 class Multivariate_Differentiable_Function : public Multivariate_Function
 {
-    /**
-     * Compute the value for the function at the given point.
-     *
-     * @param point Point at which the function must be evaluated.
-     * @return the function value for the given point.
-     * @exception  if {@code point} does not
-     * satisfy the function's constraints (wrong dimension, argument out of bound, * or unsupported derivative order for example)
-     */
-    Derivative_Structure value(const std::vector<Derivative_Structure>& point);
-
+	/**
+	 * Compute the value for the function at the given point.
+	 *
+	 * @param point Point at which the function must be evaluated.
+	 * @return the function value for the given point.
+	 * @exception  if {@code point} does not
+	 * satisfy the function's constraints (wrong dimension, argument out of bound, * or unsupported derivative order for example)
+	 */
+	Derivative_Structure value(const std::vector<Derivative_Structure>& point);
 };

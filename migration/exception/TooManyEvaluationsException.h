@@ -28,7 +28,7 @@
 // * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
 // */
 //@Deprecated
-//class Too_Many_Evaluations_Exception extends Max_Count_Exceeded_Exception 
+//class Too_Many_Evaluations_Exception extends Max_Count_Exceeded_Exception
 //{
 //
 //    /**
@@ -36,7 +36,7 @@
 //     *
 //     * @param max Maximum number of evaluations.
 //     */
-//    public Too_Many_Evaluations_Exception(const Number& max) 
+//    public Too_Many_Evaluations_Exception(const Number& max)
 //    {
 //        super(max);
 //    }

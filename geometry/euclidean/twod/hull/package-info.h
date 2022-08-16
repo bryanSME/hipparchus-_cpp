@@ -15,18 +15,16 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- * <p>
- * This //package provides algorithms to generate the convex hull
- * for a set of points in an two-dimensional euclidean space.
- * </p>
- *
- */
-//package org.hipparchus.geometry.euclidean.twod.hull;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   * <p>
+   * This //package provides algorithms to generate the convex hull
+   * for a set of points in an two-dimensional euclidean space.
+   * </p>
+   *
+   */
+   //package org.hipparchus.geometry.euclidean.twod.hull;

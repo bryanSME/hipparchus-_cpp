@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
 #include <type_traits>
 #include "../LocalizedMigrationFormats.h"
@@ -33,48 +33,48 @@
  *
  * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
  */
-//@Deprecated
+ //@Deprecated
 template<
-    typename T, //real type
-    typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+	typename T, //real type
+	typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
 >
-class Max_Count_Exceeded_Exception //: public Math_Illegal_State_Exception 
+class Max_Count_Exceeded_Exception //: public Math_Illegal_State_Exception
 {
 private:
-    /**
-     * Maximum number of evaluations.
-     */
-    const T max;
+	/**
+	 * Maximum number of evaluations.
+	 */
+	const T max;
 
 public:
-    /**
-     * Construct the exception.
-     *
-     * @param max Maximum.
-     */
-    Max_Count_Exceeded_Exception(const T& max)
-    {
-        Max_Count_Exceeded_Exception(Localized_Formats::MAX_COUNT_EXCEEDED, max);
-    }
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Specific context pattern.
-     * @param max Maximum.
-     * @param args Additional arguments.
-     */
-    Max_Count_Exceeded_Exception(const Localizable& specific, const T& max, Object ... args)
-        :
-        my_max{ max }
-    {
-        super(specific, max, args);
-    }
+	/**
+	 * Construct the exception.
+	 *
+	 * @param max Maximum.
+	 */
+	Max_Count_Exceeded_Exception(const T& max)
+	{
+		Max_Count_Exceeded_Exception(Localized_Formats::MAX_COUNT_EXCEEDED, max);
+	}
+	/**
+	 * Construct the exception with a specific context.
+	 *
+	 * @param specific Specific context pattern.
+	 * @param max Maximum.
+	 * @param args Additional arguments.
+	 */
+	Max_Count_Exceeded_Exception(const Localizable& specific, const T& max, Object ... args)
+		:
+		my_max{ max }
+	{
+		super(specific, max, args);
+	}
 
-    /**
-     * @return the maximum number of evaluations.
-     */
-    T get_max() const
-    {
-        return my_max;
-    }
+	/**
+	 * @return the maximum number of evaluations.
+	 */
+	T get_max() const
+	{
+		return my_max;
+	}
 };

@@ -15,34 +15,32 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.interpolation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.interpolation;
 
-//import org.hipparchus.analysis.Univariate_Function;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.analysis.Univariate_Function;
+  //import org.hipparchus.exception.;
 
-/**
- * Interface representing a univariate real interpolating function.
- *
- */
-class Univariate_Interpolator 
+  /**
+   * Interface representing a univariate real interpolating function.
+   *
+   */
+class Univariate_Interpolator
 {
-    /**
-     * Compute an interpolating function for the dataset.
-     *
-     * @param xval Arguments for the interpolation points.
-     * @param yval Values for the interpolation points.
-     * @return a function which interpolates the dataset.
-     * @
-     * if the arguments violate assumptions made by the interpolation
-     * algorithm.
-     * @ if arrays lengthes do not match
-     */
-    Univariate_Function interpolate(double xval[], double yval[])
-        ;
+	/**
+	 * Compute an interpolating function for the dataset.
+	 *
+	 * @param xval Arguments for the interpolation points.
+	 * @param yval Values for the interpolation points.
+	 * @return a function which interpolates the dataset.
+	 * @
+	 * if the arguments violate assumptions made by the interpolation
+	 * algorithm.
+	 * @ if arrays lengthes do not match
+	 */
+	Univariate_Function interpolate(double xval[], double yval[])
+		;
 }
-
-

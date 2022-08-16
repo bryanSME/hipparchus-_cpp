@@ -43,7 +43,7 @@ private:
 	static const Max_Count_Exceeded_Callback<T> DEFAULT_CALLBACK = (const int& max)
 	{
 		throw std::exception("not implemented");
-		//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::MAX_COUNT_EXCEEDED, max);
+	//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::MAX_COUNT_EXCEEDED, max);
 	};
 
 	/** Upper limit for the counter. */
@@ -114,9 +114,9 @@ public:
 	 */
 	Incrementor<T>(const int& count, const int& max, const Max_Count_Exceeded_Callback<T>& cb)
 		:
-		my_maximal_count{max},
-		my_max_count_callback{cb},
-		my_count{count}
+		my_maximal_count{ max },
+		my_max_count_callback{ cb },
+		my_count{ count }
 	{
 		throw std::exception("not implemented");
 		//if (cb == NULL)

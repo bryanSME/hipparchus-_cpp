@@ -15,36 +15,35 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <type_traits>
 #include <cmath>
 #include "../differentiation/UnivariateDifferentiableFunction.h"
 #include "../differentiation/Derivative.h"
 
-/**
- * <code>e<sup>x</sup>-1</code> function.
- *
- */
+  /**
+   * <code>e<sup>x</sup>-1</code> function.
+   *
+   */
 class Expm1 : public Univariate_Differentiable_Function
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    double value(const double& x) const
-    {
-        return std::expm1(x);
-    }
+	/** {@inherit_doc} */
+	//override
+	double value(const double& x) const
+	{
+		return std::expm1(x);
+	}
 
-    /** {@inherit_doc} */
-    //override
-    template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
-    T value(const T& x) const
-    {
-        return x.expm1();
-    }
-
+	/** {@inherit_doc} */
+	//override
+	template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
+	T value(const T& x) const
+	{
+		return x.expm1();
+	}
 };

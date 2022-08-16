@@ -15,19 +15,17 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- *    <p>
- *      The {@code function} //package contains function objects that wrap the
- *      methods contained in {@link java.lang.Math}, as well as common
- *      mathematical functions such as the gaussian and sinc functions.
- *    </p>
- *
- */
-//package org.hipparchus.analysis.function;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   *    <p>
+   *      The {@code function} //package contains function objects that wrap the
+   *      methods contained in {@link java.lang.Math}, as well as common
+   *      mathematical functions such as the gaussian and sinc functions.
+   *    </p>
+   *
+   */
+   //package org.hipparchus.analysis.function;

@@ -15,37 +15,34 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.migration.linear;
+  //package org.hipparchus.migration.linear;
 
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
 
-/**
- * Exception to be thrown when a self-adjoint {@link org.hipparchus.linear.Real_Linear_Operator}
- * is expected.
- * sin_ce the coefficients of the matrix are not accessible, the most
- * general definition is used to check that A is not self-adjoint, i.e.
- * there exist x and y such as {@code | x' A y - y' A x | >= eps}, * where {@code eps} is a user-specified tolerance, and {@code x'}
- * denotes the transpose of {@code x}.
- * In the terminology of this exception, {@code A} is the "offending"
- * linear operator, {@code x} and {@code y} are the first and second
- * "offending" vectors, respectively.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * Exception to be thrown when a self-adjoint {@link org.hipparchus.linear.Real_Linear_Operator}
+   * is expected.
+   * sin_ce the coefficients of the matrix are not accessible, the most
+   * general definition is used to check that A is not self-adjoint, i.e.
+   * there exist x and y such as {@code | x' A y - y' A x | >= eps}, * where {@code eps} is a user-specified tolerance, and {@code x'}
+   * denotes the transpose of {@code x}.
+   * In the terminology of this exception, {@code A} is the "offending"
+   * linear operator, {@code x} and {@code y} are the first and second
+   * "offending" vectors, respectively.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
-class Non_Self_Adjoint_Operator_Exception  
+class Non_Self_Adjoint_Operator_Exception
 {
-
-    /** Creates a instance of this class. */
-    public Non_Self_Adjoint_Operator_Exception() 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.NON_SELF_ADJOINT_OPERATOR);
-    }
+	/** Creates a instance of this class. */
+	public Non_Self_Adjoint_Operator_Exception()
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.NON_SELF_ADJOINT_OPERATOR);
+	}
 }
-
-

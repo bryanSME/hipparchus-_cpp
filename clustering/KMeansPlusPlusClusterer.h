@@ -197,7 +197,7 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 */
 	 //override
 	public List<Centroid_Cluster<T>> cluster(const Collection<T> points)
-		
+
 	{
 		// sanity checks
 		//Math_Utils::check_not_null(points);
@@ -208,27 +208,27 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, points.size(), k);
 		}
 
-	// create the initial clusters
-	List<Centroid_Cluster<T>> clusters = choose_initial_centers(points);
+		// create the initial clusters
+		List<Centroid_Cluster<T>> clusters = choose_initial_centers(points);
 
-	// create an array containing the latest assignment of a point to a cluster
-	// no need to initialize the array, as it will be filled with the first assignment
-	std::vector<int> assignments = int[points.size()];
-	assign_points_to_clusters(clusters, points, assignments);
+		// create an array containing the latest assignment of a point to a cluster
+		// no need to initialize the array, as it will be filled with the first assignment
+		std::vector<int> assignments = int[points.size()];
+		assign_points_to_clusters(clusters, points, assignments);
 
-	// iterate through updating the centers until we're done
-	const int max = (max_iterations < 0) ? std::numeric_limits<int>::max() : max_iterations;
-	for (const int& count = 0; count < max; count++)
-	{
-		bool empty_cluster = false;
-		List<Centroid_Cluster<T>> new_clusters = Array_list<>();
-		for (const Centroid_Cluster<T> cluster : clusters)
+		// iterate through updating the centers until we're done
+		const int max = (max_iterations < 0) ? std::numeric_limits<int>::max() : max_iterations;
+		for (const int& count = 0; count < max; count++)
 		{
-			const Clusterable new_center;
-			if (cluster.get_points().is_empty())
+			bool empty_cluster = false;
+			List<Centroid_Cluster<T>> new_clusters = Array_list<>();
+			for (const Centroid_Cluster<T> cluster : clusters)
 			{
-				switch (empty_strategy)
+				const Clusterable new_center;
+				if (cluster.get_points().is_empty())
 				{
+					switch (empty_strategy)
+					{
 					case LARGEST_VARIANCE:
 						new_center = get_point_from_largest_variance_cluster(clusters);
 						break;
@@ -240,10 +240,10 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 						break;
 					default:
 						throw Math_Illegal_State_Exception(LocalizedClusteringFormats.EMPTY_CLUSTER_IN_K_MEANS);
+					}
+					empty_cluster = true;
 				}
-				empty_cluster = true;
-			}
-else
+				else
 				{
 					new_center = centroid_of(cluster.get_points(), cluster.get_center().get_point().size());
 				}
@@ -262,15 +262,15 @@ else
 		return clusters;
 	}
 
-		/**
-		 * Adds the given points to the closest {@link Cluster}.
-		 *
-		 * @param clusters the {@link Cluster}s to add the points to
-		 * @param points the points to add to the given {@link Cluster}s
-		 * @param assignments points assignments to clusters
-		 * @return the number of points assigned to different clusters as the iteration before
-		 */
-		private int assign_points_to_clusters(const List<Centroid_Cluster<T>> clusters, const Collection<T> points, const std::vector<int> assignments)
+	/**
+	 * Adds the given points to the closest {@link Cluster}.
+	 *
+	 * @param clusters the {@link Cluster}s to add the points to
+	 * @param points the points to add to the given {@link Cluster}s
+	 * @param assignments points assignments to clusters
+	 * @return the number of points assigned to different clusters as the iteration before
+	 */
+	private int assign_points_to_clusters(const List<Centroid_Cluster<T>> clusters, const Collection<T> points, const std::vector<int> assignments)
 	{
 		int assigned_differently = 0;
 		int point_index = 0;

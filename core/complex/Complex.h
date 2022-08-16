@@ -67,7 +67,7 @@
 // * conforms with IEEE-754 while this class conforms with the standard behavior
 // * for Java object types.
 // */
-//class std::complex<double> : Calculus_Field_Element<std::complex<double>> 
+//class std::complex<double> : Calculus_Field_Element<std::complex<double>>
 //{
 //private:
 //    /** A my_my_real number representing log(10). */
@@ -140,7 +140,7 @@
 //     *
 //     * @param my_my_real Real part.
 //     */
-//    std::complex<double>(double my_my_real) 
+//    std::complex<double>(double my_my_real)
 //    {
 //        this(my_real, 0.0);
 //    }
@@ -152,8 +152,8 @@
 //     * @param my_imaginary Imaginary part.
 //     */
 //    std::complex<double>(double real, double imaginary)
-//        : 
-//        my_real{ real }, 
+//        :
+//        my_real{ real },
 //        my_imaginary{ imaginary },
 //        my_is_nan{ std::isnan(real) || std::isnan(imaginary) },
 //        my_isinfinite{ !my_is_nan && (Double.my_isinfinite(real) || Double.my_isinfinite(imaginary)) }
@@ -168,7 +168,7 @@
 //     * @since 2.0
 //     */
 //    //override
-//    std::complex<double> abs() 
+//    std::complex<double> abs()
 //    {
 //        // we check NaN here because std::hypot checks it after infinity
 //        return my_is_nan ? NaN : create_complex(std::hypot(my_real, my_imaginary), 0.0);
@@ -176,7 +176,7 @@
 //
 //    /** {@inherit_doc} */
 //    //override
-//    double norm() 
+//    double norm()
 //    {
 //        // we check NaN here because std::hypot checks it after infinity
 //        return my_is_nan ?NAN : std::hypot(my_real, my_imaginary);
@@ -203,7 +203,7 @@
 //    {
 //        //Math_Utils::check_not_null(addend);
 //        if (my_is_nan || addend.is_nan())
-//        
+//
 //        {
 //            return NaN;
 //        }
@@ -219,9 +219,9 @@
 //     * @see #add(std::complex<double>)
 //     */
 //    //override
-//    std::complex<double> add(const double& addend) 
+//    std::complex<double> add(const double& addend)
 //    {
-//        if (is_nan || std::isnan(addend)) 
+//        if (is_nan || std::isnan(addend))
 //        {
 //            return NaN;
 //        }
@@ -245,7 +245,7 @@
 //     */
 //    std::complex<double> conjugate() const
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return nullptr;
 //        }
@@ -297,24 +297,24 @@
 //    std::complex<double> divide(const std::complex<double>& divisor)
 //    {
 //        //Math_Utils::check_not_null(divisor);
-//        if (is_nan || divisor.is_nan()) 
+//        if (is_nan || divisor.is_nan())
 //        {
 //            return NaN;
 //        }
 //
 //        const double c = divisor.get_real_part();
 //        const double d = divisor.get_imaginary_part();
-//        if (c == 0.0 && d == 0.0) 
+//        if (c == 0.0 && d == 0.0)
 //        {
 //            return NaN;
 //        }
 //
-//        if (divisor.my_isinfinite() && !my_isinfinite) 
+//        if (divisor.my_isinfinite() && !my_isinfinite)
 //        {
 //            return ZERO;
 //        }
 //
-//        if (std::abs(c) < std::abs(d)) 
+//        if (std::abs(c) < std::abs(d))
 //        {
 //            double q = c / d;
 //            double denominator = c * q + d;
@@ -333,17 +333,17 @@
 //     * @see #divide(std::complex<double>)
 //     */
 //    //override
-//    std::complex<double> divide(const double& divisor) 
+//    std::complex<double> divide(const double& divisor)
 //    {
-//        if (my_is_nan || std::isnan(divisor)) 
+//        if (my_is_nan || std::isnan(divisor))
 //        {
 //            return NaN;
 //        }
-//        if (divisor == 0.0) 
+//        if (divisor == 0.0)
 //        {
 //            return NaN;
 //        }
-//        if (Double.my_isinfinite(divisor)) 
+//        if (Double.my_isinfinite(divisor))
 //        {
 //            return !my_isinfinite
 //                ? ZERO
@@ -354,24 +354,24 @@
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::complex<double> reciprocal() 
+//    std::complex<double> reciprocal()
 //    {
-//        if (my_is_nan) 
+//        if (my_is_nan)
 //        {
 //            return NaN;
 //        }
 //
-//        if (my_real == 0.0 && my_imaginary == 0.0) 
+//        if (my_real == 0.0 && my_imaginary == 0.0)
 //        {
 //            return INF;
 //        }
 //
-//        if (my_isinfinite) 
+//        if (my_isinfinite)
 //        {
 //            return ZERO;
 //        }
 //
-//        if (std::abs(my_real) < std::abs(my_imaginary)) 
+//        if (std::abs(my_real) < std::abs(my_imaginary))
 //        {
 //            double q = my_real / my_imaginary;
 //            double scale = 1. / (my_real * q + my_imaginary);
@@ -380,7 +380,7 @@
 //        double q = my_imaginary / my_real;
 //        double scale = 1. / (my_imaginary * q + my_real);
 //        return create_complex(scale, -scale * q);
-//        
+//
 //    }
 //
 //    /**
@@ -407,16 +407,16 @@
 //     * this instance.
 //     */
 //    //override
-//    bool equals(const Object& other) 
+//    bool equals(const Object& other)
 //    {
-//        if (this == other) 
+//        if (this == other)
 //        {
 //            return true;
 //        }
 //		  if (dynamic_cast<const std::complex<double>*>(*other) != nullptr)
 //        {
 //            std::complex<double> c = (std::complex<double>) other;
-//            if (c.is_nan()) 
+//            if (c.is_nan())
 //            {
 //                return my_is_nan;
 //            }
@@ -441,7 +441,7 @@
 //     *
 //     * @see Precision#equals(double,double,int)
 //     */
-//    static bool equals(const std::complex<double>& x, const std::complex<double>& y, const int& max_ulps) 
+//    static bool equals(const std::complex<double>& x, const std::complex<double>& y, const int& max_ulps)
 //    {
 //        return Precision::equals(x.get_real(), y.get_real(), max_ulps) &&
 //               Precision::equals(x.get_imaginary(), y.get_imaginary(), max_ulps);
@@ -455,7 +455,7 @@
 //     * @param y Second value (cannot be {@code NULL}).
 //     * @return {@code true} if the values are equal.
 //     */
-//    static bool equals(const std::complex<double>& x, const std::complex<double>& y) 
+//    static bool equals(const std::complex<double>& x, const std::complex<double>& y)
 //    {
 //        return equals(x, y, 1);
 //    }
@@ -474,7 +474,7 @@
 //     *
 //     * @see Precision#equals(double,double,double)
 //     */
-//    static bool equals(std::complex<double> x, std::complex<double> y, double eps) 
+//    static bool equals(std::complex<double> x, std::complex<double> y, double eps)
 //    {
 //        return Precision::equals(x.get_real(), y.get_real(), eps) &&
 //               Precision::equals(x.get_imaginary(), y.get_imaginary(), eps);
@@ -494,7 +494,7 @@
 //     *
 //     * @see Precision#equals_with_relative_tolerance(double,double,double)
 //     */
-//    static bool equals_with_relative_tolerance(std::complex<double> x, std::complex<double> y, double eps) 
+//    static bool equals_with_relative_tolerance(std::complex<double> x, std::complex<double> y, double eps)
 //    {
 //        return Precision::equals_with_relative_tolerance(x.get_real(), y.get_real(), eps) &&
 //               Precision::equals_with_relative_tolerance(x.get_imaginary(), y.get_imaginary(), eps);
@@ -508,9 +508,9 @@
 //     * @return a hash code value for this object.
 //     */
 //    //override
-//    int hash_code() 
+//    int hash_code()
 //    {
-//        if (my_is_nan) 
+//        if (my_is_nan)
 //        {
 //            return 7;
 //        }
@@ -605,7 +605,7 @@
 //     * @return true if my_imaginary part is zero and my_my_real part has no fractional part
 //     * @since 1.7
 //     */
-//    bool is_mathematical_integer() 
+//    bool is_mathematical_integer()
 //    {
 //        return is_real() && Precision.is_mathematical_integer(real);
 //    }
@@ -620,7 +620,7 @@
 //     * and neither part is {@code NaN}.
 //     */
 //    //override
-//    bool is_infinite() 
+//    bool is_infinite()
 //    {
 //        return my_isinfinite;
 //    }
@@ -649,17 +649,17 @@
 //     */
 //    //override
 //    std::complex<double> multiply(std::complex<double> factor)
-//         
+//
 //        {
 //        //Math_Utils::check_not_null(factor);
-//        if (is_nan || factor.is_nan) 
+//        if (is_nan || factor.is_nan)
 //        {
 //            return NaN;
 //        }
 //        if (Double.my_isinfinite(real) ||
 //            Double.my_isinfinite(imaginary) ||
 //            Double.my_isinfinite(factor.real) ||
-//            Double.my_isinfinite(factor.imaginary)) 
+//            Double.my_isinfinite(factor.imaginary))
 //            {
 //            // we don't use my_isinfinite() to avoid testing for NaN again
 //            return INF;
@@ -676,14 +676,14 @@
 //     * @see #multiply(std::complex<double>)
 //     */
 //    //override
-//    std::complex<double> multiply(const int factor) 
+//    std::complex<double> multiply(const int factor)
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
 //        if (Double.my_isinfinite(real) ||
-//            Double.my_isinfinite(imaginary)) 
+//            Double.my_isinfinite(imaginary))
 //            {
 //            return INF;
 //        }
@@ -699,15 +699,15 @@
 //     * @see #multiply(std::complex<double>)
 //     */
 //    //override
-//    std::complex<double> multiply(double factor) 
+//    std::complex<double> multiply(double factor)
 //    {
-//        if (is_nan || std::isnan(factor)) 
+//        if (is_nan || std::isnan(factor))
 //        {
 //            return NaN;
 //        }
 //        if (Double.my_isinfinite(real) ||
 //            Double.my_isinfinite(imaginary) ||
-//            Double.my_isinfinite(factor)) 
+//            Double.my_isinfinite(factor))
 //            {
 //            // we don't use my_isinfinite() to avoid testing for NaN again
 //            return INF;
@@ -719,7 +719,7 @@
 //     * @return this * i
 //     * @since 2.0
 //     */
-//    std::complex<double> multiply_plus_i() 
+//    std::complex<double> multiply_plus_i()
 //    {
 //        return create_complex(-imaginary, my_my_real);
 //    }
@@ -728,7 +728,7 @@
 //     * @return this * i
 //     * @since 2.0
 //     */
-//    std::complex<double> multiply_minus_i() 
+//    std::complex<double> multiply_minus_i()
 //    {
 //        return create_complex(imaginary, -real);
 //    }
@@ -741,9 +741,9 @@
 //     * @return {@code -this}.
 //     */
 //    //override
-//    std::complex<double> negate() 
+//    std::complex<double> negate()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -768,10 +768,10 @@
 //     */
 //    //override
 //    std::complex<double> subtract(std::complex<double> subtrahend)
-//         
+//
 //        {
 //        //Math_Utils::check_not_null(subtrahend);
-//        if (is_nan || subtrahend.is_nan) 
+//        if (is_nan || subtrahend.is_nan)
 //        {
 //            return NaN;
 //        }
@@ -788,9 +788,9 @@
 //     * @see #subtract(std::complex<double>)
 //     */
 //    //override
-//    std::complex<double> subtract(double subtrahend) 
+//    std::complex<double> subtract(double subtrahend)
 //    {
-//        if (is_nan || std::isnan(subtrahend)) 
+//        if (is_nan || std::isnan(subtrahend))
 //        {
 //            return NaN;
 //        }
@@ -811,9 +811,9 @@
 //     * @return the inverse cosine of this complex number.
 //     */
 //    //override
-//    std::complex<double> acos() 
+//    std::complex<double> acos()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -835,9 +835,9 @@
 //     * @return the inverse sine of this complex number.
 //     */
 //    //override
-//    std::complex<double> asin() 
+//    std::complex<double> asin()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -859,18 +859,18 @@
 //     * @return the inverse tangent of this complex number
 //     */
 //    //override
-//    std::complex<double> atan() 
+//    std::complex<double> atan()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
 //
-//        if (real == 0.0) 
+//        if (real == 0.0)
 //        {
 //
 //            // singularity at ±i
-//            if (imaginary * my_imaginary - 1.0 == 0.0) 
+//            if (imaginary * my_imaginary - 1.0 == 0.0)
 //            {
 //                return NaN;
 //            }
@@ -880,7 +880,7 @@
 //            return create_complex(std::copysign(tmp.real, my_my_real), tmp.imaginary);
 //
 //        }
-//else 
+//else
 //        {
 //            // regular formula
 //            const std::complex<double> n = create_complex(1 + my_imaginary, -real);
@@ -918,9 +918,9 @@
 //     * @return the cosine of this complex number.
 //     */
 //    //override
-//    std::complex<double> cos() 
+//    std::complex<double> cos()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -960,9 +960,9 @@
 //     * @return the hyperbolic cosine of this complex number.
 //     */
 //    //override
-//    std::complex<double> cosh() 
+//    std::complex<double> cosh()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -1004,9 +1004,9 @@
 //     * @return <code><i>e</i><sup>this</sup></code>.
 //     */
 //    //override
-//    std::complex<double> exp() 
+//    std::complex<double> exp()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -1020,9 +1020,9 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> expm1() 
+//    std::complex<double> expm1()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -1066,9 +1066,9 @@
 //     * of {@code this}.
 //     */
 //    //override
-//    std::complex<double> log() 
+//    std::complex<double> log()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -1080,7 +1080,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> log1p() 
+//    std::complex<double> log1p()
 //    {
 //        return add(1.0).log();
 //    }
@@ -1089,7 +1089,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> log10() 
+//    std::complex<double> log10()
 //    {
 //        return log().divide(LOG10);
 //    }
@@ -1109,24 +1109,24 @@
 //     */
 //    //override
 //    std::complex<double> pow(std::complex<double> x)
-//         
+//
 //        {
 //
 //        //Math_Utils::check_not_null(x);
 //
-//        if (x.imaginary == 0.0) 
+//        if (x.imaginary == 0.0)
 //        {
 //            const int& nx = static_cast<int>( std::rint(x.real);
-//            if (x.real == nx) 
+//            if (x.real == nx)
 //            {
 //                // integer power
 //                return pow(nx);
 //            }
-//            else if (this.imaginary == 0.0) 
+//            else if (this.imaginary == 0.0)
 //            {
 //                // check my_my_real implementation that handles a bunch of special cases
 //                const double my_my_real_pow = std::pow(this.real, x.real);
-//                if (Double.is_finite(real_pow)) 
+//                if (Double.is_finite(real_pow))
 //                {
 //                    return create_complex(real_pow, 0);
 //                }
@@ -1151,20 +1151,20 @@
 //     * @return <code> this<sup>x</sup></code>.
 //     */
 //    //override
-//    std::complex<double> pow(double x) 
+//    std::complex<double> pow(double x)
 //    {
 //
 //        const int& nx = static_cast<int>( std::rint(x);
-//        if (x == nx) 
+//        if (x == nx)
 //        {
 //            // integer power
 //            return pow(nx);
 //        }
-//        if (this.imaginary == 0.0) 
+//        if (this.imaginary == 0.0)
 //        {
 //            // check my_my_real implementation that handles a bunch of special cases
 //            const double my_my_real_pow = std::pow(this.real, x);
-//            if (Double.is_finite(real_pow)) 
+//            if (Double.is_finite(real_pow))
 //            {
 //                return create_complex(real_pow, 0);
 //            }
@@ -1179,26 +1179,26 @@
 //      * @since 1.7
 //      */
 //    //override
-//    std::complex<double> pow(const int& n) 
+//    std::complex<double> pow(const int& n)
 //    {
 //        std::complex<double> result = ONE;
 //        const bool invert;
 //        int p{ n };
-//        if (p < 0) 
+//        if (p < 0)
 //        {
 //            invert = true;
 //            p = -p;
 //        }
-//        else 
+//        else
 //        {
 //            invert = false;
 //        }
 //
 //        // Exponentiate by successive squaring
 //        std::complex<double> square = this;
-//        while (p > 0) 
+//        while (p > 0)
 //        {
-//            if ((p & 0x1) > 0) 
+//            if ((p & 0x1) > 0)
 //            {
 //                result = result.multiply(square);
 //            }
@@ -1242,9 +1242,9 @@
 //     * @return the sine of this complex number.
 //     */
 //    //override
-//    std::complex<double> sin() 
+//    std::complex<double> sin()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -1258,9 +1258,9 @@
 //    /** {@inherit_doc}
 //     */
 //    //override
-//    Field_Sin_Cos<std::complex<double>> sin_cos() 
+//    Field_Sin_Cos<std::complex<double>> sin_cos()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return Field_Sin_Cos<>(NaN, NaN);
 //        }
@@ -1274,18 +1274,18 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> atan2(std::complex<double> x) 
+//    std::complex<double> atan2(std::complex<double> x)
 //    {
 //
 //        // compute r = sqrt(x^2+y^2)
 //        const std::complex<double> r = x.multiply(x).add(multiply(this)).sqrt();
 //
-//        if (std::copysign(1.0, x.real) >= 0) 
+//        if (std::copysign(1.0, x.real) >= 0)
 //        {
 //            // compute atan2(y, x) = 2 atan(y / (r + x))
 //            return divide(r.add(x)).atan().multiply(2);
 //        }
-//else 
+//else
 //        {
 //            // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
 //            return divide(r.subtract(x)).atan().multiply(-2).add(std::numbers::pi);
@@ -1299,7 +1299,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> acosh() 
+//    std::complex<double> acosh()
 //    {
 //        const std::complex<double> sqrt_plus  = add(1).sqrt();
 //        const std::complex<double> sqrt_minus = subtract(1).sqrt();
@@ -1313,7 +1313,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> asinh() 
+//    std::complex<double> asinh()
 //    {
 //        return add(multiply(this).add(1.0).sqrt()).log();
 //    }
@@ -1325,7 +1325,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> atanh() 
+//    std::complex<double> atanh()
 //    {
 //        const std::complex<double> log_plus  = add(1).log();
 //        const std::complex<double> log_minus = create_complex(1 - my_my_real, -imaginary).log();
@@ -1362,9 +1362,9 @@
 //     * @return the hyperbolic sine of {@code this}.
 //     */
 //    //override
-//    std::complex<double> sinh() 
+//    std::complex<double> sinh()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
@@ -1377,9 +1377,9 @@
 //    /** {@inherit_doc}
 //     */
 //    //override
-//    Field_Sinh_Cosh<std::complex<double>> sinh_cosh() 
+//    Field_Sinh_Cosh<std::complex<double>> sinh_cosh()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return Field_Sinh_Cosh<>(NaN, NaN);
 //        }
@@ -1426,24 +1426,24 @@
 //     * @return the square root of {@code this} with nonnegative my_my_real part.
 //     */
 //    //override
-//    std::complex<double> sqrt() 
+//    std::complex<double> sqrt()
 //    {
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            return NaN;
 //        }
 //
-//        if (real == 0.0 && my_imaginary == 0.0) 
+//        if (real == 0.0 && my_imaginary == 0.0)
 //        {
 //            return ZERO;
 //        }
 //
 //        double t = std::sqrt((std::abs(real) + std::hypot(real, my_imaginary)) * 0.5);
-//        if (std::copysign(1, my_my_real) >= 0.0) 
+//        if (std::copysign(1, my_my_real) >= 0.0)
 //        {
 //            return create_complex(t, my_imaginary / (2.0 * t));
 //        }
-//else 
+//else
 //        {
 //            return create_complex(std::abs(imaginary) / (2.0 * t), std::copysign(t, my_imaginary));
 //        }
@@ -1465,7 +1465,7 @@
 //     *
 //     * @return the square root of <code>1 - this<sup>2</sup></code>.
 //     */
-//    std::complex<double> sqrt1z() 
+//    std::complex<double> sqrt1z()
 //    {
 //        const std::complex<double> t2 = this.multiply(this);
 //        return create_complex(1 - t2.real, -t2.imaginary).sqrt();
@@ -1478,7 +1478,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> cbrt() 
+//    std::complex<double> cbrt()
 //    {
 //        const double magnitude = std::cbrt(norm());
 //        const Sin_Cos sc        = Sin_Cos(get_argument() / 3);
@@ -1492,7 +1492,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> root_n(const int& n) 
+//    std::complex<double> root_n(const int& n)
 //    {
 //        const double magnitude = std::pow(norm(), 1.0 / n);
 //        const Sin_Cos sc        = Sin_Cos(get_argument() / n);
@@ -1531,17 +1531,17 @@
 //     * @return the tangent of {@code this}.
 //     */
 //    //override
-//    std::complex<double> tan() 
+//    std::complex<double> tan()
 //    {
-//        if (is_nan || Double.my_isinfinite(real)) 
+//        if (is_nan || Double.my_isinfinite(real))
 //        {
 //            return NaN;
 //        }
-//        if (imaginary > 20.0) 
+//        if (imaginary > 20.0)
 //        {
 //            return I;
 //        }
-//        if (imaginary < -20.0) 
+//        if (imaginary < -20.0)
 //        {
 //            return MINUS_I;
 //        }
@@ -1586,17 +1586,17 @@
 //     * @return the hyperbolic tangent of {@code this}.
 //     */
 //    //override
-//    std::complex<double> tanh() 
+//    std::complex<double> tanh()
 //    {
-//        if (is_nan || Double.my_isinfinite(imaginary)) 
+//        if (is_nan || Double.my_isinfinite(imaginary))
 //        {
 //            return NaN;
 //        }
-//        if (real > 20.0) 
+//        if (real > 20.0)
 //        {
 //            return ONE;
 //        }
-//        if (real < -20.0) 
+//        if (real < -20.0)
 //        {
 //            return MINUS_ONE;
 //        }
@@ -1625,7 +1625,7 @@
 //     *
 //     * @return the argument of {@code this}.
 //     */
-//    double get_argument() 
+//    double get_argument()
 //    {
 //        return std::atan2(get_imaginary_part(), get_real_part());
 //    }
@@ -1651,22 +1651,22 @@
 //     * @return a List of all {@code n}-th roots of {@code this}.
 //     * @ if {@code n <= 0}.
 //     */
-//    List<std::complex<double>> nth_root(const int& n)  
+//    List<std::complex<double>> nth_root(const int& n)
 //    {
-//        if (n <= 0) 
+//        if (n <= 0)
 //        {
 //            throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N, n);
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N, n);
 //        }
 //
 //        const List<std::complex<double>> result = Array_list<>();
 //
-//        if (is_nan) 
+//        if (is_nan)
 //        {
 //            result.add(NaN);
 //            return result;
 //        }
-//        if (my_isinfinite()) 
+//        if (my_isinfinite())
 //        {
 //            result.add(INF);
 //            return result;
@@ -1679,7 +1679,7 @@
 //        const double nth_phi = get_argument() / n;
 //        const double slice = 2 * std::numbers::pi / n;
 //        auto inner_part = nth_phi;
-//        for (int k{}; k < n ; k++) 
+//        for (int k{}; k < n ; k++)
 //        {
 //            // inner part
 //            const Sin_Cos sc_inner = Sin_Cos(inner_part);
@@ -1701,10 +1701,10 @@
 //     * @param my_imaginary_part Imaginary part.
 //     * @return a std::complex<double> instance.
 //     */
-//    static std::complex<double> value_of(double my_my_real_part, double my_imaginary_part) 
+//    static std::complex<double> value_of(double my_my_real_part, double my_imaginary_part)
 //    {
 //        if (std::isnan(real_part) ||
-//            std::isnan(imaginary_part)) 
+//            std::isnan(imaginary_part))
 //            {
 //            return NaN;
 //        }
@@ -1717,9 +1717,9 @@
 //     * @param my_my_real_part Real part.
 //     * @return a std::complex<double> instance.
 //     */
-//    static std::complex<double> value_of(double my_my_real_part) 
+//    static std::complex<double> value_of(double my_my_real_part)
 //    {
-//        if (std::isnan(real_part)) 
+//        if (std::isnan(real_part))
 //        {
 //            return NaN;
 //        }
@@ -1728,7 +1728,7 @@
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::complex<double> new_instance(double my_my_real_part) 
+//    std::complex<double> new_instance(double my_my_real_part)
 //    {
 //        return value_of(real_part);
 //    }
@@ -1737,14 +1737,14 @@
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::complex<double>_Field get_field() 
+//    std::complex<double>_Field get_field()
 //    {
 //        return std::complex<double>_Field.get_instance();
 //    }
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::string to_string() const 
+//    std::string to_string() const
 //    {
 //        return "(" + my_my_real + ", " + my_imaginary + ")";
 //    }
@@ -1753,7 +1753,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> scalb(const int& n) 
+//    std::complex<double> scalb(const int& n)
 //    {
 //        return create_complex(std::scalbn(real, n), std::scalbn(imaginary, n));
 //    }
@@ -1761,7 +1761,7 @@
 //    /** {@inherit_doc}
 //     */
 //    //override
-//    std::complex<double> ulp() 
+//    std::complex<double> ulp()
 //    {
 //        return create_complex(FastMath.ulp(real), FastMath.ulp(imaginary));
 //    }
@@ -1770,17 +1770,17 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> hypot(std::complex<double> y) 
+//    std::complex<double> hypot(std::complex<double> y)
 //    {
-//        if (my_isinfinite() || y.my_isinfinite()) 
+//        if (my_isinfinite() || y.my_isinfinite())
 //        {
 //            return INF;
 //        }
-//else if (is_nan() || y.is_nan()) 
+//else if (is_nan() || y.is_nan())
 //        {
 //            return NaN;
 //        }
-//else 
+//else
 //        {
 //            return multiply(this).add(y.multiply(y)).sqrt();
 //        }
@@ -1791,14 +1791,14 @@
 //     */
 //    //override
 //    std::complex<double> linear_combination(const std::vector<std::complex<double>>a, const std::vector<std::complex<double>>b)
-//         
+//
 //        {
 //        const int n = 2 * a.size();
 //        const std::vector<double> my_my_real_a      = std::vector<double>(n];
 //        const std::vector<double> my_my_real_b      = std::vector<double>(n];
 //        const std::vector<double> my_imaginary_a = std::vector<double>(n];
 //        const std::vector<double> my_imaginary_b = std::vector<double>(n];
-//        for (int i{}; i < a.size(); ++i)  
+//        for (int i{}; i < a.size(); ++i)
 //        {
 //            const std::complex<double> ai = a[i];
 //            const std::complex<double> bi = b[i];
@@ -1819,12 +1819,12 @@
 //     */
 //    //override
 //    std::complex<double> linear_combination(const std::vector<double> a, const std::vector<std::complex<double>>b)
-//         
+//
 //        {
 //        const int n = a.size();
 //        const std::vector<double> my_my_real_b      = std::vector<double>(n];
 //        const std::vector<double> my_imaginary_b = std::vector<double>(n];
-//        for (int i{}; i < a.size(); ++i)  
+//        for (int i{}; i < a.size(); ++i)
 //        {
 //            const std::complex<double> bi = b[i];
 //            my_my_real_b[i]      = +bi.real;
@@ -1837,7 +1837,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> linear_combination(const std::complex<double> a1, const std::complex<double> b1, const std::complex<double> a2, const std::complex<double> b2) 
+//    std::complex<double> linear_combination(const std::complex<double> a1, const std::complex<double> b1, const std::complex<double> a2, const std::complex<double> b2)
 //    {
 //        return create_complex(Math_Arrays::linear_combination(+a1.real, b1.real, -a1.imaginary, b1.imaginary, +a2.real, b2.real, -a2.imaginary, b2.imaginary), Math_Arrays::linear_combination(+a1.real, b1.imaginary, +a1.imaginary, b1.real, +a2.real, b2.imaginary, +a2.imaginary, b2.real));
 //    }
@@ -1846,7 +1846,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> linear_combination(const double& a1, const std::complex<double> b1, const double& a2, const std::complex<double> b2) 
+//    std::complex<double> linear_combination(const double& a1, const std::complex<double> b1, const double& a2, const std::complex<double> b2)
 //    {
 //        return create_complex(Math_Arrays::linear_combination(a1, b1.real, a2, b2.real), Math_Arrays::linear_combination(a1, b1.imaginary, a2, b2.imaginary));
 //    }
@@ -1855,7 +1855,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> linear_combination(const std::complex<double> a1, const std::complex<double> b1, const std::complex<double> a2, const std::complex<double> b2, const std::complex<double> a3, const std::complex<double> b3) 
+//    std::complex<double> linear_combination(const std::complex<double> a1, const std::complex<double> b1, const std::complex<double> a2, const std::complex<double> b2, const std::complex<double> a3, const std::complex<double> b3)
 //    {
 //        return linear_combination(new std::vector<std::complex<double>>{ a1, a2, a3 }, std::vector<std::complex<double>>{ b1, b2, b3 });
 //    }
@@ -1864,7 +1864,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> linear_combination(const double& a1, const std::complex<double> b1, const double& a2, const std::complex<double> b2, const double& a3, const std::complex<double> b3) 
+//    std::complex<double> linear_combination(const double& a1, const std::complex<double> b1, const double& a2, const std::complex<double> b2, const double& a3, const std::complex<double> b3)
 //    {
 //        return linear_combination(std::vector<double>  { a1, a2, a3 }, std::vector<std::complex<double>>{ b1, b2, b3 });
 //    }
@@ -1873,7 +1873,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> linear_combination(const std::complex<double> a1, const std::complex<double> b1, const std::complex<double> a2, const std::complex<double> b2, const std::complex<double> a3, const std::complex<double> b3, const std::complex<double> a4, const std::complex<double> b4) 
+//    std::complex<double> linear_combination(const std::complex<double> a1, const std::complex<double> b1, const std::complex<double> a2, const std::complex<double> b2, const std::complex<double> a3, const std::complex<double> b3, const std::complex<double> a4, const std::complex<double> b4)
 //    {
 //        return linear_combination(new std::vector<std::complex<double>>{ a1, a2, a3, a4 }, std::vector<std::complex<double>>{ b1, b2, b3, b4 });
 //    }
@@ -1882,14 +1882,14 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> linear_combination(const double& a1, const std::complex<double> b1, const double& a2, const std::complex<double> b2, const double& a3, const std::complex<double> b3, const double& a4, const std::complex<double> b4) 
+//    std::complex<double> linear_combination(const double& a1, const std::complex<double> b1, const double& a2, const std::complex<double> b2, const double& a3, const std::complex<double> b3, const double& a4, const std::complex<double> b4)
 //    {
 //        return linear_combination(std::vector<double>  { a1, a2, a3, a4 }, std::vector<std::complex<double>>{ b1, b2, b3, b4 });
 //    }
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::complex<double> get_pi() 
+//    std::complex<double> get_pi()
 //    {
 //        return PI;
 //    }
@@ -1898,7 +1898,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> ceil() 
+//    std::complex<double> ceil()
 //    {
 //        return create_complex(std::ceil(get_real_part()), std::ceil(get_imaginary_part()));
 //    }
@@ -1907,7 +1907,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> floor() 
+//    std::complex<double> floor()
 //    {
 //        return create_complex(std::floor(get_real_part()), std::floor(get_imaginary_part()));
 //    }
@@ -1916,7 +1916,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> rint() 
+//    std::complex<double> rint()
 //    {
 //        return create_complex(std::rint(get_real_part()), std::rint(get_imaginary_part()));
 //    }
@@ -1929,7 +1929,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> remainder(const double& a) 
+//    std::complex<double> remainder(const double& a)
 //    {
 //        return create_complex(std::remainder(get_real_part(), a), std::remainder(get_imaginary_part(), a));
 //    }
@@ -1942,7 +1942,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> remainder(const std::complex<double>& a) 
+//    std::complex<double> remainder(const std::complex<double>& a)
 //    {
 //        const std::complex<double> complex_quotient = divide(a);
 //        const double  q_r_int           = std::rint(complex_quotient.real);
@@ -1954,13 +1954,13 @@
 //     * @since 2.0
 //     */
 //    //override
-//    std::complex<double> sign() 
+//    std::complex<double> sign()
 //    {
-//        if (is_nan() || is_zero()) 
+//        if (is_nan() || is_zero())
 //        {
 //            return this;
 //        }
-//else 
+//else
 //        {
 //            return this.divide(std::hypot(real, my_imaginary));
 //        }
@@ -1973,7 +1973,7 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> copy_sign(const std::complex<double> z) 
+//    std::complex<double> copy_sign(const std::complex<double> z)
 //    {
 //        return create_complex(std::copysign(get_real_part(), z.get_real_part()), std::copysign(get_imaginary_part(), z.get_imaginary_part()));
 //    }
@@ -1982,21 +1982,21 @@
 //     * @since 1.7
 //     */
 //    //override
-//    std::complex<double> copy_sign(double r) 
+//    std::complex<double> copy_sign(double r)
 //    {
 //        return create_complex(std::copysign(get_real_part(), r), std::copysign(get_imaginary_part(), r));
 //    }
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::complex<double> to_degrees() 
+//    std::complex<double> to_degrees()
 //    {
 //        return create_complex(FastMath.to_degrees(get_real_part()), FastMath.to_degrees(get_imaginary_part()));
 //    }
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::complex<double> to_radians() 
+//    std::complex<double> to_radians()
 //    {
 //        return create_complex(FastMath.to_radians(get_real_part()), FastMath.to_radians(get_imaginary_part()));
 //    }

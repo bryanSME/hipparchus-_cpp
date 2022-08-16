@@ -15,100 +15,98 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.integration.gauss;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.integration.gauss;
 
-//import org.hipparchus.analysis.Univariate_Function;
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Pair;
+  //import org.hipparchus.analysis.Univariate_Function;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.util.Pair;
 
-/**
- * This class's : {@link #integrate(Univariate_Function) integrate}
- * method assuming that the integral is symmetric about 0.
- * This allows to reduce numerical errors.
- *
- */
-class Symmetric_Gauss_Integrator extends Gauss_Integrator 
+  /**
+   * This class's : {@link #integrate(Univariate_Function) integrate}
+   * method assuming that the integral is symmetric about 0.
+   * This allows to reduce numerical errors.
+   *
+   */
+class Symmetric_Gauss_Integrator extends Gauss_Integrator
 {
-    /**
-     * Creates an integrator from the given {@code points} and {@code weights}.
-     * The integration interval is defined by the first and last value of
-     * {@code points} which must be sorted in increasing order.
-     *
-     * @param points Integration points.
-     * @param weights Weights of the corresponding integration nodes.
-     * @ if the {@code points} are not
-     * sorted in increasing order.
-     * @ if points and weights don't have the same length
-     */
-    public Symmetric_Gauss_Integrator(std::vector<double> points, std::vector<double> weights)
-         
-        {
-        super(points, weights);
-    }
+	/**
+	 * Creates an integrator from the given {@code points} and {@code weights}.
+	 * The integration interval is defined by the first and last value of
+	 * {@code points} which must be sorted in increasing order.
+	 *
+	 * @param points Integration points.
+	 * @param weights Weights of the corresponding integration nodes.
+	 * @ if the {@code points} are not
+	 * sorted in increasing order.
+	 * @ if points and weights don't have the same length
+	 */
+	public Symmetric_Gauss_Integrator(std::vector<double> points, std::vector<double> weights)
 
-    /**
-     * Creates an integrator from the given pair of points (first element of
-     * the pair) and weights (second element of the pair.
-     *
-     * @param points_and_weights Integration points and corresponding weights.
-     * @ if the {@code points} are not
-     * sorted in increasing order.
-     *
-     * @see #Symmetric_Gauss_Integrator(std::vector<double>, std::vector<double>)
-     */
-    public Symmetric_Gauss_Integrator(Pair<std::vector<double>, std::vector<double>> points_and_weights)
-         
-        {
-        this(points_and_weights.get_first(), points_and_weights.get_second());
-    }
+	{
+		super(points, weights);
+	}
 
-    /**
-     * {@inherit_doc}
-     */
-    //override
-    public double integrate(Univariate_Function f) 
-    {
-        const int rule_length = get_number_of_points();
+	/**
+	 * Creates an integrator from the given pair of points (first element of
+	 * the pair) and weights (second element of the pair.
+	 *
+	 * @param points_and_weights Integration points and corresponding weights.
+	 * @ if the {@code points} are not
+	 * sorted in increasing order.
+	 *
+	 * @see #Symmetric_Gauss_Integrator(std::vector<double>, std::vector<double>)
+	 */
+	public Symmetric_Gauss_Integrator(Pair<std::vector<double>, std::vector<double>> points_and_weights)
 
-        if (rule_length == 1) 
-        {
-            return get_weight(0) * f.value(0d);
-        }
+	{
+		this(points_and_weights.get_first(), points_and_weights.get_second());
+	}
 
-        const int i_max = rule_length / 2;
-        double s{};
-        double c{};
-        for (int i{}; i < i_max; i++) 
-        {
-            const double p = get_point(i);
-            const double w = get_weight(i);
+	/**
+	 * {@inherit_doc}
+	 */
+	 //override
+	public double integrate(Univariate_Function f)
+	{
+		const int rule_length = get_number_of_points();
 
-            const double f1 = f.value(p);
-            const double f2 = f.value(-p);
+		if (rule_length == 1)
+		{
+			return get_weight(0) * f.value(0d);
+		}
 
-            const double y = w * (f1 + f2) - c;
-            const double t = s + y;
+		const int i_max = rule_length / 2;
+		double s{};
+		double c{};
+		for (int i{}; i < i_max; i++)
+		{
+			const double p = get_point(i);
+			const double w = get_weight(i);
 
-            c = (t - s) - y;
-            s = t;
-        }
+			const double f1 = f.value(p);
+			const double f2 = f.value(-p);
 
-        if (rule_length % 2 != 0) 
-        {
-            const double w = get_weight(i_max);
+			const double y = w * (f1 + f2) - c;
+			const double t = s + y;
 
-            const double y = w * f.value(0d) - c;
-            const double t = s + y;
+			c = (t - s) - y;
+			s = t;
+		}
 
-            s = t;
-        }
+		if (rule_length % 2 != 0)
+		{
+			const double w = get_weight(i_max);
 
-        return s;
-    }
+			const double y = w * f.value(0d) - c;
+			const double t = s + y;
+
+			s = t;
+		}
+
+		return s;
+	}
 }
-
-

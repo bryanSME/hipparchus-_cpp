@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.interpolation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.interpolation;
 
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
+  //import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.util.Math_Utils;
 #include <vector>
 #include "BivariateGridInterpolator.h"
 #include "../../util/MathArrays.h"
@@ -49,74 +49,74 @@
 class Bicubic_Interpolator : public Bivariate_Grid_Interpolator
 {
 public:
-    /**
-     * {@inherit_doc}
-     */
-     //override
-    Bicubic_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>> fval)
-    {
-        if (xval.size() == 0 || yval.size() == 0 || fval.size() == 0)
-        {
-            throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
-        }
-        Math_Utils::check_dimension(xval.size(), fval.size());
-        Math_Arrays::check_order(xval);
-        Math_Arrays::check_order(yval);
+	/**
+	 * {@inherit_doc}
+	 */
+	 //override
+	Bicubic_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>> fval)
+	{
+		if (xval.size() == 0 || yval.size() == 0 || fval.size() == 0)
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+		}
+		Math_Utils::check_dimension(xval.size(), fval.size());
+		Math_Arrays::check_order(xval);
+		Math_Arrays::check_order(yval);
 
-        const int x_len = xval.size();
-        const int y_len = yval.size();
+		const int x_len = xval.size();
+		const int y_len = yval.size();
 
-        // Approximation to the partial derivatives using finite differences.
-        auto dFdX = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
-        auto d_fd_y = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
-        auto d2FdXdY = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
-        for (int i{ 1 }; i < x_len - 1; i++)
-        {
-            const int nI = i + 1;
-            const int pI = i - 1;
+		// Approximation to the partial derivatives using finite differences.
+		auto dFdX = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
+		auto d_fd_y = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
+		auto d2FdXdY = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
+		for (int i{ 1 }; i < x_len - 1; i++)
+		{
+			const int nI = i + 1;
+			const int pI = i - 1;
 
-            const double nX = xval[nI];
-            const double pX = xval[pI];
+			const double nX = xval[nI];
+			const double pX = xval[pI];
 
-            const double delta_x = nX - pX;
+			const double delta_x = nX - pX;
 
-            for (int j{ 1 }; j < y_len - 1; j++)
-            {
-                const int& nJ = j + 1;
-                const int pJ = j - 1;
+			for (int j{ 1 }; j < y_len - 1; j++)
+			{
+				const int& nJ = j + 1;
+				const int pJ = j - 1;
 
-                const double nY = yval[nJ];
-                const double pY = yval[pJ];
+				const double nY = yval[nJ];
+				const double pY = yval[pJ];
 
-                const double delta_y = nY - pY;
+				const double delta_y = nY - pY;
 
-                dFdX[i][j] = (fval[nI][j] - fval[pI][j]) / delta_x;
-                d_fd_y[i][j] = (fval[i][nJ] - fval[i][pJ]) / delta_y;
+				dFdX[i][j] = (fval[nI][j] - fval[pI][j]) / delta_x;
+				d_fd_y[i][j] = (fval[i][nJ] - fval[i][pJ]) / delta_y;
 
-                const double delta_x_y = delta_x * delta_y;
+				const double delta_x_y = delta_x * delta_y;
 
-                d2FdXdY[i][j] = (fval[nI][nJ] - fval[nI][pJ] - fval[pI][nJ] + fval[pI][pJ]) / delta_x_y;
-            }
-        }
+				d2FdXdY[i][j] = (fval[nI][nJ] - fval[nI][pJ] - fval[pI][nJ] + fval[pI][pJ]) / delta_x_y;
+			}
+		}
 
-        // Create the interpolating function.
-        return Bicubic_Interpolating_Function(xval, yval, fval, dFdX, d_fd_y, d2FdXdY)
-        {
-        public:
-            /** {@inherit_doc} */
-            //override
-            bool is_valid_point(const double& x, const double& y)
-            {
-                if (x < xval[1] ||
-                    x > xval[xval.size() - 2] ||
-                    y < yval[1] ||
-                    y > yval[yval.size() - 2])
-                {
-                    return false;
-                }
-                return true;
-            }
-        };
-    }
+		// Create the interpolating function.
+		return Bicubic_Interpolating_Function(xval, yval, fval, dFdX, d_fd_y, d2FdXdY)
+		{
+		public:
+			/** {@inherit_doc} */
+			//override
+			bool is_valid_point(const double& x, const double& y)
+			{
+				if (x < xval[1] ||
+					x > xval[xval.size() - 2] ||
+					y < yval[1] ||
+					y > yval[yval.size() - 2])
+				{
+					return false;
+				}
+				return true;
+			}
+		};
+	}
 };

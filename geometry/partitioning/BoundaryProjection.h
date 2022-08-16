@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.partitioning;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.partitioning;
 #include "../Space.h"
 #include <type_traits>
 
@@ -36,59 +36,57 @@
 template<typename S, typename std::enable_if<std::is_base_of<Space, S>::value>::type* = nullptr>
 class Boundary_Projection
 {
-
 private:
-    /** Original point. */
-    const Point<S> my_original;
+	/** Original point. */
+	const Point<S> my_original;
 
-    /** Projected point. */
-    const Point<S> my_projected;
+	/** Projected point. */
+	const Point<S> my_projected;
 
-    /** Offset of the point with respect to the boundary it is projected on. */
-    const double my_offset;
+	/** Offset of the point with respect to the boundary it is projected on. */
+	const double my_offset;
 
 public:
-    /** Constructor from raw elements.
-     * @param original original point
-     * @param projected projected point
-     * @param offset offset of the point with respect to the boundary it is projected on
-     */
-    Boundary_Projection(const Point<S>& original, const Point<S>& projected, const double& offset)
-        : my_original{ original }, my_projected{ projected }, my_offset{ offset }
-    {};
+	/** Constructor from raw elements.
+	 * @param original original point
+	 * @param projected projected point
+	 * @param offset offset of the point with respect to the boundary it is projected on
+	 */
+	Boundary_Projection(const Point<S>& original, const Point<S>& projected, const double& offset)
+		: my_original{ original }, my_projected{ projected }, my_offset{ offset }
+	{};
 
-    /** Get the original point.
-     * @return original point
-     */
-    Point<S> get_original() const
-    {
-        return my_original;
-    }
+	/** Get the original point.
+	 * @return original point
+	 */
+	Point<S> get_original() const
+	{
+		return my_original;
+	}
 
-    /** Projected point.
-     * @return projected point, or NULL if there are no boundary
-     */
-    Point<S> get_projected() const
-    {
-        return my_projected;
-    }
+	/** Projected point.
+	 * @return projected point, or NULL if there are no boundary
+	 */
+	Point<S> get_projected() const
+	{
+		return my_projected;
+	}
 
-    /** Offset of the point with respect to the boundary it is projected on.
-     * <p>
-     * The offset with respect to the boundary is negative if the {@link
-     * #get_original() original point} is inside the region, and positive otherwise.
-     * </p>
-     * <p>
-     * If there are no boundary, the value is set to either {@code
-     * INFINITY} if the region is empty (i.e. all points are
-     * outside of the region) or {@code -INFINITY} if the region
-     * covers the whole space (i.e. all points are inside of the region).
-     * </p>
-     * @return offset of the point with respect to the boundary it is projected on
-     */
-    double get_offset() const
-    {
-        return my_offset;
-    }
-
+	/** Offset of the point with respect to the boundary it is projected on.
+	 * <p>
+	 * The offset with respect to the boundary is negative if the {@link
+	 * #get_original() original point} is inside the region, and positive otherwise.
+	 * </p>
+	 * <p>
+	 * If there are no boundary, the value is set to either {@code
+	 * INFINITY} if the region is empty (i.e. all points are
+	 * outside of the region) or {@code -INFINITY} if the region
+	 * covers the whole space (i.e. all points are inside of the region).
+	 * </p>
+	 * @return offset of the point with respect to the boundary it is projected on
+	 */
+	double get_offset() const
+	{
+		return my_offset;
+	}
 };

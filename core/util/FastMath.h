@@ -118,14 +118,14 @@ private:
 	/** Coefficients for log, when input 0.99 < x < 1.01. */
 	static const std::vector<std::vector<double>> LN_QUICK_COEF =
 	{
-		{1.0, 5.669184079525E-24}, 
-		{-0.25, -0.25}, 
-		{0.3333333134651184, 1.986821492305628E-8}, 
+		{1.0, 5.669184079525E-24},
+		{-0.25, -0.25},
+		{0.3333333134651184, 1.986821492305628E-8},
 		{-0.25, -6.663542893624021E-14},
 		{0.19999998807907104, 1.1921056801463227E-8},
 		{-0.1666666567325592, -7.800414592973399E-9},
-		{0.1428571343421936, 5.650007086920087E-9}, 
-		{-0.12502530217170715, -7.44321345601866E-11}, 
+		{0.1428571343421936, 5.650007086920087E-9},
+		{-0.12502530217170715, -7.44321345601866E-11},
 		{0.11113807559013367, 9.219544613762692E-9}
 	};
 
@@ -140,18 +140,18 @@ private:
 	/** Sine table (high bits). */
 	static const std::vector<double> SINE_TABLE_A =
 	{
-		+0.0, 
+		+0.0,
 		+0.1246747374534607d,
-		+0.24740394949913025d, 
-		+0.366272509098053d, 
+		+0.24740394949913025d,
+		+0.366272509098053d,
 		+0.4794255495071411d,
 		+0.5850973129272461d,
 		+0.6816387176513672d,
-		+0.7675435543060303d, 
+		+0.7675435543060303d,
 		+0.8414709568023682d,
 		+0.902267575263977d,
-		+0.9489846229553223d, 
-		+0.9808930158615112d, 
+		+0.9489846229553223d,
+		+0.9808930158615112d,
 		+0.9974949359893799d,
 		+0.9985313415527344d
 	};
@@ -161,16 +161,16 @@ private:
 	{
 		+0.0,
 		-4.068233003401932E-9d,
-		+9.755392680573412E-9d, 
-		+1.9987994582857286E-8d, 
+		+9.755392680573412E-9d,
+		+1.9987994582857286E-8d,
 		-1.0902938113007961E-8d,
 		-3.9986783938944604E-8d,
-		+4.23719669792332E-8d, 
-		-5.207000323380292E-8d, 
+		+4.23719669792332E-8d,
+		-5.207000323380292E-8d,
 		+2.800552834259E-8d,
 		+1.883511811213715E-8d,
-		-3.5997360512765566E-9d, 
-		+4.116164446561962E-8d, 
+		-3.5997360512765566E-9d,
+		+4.116164446561962E-8d,
 		+5.0614674548127384E-8d,
 		-1.0129027912496858E-9d
 	};
@@ -182,7 +182,7 @@ private:
 		+0.9921976327896118d,
 		+0.9689123630523682d,
 		+0.9305076599121094d,
-		+0.8775825500488281d, 
+		+0.8775825500488281d,
 		+0.8109631538391113d,
 		+0.7316888570785522d,
 		+0.6409968137741089d,
@@ -190,7 +190,7 @@ private:
 		+0.4311765432357788d,
 		+0.3153223395347595d,
 		+0.19454771280288696d,
-		+0.07073719799518585d, 
+		+0.07073719799518585d,
 		-0.05417713522911072d
 	};
 
@@ -198,17 +198,17 @@ private:
 	static const std::vector<double> COSINE_TABLE_B =
 	{
 		+0.0,
-		+3.4439717236742845E-8d, 
+		+3.4439717236742845E-8d,
 		+5.865827662008209E-8d,
 		-3.7999795083850525E-8d,
-		+1.184154459111628E-8d, 
-		-3.43338934259355E-8d, 
+		+1.184154459111628E-8d,
+		-3.43338934259355E-8d,
 		+1.1795268640216787E-8d,
-		+4.438921624363781E-8d, 
+		+4.438921624363781E-8d,
 		+2.925681159240093E-8d,
 		-2.6437112632041807E-8d,
-		+2.2860509143963117E-8d, 
-		-4.813899778443457E-9d, 
+		+2.2860509143963117E-8d,
+		-4.813899778443457E-9d,
 		+3.6725170580355583E-9d,
 		+2.0217439756338078E-10d
 	};
@@ -216,30 +216,30 @@ private:
 	/** Tangent table, used by atan() (high bits). */
 	static const std::vector<double> TANGENT_TABLE_A =
 	{
-		+0.0, 
+		+0.0,
 		+0.1256551444530487d,
 		+0.25534194707870483d,
-		+0.3936265707015991d, 
-		+0.5463024377822876d, 
-		+0.7214844226837158d, 
+		+0.3936265707015991d,
+		+0.5463024377822876d,
+		+0.7214844226837158d,
 		+0.9315965175628662d,
 		+1.1974215507507324d,
-		+1.5574076175689697d, 
-		+2.092571258544922d, 
-		+3.0095696449279785d, 
-		+5.041914939880371d, 
-		+14.101419448852539d, 
+		+1.5574076175689697d,
+		+2.092571258544922d,
+		+3.0095696449279785d,
+		+5.041914939880371d,
+		+14.101419448852539d,
 		-18.430862426757812d
 	};
 
 	/** Tangent table, used by atan() (low bits). */
 	static const std::vector<double> TANGENT_TABLE_B =
 	{
-		+0.0, 
-		-7.877917738262007E-9d, 
+		+0.0,
+		-7.877917738262007E-9d,
 		-2.5857668567479893E-8d,
-		+5.2240336371356666E-9d, 
-		+5.206150291559893E-8d, 
+		+5.2240336371356666E-9d,
+		+5.206150291559893E-8d,
 		+1.8307188599677033E-8d,
 		-5.7618793749770706E-8d,
 		+7.848361555046424E-8d,
@@ -247,7 +247,7 @@ private:
 		+1.7827257129423813E-8d,
 		+2.893485277253286E-8d,
 		+3.1660099222737955E-7d,
-		+4.983191803254889E-7d, 
+		+4.983191803254889E-7d,
 		-3.356118100840571E-7d
 	};
 
@@ -267,27 +267,27 @@ private:
 	 */
 	static const std::vector<double> EIGHTHS =
 	{
-		0, 
+		0,
 		0.125,
-		0.25, 
+		0.25,
 		0.375,
-		0.5, 
+		0.5,
 		0.625,
 		0.75,
 		0.875,
-		1.0, 
+		1.0,
 		1.125,
-		1.25, 
+		1.25,
 		1.375,
-		1.5, 
+		1.5,
 		1.625
 	};
 
 	/** Table of 2^((n+2)/3) */
 	static const std::vector<double> CBRTTWO =
 	{
-		0.6299605249474366, 
-		0.7937005259840998, 
+		0.6299605249474366,
+		0.7937005259840998,
 		1.0,
 		1.2599210498948732,
 		1.5874010519681994
@@ -339,7 +339,7 @@ private:
 	/** Constant: {@value}. */
 	static constexpr double F_1_13{ 1.0 / 13.0 };
 	/** Constant: {@value}. */
-	static constexpr double F_1_15 { 1.0 / 15.};
+	static constexpr double F_1_15{ 1.0 / 15. };
 	/** Constant: {@value}. */
 	static constexpr double F_1_17{ 1.0 / 17. };
 	/** Constant: {@value}. */
@@ -366,16 +366,16 @@ private:
 	 */
 	FastMath() = default
 
-	// Generic helper methods
+		// Generic helper methods
 
-	/**
-	 * Get the high order bits from the mantissa.
-	 * Equivalent to adding and subtracting HEX_40000 but also works for very large numbers
-	 *
-	 * @param d the value to split
-	 * @return the high order part of the mantissa
-	 */
-	static double doubleHigh_part(const double& d)
+		/**
+		 * Get the high order bits from the mantissa.
+		 * Equivalent to adding and subtracting HEX_40000 but also works for very large numbers
+		 *
+		 * @param d the value to split
+		 * @return the high order part of the mantissa
+		 */
+		static double doubleHigh_part(const double& d)
 	{
 		if (d > -Precision.SAFE_MIN && d < Precision.SAFE_MIN)
 		{
@@ -496,7 +496,7 @@ public:
 			}
 			return 0.5 * exp(x);
 		}
-		
+
 		if (x < -20)
 		{
 			if (x <= -LOG_MAX_VALUE)
@@ -1000,7 +1000,7 @@ public:
 		}
 
 		return negative
-			? -absAtanh 
+			? -absAtanh
 			: absAtanh;
 	}
 
@@ -1024,7 +1024,7 @@ public:
 		// return +0.0/-0.0/NaN depending on a
 		return (a < 0.0f)
 			? -1.0f
-			: ((a > 0.0f) ? 1.0f : a); 
+			: ((a > 0.0f) ? 1.0f : a);
 	}
 
 	/** Compute next number towards positive infinity.
@@ -1986,7 +1986,7 @@ private:
 					low == 0.0 && Double.double_to_raw_long_bits(high) == long.MIN_VALUE /* negative zero */
 					? -0.0
 					: low
-				)
+					)
 				: high + low, high, low);
 		}
 
@@ -4785,52 +4785,52 @@ private:
 		return ((a ^ b) >= 0 || m == 0)
 			? m // a an b have same sign, or division is exact
 			: b + m; // a and b have opposite signs and division is not exact
-		}
+	}
+}
+
+/** Finds r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}.
+ * <p>
+ * This methods returns the same value as integer modulo when
+ * a and b are same signs, but returns a different value when
+ * they are opposite (i.e. q is negative).
+ * </p>
+ * @param a dividend
+ * @param b divisor
+ * @return r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}
+ * @exception Math_Runtime_Exception if b == 0
+ * @see #floorDiv(long, int)
+ * @since 1.3
+ */
+public static int floorMod(const long& a, const int& b)
+{
+	return static_cast<int>(floorMod(a, static_cast<long>(b);
+}
+
+/** Finds r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}.
+ * <p>
+ * This methods returns the same value as integer modulo when
+ * a and b are same signs, but returns a different value when
+ * they are opposite (i.e. q is negative).
+ * </p>
+ * @param a dividend
+ * @param b divisor
+ * @return r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}
+ * @exception Math_Runtime_Exception if b == 0
+ * @see #floorDiv(long, long)
+ */
+public static long floorMod(const long& a, const long& b)
+{
+	if (b == 0l)
+	{
+		throw std::exception("not implemented");
+		//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_DENOMINATOR);
 	}
 
-	/** Finds r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}.
-	 * <p>
-	 * This methods returns the same value as integer modulo when
-	 * a and b are same signs, but returns a different value when
-	 * they are opposite (i.e. q is negative).
-	 * </p>
-	 * @param a dividend
-	 * @param b divisor
-	 * @return r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}
-	 * @exception Math_Runtime_Exception if b == 0
-	 * @see #floorDiv(long, int)
-	 * @since 1.3
-	 */
-	public static int floorMod(const long& a, const int& b)
-	{
-		return static_cast<int>(floorMod(a, static_cast<long>(b);
-	}
-
-	/** Finds r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}.
-	 * <p>
-	 * This methods returns the same value as integer modulo when
-	 * a and b are same signs, but returns a different value when
-	 * they are opposite (i.e. q is negative).
-	 * </p>
-	 * @param a dividend
-	 * @param b divisor
-	 * @return r such that {@code a = q b + r} with {@code 0 <= r < b} if {@code b > 0} and {@code b < r <= 0} if {@code b < 0}
-	 * @exception Math_Runtime_Exception if b == 0
-	 * @see #floorDiv(long, long)
-	 */
-	public static long floorMod(const long& a, const long& b)
-	{
-		if (b == 0l)
-		{
-			throw std::exception("not implemented");
-			//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_DENOMINATOR);
-		}
-
-		const long m = a % b;
-		return ((a ^ b) >= 0l || m == 0l)
-			? m // a an b have same sign, or division is exact
-			: b + m; // a and b have opposite signs and division is not exact
-		}
+	const long m = a % b;
+	return ((a ^ b) >= 0l || m == 0l)
+		? m // a an b have same sign, or division is exact
+		: b + m; // a and b have opposite signs and division is not exact
+}
 	}
 
 	/**

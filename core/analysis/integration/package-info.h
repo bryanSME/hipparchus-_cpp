@@ -15,15 +15,13 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- *     Numerical integration (quadrature) algorithms for univariate real functions.
- *
- */
-//package org.hipparchus.analysis.integration;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   *     Numerical integration (quadrature) algorithms for univariate real functions.
+   *
+   */
+   //package org.hipparchus.analysis.integration;

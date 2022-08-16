@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-/**
- * Clustering examples.
- */
-//package org.hipparchus.samples.clustering;
-
-
+ /**
+  * Clustering examples.
+  */
+  //package org.hipparchus.samples.clustering;

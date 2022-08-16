@@ -19,42 +19,39 @@
 #include "CopolarN.h"
 #include "JacobiElliptic.h"
 
-/** Algorithm for computing the principal Jacobi functions for parameters slightly below one.
- * <p>
- * The algorithm for evaluating the functions is based on approximation
- * in terms of hyperbolic functions. It is given in Abramowitz and Stegun, * sections 16.15.
- * </p>
- * @since 2.0
- */
-class Near_One_Parameter : public Jacobi_Elliptic 
+ /** Algorithm for computing the principal Jacobi functions for parameters slightly below one.
+  * <p>
+  * The algorithm for evaluating the functions is based on approximation
+  * in terms of hyperbolic functions. It is given in Abramowitz and Stegun, * sections 16.15.
+  * </p>
+  * @since 2.0
+  */
+class Near_One_Parameter : public Jacobi_Elliptic
 {
 private:
-    /** Complementary parameter of the Jacobi elliptic function. */
-    const double my_m1;
+	/** Complementary parameter of the Jacobi elliptic function. */
+	const double my_m1;
 
 public:
-    /** Simple constructor.
-     * @param m parameter of the Jacobi elliptic function (must be one or slightly below one here)
-     */
-    Near_One_Parameter(const double& m) 
-    {
-        super(m);
-        my_m1 = 1.0 - m;
-    }
+	/** Simple constructor.
+	 * @param m parameter of the Jacobi elliptic function (must be one or slightly below one here)
+	 */
+	Near_One_Parameter(const double& m)
+	{
+		super(m);
+		my_m1 = 1.0 - m;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    Copolar_N values_n(const double& u) 
-    {
-        const Sinh_Cosh sch  = std::sinh_cosh(u);
-        const double sech   =  1.0 / sch.cosh();
-        const double t      = sch.sinh() * sech;
-        const double factor = 0.25 * my_m1 * (sch.sinh() * sch.cosh()  - u) * sech;
-        return Copolar_N(t + factor * sech,  // equation 16.15.1
-                            sech - factor * t,  // equation 16.15.2
-                            sech + factor * t); // equation 16.15.3
-    }
-
+	/** {@inherit_doc} */
+	//override
+	Copolar_N values_n(const double& u)
+	{
+		const Sinh_Cosh sch = std::sinh_cosh(u);
+		const double sech = 1.0 / sch.cosh();
+		const double t = sch.sinh() * sech;
+		const double factor = 0.25 * my_m1 * (sch.sinh() * sch.cosh() - u) * sech;
+		return Copolar_N(t + factor * sech,  // equation 16.15.1
+			sech - factor * t,  // equation 16.15.2
+			sech + factor * t); // equation 16.15.3
+	}
 }
-
-

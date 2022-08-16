@@ -25,12 +25,12 @@
 #include "../CalculusFieldUnivariateFunction.hpp"
 #include "FieldUnivariateIntegrator.h"
 
-/**
- * Provide a default implementation for several generic functions.
- *
- * @param <T> Type of the field elements.
- * @since 2.0
- */
+  /**
+   * Provide a default implementation for several generic functions.
+   *
+   * @param <T> Type of the field elements.
+   * @since 2.0
+   */
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class BaseAbstractField_Univariate_Integrator : Field_Univariate_Integrator<T>
 {

@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.util.FastMath;
+ //import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.util.FastMath;
 #include <type_traits>
 #include "../../../CalculusFieldElement.hpp"
 
@@ -31,32 +31,31 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class FieldBig_Parameter : public Field_Jacobi_Elliptic<T>
 {
-    /** Algorithm to use for the positive parameter. */
-    private const Field_Jacobi_Elliptic<T> algorithm;
+	/** Algorithm to use for the positive parameter. */
+	private const Field_Jacobi_Elliptic<T> algorithm;
 
-    /** Input scaling factor. */
-    private const T input_scale;
+	/** Input scaling factor. */
+	private const T input_scale;
 
-    /** output scaling factor. */
-    private const T output_scale;
+	/** output scaling factor. */
+	private const T output_scale;
 
-    /** Simple constructor.
-     * @param m parameter of the Jacobi elliptic function (must be greater than 1 here)
-     */
-    FieldBig_Parameter(const T m)
-    {
-        super(m);
-        algorithm = Jacobi_Elliptic_Builder.build(m.reciprocal());
-        input_scale = std::sqrt(m);
-        output_scale = input_scale.reciprocal();
-    }
+	/** Simple constructor.
+	 * @param m parameter of the Jacobi elliptic function (must be greater than 1 here)
+	 */
+	FieldBig_Parameter(const T m)
+	{
+		super(m);
+		algorithm = Jacobi_Elliptic_Builder.build(m.reciprocal());
+		input_scale = std::sqrt(m);
+		output_scale = input_scale.reciprocal();
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public Field_Copolar_N<T> values_n(const T u)
-    {
-        const Field_Copolar_N<T> trio_n = algorithm.values_n(u.multiply(input_scale));
-        return Field_Copolar_N<>(output_scale.multiply(trio_n.sn()), trio_n.dn(), trio_n.cn());
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public Field_Copolar_N<T> values_n(const T u)
+	{
+		const Field_Copolar_N<T> trio_n = algorithm.values_n(u.multiply(input_scale));
+		return Field_Copolar_N<>(output_scale.multiply(trio_n.sn()), trio_n.dn(), trio_n.cn());
+	}
 };

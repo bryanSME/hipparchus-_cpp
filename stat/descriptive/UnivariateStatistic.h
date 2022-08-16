@@ -15,55 +15,53 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.Localized_Core_Formats;
 #include <vector>
 
 /**
  * Base interface implemented by all statistics.
  */
-class Univariate_Statistic //: public Math_Arrays::Function 
+class Univariate_Statistic //: public Math_Arrays::Function
 {
-    /**
-     * Returns the result of evaluating the statistic over the input array.
-     * <p>
-     * The default implementation delegates to
-     * <code>evaluate(std::vector<double>, int, int)</code> in the natural way.
-     *
-     * @param values input array
-     * @return the value of the statistic applied to the input array
-     * @  if values is NULL
-     */
-    //override
-    double evaluate(std::vector<double> values)  
-    {
-        //Math_Utils::check_not_null(values, hipparchus::exception::Localized_Core_Formats_Type::INPUT_ARRAY);
-        return evaluate(values, 0, values.size());
-    }
+	/**
+	 * Returns the result of evaluating the statistic over the input array.
+	 * <p>
+	 * The default implementation delegates to
+	 * <code>evaluate(std::vector<double>, int, int)</code> in the natural way.
+	 *
+	 * @param values input array
+	 * @return the value of the statistic applied to the input array
+	 * @  if values is NULL
+	 */
+	 //override
+	double evaluate(std::vector<double> values)
+	{
+		//Math_Utils::check_not_null(values, hipparchus::exception::Localized_Core_Formats_Type::INPUT_ARRAY);
+		return evaluate(values, 0, values.size());
+	}
 
-    /**
-     * Returns the result of evaluating the statistic over the specified entries
-     * in the input array.
-     *
-     * @param values the input array
-     * @param begin the index of the first element to include
-     * @param length the number of elements to include
-     * @return the value of the statistic applied to the included array entries
-     * @ if values is NULL or the indices are invalid
-     */
-    //override
-    virtual double evaluate(std::vector<double> values, int begin, int length) = 0;
+	/**
+	 * Returns the result of evaluating the statistic over the specified entries
+	 * in the input array.
+	 *
+	 * @param values the input array
+	 * @param begin the index of the first element to include
+	 * @param length the number of elements to include
+	 * @return the value of the statistic applied to the included array entries
+	 * @ if values is NULL or the indices are invalid
+	 */
+	 //override
+	virtual double evaluate(std::vector<double> values, int begin, int length) = 0;
 
-    /**
-     * Returns a copy of the statistic with the same internal state.
-     *
-     * @return a copy of the statistic
-     */
-    virtual Univariate_Statistic copy() = 0;
+	/**
+	 * Returns a copy of the statistic with the same internal state.
+	 *
+	 * @return a copy of the statistic
+	 */
+	virtual Univariate_Statistic copy() = 0;
 };
-
-

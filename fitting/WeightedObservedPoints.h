@@ -32,7 +32,6 @@
    */
 class Weighted_Observed_Points
 {
-
 	/** Observed points. */
 	private const List<Weighted_Observed_Point> observations = Array_list<>();
 

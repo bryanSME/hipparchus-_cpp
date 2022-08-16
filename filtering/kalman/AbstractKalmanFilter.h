@@ -138,8 +138,8 @@ class Abstract_Kalman_Filter<T extends Measurement> : Kalman_Filter<T>
 	/** Get the predicted state.
 	 * @return predicted state
 	 */
- //override
-		public Process_Estimate get_predicted()
+	 //override
+	public Process_Estimate get_predicted()
 	{
 		return predicted;
 	}
@@ -147,8 +147,8 @@ class Abstract_Kalman_Filter<T extends Measurement> : Kalman_Filter<T>
 	/** Get the corrected state.
 	 * @return corrected state
 	 */
- //override
-		public Process_Estimate get_corrected()
+	 //override
+	public Process_Estimate get_corrected()
 	{
 		return corrected;
 	}

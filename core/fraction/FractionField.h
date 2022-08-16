@@ -15,99 +15,95 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.fraction;
+  //package org.hipparchus.fraction;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.Field;
+  //import org.hipparchus.Field;
 
-/**
- * Representation of the fractional numbers field.
- * <p>
- * This class is a singleton.
- * </p>
- * @see Fraction
- */
-class Fraction_Field : Field<Fraction> 
+  /**
+   * Representation of the fractional numbers field.
+   * <p>
+   * This class is a singleton.
+   * </p>
+   * @see Fraction
+   */
+class Fraction_Field : Field<Fraction>
 {
+	/** Serializable version identifier */
+	-1257768487499119313L;
 
-    /** Serializable version identifier */
-    -1257768487499119313L;
+	/** Private constructor for the singleton.
+	 */
+	private Fraction_Field()
+	{
+	}
 
-    /** Private constructor for the singleton.
-     */
-    private Fraction_Field() 
-    {
-    }
+	/** Get the unique instance.
+	 * @return the unique instance
+	 */
+	public static Fraction_Field get_instance()
+	{
+		return Lazy_Holder.INSTANCE;
+	}
 
-    /** Get the unique instance.
-     * @return the unique instance
-     */
-    public static Fraction_Field get_instance() 
-    {
-        return Lazy_Holder.INSTANCE;
-    }
+	/** {@inherit_doc} */
+	//override
+	public Fraction get_one()
+	{
+		return Fraction.ONE;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public Fraction get_one() 
-    {
-        return Fraction.ONE;
-    }
+	/** {@inherit_doc} */
+	//override
+	public Fraction get_zero()
+	{
+		return Fraction.ZERO;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public Fraction get_zero() 
-    {
-        return Fraction.ZERO;
-    }
+	/** {@inherit_doc} */
+	//override
+	public Class<Fraction> get_runtime_class()
+	{
+		return Fraction.class;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public Class<Fraction> get_runtime_class() 
-    {
-        return Fraction.class;
-    }
+	/** {@inherit_doc} */
+	//override
+	public bool equals(const Object& other)
+	{
+		return this == other;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public bool equals(const Object& other) 
-    {
-        return this == other;
-    }
+	/** {@inherit_doc} */
+	//override
+	public int hash_code()
+	{
+		return 0xac885ac5;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public int hash_code() 
-    {
-        return 0xac885ac5;
-    }
+	// CHECKSTYLE: stop Hide_Utility_Class_Constructor
+	/** Holder for the instance.
+	 * <p>We use here the Initialization On Demand Holder Idiom.</p>
+	 */
+	private static class Lazy_Holder
+	{
+		/** Cached field instance. */
+		private static const Fraction_Field INSTANCE = Fraction_Field();
+	}
+	// CHECKSTYLE: resume Hide_Utility_Class_Constructor
 
-    // CHECKSTYLE: stop Hide_Utility_Class_Constructor
-    /** Holder for the instance.
-     * <p>We use here the Initialization On Demand Holder Idiom.</p>
-     */
-    private static class Lazy_Holder 
-    {
-        /** Cached field instance. */
-        private static const Fraction_Field INSTANCE = Fraction_Field();
-    }
-    // CHECKSTYLE: resume Hide_Utility_Class_Constructor
-
-    /** Handle deserialization of the singleton.
-     * @return the singleton instance
-     */
-    private Object read_resolve() 
-    {
-        // return the singleton instance
-        return Lazy_Holder.INSTANCE;
-    }
-
+	/** Handle deserialization of the singleton.
+	 * @return the singleton instance
+	 */
+	private Object read_resolve()
+	{
+		// return the singleton instance
+		return Lazy_Holder.INSTANCE;
+	}
 }
-
-

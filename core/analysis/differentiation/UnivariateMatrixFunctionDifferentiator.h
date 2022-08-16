@@ -15,26 +15,22 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.differentiation;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.differentiation;
 
-//import org.hipparchus.analysis.Univariate_Matrix_Function;
+  //import org.hipparchus.analysis.Univariate_Matrix_Function;
 
-/** Interface defining the function differentiation operation.
- */
-class Univariate_Matrix_Function_differentiator 
+  /** Interface defining the function differentiation operation.
+   */
+class Univariate_Matrix_Function_differentiator
 {
-
-    /** Create an implementation of a {@link Univariate_Differentiable_Matrix_Function
-     * differential} from a regular {@link Univariate_Matrix_Function matrix function}.
-     * @param function function to differentiate
-     * @return differential function
-     */
-    Univariate_Differentiable_Matrix_Function differentiate(Univariate_Matrix_Function function);
-
+	/** Create an implementation of a {@link Univariate_Differentiable_Matrix_Function
+	 * differential} from a regular {@link Univariate_Matrix_Function matrix function}.
+	 * @param function function to differentiate
+	 * @return differential function
+	 */
+	Univariate_Differentiable_Matrix_Function differentiate(Univariate_Matrix_Function function);
 }
-
-

@@ -15,86 +15,82 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.spherical.twod;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.spherical.twod;
 
-/** Spherical polygons boundary vertex.
- * @see Spherical_Polygons_Set#get_boundary_loops()
- * @see Edge
- */
-class Vertex 
+  /** Spherical polygons boundary vertex.
+   * @see Spherical_Polygons_Set#get_boundary_loops()
+   * @see Edge
+   */
+class Vertex
 {
+	/** Vertex location. */
+	private const S2_Point location;
 
-    /** Vertex location. */
-    private const S2_Point location;
+	/** Incoming edge. */
+	private Edge incoming;
 
-    /** Incoming edge. */
-    private Edge incoming;
+	/** Outgoing edge. */
+	private Edge outgoing;
 
-    /** Outgoing edge. */
-    private Edge outgoing;
+	/** Build a non-processed vertex not owned by any node yet.
+	 * @param location vertex location
+	 */
+	Vertex(const S2_Point& location)
+	{
+		this.location = location;
+		this.incoming = NULL;
+		this.outgoing = NULL;
+	}
 
-    /** Build a non-processed vertex not owned by any node yet.
-     * @param location vertex location
-     */
-    Vertex(const S2_Point& location) 
-    {
-        this.location = location;
-        this.incoming = NULL;
-        this.outgoing = NULL;
-    }
+	/** Get Vertex location.
+	 * @return vertex location
+	 */
+	public S2_Point get_location() const
+	{
+		return location;
+	}
 
-    /** Get Vertex location.
-     * @return vertex location
-     */
-    public S2_Point get_location() const 
-    {
-        return location;
-    }
+	/** Set incoming edge.
+	 * <p>
+	 * The circle supporting the incoming edge is automatically bound
+	 * with the instance.
+	 * </p>
+	 * @param incoming incoming edge
+	 */
+	void set_incoming(const Edge& incoming)
+	{
+		this.incoming = incoming;
+	}
 
-    /** Set incoming edge.
-     * <p>
-     * The circle supporting the incoming edge is automatically bound
-     * with the instance.
-     * </p>
-     * @param incoming incoming edge
-     */
-    void set_incoming(const Edge& incoming) 
-    {
-        this.incoming = incoming;
-    }
+	/** Get incoming edge.
+	 * @return incoming edge
+	 */
+	public Edge get_incoming()
+	{
+		return incoming;
+	}
 
-    /** Get incoming edge.
-     * @return incoming edge
-     */
-    public Edge get_incoming() 
-    {
-        return incoming;
-    }
+	/** Set outgoing edge.
+	 * <p>
+	 * The circle supporting the outgoing edge is automatically bound
+	 * with the instance.
+	 * </p>
+	 * @param outgoing outgoing edge
+	 */
+	void set_outgoing(const Edge outgoing)
+	{
+		this.outgoing = outgoing;
+	}
 
-    /** Set outgoing edge.
-     * <p>
-     * The circle supporting the outgoing edge is automatically bound
-     * with the instance.
-     * </p>
-     * @param outgoing outgoing edge
-     */
-    void set_outgoing(const Edge outgoing) 
-    {
-        this.outgoing = outgoing;
-    }
-
-    /** Get outgoing edge.
-     * @return outgoing edge
-     */
-    public Edge get_outgoing() const 
-    {
-        return outgoing;
-    }
-
+	/** Get outgoing edge.
+	 * @return outgoing edge
+	 */
+	public Edge get_outgoing() const
+	{
+		return outgoing;
+	}
 }
-
-

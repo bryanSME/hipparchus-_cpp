@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * Summary statistics based on ranks.
- */
-//package org.hipparchus.stat.descriptive.rank;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * Summary statistics based on ranks.
+   */
+   //package org.hipparchus.stat.descriptive.rank;

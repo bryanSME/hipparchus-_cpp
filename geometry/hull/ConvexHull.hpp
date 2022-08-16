@@ -14,37 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.geometry.hull;
+ //package org.hipparchus.geometry.hull;
 
-//import java.io.Serializable;
+ //import java.io.Serializable;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.geometry.Point;
-//import org.hipparchus.geometry.Space;
-//import org.hipparchus.geometry.partitioning.Region;
+ //import org.hipparchus.exception.;
+ //import org.hipparchus.geometry.Point;
+ //import org.hipparchus.geometry.Space;
+ //import org.hipparchus.geometry.partitioning.Region;
 
-/**
- * This class represents a convex hull.
- *
- * @param <S> Space type.
- * @param <P> Point type.
- */
-class Convex_Hull<S extends Space, P extends Point<S>> extends Serializable 
+ /**
+  * This class represents a convex hull.
+  *
+  * @param <S> Space type.
+  * @param <P> Point type.
+  */
+class Convex_Hull<S extends Space, P extends Point<S>> extends Serializable
 {
+	/**
+	 * Get the vertices of the convex hull.
+	 * @return vertices of the convex hull
+	 */
+	P[] get_vertices();
 
-    /**
-     * Get the vertices of the convex hull.
-     * @return vertices of the convex hull
-     */
-    P[] get_vertices();
-
-    /**
-     * Returns a region that is enclosed by the convex hull.
-     * @return the region enclosed by the convex hull
-     * @ if the number of vertices is not enough to
-     * build a region in the respective space
-     */
-    Region<S> create_region() ;
+	/**
+	 * Returns a region that is enclosed by the convex hull.
+	 * @return the region enclosed by the convex hull
+	 * @ if the number of vertices is not enough to
+	 * build a region in the respective space
+	 */
+	Region<S> create_region();
 }
-
-

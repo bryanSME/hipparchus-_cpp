@@ -19,7 +19,7 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  
+
 #include <vector>
   //import org.hipparchus.analysis.Function_Utils;
   //import org.hipparchus.analysis.Univariate_Function;
@@ -46,7 +46,7 @@ public:
 	 * @ if the length of the data array is
 	 * not a power of two
 	 */
-	//override
+	 //override
 	std::vector<double> transform(const std::vector<double>& f, const Transform_Type& type)
 	{
 		if (type == Transform_Type.FORWARD)
@@ -65,7 +65,7 @@ public:
 	 *   if the number of sample points is negative
 	 * @ if the number of sample points is not a power of two
 	 */
- //override
+	 //override
 	std::vector<double> transform(const Univariate_Function& f, const double& min, const double& max, const int& n, const Transform_Type& type)
 	{
 		return transform(Function_Utils.sample(f, min, max, n), type);

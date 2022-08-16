@@ -15,251 +15,244 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.random;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.random;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.util.FastMath;
+  //import org.hipparchus.util.FastMath;
 
-
-/**
- * This virtual class : the WELL class of pseudo-random number generator
- * from Fran&ccedil;ois Panneton, Pierre L'Ecuyer and Makoto Matsumoto.
- * <p>
- * This generator is described in a paper by Fran&ccedil;ois Panneton, * Pierre L'Ecuyer and Makoto Matsumoto
- * <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">
- * Improved long-_Period Generators Based on Linear Recurrences Modulo 2</a>
- * ACM Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
- * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">
- * wellrng-errata.txt</a>.
- *
- * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
- */
-class Abstract_Well extends Int_Random_Generator  
+  /**
+   * This virtual class : the WELL class of pseudo-random number generator
+   * from Fran&ccedil;ois Panneton, Pierre L'Ecuyer and Makoto Matsumoto.
+   * <p>
+   * This generator is described in a paper by Fran&ccedil;ois Panneton, * Pierre L'Ecuyer and Makoto Matsumoto
+   * <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">
+   * Improved long-_Period Generators Based on Linear Recurrences Modulo 2</a>
+   * ACM Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
+   * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">
+   * wellrng-errata.txt</a>.
+   *
+   * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
+   */
+class Abstract_Well extends Int_Random_Generator
 {
+	20150223L;
 
-    
-    20150223L;
+	/** Current index in the bytes pool. */
+	protected int index;
 
-    /** Current index in the bytes pool. */
-    protected int index;
+	/** Bytes pool. */
+	protected const std::vector<int> v;
 
-    /** Bytes pool. */
-    protected const std::vector<int> v;
+	/** Creates a random number generator.
+	 * <p>The instance is initialized using the current time plus the
+	 * system identity hash code of this instance as the seed.</p>
+	 * @param k number of bits in the pool (not necessarily a multiple of 32)
+	 */
+	protected Abstract_Well(const int& k)
+	{
+		this(k, NULL);
+	}
 
-    /** Creates a random number generator.
-     * <p>The instance is initialized using the current time plus the
-     * system identity hash code of this instance as the seed.</p>
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     */
-    protected Abstract_Well(const int& k) 
-    {
-        this(k, NULL);
-    }
+	/** Creates a random number generator using a single int seed.
+	 * @param k number of bits in the pool (not necessarily a multiple of 32)
+	 * @param seed the initial seed (32 bits integer)
+	 */
+	protected Abstract_Well(const int& k, const int seed)
+	{
+		this(k, std::vector<int> { seed });
+	}
 
-    /** Creates a random number generator using a single int seed.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param seed the initial seed (32 bits integer)
-     */
-    protected Abstract_Well(const int& k, const int seed) 
-    {
-        this(k, std::vector<int> { seed });
-    }
+	/**
+	 * Creates a random number generator using an int array seed.
+	 * @param k number of bits in the pool (not necessarily a multiple of 32)
+	 * @param seed the initial seed (32 bits integers array), if NULL
+	 * the seed of the generator will be related to the current time
+	 */
+	protected Abstract_Well(const int& k, const std::vector<int> seed)
+	{
+		const int r = calculate_block_count(k);
+		this.v = int[r];
+		this.index = 0;
 
-    /**
-     * Creates a random number generator using an int array seed.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param seed the initial seed (32 bits integers array), if NULL
-     * the seed of the generator will be related to the current time
-     */
-    protected Abstract_Well(const int& k, const std::vector<int> seed) 
-    {
+		// initialize the pool content
+		set_seed(seed);
+	}
 
-        const int r = calculate_block_count(k);
-        this.v      = int[r];
-        this.index  = 0;
+	/**
+	 * Creates a random number generator using a single long seed.
+	 * @param k number of bits in the pool (not necessarily a multiple of 32)
+	 * @param seed the initial seed (64 bits integer)
+	 */
+	protected Abstract_Well(const int& k, const long seed)
+	{
+		this(k, std::vector<int> { static_cast<int>((seed >> > 32), static_cast<int>((seed & 0xffffffffl) });
+	}
 
-        // initialize the pool content
-        set_seed(seed);
-    }
+	/**
+	 * Reinitialize the generator as if just built with the given int array seed.
+	 * <p>
+	 * The state of the generator is exactly the same as a new
+	 * generator built with the same seed.
+	 *
+	 * @param seed the initial seed (32 bits integers array). If NULL
+	 * the seed of the generator will be the system time plus the system identity
+	 * hash code of the instance.
+	 */
+	 //override
+	public void set_seed(const std::vector<int> seed)
+	{
+		if (seed == NULL)
+		{
+			set_seed(System.current_time_millis() + System.identity_hash_code(this));
+			return;
+		}
 
-    /**
-     * Creates a random number generator using a single long seed.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param seed the initial seed (64 bits integer)
-     */
-    protected Abstract_Well(const int& k, const long seed) 
-    {
-        this(k, std::vector<int> { static_cast<int>( (seed >>> 32), static_cast<int>( (seed & 0xffffffffl) });
-    }
+		System.arraycopy(seed, 0, v, 0, std::min(seed.size(), v.size()));
 
-    /**
-     * Reinitialize the generator as if just built with the given int array seed.
-     * <p>
-     * The state of the generator is exactly the same as a new
-     * generator built with the same seed.
-     *
-     * @param seed the initial seed (32 bits integers array). If NULL
-     * the seed of the generator will be the system time plus the system identity
-     * hash code of the instance.
-     */
-    //override
-    public void set_seed(const std::vector<int> seed) 
-    {
-        if (seed == NULL) 
-        {
-            set_seed(System.current_time_millis() + System.identity_hash_code(this));
-            return;
-        }
+		if (seed.size() < v.size())
+		{
+			for (int i = seed.size(); i < v.size(); ++i)
+			{
+				const long l = v[i - seed.size()];
+				v[i] = static_cast<int>(((1812433253l * (l ^ (l >> 30)) + i) & 0xffffffffL);
+			}
+		}
 
-        System.arraycopy(seed, 0, v, 0, std::min(seed.size(), v.size()));
+		index = 0;
+		clear_cache(); // Clear normal deviate cache
+	}
 
-        if (seed.size() < v.size()) 
-        {
-            for (int i = seed.size(); i < v.size(); ++i) 
-            {
-                const long l = v[i - seed.size()];
-                v[i] = static_cast<int>( ((1812433253l * (l ^ (l >> 30)) + i) & 0xffffffffL);
-            }
-        }
+	/**
+	 * Calculate the number of 32-bits blocks.
+	 * @param k number of bits in the pool (not necessarily a multiple of 32)
+	 * @return the number of 32-bits blocks
+	 */
+	private static int calculate_block_count(const int& k)
+	{
+		// the bits pool contains k bits, k = r w - p where r is the number
+		// of w bits blocks, w is the block size (always 32 in the original paper)
+		// and p is the number of unused bits in the last block
+		const int w = 32;
+		return (k + w - 1) / w;
+	}
 
-        index = 0;
-        clear_cache(); // Clear normal deviate cache
-    }
+	/**
+	 * Inner class used to store the indirection index table which is fixed
+	 * for a given type of WELL class of pseudo-random number generator.
+	 */
+	protected static const class Index_Table
+	{
+		/**
+		 * Index indirection table giving for each index its predecessor
+		 * taking table size into account.
+		 */
+		private const std::vector<int> i_rm1;
 
-    /**
-     * Calculate the number of 32-bits blocks.
-     * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @return the number of 32-bits blocks
-     */
-    private static int calculate_block_count(const int& k) 
-    {
-        // the bits pool contains k bits, k = r w - p where r is the number
-        // of w bits blocks, w is the block size (always 32 in the original paper)
-        // and p is the number of unused bits in the last block
-        const int w = 32;
-        return (k + w - 1) / w;
-    }
+		/**
+		 * Index indirection table giving for each index its second predecessor
+		 * taking table size into account.
+		 */
+		private const std::vector<int> i_rm2;
 
-    /**
-     * Inner class used to store the indirection index table which is fixed
-     * for a given type of WELL class of pseudo-random number generator.
-     */
-    protected static const class Index_Table 
-    {
-        /**
-         * Index indirection table giving for each index its predecessor
-         * taking table size into account.
-         */
-        private const std::vector<int> i_rm1;
+		/**
+		 * Index indirection table giving for each index the value index + m1
+		 * taking table size into account.
+		 */
+		private const std::vector<int> i1;
 
-        /**
-         * Index indirection table giving for each index its second predecessor
-         * taking table size into account.
-         */
-        private const std::vector<int> i_rm2;
+		/**
+		 * Index indirection table giving for each index the value index + m2
+		 * taking table size into account.
+		 */
+		private const std::vector<int> i2;
 
-        /**
-         * Index indirection table giving for each index the value index + m1
-         * taking table size into account.
-         */
-        private const std::vector<int> i1;
+		/**
+		 * Index indirection table giving for each index the value index + m3
+		 * taking table size into account.
+		 */
+		private const std::vector<int> i3;
 
-        /**
-         * Index indirection table giving for each index the value index + m2
-         * taking table size into account.
-         */
-        private const std::vector<int> i2;
+		/**
+		 * Creates a pre-calculated indirection index table.
+		 * @param k number of bits in the pool (not necessarily a multiple of 32)
+		 * @param m1 first parameter of the algorithm
+		 * @param m2 second parameter of the algorithm
+		 * @param m3 third parameter of the algorithm
+		 */
+		public Index_Table(const int& k, const int m1, const int m2, const int m3)
+		{
+			const int r = calculate_block_count(k);
 
-        /**
-         * Index indirection table giving for each index the value index + m3
-         * taking table size into account.
-         */
-        private const std::vector<int> i3;
+			// precompute indirection index tables. These tables are used for optimizing access
+			// they allow saving computations like "(j + r - 2) % r" with costly modulo operations
+			i_rm1 = int[r];
+			i_rm2 = int[r];
+			i1 = int[r];
+			i2 = int[r];
+			i3 = int[r];
+			for (int j{}; j < r; ++j)
+			{
+				i_rm1[j] = (j + r - 1) % r;
+				i_rm2[j] = (j + r - 2) % r;
+				i1[j] = (j + m1) % r;
+				i2[j] = (j + m2) % r;
+				i3[j] = (j + m3) % r;
+			}
+		}
 
-        /**
-         * Creates a pre-calculated indirection index table.
-         * @param k number of bits in the pool (not necessarily a multiple of 32)
-         * @param m1 first parameter of the algorithm
-         * @param m2 second parameter of the algorithm
-         * @param m3 third parameter of the algorithm
-         */
-        public Index_Table(const int& k, const int m1, const int m2, const int m3) 
-        {
+		/**
+		 * Returns the predecessor of the given index modulo the table size.
+		 * @param index the index to look at
+		 * @return (index - 1) % table size
+		 */
+		public int get_index_pred(const int index)
+		{
+			return i_rm1[index];
+		}
 
-            const int r = calculate_block_count(k);
+		/**
+		 * Returns the second predecessor of the given index modulo the table size.
+		 * @param index the index to look at
+		 * @return (index - 2) % table size
+		 */
+		public int get_index_pred2(const int index)
+		{
+			return i_rm2[index];
+		}
 
-            // precompute indirection index tables. These tables are used for optimizing access
-            // they allow saving computations like "(j + r - 2) % r" with costly modulo operations
-            i_rm1 = int[r];
-            i_rm2 = int[r];
-            i1   = int[r];
-            i2   = int[r];
-            i3   = int[r];
-            for (int j{}; j < r; ++j) 
-            {
-                i_rm1[j] = (j + r - 1) % r;
-                i_rm2[j] = (j + r - 2) % r;
-                i1[j]   = (j + m1)    % r;
-                i2[j]   = (j + m2)    % r;
-                i3[j]   = (j + m3)    % r;
-            }
-        }
+		/**
+		 * Returns index + M1 modulo the table size.
+		 * @param index the index to look at
+		 * @return (index + M1) % table size
+		 */
+		public int get_index_m1(const int index)
+		{
+			return i1[index];
+		}
 
-        /**
-         * Returns the predecessor of the given index modulo the table size.
-         * @param index the index to look at
-         * @return (index - 1) % table size
-         */
-        public int get_index_pred(const int index) 
-        {
-            return i_rm1[index];
-        }
+		/**
+		 * Returns index + M2 modulo the table size.
+		 * @param index the index to look at
+		 * @return (index + M2) % table size
+		 */
+		public int get_index_m2(const int index)
+		{
+			return i2[index];
+		}
 
-        /**
-         * Returns the second predecessor of the given index modulo the table size.
-         * @param index the index to look at
-         * @return (index - 2) % table size
-         */
-        public int get_index_pred2(const int index) 
-        {
-            return i_rm2[index];
-        }
-
-        /**
-         * Returns index + M1 modulo the table size.
-         * @param index the index to look at
-         * @return (index + M1) % table size
-         */
-        public int get_index_m1(const int index) 
-        {
-            return i1[index];
-        }
-
-        /**
-         * Returns index + M2 modulo the table size.
-         * @param index the index to look at
-         * @return (index + M2) % table size
-         */
-        public int get_index_m2(const int index) 
-        {
-            return i2[index];
-        }
-
-        /**
-         * Returns index + M3 modulo the table size.
-         * @param index the index to look at
-         * @return (index + M3) % table size
-         */
-        public int get_index_m3(const int index) 
-        {
-            return i3[index];
-        }
-    }
+		/**
+		 * Returns index + M3 modulo the table size.
+		 * @param index the index to look at
+		 * @return (index + M3) % table size
+		 */
+		public int get_index_m3(const int index)
+		{
+			return i3[index];
+		}
+	}
 }
-
-

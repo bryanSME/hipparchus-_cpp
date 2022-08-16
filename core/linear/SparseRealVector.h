@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.linear;
 
-/**
- * Marker class for Real_Vectors that require sparse backing storage
- * <p>
- *  Caveat: Implementation are allowed to assume that, for any {@code x}, *  the equality {@code x * 0 == 0} holds. But it is is not true for
- *  {@code NaN}. Moreover, zero entries will lose their sign.
- *  Some operations (that involve {@code NaN} and/or infinities) may
- *  thus give incorrect results, like multiplications, divisions or
- *  functions mapping.
- * </p>
- */
+  /**
+   * Marker class for Real_Vectors that require sparse backing storage
+   * <p>
+   *  Caveat: Implementation are allowed to assume that, for any {@code x}, *  the equality {@code x * 0 == 0} holds. But it is is not true for
+   *  {@code NaN}. Moreover, zero entries will lose their sign.
+   *  Some operations (that involve {@code NaN} and/or infinities) may
+   *  thus give incorrect results, like multiplications, divisions or
+   *  functions mapping.
+   * </p>
+   */
 class SparseReal_Vector extends Real_Vector {}; // NOPMD - this is an intentional marker class

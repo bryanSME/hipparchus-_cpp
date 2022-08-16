@@ -15,17 +15,15 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- * <p>
- * This //package provides basic 1D geometry components.
- * </p>
- *
- */
-//package org.hipparchus.geometry.euclidean.oned;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   * <p>
+   * This //package provides basic 1D geometry components.
+   * </p>
+   *
+   */
+   //package org.hipparchus.geometry.euclidean.oned;

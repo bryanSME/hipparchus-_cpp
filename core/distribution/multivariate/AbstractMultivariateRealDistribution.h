@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.distribution.multivariate;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.distribution.multivariate;
 
-//import org.hipparchus.distribution.Multivariate_Real_Distribution;
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.;
-//import org.hipparchus.random.Random_Generator;
+  //import org.hipparchus.distribution.Multivariate_Real_Distribution;
+  //import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.random.Random_Generator;
 #include  <vector>
 #include "../MultivariateRealDistribution.h"
 #include "../../random/RandomGenerator.h"
@@ -35,54 +35,54 @@
 class AbstractMultivariate_Real_Distribution : public Multivariate_Real_Distribution
 {
 private:
-    /** The number of dimensions or columns in the multivariate distribution. */
-    int my_dimension;
+	/** The number of dimensions or columns in the multivariate distribution. */
+	int my_dimension;
 
 protected:
-    /** RNG instance used to generate samples from the distribution. */
-    Random_Generator my_random;
-    
-    /**
-     * @param rng Random number generator.
-     * @param n Number of dimensions.
-     */
-    AbstractMultivariate_Real_Distribution(const Random_Generator& rng, const int& n)
-        : my_random{ rng }, my_dimension{n}
-    {};
+	/** RNG instance used to generate samples from the distribution. */
+	Random_Generator my_random;
+
+	/**
+	 * @param rng Random number generator.
+	 * @param n Number of dimensions.
+	 */
+	AbstractMultivariate_Real_Distribution(const Random_Generator& rng, const int& n)
+		: my_random{ rng }, my_dimension{ n }
+	{};
 
 public:
-    /** {@inherit_doc} */
-    //override
-    void reseed_random_generator(const long& seed)
-    {
-        my_random.set_seed(seed);
-    }
+	/** {@inherit_doc} */
+	//override
+	void reseed_random_generator(const long& seed)
+	{
+		my_random.set_seed(seed);
+	}
 
-    /** {@inherit_doc} */
-    //override
-    int get_dimension() const
-    {
-        return my_dimension;
-    }
+	/** {@inherit_doc} */
+	//override
+	int get_dimension() const
+	{
+		return my_dimension;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    virtual std::vector<double> sample();
+	/** {@inherit_doc} */
+	//override
+	virtual std::vector<double> sample();
 
-    /** {@inherit_doc} */
-    //override
-    std::vector<std::vector<double>> sample(const int& sample_size)
-    {
-        if (sample_size <= 0)
-        {
-            throw std::exception("Not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SAMPLES, sample_size);
-        }
-        auto out = std::vector<std::vector<double>>(sample_size, std::vector<double>(my_dimension);
-        for (int i{}; i < sample_size; i++)
-        {
-            out[i] = sample();
-        }
-        return out;
-    }
+	/** {@inherit_doc} */
+	//override
+	std::vector<std::vector<double>> sample(const int& sample_size)
+	{
+		if (sample_size <= 0)
+		{
+			throw std::exception("Not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SAMPLES, sample_size);
+		}
+		auto out = std::vector<std::vector<double>>(sample_size, std::vector<double>(my_dimension);
+		for (int i{}; i < sample_size; i++)
+		{
+			out[i] = sample();
+		}
+		return out;
+	}
 };

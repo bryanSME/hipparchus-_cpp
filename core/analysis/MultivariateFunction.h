@@ -15,31 +15,30 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 
-/**
- * An interface representing a multivariate real function.
- *
- */
+  /**
+   * An interface representing a multivariate real function.
+   *
+   */
 class Multivariate_Function
 {
-
-    /**
-     * Compute the value for the function at the given point.
-     *
-     * @param point Point at which the function must be evaluated.
-     * @return the function value for the given point.
-     * @org.hipparchus.exception.
-     * if the parameter's dimension is wrong for the function being evaluated.
-     * @ org.hipparchus.exception.
-     * when the activated method itself can ascertain that preconditions, * specified in the API expressed at the level of the activated method, * have been violated.  In the vast majority of cases where Hipparchus
-     * this exception, it is the result of argument checking of actual
-     * parameters immediately passed to a method.
-     */
-    virtual double value(std::vector<double> point) = 0;
+	/**
+	 * Compute the value for the function at the given point.
+	 *
+	 * @param point Point at which the function must be evaluated.
+	 * @return the function value for the given point.
+	 * @org.hipparchus.exception.
+	 * if the parameter's dimension is wrong for the function being evaluated.
+	 * @ org.hipparchus.exception.
+	 * when the activated method itself can ascertain that preconditions, * specified in the API expressed at the level of the activated method, * have been violated.  In the vast majority of cases where Hipparchus
+	 * this exception, it is the result of argument checking of actual
+	 * parameters immediately passed to a method.
+	 */
+	virtual double value(std::vector<double> point) = 0;
 };

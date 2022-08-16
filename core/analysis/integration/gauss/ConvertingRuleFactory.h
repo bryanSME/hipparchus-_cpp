@@ -14,60 +14,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.analysis.integration.gauss;
+ //package org.hipparchus.analysis.integration.gauss;
 
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.Field_Element;
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Pair;
+ //import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Field_Element;
+ //import org.hipparchus.exception.;
+ //import org.hipparchus.util.Pair;
 
-/**
- * Factory converting {@link Calculus_Field_Element field-based} {@link FieldRule_Factory} into {@link Rule_Factory}.
- * @param <T> Type of the number used to represent the points and weights of
- * the quadrature rules.
- * @since 2.0
- */
-class ConvertingRule_Factory<T extends Field_Element<T>> extends AbstractRule_Factory 
+ /**
+  * Factory converting {@link Calculus_Field_Element field-based} {@link FieldRule_Factory} into {@link Rule_Factory}.
+  * @param <T> Type of the number used to represent the points and weights of
+  * the quadrature rules.
+  * @since 2.0
+  */
+class ConvertingRule_Factory<T extends Field_Element<T>> extends AbstractRule_Factory
 {
+	/** Underlying field-based factory. */
+	private const FieldRule_Factory<T> field_factory;
 
-    /** Underlying field-based factory. */
-    private const FieldRule_Factory<T> field_factory;
+	/** Simple constructor.
+	 * @param field_factory field-based factory to convert
+	 */
+	public ConvertingRule_Factory(const FieldRule_Factory<T> field_factory)
+	{
+		this.field_factory = field_factory;
+	}
 
-    /** Simple constructor.
-     * @param field_factory field-based factory to convert
-     */
-    public ConvertingRule_Factory(const FieldRule_Factory<T> field_factory) 
-    {
-        this.field_factory = field_factory;
-    }
+	/** {@inherit_doc} */
+	//override
+	protected Pair<std::vector<double>, std::vector<double>> compute_rule(const int& number_of_points)
 
-    /** {@inherit_doc} */
-    //override
-    protected Pair<std::vector<double>, std::vector<double>> compute_rule(const int& number_of_points)
-         
-        {
+	{
+		// get the field-based rule
+		Pair<std::vector<T>, std::vector<T>> rule = field_factory.get_rule(number_of_points);
 
-        // get the field-based rule
-        Pair<std::vector<T>, std::vector<T>> rule = field_factory.get_rule(number_of_points);
+		// convert the nodes and weights
+		const std::vector<T> pT = rule.get_first();
+		const std::vector<T> wT = rule.get_second();
 
-        // convert the nodes and weights
-        const std::vector<T> pT = rule.get_first();
-        const std::vector<T> wT = rule.get_second();
+		const int len = pT.size();
+		const std::vector<double> pD = std::vector<double>(len];
+		const std::vector<double> wD = std::vector<double>(len];
 
-        const int len = pT.size();
-        const std::vector<double> pD = std::vector<double>(len];
-        const std::vector<double> wD = std::vector<double>(len];
+		for (int i{}; i < len; i++)
+		{
+			pD[i] = pT[i].get_real();
+			wD[i] = wT[i].get_real();
+		}
 
-        for (int i{}; i < len; i++) 
-        {
-            pD[i] = pT[i].get_real();
-            wD[i] = wT[i].get_real();
-        }
-
-        return Pair<>(pD, wD);
-
-    }
-
+		return Pair<>(pD, wD);
+	}
 }
-
-

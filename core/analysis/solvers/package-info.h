@@ -15,15 +15,13 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- *     Root finding algorithms, for univariate real functions.
- *
- */
-//package org.hipparchus.analysis.solvers;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   *     Root finding algorithms, for univariate real functions.
+   *
+   */
+   //package org.hipparchus.analysis.solvers;

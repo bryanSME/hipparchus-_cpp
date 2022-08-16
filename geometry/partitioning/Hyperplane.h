@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.partitioning;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.partitioning;
 
-//import org.hipparchus.geometry.Point;
+  //import org.hipparchus.geometry.Point;
 
 #include "../Space.h"
 #include <type_traits>
@@ -50,59 +50,57 @@
 template<typename S, typename std::enable_if<std::is_base_of<Space, S>::value>::type* = nullptr>
 class Hyperplane
 {
+	/** Copy the instance.
+	 * <p>The instance created is completely independant of the original
+	 * one. A deep copy is used, none of the underlying objects are
+	 * shared (except for immutable objects).</p>
+	 * @return a hyperplane, copy of the instance
+	 */
+	virtual Hyperplane<S> copy_self() = 0;
 
-    /** Copy the instance.
-     * <p>The instance created is completely independant of the original
-     * one. A deep copy is used, none of the underlying objects are
-     * shared (except for immutable objects).</p>
-     * @return a hyperplane, copy of the instance
-     */
-    virtual Hyperplane<S> copy_self() = 0;
+	/** Get the offset (oriented distance) of a point.
+	 * <p>The offset is 0 if the point is on the underlying hyperplane, * it is positive if the point is on one particular side of the
+	 * hyperplane, and it is negative if the point is on the other side, * according to the hyperplane natural orientation.</p>
+	 * @param point point to check
+	 * @return offset of the point
+	 */
+	virtual double get_offset(Point<S> point) = 0;
 
-    /** Get the offset (oriented distance) of a point.
-     * <p>The offset is 0 if the point is on the underlying hyperplane, * it is positive if the point is on one particular side of the
-     * hyperplane, and it is negative if the point is on the other side, * according to the hyperplane natural orientation.</p>
-     * @param point point to check
-     * @return offset of the point
-     */
-    virtual double get_offset(Point<S> point) = 0;
+	/** Project a point to the hyperplane.
+	 * @param point point to project
+	 * @return projected point
+	 */
+	virtual Point<S> project(Point<S> point) = 0;
 
-    /** Project a point to the hyperplane.
-     * @param point point to project
-     * @return projected point
-     */
-    virtual Point<S> project(Point<S> point) = 0;
+	/** Get the tolerance below which points are considered to belong to the hyperplane.
+	 * @return tolerance below which points are considered to belong to the hyperplane
+	 */
+	virtual double get_tolerance() = 0;
 
-    /** Get the tolerance below which points are considered to belong to the hyperplane.
-     * @return tolerance below which points are considered to belong to the hyperplane
-     */
-    virtual double get_tolerance() = 0;
+	/** Check if the instance has the same orientation as another hyperplane.
+	 * <p>This method is expected to be called on parallel hyperplanes. The
+	 * method should <em>not</em> re-check for parallelism, only for
+	 * orientation, typically by testing something like the sign of the
+	 * dot-products of normals.</p>
+	 * @param other other hyperplane to check against the instance
+	 * @return true if the instance and the other hyperplane have
+	 * the same orientation
+	 */
+	virtual bool same_orientation_as(Hyperplane<S> other) = 0;
 
-    /** Check if the instance has the same orientation as another hyperplane.
-     * <p>This method is expected to be called on parallel hyperplanes. The
-     * method should <em>not</em> re-check for parallelism, only for
-     * orientation, typically by testing something like the sign of the
-     * dot-products of normals.</p>
-     * @param other other hyperplane to check against the instance
-     * @return true if the instance and the other hyperplane have
-     * the same orientation
-     */
-    virtual bool same_orientation_as(Hyperplane<S> other) = 0;
+	/** Build a sub-hyperplane covering the whole hyperplane.
+	 * @return a sub-hyperplane covering the whole hyperplane
+	 */
+	virtual Sub_Hyperplane<S> whole_hyperplane() = 0;
 
-    /** Build a sub-hyperplane covering the whole hyperplane.
-     * @return a sub-hyperplane covering the whole hyperplane
-     */
-    virtual Sub_Hyperplane<S> whole_hyperplane() = 0;
+	/** Build a sub-hyperplane covering nothing.
+	 * @return a sub-hyperplane covering nothing
+	 * @since 1.4
+	 */
+	virtual Sub_Hyperplane<S> empty_hyperplane() = 0;
 
-    /** Build a sub-hyperplane covering nothing.
-     * @return a sub-hyperplane covering nothing
-     * @since 1.4
-     */
-    virtual Sub_Hyperplane<S> empty_hyperplane() = 0;
-
-    /** Build a region covering the whole space.
-     * @return a region containing the instance
-     */
-    virtual Region<S> whole_space() = 0;
-
+	/** Build a region covering the whole space.
+	 * @return a region containing the instance
+	 */
+	virtual Region<S> whole_space() = 0;
 };

@@ -48,7 +48,7 @@ class Linear_Kalman_Filter<T extends Measurement> extends Abstract_Kalman_Filter
 
 	/** {@inherit_doc} */
  //override
-		public Process_Estimate estimation_step(const T measurement)
+	public Process_Estimate estimation_step(const T measurement)
 		Math_Runtime_Exception
 	{
 		const Linear_Evolution evolution = process.get_evolution(measurement);

@@ -15,45 +15,42 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Exception to be thrown when zero is provided where it is not allowed.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when zero is provided where it is not allowed.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
-class Zero_Exception extends Math_illegalNumberException 
+class Zero_Exception extends Math_illegalNumberException
 {
+	/** Serializable version identifier */
+	-1960874856936000015L;
 
-    /** Serializable version identifier */
-    -1960874856936000015L;
+	/**
+	 * Construct the exception.
+	 */
+	public Zero_Exception()
+	{
+		this(Localized_Formats.ZERO_NOT_ALLOWED);
+	}
 
-    /**
-     * Construct the exception.
-     */
-    public Zero_Exception() 
-    {
-        this(Localized_Formats.ZERO_NOT_ALLOWED);
-    }
-
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Specific context pattern.
-     * @param arguments Arguments.
-     */
-    public Zero_Exception(Localizable specific, Object ... arguments) 
-    {
-        super(specific, INTEGER_ZERO, arguments);
-    }
+	/**
+	 * Construct the exception with a specific context.
+	 *
+	 * @param specific Specific context pattern.
+	 * @param arguments Arguments.
+	 */
+	public Zero_Exception(Localizable specific, Object ... arguments)
+	{
+		super(specific, INTEGER_ZERO, arguments);
+	}
 }
-
-

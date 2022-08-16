@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.partitioning;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.partitioning;
 #include "../Space.h"
 #include <type_traits>
 //import org.hipparchus.geometry.Space;
@@ -39,71 +39,67 @@
 template<typename S, typename std::enable_if<std::is_base_of<Space, S>::value>::type* = nullptr>
 class Boundary_Attribute
 {
+	/** Part of the node cut sub-hyperplane that belongs to the
+	 * boundary and has the outside of the region on the plus side of
+	 * its underlying hyperplane (may be NULL).
+	 */
+	private const Sub_Hyperplane<S> plus_outside;
 
-    /** Part of the node cut sub-hyperplane that belongs to the
-     * boundary and has the outside of the region on the plus side of
-     * its underlying hyperplane (may be NULL).
-     */
-    private const Sub_Hyperplane<S> plus_outside;
+	/** Part of the node cut sub-hyperplane that belongs to the
+	 * boundary and has the inside of the region on the plus side of
+	 * its underlying hyperplane (may be NULL).
+	 */
+	private const Sub_Hyperplane<S> plus_inside;
 
-    /** Part of the node cut sub-hyperplane that belongs to the
-     * boundary and has the inside of the region on the plus side of
-     * its underlying hyperplane (may be NULL).
-     */
-    private const Sub_Hyperplane<S> plus_inside;
+	/** Sub-hyperplanes that were used to split the boundary part. */
+	private const Nodes_Set<S> splitters;
 
-    /** Sub-hyperplanes that were used to split the boundary part. */
-    private const Nodes_Set<S> splitters;
+	/** Simple constructor.
+	 * @param plus_outside part of the node cut sub-hyperplane that
+	 * belongs to the boundary and has the outside of the region on
+	 * the plus side of its underlying hyperplane (may be NULL)
+	 * @param plus_inside part of the node cut sub-hyperplane that
+	 * belongs to the boundary and has the inside of the region on the
+	 * plus side of its underlying hyperplane (may be NULL)
+	 * @param splitters sub-hyperplanes that were used to
+	 * split the boundary part (may be NULL)
+	 */
+	Boundary_Attribute(const Sub_Hyperplane<S> plus_outside, const Sub_Hyperplane<S> plus_inside, const Nodes_Set<S> splitters)
+	{
+		this.plus_outside = plus_outside;
+		this.plus_inside = plus_inside;
+		this.splitters = splitters;
+	}
 
-    /** Simple constructor.
-     * @param plus_outside part of the node cut sub-hyperplane that
-     * belongs to the boundary and has the outside of the region on
-     * the plus side of its underlying hyperplane (may be NULL)
-     * @param plus_inside part of the node cut sub-hyperplane that
-     * belongs to the boundary and has the inside of the region on the
-     * plus side of its underlying hyperplane (may be NULL)
-     * @param splitters sub-hyperplanes that were used to
-     * split the boundary part (may be NULL)
-     */
-    Boundary_Attribute(const Sub_Hyperplane<S> plus_outside, const Sub_Hyperplane<S> plus_inside, const Nodes_Set<S> splitters) 
-    {
-        this.plus_outside = plus_outside;
-        this.plus_inside  = plus_inside;
-        this.splitters   = splitters;
-    }
+	/** Get the part of the node cut sub-hyperplane that belongs to the
+	 * boundary and has the outside of the region on the plus side of
+	 * its underlying hyperplane.
+	 * @return part of the node cut sub-hyperplane that belongs to the
+	 * boundary and has the outside of the region on the plus side of
+	 * its underlying hyperplane
+	 */
+	public Sub_Hyperplane<S> get_plus_outside()
+	{
+		return plus_outside;
+	}
 
-    /** Get the part of the node cut sub-hyperplane that belongs to the
-     * boundary and has the outside of the region on the plus side of
-     * its underlying hyperplane.
-     * @return part of the node cut sub-hyperplane that belongs to the
-     * boundary and has the outside of the region on the plus side of
-     * its underlying hyperplane
-     */
-    public Sub_Hyperplane<S> get_plus_outside() 
-    {
-        return plus_outside;
-    }
+	/** Get the part of the node cut sub-hyperplane that belongs to the
+	 * boundary and has the inside of the region on the plus side of
+	 * its underlying hyperplane.
+	 * @return part of the node cut sub-hyperplane that belongs to the
+	 * boundary and has the inside of the region on the plus side of
+	 * its underlying hyperplane
+	 */
+	public Sub_Hyperplane<S> get_plus_inside()
+	{
+		return plus_inside;
+	}
 
-    /** Get the part of the node cut sub-hyperplane that belongs to the
-     * boundary and has the inside of the region on the plus side of
-     * its underlying hyperplane.
-     * @return part of the node cut sub-hyperplane that belongs to the
-     * boundary and has the inside of the region on the plus side of
-     * its underlying hyperplane
-     */
-    public Sub_Hyperplane<S> get_plus_inside() 
-    {
-        return plus_inside;
-    }
-
-    /** Get the sub-hyperplanes that were used to split the boundary part.
-     * @return sub-hyperplanes that were used to split the boundary part
-     */
-    public Nodes_Set<S> get_splitters() 
-    {
-        return splitters;
-    }
-
+	/** Get the sub-hyperplanes that were used to split the boundary part.
+	 * @return sub-hyperplanes that were used to split the boundary part
+	 */
+	public Nodes_Set<S> get_splitters()
+	{
+		return splitters;
+	}
 }
-
-

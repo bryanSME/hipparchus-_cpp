@@ -22,35 +22,32 @@
 
 namespace hipparchus
 {
-    namespace exception
-    {
-        /** This interface specified methods implemented by localized exception classes.
-         * <p>
-         * This interface has been copied from the interface with the same name
-         * from Orekit.
-         * </p>
-         */
-        //template<typename T>
-        class Localized_Exception
-        {
-            /** Gets the message in a specified locale.
-             * @param locale Locale in which the message should be translated
-             * @return localized message
-             */
-            virtual std::string get_message(const std::locale& locale) = 0;
+	namespace exception
+	{
+		/** This interface specified methods implemented by localized exception classes.
+		 * <p>
+		 * This interface has been copied from the interface with the same name
+		 * from Orekit.
+		 * </p>
+		 */
+		 //template<typename T>
+		class Localized_Exception
+		{
+			/** Gets the message in a specified locale.
+			 * @param locale Locale in which the message should be translated
+			 * @return localized message
+			 */
+			virtual std::string get_message(const std::locale& locale) = 0;
 
-            /** Get the localizable specifier of the error message.
-             * @return localizable specifier of the error message
-             */
-            virtual Localizable get_specifier() = 0;
+			/** Get the localizable specifier of the error message.
+			 * @return localizable specifier of the error message
+			 */
+			virtual Localizable get_specifier() = 0;
 
-
-
-            /** Get the variable parts of the error message.
-             * @return a copy of the variable parts of the error message
-             */
-            virtual std::vector<std::string> get_parts() = 0;
-
-        };
-    };
+			/** Get the variable parts of the error message.
+			 * @return a copy of the variable parts of the error message
+			 */
+			virtual std::vector<std::string> get_parts() = 0;
+		};
+	};
 };

@@ -15,39 +15,39 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.stat.ranking;
+  //package org.hipparchus.stat.ranking;
 
-/**
- * Strategies for handling NaN values in rank transformations.
- * <ul>
- * <li>MINIMAL - NaNs are treated as minimal in the ordering, equivalent to
- * (that is, tied with) <code>-INFINITY</code>.</li>
- * <li>MAXIMAL - NaNs are treated as maximal in the ordering, equivalent to
- * <code>INFINITY</code></li>
- * <li>REMOVED - NaNs are removed before the rank transform is applied</li>
- * <li>FIXED - NaNs are left "in place," that is the rank transformation is
- * applied to the other elements in the input array, but the NaN elements
- * are returned unchanged.</li>
- * <li>FAILED - If any NaN is encountered in the input array, an appropriate
- * exception is thrown</li>
- * </ul>
- *
- */
+  /**
+   * Strategies for handling NaN values in rank transformations.
+   * <ul>
+   * <li>MINIMAL - NaNs are treated as minimal in the ordering, equivalent to
+   * (that is, tied with) <code>-INFINITY</code>.</li>
+   * <li>MAXIMAL - NaNs are treated as maximal in the ordering, equivalent to
+   * <code>INFINITY</code></li>
+   * <li>REMOVED - NaNs are removed before the rank transform is applied</li>
+   * <li>FIXED - NaNs are left "in place," that is the rank transformation is
+   * applied to the other elements in the input array, but the NaN elements
+   * are returned unchanged.</li>
+   * <li>FAILED - If any NaN is encountered in the input array, an appropriate
+   * exception is thrown</li>
+   * </ul>
+   *
+   */
 enum NaN_Strategy
 {
-    /** NaNs are considered minimal in the ordering */
-    MINIMAL,
-    /** NaNs are considered maximal in the ordering */
-    MAXIMAL,
-    /** NaNs are removed before computing ranks */
-    REMOVED,
-    /** NaNs are left in place */
-    FIXED,
-    /** NaNs result in an exception */
-    FAILED
+	/** NaNs are considered minimal in the ordering */
+	MINIMAL,
+	/** NaNs are considered maximal in the ordering */
+	MAXIMAL,
+	/** NaNs are removed before computing ranks */
+	REMOVED,
+	/** NaNs are left in place */
+	FIXED,
+	/** NaNs result in an exception */
+	FAILED
 };

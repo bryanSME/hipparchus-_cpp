@@ -15,63 +15,58 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.euclidean.threed;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.euclidean.threed;
 
-
-/** Simple container for a two-points segment.
- */
-class Segment 
+  /** Simple container for a two-points segment.
+   */
+class Segment
 {
+	/** Start point of the segment. */
+	private const Vector_3D start;
 
-    /** Start point of the segment. */
-    private const Vector_3D start;
+	/** End point of the segments. */
+	private const Vector_3D end;
 
-    /** End point of the segments. */
-    private const Vector_3D end;
+	/** Line containing the segment. */
+	private const Line     line;
 
-    /** Line containing the segment. */
-    private const Line     line;
+	/** Build a segment.
+	 * @param start start point of the segment
+	 * @param end end point of the segment
+	 * @param line line containing the segment
+	 */
+	public Segment(const Vector_3D start, const Vector_3D end, const Line& line)
+	{
+		this.start = start;
+		this.end = end;
+		this.line = line;
+	}
 
-    /** Build a segment.
-     * @param start start point of the segment
-     * @param end end point of the segment
-     * @param line line containing the segment
-     */
-    public Segment(const Vector_3D start, const Vector_3D end, const Line& line) 
-    {
-        this.start  = start;
-        this.end    = end;
-        this.line   = line;
-    }
+	/** Get the start point of the segment.
+	 * @return start point of the segment
+	 */
+	public Vector_3D get_start()
+	{
+		return start;
+	}
 
-    /** Get the start point of the segment.
-     * @return start point of the segment
-     */
-    public Vector_3D get_start() 
-    {
-        return start;
-    }
+	/** Get the end point of the segment.
+	 * @return end point of the segment
+	 */
+	public Vector_3D get_end()
+	{
+		return end;
+	}
 
-    /** Get the end point of the segment.
-     * @return end point of the segment
-     */
-    public Vector_3D get_end() 
-    {
-        return end;
-    }
-
-    /** Get the line containing the segment.
-     * @return line containing the segment
-     */
-    public Line get_line() const 
-    {
-        return line;
-    }
-
+	/** Get the line containing the segment.
+	 * @return line containing the segment
+	 */
+	public Line get_line() const
+	{
+		return line;
+	}
 }
-
-

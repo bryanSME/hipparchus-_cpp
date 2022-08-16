@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <type_traits>
 #include "../Space.h"
@@ -26,33 +26,32 @@
 #include "../hull/ConvexHull.hpp"
 #include <vector>
 
-/**
- * Interface for convex hull generators.
- *
- * @param <S> Type of the {@link Space}
- * @param <P> Type of the {@link Point}
- *
- * @see <a href="http://en.wikipedia.org/wiki/Convex_hull">Convex Hull (Wikipedia)</a>
- * @see <a href="http://mathworld.wolfram.com/Convex_Hull.html">Convex Hull (MathWorld)</a>
- *
- */
-//<S extends Space, P extends Point<S >>
+  /**
+   * Interface for convex hull generators.
+   *
+   * @param <S> Type of the {@link Space}
+   * @param <P> Type of the {@link Point}
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Convex_hull">Convex Hull (Wikipedia)</a>
+   * @see <a href="http://mathworld.wolfram.com/Convex_Hull.html">Convex Hull (MathWorld)</a>
+   *
+   */
+   //<S extends Space, P extends Point<S >>
 template<
-    typename S,
-    typename P,
-    typename std::enable_if<std::is_base_of<Space, S>::value>::type* = nullptr,
-    typename std::enable_if<std::is_base_of<Point, P>::value>::type* = nullptr
+	typename S,
+	typename P,
+	typename std::enable_if<std::is_base_of<Space, S>::value>::type* = nullptr,
+	typename std::enable_if<std::is_base_of<Point, P>::value>::type* = nullptr
 >
 class Convex_Hull_Generator
 {
-
-    /**
-     * Builds the convex hull from the set of input points.
-     *
-     * @param points the set of input points
-     * @return the convex hull
-     * @Math_Illegal_State_Exception if generator fails to generate a convex hull for
-     * the given set of input points
-     */
-    virtual Convex_Hull<S, P> generate(const std::vector<P>& points);
+	/**
+	 * Builds the convex hull from the set of input points.
+	 *
+	 * @param points the set of input points
+	 * @return the convex hull
+	 * @Math_Illegal_State_Exception if generator fails to generate a convex hull for
+	 * the given set of input points
+	 */
+	virtual Convex_Hull<S, P> generate(const std::vector<P>& points);
 };

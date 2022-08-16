@@ -32,7 +32,7 @@
 // * @param <V> Value type.
 // */
 //template<typename K, typename V>
-//class Pair 
+//class Pair
 //{
 //private:
 //    /** Key. */
@@ -48,7 +48,7 @@
 //     * @param k Key (first element of the pair).
 //     * @param v Value (second element of the pair).
 //     */
-//    Pair(K k, V v) 
+//    Pair(K k, V v)
 //    {
 //        key = k;
 //        value = v;
@@ -59,7 +59,7 @@
 //     *
 //     * @param entry Entry to copy.
 //     */
-//    Pair(Pair<? extends K, ? extends V> entry) 
+//    Pair(Pair<? extends K, ? extends V> entry)
 //    {
 //        this(entry.get_key(), entry.get_value());
 //    }
@@ -69,7 +69,7 @@
 //     *
 //     * @return the key (first element of the pair).
 //     */
-//    K get_key() 
+//    K get_key()
 //    {
 //        return key;
 //    }
@@ -79,7 +79,7 @@
 //     *
 //     * @return the value (second element of the pair).
 //     */
-//    V get_value() 
+//    V get_value()
 //    {
 //        return value;
 //    }
@@ -89,7 +89,7 @@
 //     *
 //     * @return the first element of the pair.
 //     */
-//    K get_first() 
+//    K get_first()
 //    {
 //        return key;
 //    }
@@ -99,7 +99,7 @@
 //     *
 //     * @return the second element of the pair.
 //     */
-//    V get_second() 
+//    V get_second()
 //    {
 //        return value;
 //    }
@@ -112,9 +112,9 @@
 //     * the two entries represent the same mapping.
 //     */
 //    //override
-//    bool equals(Object o) 
+//    bool equals(Object o)
 //    {
-//        if (this == o) 
+//        if (this == o)
 //        {
 //            return true;
 //        }
@@ -125,7 +125,7 @@
 //        Pair<?, ?> other = (Pair<?, ?>) o;
 //        return (
 //            key == NULL
-//                ? other.key == NULL 
+//                ? other.key == NULL
 //                : key.equals(other.key)
 //        ) && (
 //            value == NULL
@@ -140,7 +140,7 @@
 //     * @return the hash code value.
 //     */
 //    //override
-//    int hash_code() 
+//    int hash_code()
 //    {
 //        int result = key == NULL ? 0 : key.hash_code();
 //
@@ -152,7 +152,7 @@
 //
 //    /** {@inherit_doc} */
 //    //override
-//    std::string to_string() const 
+//    std::string to_string() const
 //    {
 //        return "[" + get_key() + ", " + get_value() + "]";
 //    }
@@ -167,7 +167,7 @@
 //     * @param v Second element of the pair.
 //     * @return a {@code Pair} containing {@code k} and {@code v}.
 //     */
-//    static <K, V> Pair<K, V> create(K k, V v) 
+//    static <K, V> Pair<K, V> create(K k, V v)
 //    {
 //        return Pair<K, V>(k, v);
 //    }

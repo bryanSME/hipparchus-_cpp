@@ -15,93 +15,89 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 #include "../Space.h"
 #include <type_traits>
 
-/** This interface is used to visit {@link BSP_Tree BSP tree} nodes.
+  /** This interface is used to visit {@link BSP_Tree BSP tree} nodes.
 
- * <p>Navigation through {@link BSP_Tree BSP trees} can be done using
- * two different point of views:</p>
- * <ul>
- *   <li>
- *     the first one is in a node-oriented way using the {@link
- *     BSP_Tree#get_plus}, {@link BSP_Tree#get_minus} and {@link
- *     BSP_Tree#get_parent} methods. Terminal nodes without associated
- *     {@link Sub_Hyperplane sub-hyperplanes} can be visited this way, *     there is no constraint in the visit order, and it is possible
- *     to visit either all nodes or only a subset of the nodes
- *   </li>
- *   <li>
- *     the second one is in a sub-hyperplane-oriented way using
- *     classes implementing this interface which obeys the visitor
- *     design pattern. The visit order is provided by the visitor as
- *     each node is first encountered. Each node is visited exactly
- *     once.
- *   </li>
- * </ul>
+   * <p>Navigation through {@link BSP_Tree BSP trees} can be done using
+   * two different point of views:</p>
+   * <ul>
+   *   <li>
+   *     the first one is in a node-oriented way using the {@link
+   *     BSP_Tree#get_plus}, {@link BSP_Tree#get_minus} and {@link
+   *     BSP_Tree#get_parent} methods. Terminal nodes without associated
+   *     {@link Sub_Hyperplane sub-hyperplanes} can be visited this way, *     there is no constraint in the visit order, and it is possible
+   *     to visit either all nodes or only a subset of the nodes
+   *   </li>
+   *   <li>
+   *     the second one is in a sub-hyperplane-oriented way using
+   *     classes implementing this interface which obeys the visitor
+   *     design pattern. The visit order is provided by the visitor as
+   *     each node is first encountered. Each node is visited exactly
+   *     once.
+   *   </li>
+   * </ul>
 
- * @param <S> Type of the space.
+   * @param <S> Type of the space.
 
- * @see BSP_Tree
- * @see Sub_Hyperplane
+   * @see BSP_Tree
+   * @see Sub_Hyperplane
 
- */
+   */
 template<typename S, typename std::enable_if<std::is_base_of<Space, S>::value>::type* = nullptr>
 class BSP_Tree_Visitor
 {
+	/** Enumerate for visit order with respect to plus sub-tree, minus sub-tree and cut sub-hyperplane. */
+	enum Order
+	{
+		/** Indicator for visit order plus sub-tree, then minus sub-tree, * and last cut sub-hyperplane.
+		 */
+		PLUS_MINUS_SUB,
+		/** Indicator for visit order plus sub-tree, then cut sub-hyperplane, * and last minus sub-tree.
+		 */
+		 PLUS_SUB_MINUS,
+		 /** Indicator for visit order minus sub-tree, then plus sub-tree, * and last cut sub-hyperplane.
+		  */
+		  MINUS_PLUS_SUB,
+		  /** Indicator for visit order minus sub-tree, then cut sub-hyperplane, * and last plus sub-tree.
+		   */
+		   MINUS_SUB_PLUS,
+		   /** Indicator for visit order cut sub-hyperplane, then plus sub-tree, * and last minus sub-tree.
+			*/
+			SUB_PLUS_MINUS,
+			/** Indicator for visit order cut sub-hyperplane, then minus sub-tree, * and last plus sub-tree.
+			 */
+			 SUB_MINUS_PLUS;
+	}
 
-    /** Enumerate for visit order with respect to plus sub-tree, minus sub-tree and cut sub-hyperplane. */
-    enum Order 
-    {
-        /** Indicator for visit order plus sub-tree, then minus sub-tree, * and last cut sub-hyperplane.
-         */
-        PLUS_MINUS_SUB, 
-        /** Indicator for visit order plus sub-tree, then cut sub-hyperplane, * and last minus sub-tree.
-         */
-        PLUS_SUB_MINUS, 
-        /** Indicator for visit order minus sub-tree, then plus sub-tree, * and last cut sub-hyperplane.
-         */
-        MINUS_PLUS_SUB, 
-        /** Indicator for visit order minus sub-tree, then cut sub-hyperplane, * and last plus sub-tree.
-         */
-        MINUS_SUB_PLUS, 
-        /** Indicator for visit order cut sub-hyperplane, then plus sub-tree, * and last minus sub-tree.
-         */
-        SUB_PLUS_MINUS, 
-        /** Indicator for visit order cut sub-hyperplane, then minus sub-tree, * and last plus sub-tree.
-         */
-        SUB_MINUS_PLUS;
-    }
+	/** Determine the visit order for this node.
+	 * <p>Before attempting to visit an internal node, this method is
+	 * called to determine the desired ordering of the visit. It is
+	 * guaranteed that this method will be called before {@link
+	 * #visit_internal_node visit_internal_node} for a given node, it will be
+	 * called exactly once for each internal node.</p>
+	 * @param node BSP node guaranteed to have a non NULL cut sub-hyperplane
+	 * @return desired visit order, must be one of
+	 * {@link Order#PLUS_MINUS_SUB}, {@link Order#PLUS_SUB_MINUS}, * {@link Order#MINUS_PLUS_SUB}, {@link Order#MINUS_SUB_PLUS}, * {@link Order#SUB_PLUS_MINUS}, {@link Order#SUB_MINUS_PLUS}
+	 */
+	Order visit_order(BSP_Tree<S> node);
 
-    /** Determine the visit order for this node.
-     * <p>Before attempting to visit an internal node, this method is
-     * called to determine the desired ordering of the visit. It is
-     * guaranteed that this method will be called before {@link
-     * #visit_internal_node visit_internal_node} for a given node, it will be
-     * called exactly once for each internal node.</p>
-     * @param node BSP node guaranteed to have a non NULL cut sub-hyperplane
-     * @return desired visit order, must be one of
-     * {@link Order#PLUS_MINUS_SUB}, {@link Order#PLUS_SUB_MINUS}, * {@link Order#MINUS_PLUS_SUB}, {@link Order#MINUS_SUB_PLUS}, * {@link Order#SUB_PLUS_MINUS}, {@link Order#SUB_MINUS_PLUS}
-     */
-    Order visit_order(BSP_Tree<S> node);
+	/** Visit a BSP tree node node having a non-null sub-hyperplane.
+	 * <p>It is guaranteed that this method will be called after {@link
+	 * #visit_order visit_order} has been called for a given node, * it wil be called exactly once for each internal node.</p>
+	 * @param node BSP node guaranteed to have a non NULL cut sub-hyperplane
+	 * @see #visit_leaf_node
+	 */
+	void visit_internal_node(BSP_Tree<S> node);
 
-    /** Visit a BSP tree node node having a non-null sub-hyperplane.
-     * <p>It is guaranteed that this method will be called after {@link
-     * #visit_order visit_order} has been called for a given node, * it wil be called exactly once for each internal node.</p>
-     * @param node BSP node guaranteed to have a non NULL cut sub-hyperplane
-     * @see #visit_leaf_node
-     */
-    void visit_internal_node(BSP_Tree<S> node);
-
-    /** Visit a leaf BSP tree node node having a NULL sub-hyperplane.
-     * @param node leaf BSP node having a NULL sub-hyperplane
-     * @see #visit_internal_node
-     */
-    void visit_leaf_node(BSP_Tree<S> node);
-
+	/** Visit a leaf BSP tree node node having a NULL sub-hyperplane.
+	 * @param node leaf BSP node having a NULL sub-hyperplane
+	 * @see #visit_internal_node
+	 */
+	void visit_leaf_node(BSP_Tree<S> node);
 }
-
-

@@ -202,7 +202,6 @@ public:
 		this.normalization = normalization;
 	}
 
-
 	/**
 	 * Computes the standard transform of the specified complex data. The
 	 * computation is done in place. The input data is laid out as follows

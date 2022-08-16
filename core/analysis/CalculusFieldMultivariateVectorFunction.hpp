@@ -19,20 +19,20 @@
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
 
-/**
- * An interface representing a vector multivariate function.
- * @param <T> the type of the field elements
- * @see Multivariate_Vector_function
- * @since 2.2
- */
+ /**
+  * An interface representing a vector multivariate function.
+  * @param <T> the type of the field elements
+  * @see Multivariate_Vector_function
+  * @since 2.2
+  */
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class Calculus_Field_Multivariate_Vector_function
 {
-    /**
-     * Compute the value of the function.
-     *
-     * @param x Point at which the function value should be computed.
-     * @return the value of the function.
-     */
-    virtual std::vector<T> value(T... x) = 0;
+	/**
+	 * Compute the value of the function.
+	 *
+	 * @param x Point at which the function value should be computed.
+	 * @return the value of the function.
+	 */
+	virtual std::vector<T> value(T... x) = 0;
 };

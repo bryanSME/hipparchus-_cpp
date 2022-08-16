@@ -15,71 +15,67 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.geometry.spherical.oned;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.geometry.spherical.oned;
 
-//import org.hipparchus.geometry.partitioning.Abstract_Sub_Hyperplane;
-//import org.hipparchus.geometry.partitioning.Hyperplane;
-//import org.hipparchus.geometry.partitioning.Region;
+  //import org.hipparchus.geometry.partitioning.Abstract_Sub_Hyperplane;
+  //import org.hipparchus.geometry.partitioning.Hyperplane;
+  //import org.hipparchus.geometry.partitioning.Region;
 
-/** This class represents sub-hyperplane for {@link Limit_Angle}.
- * <p>Instances of this class are guaranteed to be immutable.</p>
- */
-class SubLimit_Angle extends Abstract_Sub_Hyperplane<Sphere_1D, Sphere_1D> 
+  /** This class represents sub-hyperplane for {@link Limit_Angle}.
+   * <p>Instances of this class are guaranteed to be immutable.</p>
+   */
+class SubLimit_Angle extends Abstract_Sub_Hyperplane<Sphere_1D, Sphere_1D>
 {
+	/** Simple constructor.
+	 * @param hyperplane underlying hyperplane
+	 * @param remaining_region remaining region of the hyperplane
+	 */
+	public SubLimit_Angle(const Hyperplane<Sphere_1D> hyperplane, const Region<Sphere_1D>& remaining_region)
+	{
+		super(hyperplane, remaining_region);
+	}
 
-    /** Simple constructor.
-     * @param hyperplane underlying hyperplane
-     * @param remaining_region remaining region of the hyperplane
-     */
-    public SubLimit_Angle(const Hyperplane<Sphere_1D> hyperplane, const Region<Sphere_1D>& remaining_region) 
-    {
-        super(hyperplane, remaining_region);
-    }
+	/** {@inherit_doc} */
+	//override
+	public double get_size()
+	{
+		return 0;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public double get_size() 
-    {
-        return 0;
-    }
+	/** {@inherit_doc} */
+	//override
+	public bool is_empty()
+	{
+		return false;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public bool is_empty() 
-    {
-        return false;
-    }
+	/** {@inherit_doc} */
+	//override
+	protected Abstract_Sub_Hyperplane<Sphere_1D, Sphere_1D> build_new(const Hyperplane<Sphere_1D> hyperplane, const Region<Sphere_1D>& remaining_region)
+	{
+		return SubLimit_Angle(hyperplane, remaining_region);
+	}
 
-    /** {@inherit_doc} */
-    //override
-    protected Abstract_Sub_Hyperplane<Sphere_1D, Sphere_1D> build_new(const Hyperplane<Sphere_1D> hyperplane, const Region<Sphere_1D>& remaining_region) 
-    {
-        return SubLimit_Angle(hyperplane, remaining_region);
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public Split_Sub_Hyperplane<Sphere_1D> split(const Hyperplane<Sphere_1D> hyperplane) 
-    {
-        const double global = hyperplane.get_offset(((Limit_Angle) get_hyperplane()).get_location());
-        if (global < -hyperplane.get_tolerance())  
-        {
-            return Split_Sub_Hyperplane<Sphere_1D>(null, this);
-        }
-else if (global > hyperplane.get_tolerance()) 
-        {
-            return Split_Sub_Hyperplane<Sphere_1D>(this, NULL);
-        }
-else 
-        {
-            return Split_Sub_Hyperplane<Sphere_1D>(null, NULL);
-        }
-    }
-
+	/** {@inherit_doc} */
+	//override
+	public Split_Sub_Hyperplane<Sphere_1D> split(const Hyperplane<Sphere_1D> hyperplane)
+	{
+		const double global = hyperplane.get_offset(((Limit_Angle)get_hyperplane()).get_location());
+		if (global < -hyperplane.get_tolerance())
+		{
+			return Split_Sub_Hyperplane<Sphere_1D>(null, this);
+		}
+		else if (global > hyperplane.get_tolerance())
+		{
+			return Split_Sub_Hyperplane<Sphere_1D>(this, NULL);
+		}
+		else
+		{
+			return Split_Sub_Hyperplane<Sphere_1D>(null, NULL);
+		}
+	}
 }
-
-

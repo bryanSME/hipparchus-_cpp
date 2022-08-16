@@ -15,35 +15,32 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.linear;
 
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
 
-/**
- * An exception to be thrown when the condition number of a
- * {@link org.hipparchus.linear.Real_Linear_Operator} is too high.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * An exception to be thrown when the condition number of a
+   * {@link org.hipparchus.linear.Real_Linear_Operator} is too high.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
 class Ill_Conditioned_Operator_Exception
-    extends  
-    {
-
-    /**
-     * Creates a instance of this class.
-     *
-     * @param cond An estimate of the condition number of the offending linear
-     * operator.
-     */
-    public Ill_Conditioned_Operator_Exception(const double cond) 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.ILL_CONDITIONED_OPERATOR, cond);
-    }
+	extends
+{
+	/**
+	 * Creates a instance of this class.
+	 *
+	 * @param cond An estimate of the condition number of the offending linear
+	 * operator.
+	 */
+	public Ill_Conditioned_Operator_Exception(const double cond)
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.ILL_CONDITIONED_OPERATOR, cond);
+	}
 }
-
-

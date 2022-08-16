@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * Utilities to calculate binomial proportion confidence intervals.
- */
-//package org.hipparchus.stat.interval;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * Utilities to calculate binomial proportion confidence intervals.
+   */
+   //package org.hipparchus.stat.interval;

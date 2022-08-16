@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.descriptive.moment;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.descriptive.moment;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 #include <numbers>
 #include "FirstMoment.h"
 #include "../AggregatableStatistic.hpp"
@@ -52,88 +52,87 @@
  * <code>clear()</code> method, it must be synchronized externally.
  */
 class Second_Moment
-    :
-    public First_Moment,
-    public Aggregatable_Statistic<Second_Moment>
+	:
+	public First_Moment,
+	public Aggregatable_Statistic<Second_Moment>
 {
 protected:
-    /** Second moment of values that have been added */
-    double m2;
+	/** Second moment of values that have been added */
+	double m2;
 
 public:
-    /**
-     * Create a Second_Moment instance.
-     */
-    Second_Moment()
-    {
-        super();
-        m2 = std::numeric_limits<double>::quiet_NaN();
-    }
+	/**
+	 * Create a Second_Moment instance.
+	 */
+	Second_Moment()
+	{
+		super();
+		m2 = std::numeric_limits<double>::quiet_NaN();
+	}
 
-    /**
-     * Copy constructor, creates a {@code Second_Moment} identical
-     * to the {@code original}.
-     *
-     * @param original the {@code Second_Moment} instance to copy
-     * @ if original is NULL
-     */
-    Second_Moment(Second_Moment original)
-    {
-        super(original);
-        m2 = original.m2;
-    }
+	/**
+	 * Copy constructor, creates a {@code Second_Moment} identical
+	 * to the {@code original}.
+	 *
+	 * @param original the {@code Second_Moment} instance to copy
+	 * @ if original is NULL
+	 */
+	Second_Moment(Second_Moment original)
+	{
+		super(original);
+		m2 = original.m2;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void increment(const double d)
-    {
-        if (n < 1)
-        {
-            m1 = m2 = 0.0;
-        }
-        super.increment(d);
-        m2 += (static_cast<double>(n - 1) * dev * n_dev;
-    }
+	/** {@inherit_doc} */
+	//override
+	void increment(const double d)
+	{
+		if (n < 1)
+		{
+			m1 = m2 = 0.0;
+		}
+		super.increment(d);
+		m2 += (static_cast<double>(n - 1) * dev * n_dev;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void clear()
-    {
-        super.clear();
-        m2 = std::numeric_limits<double>::quiet_NaN();
-    }
+	/** {@inherit_doc} */
+	//override
+	void clear()
+	{
+		super.clear();
+		m2 = std::numeric_limits<double>::quiet_NaN();
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double get_result()
-    {
-        return m2;
-    }
+	/** {@inherit_doc} */
+	//override
+	double get_result()
+	{
+		return m2;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void aggregate(Second_Moment other)
-    {
-        if (other.n > 0)
-        {
-            const double old_n = n;
-            super.aggregate(other);
-            if (old_n == 0)
-            {
-                m2 = other.m2;
-            }
-            else
-            {
-                m2 += other.m2 + (other.n * old_n) / n * dev * dev;
-            }
-        }
-    }
+	/** {@inherit_doc} */
+	//override
+	void aggregate(Second_Moment other)
+	{
+		if (other.n > 0)
+		{
+			const double old_n = n;
+			super.aggregate(other);
+			if (old_n == 0)
+			{
+				m2 = other.m2;
+			}
+			else
+			{
+				m2 += other.m2 + (other.n * old_n) / n * dev * dev;
+			}
+		}
+	}
 
-    /** {@inherit_doc} */
-    //override
-    Second_Moment copy()
-    {
-        return Second_Moment(*this);
-    }
-
+	/** {@inherit_doc} */
+	//override
+	Second_Moment copy()
+	{
+		return Second_Moment(*this);
+	}
 };

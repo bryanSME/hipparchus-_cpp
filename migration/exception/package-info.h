@@ -14,20 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- *
- * <p>
- * This //package provides migration classes from Apache Commons Math to Hipparchus.
- * </p>
- *
- * <p>
- * The classes are intended to be used temporarily for applications that did
- * rely on Apache Commons Math and are migrated progressively. All the classes
- * are deprecated and are there only to avoid compilation errors in users code, * allowing them to update to APIs progressively.
- * </p>
- *
- *
- */
-//package org.hipparchus.migration.exception;
-
-
+ /**
+  *
+  * <p>
+  * This //package provides migration classes from Apache Commons Math to Hipparchus.
+  * </p>
+  *
+  * <p>
+  * The classes are intended to be used temporarily for applications that did
+  * rely on Apache Commons Math and are migrated progressively. All the classes
+  * are deprecated and are there only to avoid compilation errors in users code, * allowing them to update to APIs progressively.
+  * </p>
+  *
+  *
+  */
+  //package org.hipparchus.migration.exception;

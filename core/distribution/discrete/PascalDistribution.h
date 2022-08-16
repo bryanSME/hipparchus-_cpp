@@ -121,9 +121,9 @@ public:
 			return 0.0;
 		}
 		return Combinatorics_Utils::binomial_coefficient_double(x +
-				my_number_of_successes - 1, my_number_of_successes - 1) *
-				std::pow(my_probability_of_success, my_number_of_successes) *
-				std::pow(1.0 - my_probability_of_success, x);
+			my_number_of_successes - 1, my_number_of_successes - 1) *
+			std::pow(my_probability_of_success, my_number_of_successes) *
+			std::pow(1.0 - my_probability_of_success, x);
 	}
 
 	/** {@inherit_doc} */

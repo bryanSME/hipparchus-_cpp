@@ -15,38 +15,34 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.genetics;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.genetics;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.;
 
-/**
- * Exception indicating that the representation of a chromosome is not valid.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.Math_Illegal_State_Exception}
- */
+  /**
+   * Exception indicating that the representation of a chromosome is not valid.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.Math_Illegal_State_Exception}
+   */
 @Deprecated
-class Invalid_Representation_Exception extends  
+class Invalid_Representation_Exception extends
 {
+	/** Serialization version id */
+	1L;
 
-    /** Serialization version id */
-    1L;
-
-    /**
-     * Construct an Invalid_Representation_Exception with a specialized message.
-     *
-     * @param pattern Message pattern.
-     * @param args Arguments.
-     */
-    public Invalid_Representation_Exception(Localizable pattern, Object ... args) 
-    {
-       super(pattern, args);
-    }
-
+	/**
+	 * Construct an Invalid_Representation_Exception with a specialized message.
+	 *
+	 * @param pattern Message pattern.
+	 * @param args Arguments.
+	 */
+	public Invalid_Representation_Exception(Localizable pattern, Object ... args)
+	{
+		super(pattern, args);
+	}
 }
-
-

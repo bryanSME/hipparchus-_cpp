@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 
-//import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Calculus_Field_Element;
 #include <type_traits>
 #include "../../../CalculusFieldElement.hpp"
 
@@ -31,50 +31,48 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class Field_Copolar_N
 {
+	/** Value of the sn function. */
+	private const T sn;
 
-    /** Value of the sn function. */
-    private const T sn;
+	/** Value of the cn function. */
+	private const T cn;
 
-    /** Value of the cn function. */
-    private const T cn;
+	/** Value of the dn function. */
+	private const T dn;
 
-    /** Value of the dn function. */
-    private const T dn;
+	/** Simple constructor.
+	 * @param sn value of the sn function
+	 * @param cn value of the cn function
+	 * @param dn value of the dn function
+	 */
+	Field_Copolar_N(const T sn, const T cn, const T dn)
+	{
+		this.sn = sn;
+		this.cn = cn;
+		this.dn = dn;
+	}
 
-    /** Simple constructor.
-     * @param sn value of the sn function
-     * @param cn value of the cn function
-     * @param dn value of the dn function
-     */
-    Field_Copolar_N(const T sn, const T cn, const T dn)
-    {
-        this.sn = sn;
-        this.cn = cn;
-        this.dn = dn;
-    }
+	/** Get the value of the sn function.
+	 * @return sn(u|m)
+	 */
+	public T sn()
+	{
+		return sn;
+	}
 
-    /** Get the value of the sn function.
-     * @return sn(u|m)
-     */
-    public T sn()
-    {
-        return sn;
-    }
+	/** Get the value of the cn function.
+	 * @return cn(u|m)
+	 */
+	public T cn()
+	{
+		return cn;
+	}
 
-    /** Get the value of the cn function.
-     * @return cn(u|m)
-     */
-    public T cn()
-    {
-        return cn;
-    }
-
-    /** Get the value of the dn function.
-     * @return dn(u|m)
-     */
-    public T dn()
-    {
-        return dn;
-    }
-
+	/** Get the value of the dn function.
+	 * @return dn(u|m)
+	 */
+	public T dn()
+	{
+		return dn;
+	}
 };

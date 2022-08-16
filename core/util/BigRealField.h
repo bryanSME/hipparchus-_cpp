@@ -15,90 +15,90 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include "../Field.h"
 
-/**
- * Representation of real numbers with arbitrary precision field.
- * <p>
- * This class is a singleton.
- *
- * @see BigReal
- */
+  /**
+   * Representation of real numbers with arbitrary precision field.
+   * <p>
+   * This class is a singleton.
+   *
+   * @see BigReal
+   */
 class Big_Real_Field : Field<BigReal>
 {
 private:
-    /**
-     * Private constructor for the singleton.
-     */
-    Big_Real_Field() = default;
+	/**
+	 * Private constructor for the singleton.
+	 */
+	Big_Real_Field() = default;
 
-    // CHECKSTYLE: stop Hide_Utility_Class_Constructor
-    /** Holder for the instance.
-     * <p>We use here the Initialization On Demand Holder Idiom.</p>
-     */
-    static class Lazy_Holder
-    {
-    private:
-        /** Cached field instance. */
-        static const Big_Real_Field INSTANCE = Big_Real_Field();
-    }
-    // CHECKSTYLE: resume Hide_Utility_Class_Constructor
+	// CHECKSTYLE: stop Hide_Utility_Class_Constructor
+	/** Holder for the instance.
+	 * <p>We use here the Initialization On Demand Holder Idiom.</p>
+	 */
+	static class Lazy_Holder
+	{
+	private:
+		/** Cached field instance. */
+		static const Big_Real_Field INSTANCE = Big_Real_Field();
+	}
+	// CHECKSTYLE: resume Hide_Utility_Class_Constructor
 
-    /** Handle deserialization of the singleton.
-     * @return the singleton instance
-     */
-    Object read_resolve()
-    {
-        // return the singleton instance
-        return Lazy_Holder.INSTANCE;
-    }
+	/** Handle deserialization of the singleton.
+	 * @return the singleton instance
+	 */
+	Object read_resolve()
+	{
+		// return the singleton instance
+		return Lazy_Holder.INSTANCE;
+	}
 
 public:
-    /** Get the unique instance.
-     * @return the unique instance
-     */
-    static Big_Real_Field get_instance()
-    {
-        return Lazy_Holder.INSTANCE;
-    }
+	/** Get the unique instance.
+	 * @return the unique instance
+	 */
+	static Big_Real_Field get_instance()
+	{
+		return Lazy_Holder.INSTANCE;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    BigReal get_one()
-    {
-        return BigReal::ONE;
-    }
+	/** {@inherit_doc} */
+	//override
+	BigReal get_one()
+	{
+		return BigReal::ONE;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    BigReal get_zero()
-    {
-        return BigReal::ZERO;
-    }
+	/** {@inherit_doc} */
+	//override
+	BigReal get_zero()
+	{
+		return BigReal::ZERO;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    Class<BigReal> get_runtime_class()
-    {
-        return BigReal.class;
-    }
+	/** {@inherit_doc} */
+	//override
+	Class<BigReal> get_runtime_class()
+	{
+		return BigReal.class;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    bool equals(const Object& other)
-    {
-        return this == other;
-    }
+	/** {@inherit_doc} */
+	//override
+	bool equals(const Object& other)
+	{
+		return this == other;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    int hash_code()
-    {
-        return 0xf38b3541;
-    }
+	/** {@inherit_doc} */
+	//override
+	int hash_code()
+	{
+		return 0xf38b3541;
+	}
 };

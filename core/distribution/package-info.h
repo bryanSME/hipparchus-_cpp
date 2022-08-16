@@ -15,14 +15,12 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * Interfaces and implementations of common discrete and
- * continuous distributions.
- */
-//package org.hipparchus.distribution;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * Interfaces and implementations of common discrete and
+   * continuous distributions.
+   */
+   //package org.hipparchus.distribution;

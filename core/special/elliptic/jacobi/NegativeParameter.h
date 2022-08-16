@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 
 #include <cmath>
 #include "CopolarD.h"
 #include "JacobiElliptic.h"
 #include "JacobiEllipticBuilder.hpp"
-
 
 /** Algorithm for computing the principal Jacobi functions for negative parameter m.
  * <p>
@@ -28,39 +27,36 @@
  * </p>
  * @since 2.0
  */
-class Negative_Parameter extends Jacobi_Elliptic 
+class Negative_Parameter extends Jacobi_Elliptic
 {
 private:
-    /** Algorithm to use for the positive parameter. */
-    const Jacobi_Elliptic my_algorithm;
+	/** Algorithm to use for the positive parameter. */
+	const Jacobi_Elliptic my_algorithm;
 
-    /** Input scaling factor. */
-    const double my_input_scale;
+	/** Input scaling factor. */
+	const double my_input_scale;
 
-    /** output scaling factor. */
-    const double my_output_scale;
+	/** output scaling factor. */
+	const double my_output_scale;
 
 public:
-    /** Simple constructor.
-     * @param m parameter of the Jacobi elliptic function (must be negative here)
-     */
-    Negative_Parameter(const double& m) 
-    {
-        super(m);
-        const auto om_m = 1.0 - m;
-        my_algorithm = Jacobi_Elliptic_Builder.build(-m / om_m);
-        my_input_scale = std::sqrt(om_m);
-        my_output_scale = 1.0 / input_scale;
-    }
+	/** Simple constructor.
+	 * @param m parameter of the Jacobi elliptic function (must be negative here)
+	 */
+	Negative_Parameter(const double& m)
+	{
+		super(m);
+		const auto om_m = 1.0 - m;
+		my_algorithm = Jacobi_Elliptic_Builder.build(-m / om_m);
+		my_input_scale = std::sqrt(om_m);
+		my_output_scale = 1.0 / input_scale;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    Copolar_N values_n(const double& u) 
-    {
-        const auto trio_d = Copolar_D(algorithm.values_n(u * input_scale));
-        return Copolar_N(output_scale * trio_d.sd(), trio_d.cd(), trio_d.nd());
-    }
-
+	/** {@inherit_doc} */
+	//override
+	Copolar_N values_n(const double& u)
+	{
+		const auto trio_d = Copolar_D(algorithm.values_n(u * input_scale));
+		return Copolar_N(output_scale * trio_d.sd(), trio_d.cd(), trio_d.nd());
+	}
 }
-
-

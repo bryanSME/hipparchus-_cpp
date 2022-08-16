@@ -15,32 +15,29 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.optim.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.optim.linear;
 
-//import org.hipparchus.exception.Math_Illegal_State_Exception;
+  //import org.hipparchus.exception.Math_Illegal_State_Exception;
 
-/**
- * This class represents exceptions thrown by optimizers when no solution fulfills the constraints.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
- */
+  /**
+   * This class represents exceptions thrown by optimizers when no solution fulfills the constraints.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
+   */
 @Deprecated
-class No_Feasible_Solution_Exception extends Math_Illegal_State_Exception 
+class No_Feasible_Solution_Exception extends Math_Illegal_State_Exception
 {
-    
-    -3044253632189082760L;
+	-3044253632189082760L;
 
-    /**
-     * Simple constructor using a default message.
-     */
-    public No_Feasible_Solution_Exception() 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.NO_FEASIBLE_SOLUTION);
-    }
+	/**
+	 * Simple constructor using a default message.
+	 */
+	public No_Feasible_Solution_Exception()
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.NO_FEASIBLE_SOLUTION);
+	}
 }
-
-

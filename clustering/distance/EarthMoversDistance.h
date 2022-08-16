@@ -15,44 +15,40 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.clustering.distance;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.clustering.distance;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.FastMath;
-//import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.util.FastMath;
+  //import org.hipparchus.util.Math_Arrays;
 
-/**
- * Calculates the Earh Mover's distance (also known as Wasserstein metric) between two distributions.
- *
- * @see <a href="http://en.wikipedia.org/wiki/Earth_mover's_distance">Earth Mover's distance (Wikipedia)</a>
- *
- */
-class Earth_Movers_Distance : Distance_Measure 
+  /**
+   * Calculates the Earh Mover's distance (also known as Wasserstein metric) between two distributions.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Earth_mover's_distance">Earth Mover's distance (Wikipedia)</a>
+   *
+   */
+class Earth_Movers_Distance : Distance_Measure
 {
+	-5406732779747414922L;
 
-    
-    -5406732779747414922L;
+	/** {@inherit_doc} */
+	//override
+	public double compute(std::vector<double> a, std::vector<double> b)
 
-    /** {@inherit_doc} */
-    //override
-    public double compute(std::vector<double> a, std::vector<double> b)
-     
-    {
-        Math_Arrays::check_equal_length(a, b);
-        double last_distance = 0;
-        double total_distance = 0;
-        for (int i{}; i < a.size(); i++) 
-        {
-            const double current_distance = (a[i] + last_distance) - b[i];
-            total_distance += std::abs(current_distance);
-            last_distance = current_distance;
-        }
-        return total_distance;
-    }
+	{
+		Math_Arrays::check_equal_length(a, b);
+		double last_distance = 0;
+		double total_distance = 0;
+		for (int i{}; i < a.size(); i++)
+		{
+			const double current_distance = (a[i] + last_distance) - b[i];
+			total_distance += std::abs(current_distance);
+			last_distance = current_distance;
+		}
+		return total_distance;
+	}
 }
-
-

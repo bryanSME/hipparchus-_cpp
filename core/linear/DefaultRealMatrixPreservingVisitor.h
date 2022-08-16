@@ -15,39 +15,37 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.linear;
+  //package org.hipparchus.linear;
 
-/**
- * Default implementation of the {@link Real_Matrix_Preserving_Visitor} interface.
- * <p>
- * This class is a convenience to create custom visitors without defining all
- * methods. This class provides default implementations that do nothing.
- * </p>
- *
- */
-class DefaultReal_Matrix_Preserving_Visitor : Real_Matrix_Preserving_Visitor 
+  /**
+   * Default implementation of the {@link Real_Matrix_Preserving_Visitor} interface.
+   * <p>
+   * This class is a convenience to create custom visitors without defining all
+   * methods. This class provides default implementations that do nothing.
+   * </p>
+   *
+   */
+class DefaultReal_Matrix_Preserving_Visitor : Real_Matrix_Preserving_Visitor
 {
-    /** {@inherit_doc} */
-    //override
-    public void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column) 
-    {
-    }
+	/** {@inherit_doc} */
+	//override
+	public void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column)
+	{
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public void visit(const int& row, const int& column, double value) {}
+	/** {@inherit_doc} */
+	//override
+	public void visit(const int& row, const int& column, double value) {}
 
-    /** {@inherit_doc} */
-    //override
-    public double end() 
-    {
-        return 0;
-    }
+	/** {@inherit_doc} */
+	//override
+	public double end()
+	{
+		return 0;
+	}
 }
-
-

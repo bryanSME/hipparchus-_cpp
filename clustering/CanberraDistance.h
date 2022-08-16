@@ -36,5 +36,5 @@ class Canberra_Distance implements Distance_Measure
 public:
 	/** {@inherit_doc} */
  //override
-		double compute(const std::vector<double>& a, const std::vector<double>& b);
+	double compute(const std::vector<double>& a, const std::vector<double>& b);
 }

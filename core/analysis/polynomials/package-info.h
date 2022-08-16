@@ -15,16 +15,14 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- *     Univariate real polynomials implementations, seen as differentiable
- *     univariate real functions.
- *
- */
-//package org.hipparchus.analysis.polynomials;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   *     Univariate real polynomials implementations, seen as differentiable
+   *     univariate real functions.
+   *
+   */
+   //package org.hipparchus.analysis.polynomials;

@@ -15,47 +15,45 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Math_Illegal_State_Exception;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Class to signal parse failures.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
- */
+  /**
+   * Class to signal parse failures.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
+   */
 @Deprecated
-class Math_parseException extends Math_Illegal_State_Exception 
+class Math_parseException extends Math_Illegal_State_Exception
 {
-    /** Serializable version Id. */
-    -6024911025449780478L;
+	/** Serializable version Id. */
+	-6024911025449780478L;
 
-    /**
-     * @param wrong Bad string representation of the object.
-     * @param position Index, in the {@code wrong} string, that caused the
-     * parsing to fail.
-     * @param type Class of the object supposedly represented by the
-     * {@code wrong} string.
-     */
-    public Math_parseException(std::string wrong, int position, Class<?> type) 
-    {
-        super(Localized_Formats.CANNOT_PARSE_AS_TYPE, wrong, Integer.value_of(position), type.get_name());
-    }
+	/**
+	 * @param wrong Bad string representation of the object.
+	 * @param position Index, in the {@code wrong} string, that caused the
+	 * parsing to fail.
+	 * @param type Class of the object supposedly represented by the
+	 * {@code wrong} string.
+	 */
+	public Math_parseException(std::string wrong, int position, Class< ? > type)
+	{
+		super(Localized_Formats.CANNOT_PARSE_AS_TYPE, wrong, Integer.value_of(position), type.get_name());
+	}
 
-    /**
-     * @param wrong Bad string representation of the object.
-     * @param position Index, in the {@code wrong} string, that caused the
-     * parsing to fail.
-     */
-    public Math_parseException(std::string wrong, int position) 
-    {
-        super(Localized_Formats.CANNOT_PARSE, wrong, Integer.value_of(position));
-    }
+	/**
+	 * @param wrong Bad string representation of the object.
+	 * @param position Index, in the {@code wrong} string, that caused the
+	 * parsing to fail.
+	 */
+	public Math_parseException(std::string wrong, int position)
+	{
+		super(Localized_Formats.CANNOT_PARSE, wrong, Integer.value_of(position));
+	}
 }
-
-

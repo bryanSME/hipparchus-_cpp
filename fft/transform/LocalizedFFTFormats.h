@@ -20,7 +20,6 @@
   * It has been modified by the Hipparchus project
   */
 
-
 #include "../../core/exception/Localizable.h"
 #include <string>
 

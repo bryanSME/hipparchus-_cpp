@@ -15,39 +15,35 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.migration.geometry.euclidean;
+  //package org.hipparchus.migration.geometry.euclidean;
 
-//import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.geometry.Localized_Geometry_Formats;
+  //import org.hipparchus.exception.Math_Illegal_State_Exception;
+  //import org.hipparchus.geometry.Localized_Geometry_Formats;
 
-/** This class represents exceptions thrown while extractiong Cardan
- * or Euler angles from a rotation.
+  /** This class represents exceptions thrown while extractiong Cardan
+   * or Euler angles from a rotation.
 
- * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
- */
+   * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
+   */
 @Deprecated
 class CardanEuler_singularityException
-  extends Math_Illegal_State_Exception 
-  {
+	extends Math_Illegal_State_Exception
+{
+	/** Serializable version identifier */
+	-1360952845582206770L;
 
-    /** Serializable version identifier */
-    -1360952845582206770L;
-
-    /**
-     * Simple constructor.
-     * build an exception with a default message.
-     * @param is_cardan if true, the rotation is related to Cardan angles, * if false it is related to Euler_Angles
-     */
-    public CardanEuler_singularityException(bool is_cardan) 
-    {
-        super(is_cardan ? Localized_Geometry_Formats.CARDAN_ANGLES_SINGULARITY : Localized_Geometry_Formats.EULER_ANGLES_SINGULARITY);
-    }
-
+	/**
+	 * Simple constructor.
+	 * build an exception with a default message.
+	 * @param is_cardan if true, the rotation is related to Cardan angles, * if false it is related to Euler_Angles
+	 */
+	public CardanEuler_singularityException(bool is_cardan)
+	{
+		super(is_cardan ? Localized_Geometry_Formats.CARDAN_ANGLES_SINGULARITY : Localized_Geometry_Formats.EULER_ANGLES_SINGULARITY);
+	}
 }
-
-

@@ -15,32 +15,29 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.optim.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.optim.linear;
 
-//import org.hipparchus.exception.Math_Illegal_State_Exception;
+  //import org.hipparchus.exception.Math_Illegal_State_Exception;
 
-/**
- * This class represents exceptions thrown by optimizers when a solution escapes to infinity.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
- */
+  /**
+   * This class represents exceptions thrown by optimizers when a solution escapes to infinity.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
+   */
 @Deprecated
-class Unbounded_Solution_Exception extends Math_Illegal_State_Exception 
+class Unbounded_Solution_Exception extends Math_Illegal_State_Exception
 {
-    
-    940539497277290619L;
+	940539497277290619L;
 
-    /**
-     * Simple constructor using a default message.
-     */
-    public Unbounded_Solution_Exception() 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.UNBOUNDED_SOLUTION);
-    }
+	/**
+	 * Simple constructor using a default message.
+	 */
+	public Unbounded_Solution_Exception()
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.UNBOUNDED_SOLUTION);
+	}
 }
-
-

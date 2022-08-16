@@ -15,494 +15,489 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.inference;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.inference;
 
-//import java.util.Collection;
+  //import java.util.Collection;
 
-//import org.hipparchus.distribution.Real_Distribution;
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.;
-//import org.hipparchus.stat.descriptive.Statistical_Summary;
+  //import org.hipparchus.distribution.Real_Distribution;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.exception.Math_Illegal_State_Exception;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.stat.descriptive.Statistical_Summary;
 
-/**
- * A collection of static methods to create inference test instances or to
- * perform inference tests.
- */
-class Inference_Test_Utils  
+  /**
+   * A collection of static methods to create inference test instances or to
+   * perform inference tests.
+   */
+class Inference_Test_Utils
 {
+	/** Singleton T_Test instance. */
+	private static const T_Test T_TEST = T_Test();
 
-    /** Singleton T_Test instance. */
-    private static const T_Test T_TEST = T_Test();
+	/** Singleton Chi_Square_Test instance. */
+	private static const Chi_Square_Test CHI_SQUARE_TEST = Chi_Square_Test();
 
-    /** Singleton Chi_Square_Test instance. */
-    private static const Chi_Square_Test CHI_SQUARE_TEST = Chi_Square_Test();
+	/** Singleton OneWay_anova instance. */
+	private static const OneWay_anova ONE_WAY_ANANOVA = OneWay_anova();
 
-    /** Singleton OneWay_anova instance. */
-    private static const OneWay_anova ONE_WAY_ANANOVA = OneWay_anova();
+	/** Singleton G-Test instance. */
+	private static const G_Test G_TEST = G_Test();
 
-    /** Singleton G-Test instance. */
-    private static const G_Test G_TEST = G_Test();
+	/** Singleton K-S test instance */
+	private static const Kolmogorov_Smirnov_Test KS_TEST = Kolmogorov_Smirnov_Test();
 
-    /** Singleton K-S test instance */
-    private static const Kolmogorov_Smirnov_Test KS_TEST = Kolmogorov_Smirnov_Test();
+	/**
+	 * Prevent instantiation.
+	 */
+	private Inference_Test_Utils()
+	{
+		super();
+	}
 
-    /**
-     * Prevent instantiation.
-     */
-    private Inference_Test_Utils() 
-    {
-        super();
-    }
+	// CHECKSTYLE: stop Javadoc_Method_Check
 
-    // CHECKSTYLE: stop Javadoc_Method_Check
+	/**
+	 * @see T_Test#homoscedastic_t(std::vector<double>, std::vector<double>)
+	 */
+	public static double homoscedastic_t(const std::vector<double> sample1, const std::vector<double> sample2)
 
-    /**
-     * @see T_Test#homoscedastic_t(std::vector<double>, std::vector<double>)
-     */
-    public static double homoscedastic_t(const std::vector<double> sample1, const std::vector<double> sample2)
-         
-        {
-        return T_TEST.homoscedastic_t(sample1, sample2);
-    }
+	{
+		return T_TEST.homoscedastic_t(sample1, sample2);
+	}
 
-    /**
-     * @see T_Test#homoscedastic_t(Statistical_Summary, Statistical_Summary)
-     */
-    public static double homoscedastic_t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-         
-        {
-        return T_TEST.homoscedastic_t(sample_stats1, sample_stats2);
-    }
+	/**
+	 * @see T_Test#homoscedastic_t(Statistical_Summary, Statistical_Summary)
+	 */
+	public static double homoscedastic_t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
 
-    /**
-     * @see T_Test#homoscedastic_t_test(std::vector<double>, std::vector<double>, double)
-     */
-    public static bool homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-         
-        {
-        return T_TEST.homoscedastic_t_test(sample1, sample2, alpha);
-    }
+	{
+		return T_TEST.homoscedastic_t(sample_stats1, sample_stats2);
+	}
 
-    /**
-     * @see T_Test#homoscedastic_t_test(std::vector<double>, std::vector<double>)
-     */
-    public static double homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-         
-        {
-        return T_TEST.homoscedastic_t_test(sample1, sample2);
-    }
+	/**
+	 * @see T_Test#homoscedastic_t_test(std::vector<double>, std::vector<double>, double)
+	 */
+	public static bool homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
 
-    /**
-     * @see T_Test#homoscedastic_t_test(Statistical_Summary, Statistical_Summary)
-     */
-    public static double homoscedastic_t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-         
-        {
-        return T_TEST.homoscedastic_t_test(sample_stats1, sample_stats2);
-    }
+	{
+		return T_TEST.homoscedastic_t_test(sample1, sample2, alpha);
+	}
 
-    /**
-     * @see T_Test#paired_t(std::vector<double>, std::vector<double>)
-     */
-    public static double paired_t(const std::vector<double> sample1, const std::vector<double> sample2)
-         
-        {
-        return T_TEST.paired_t(sample1, sample2);
-    }
+	/**
+	 * @see T_Test#homoscedastic_t_test(std::vector<double>, std::vector<double>)
+	 */
+	public static double homoscedastic_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
 
-    /**
-     * @see T_Test#paired_t_test(std::vector<double>, std::vector<double>, double)
-     */
-    public static bool paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-         
-        {
-        return T_TEST.paired_t_test(sample1, sample2, alpha);
-    }
+	{
+		return T_TEST.homoscedastic_t_test(sample1, sample2);
+	}
 
-    /**
-     * @see T_Test#paired_t_test(std::vector<double>, std::vector<double>)
-     */
-    public static double paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-         
-        {
-        return T_TEST.paired_t_test(sample1, sample2);
-    }
+	/**
+	 * @see T_Test#homoscedastic_t_test(Statistical_Summary, Statistical_Summary)
+	 */
+	public static double homoscedastic_t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
 
-    /**
-     * @see T_Test#t(double, std::vector<double>)
-     */
-    public static double t(const double& mu, const std::vector<double> observed)
-         
-        {
-        return T_TEST.t(mu, observed);
-    }
+	{
+		return T_TEST.homoscedastic_t_test(sample_stats1, sample_stats2);
+	}
 
-    /**
-     * @see T_Test#t(double, Statistical_Summary)
-     */
-    public static double t(const double& mu, const Statistical_Summary sample_stats)
-         
-        {
-        return T_TEST.t(mu, sample_stats);
-    }
+	/**
+	 * @see T_Test#paired_t(std::vector<double>, std::vector<double>)
+	 */
+	public static double paired_t(const std::vector<double> sample1, const std::vector<double> sample2)
 
-    /**
-     * @see T_Test#t(std::vector<double>, std::vector<double>)
-     */
-    public static double t(const std::vector<double> sample1, const std::vector<double> sample2)
-         
-        {
-        return T_TEST.t(sample1, sample2);
-    }
+	{
+		return T_TEST.paired_t(sample1, sample2);
+	}
 
-    /**
-     * @see T_Test#t(Statistical_Summary, Statistical_Summary)
-     */
-    public static double t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-         
-        {
-        return T_TEST.t(sample_stats1, sample_stats2);
-    }
+	/**
+	 * @see T_Test#paired_t_test(std::vector<double>, std::vector<double>, double)
+	 */
+	public static bool paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
 
-    /**
-     * @see T_Test#t_test(double, std::vector<double>, double)
-     */
-    public static bool t_test(const double& mu, const std::vector<double> sample, const double& alpha)
-         
-        {
-        return T_TEST.t_test(mu, sample, alpha);
-    }
+	{
+		return T_TEST.paired_t_test(sample1, sample2, alpha);
+	}
 
-    /**
-     * @see T_Test#t_test(double, std::vector<double>)
-     */
-    public static double t_test(const double& mu, const std::vector<double> sample)
-         
-        {
-        return T_TEST.t_test(mu, sample);
-    }
+	/**
+	 * @see T_Test#paired_t_test(std::vector<double>, std::vector<double>)
+	 */
+	public static double paired_t_test(const std::vector<double> sample1, const std::vector<double> sample2)
 
-    /**
-     * @see T_Test#t_test(double, Statistical_Summary, double)
-     */
-    public static bool t_test(const double& mu, const Statistical_Summary sample_stats, const double& alpha)
-         
-        {
-        return T_TEST.t_test(mu, sample_stats, alpha);
-    }
+	{
+		return T_TEST.paired_t_test(sample1, sample2);
+	}
 
-    /**
-     * @see T_Test#t_test(double, Statistical_Summary)
-     */
-    public static double t_test(const double& mu, const Statistical_Summary sample_stats)
-         
-        {
-        return T_TEST.t_test(mu, sample_stats);
-    }
+	/**
+	 * @see T_Test#t(double, std::vector<double>)
+	 */
+	public static double t(const double& mu, const std::vector<double> observed)
 
-    /**
-     * @see T_Test#t_test(std::vector<double>, std::vector<double>, double)
-     */
-    public static bool t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
-         
-        {
-        return T_TEST.t_test(sample1, sample2, alpha);
-    }
+	{
+		return T_TEST.t(mu, observed);
+	}
 
-    /**
-     * @see T_Test#t_test(std::vector<double>, std::vector<double>)
-     */
-    public static double t_test(const std::vector<double> sample1, const std::vector<double> sample2)
-         
-        {
-        return T_TEST.t_test(sample1, sample2);
-    }
+	/**
+	 * @see T_Test#t(double, Statistical_Summary)
+	 */
+	public static double t(const double& mu, const Statistical_Summary sample_stats)
 
-    /**
-     * @see T_Test#t_test(Statistical_Summary, Statistical_Summary, double)
-     */
-    public static bool t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2, const double& alpha)
-         
-        {
-        return T_TEST.t_test(sample_stats1, sample_stats2, alpha);
-    }
+	{
+		return T_TEST.t(mu, sample_stats);
+	}
 
-    /**
-     * @see T_Test#t_test(Statistical_Summary, Statistical_Summary)
-     */
-    public static double t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
-         
-        {
-        return T_TEST.t_test(sample_stats1, sample_stats2);
-    }
+	/**
+	 * @see T_Test#t(std::vector<double>, std::vector<double>)
+	 */
+	public static double t(const std::vector<double> sample1, const std::vector<double> sample2)
 
-    /**
-     * @see Chi_Square_Test#chi_square(std::vector<double>, long[])
-     */
-    public static double chi_square(const std::vector<double> expected, const std::vector<long> observed)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square(expected, observed);
-    }
+	{
+		return T_TEST.t(sample1, sample2);
+	}
 
-    /**
-     * @see Chi_Square_Test#chi_square(long[][])
-     */
-    public static double chi_square(const std::vector<std::vector<long>> counts)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square(counts);
-    }
+	/**
+	 * @see T_Test#t(Statistical_Summary, Statistical_Summary)
+	 */
+	public static double t(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
 
-    /**
-     * @see Chi_Square_Test#chi_square_test(std::vector<double>, long[], double)
-     */
-    public static bool chi_square_test(const std::vector<double> expected, const std::vector<long> observed, const double& alpha)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square_test(expected, observed, alpha);
-    }
+	{
+		return T_TEST.t(sample_stats1, sample_stats2);
+	}
 
-    /**
-     * @see Chi_Square_Test#chi_square_test(std::vector<double>, long[])
-     */
-    public static double chi_square_test(const std::vector<double> expected, const std::vector<long> observed)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square_test(expected, observed);
-    }
+	/**
+	 * @see T_Test#t_test(double, std::vector<double>, double)
+	 */
+	public static bool t_test(const double& mu, const std::vector<double> sample, const double& alpha)
 
-    /**
-     * @see Chi_Square_Test#chi_square_test(long[][], double)
-     */
-    public static bool chi_square_test(const std::vector<std::vector<long>> counts, const double& alpha)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square_test(counts, alpha);
-    }
+	{
+		return T_TEST.t_test(mu, sample, alpha);
+	}
 
-    /**
-     * @see Chi_Square_Test#chi_square_test(long[][])
-     */
-    public static double chi_square_test(const std::vector<std::vector<long>> counts)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square_test(counts);
-    }
+	/**
+	 * @see T_Test#t_test(double, std::vector<double>)
+	 */
+	public static double t_test(const double& mu, const std::vector<double> sample)
 
-    /**
-     * @see Chi_Square_Test#chi_square_data_sets_comparison(long[], long[])
-     */
-    public static double chi_square_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square_data_sets_comparison(observed1, observed2);
-    }
+	{
+		return T_TEST.t_test(mu, sample);
+	}
 
-    /**
-     * @see Chi_Square_Test#chi_square_test_data_sets_comparison(long[], long[])
-     */
-    public static double chi_square_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square_test_data_sets_comparison(observed1, observed2);
-    }
+	/**
+	 * @see T_Test#t_test(double, Statistical_Summary, double)
+	 */
+	public static bool t_test(const double& mu, const Statistical_Summary sample_stats, const double& alpha)
 
-    /**
-     * @see Chi_Square_Test#chi_square_test_data_sets_comparison(long[], long[], double)
-     */
-    public static bool chi_square_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2, const double& alpha)
-         
-        {
-        return CHI_SQUARE_TEST.chi_square_test_data_sets_comparison(observed1, observed2, alpha);
-    }
+	{
+		return T_TEST.t_test(mu, sample_stats, alpha);
+	}
 
-    /**
-     * @see OneWay_anova#anova_f_value(Collection)
-     */
-    public static double one_way_anova_f_value(const Collection<std::vector<double>> category_data)
-         
-        {
-        return ONE_WAY_ANANOVA.anova_f_value(category_data);
-    }
+	/**
+	 * @see T_Test#t_test(double, Statistical_Summary)
+	 */
+	public static double t_test(const double& mu, const Statistical_Summary sample_stats)
 
-    /**
-     * @see OneWay_anova#anova_p_value(Collection)
-     */
-    public static double one_way_anova_p_value(const Collection<std::vector<double>> category_data)
-         
-        {
-        return ONE_WAY_ANANOVA.anova_p_value(category_data);
-    }
+	{
+		return T_TEST.t_test(mu, sample_stats);
+	}
 
-    /**
-     * @see OneWay_anova#anova_test(Collection,double)
-     */
-    public static bool one_way_anova_test(const Collection<std::vector<double>> category_data, const double& alpha)
-         
-        {
-        return ONE_WAY_ANANOVA.anova_test(category_data, alpha);
-    }
+	/**
+	 * @see T_Test#t_test(std::vector<double>, std::vector<double>, double)
+	 */
+	public static bool t_test(const std::vector<double> sample1, const std::vector<double> sample2, const double& alpha)
 
-     /**
-     * @see G_Test#g(std::vector<double>, long[])
-     */
-    public static double g(const std::vector<double> expected, const std::vector<long> observed)
-         
-        {
-        return G_TEST.g(expected, observed);
-    }
+	{
+		return T_TEST.t_test(sample1, sample2, alpha);
+	}
 
-    /**
-     * @see G_Test#g_test( std::vector<double>,  std::vector<long> )
-     */
-    public static double g_test(const std::vector<double> expected, const std::vector<long> observed)
-         
-        {
-        return G_TEST.g_test(expected, observed);
-    }
+	/**
+	 * @see T_Test#t_test(std::vector<double>, std::vector<double>)
+	 */
+	public static double t_test(const std::vector<double> sample1, const std::vector<double> sample2)
 
-    /**
-     * @see G_Test#g_test_intrinsic(std::vector<double>, std::vector<long> )
-     */
-    public static double g_test_intrinsic(const std::vector<double> expected, const std::vector<long> observed)
-         
-        {
-        return G_TEST.g_test_intrinsic(expected, observed);
-    }
+	{
+		return T_TEST.t_test(sample1, sample2);
+	}
 
-     /**
-     * @see G_Test#g_test( std::vector<double>,long[],double)
-     */
-    public static bool g_test(const std::vector<double> expected, const std::vector<long> observed, const double& alpha)
-         
-        {
-        return G_TEST.g_test(expected, observed, alpha);
-    }
+	/**
+	 * @see T_Test#t_test(Statistical_Summary, Statistical_Summary, double)
+	 */
+	public static bool t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2, const double& alpha)
 
-    /**
-     * @see G_Test#g_data_sets_comparison(long[], long[])
-     */
-    public static double g_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-         
-        {
-        return G_TEST.g_data_sets_comparison(observed1, observed2);
-    }
+	{
+		return T_TEST.t_test(sample_stats1, sample_stats2, alpha);
+	}
 
-    /**
-     * @see G_Test#root_log_likelihood_ratio(long, long, long, long)
-     */
-    public static double root_log_likelihood_ratio(const long k11, const long k12, const long k21, const long k22)
-         
-        {
-        return G_TEST.root_log_likelihood_ratio(k11, k12, k21, k22);
-    }
+	/**
+	 * @see T_Test#t_test(Statistical_Summary, Statistical_Summary)
+	 */
+	public static double t_test(const Statistical_Summary sample_stats1, const Statistical_Summary sample_stats2)
 
+	{
+		return T_TEST.t_test(sample_stats1, sample_stats2);
+	}
 
-    /**
-     * @see G_Test#g_test_data_sets_comparison(long[], long[])
-     */
-    public static double g_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-         
-        {
-        return G_TEST.g_test_data_sets_comparison(observed1, observed2);
-    }
+	/**
+	 * @see Chi_Square_Test#chi_square(std::vector<double>, long[])
+	 */
+	public static double chi_square(const std::vector<double> expected, const std::vector<long> observed)
 
-    /**
-     * @see G_Test#g_test_data_sets_comparison(long[],long[],double)
-     */
-    public static bool g_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2, const double& alpha)
-         
-        {
-        return G_TEST.g_test_data_sets_comparison(observed1, observed2, alpha);
-    }
+	{
+		return CHI_SQUARE_TEST.chi_square(expected, observed);
+	}
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_statistic(Real_Distribution, std::vector<double>)
-     */
-    public static double kolmogorov_smirnov_statistic(Real_Distribution dist, std::vector<double> data)
-             
-            {
-        return KS_TEST.kolmogorov_smirnov_statistic(dist, data);
-    }
+	/**
+	 * @see Chi_Square_Test#chi_square(long[][])
+	 */
+	public static double chi_square(const std::vector<std::vector<long>> counts)
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>)
-     */
-    public static double kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data)
-             
-            {
-        return KS_TEST.kolmogorov_smirnov_test(dist, data);
-    }
+	{
+		return CHI_SQUARE_TEST.chi_square(counts);
+	}
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>, bool)
-     */
-    public static double kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data, bool strict)
-             
-            {
-        return KS_TEST.kolmogorov_smirnov_test(dist, data, strict);
-    }
+	/**
+	 * @see Chi_Square_Test#chi_square_test(std::vector<double>, long[], double)
+	 */
+	public static bool chi_square_test(const std::vector<double> expected, const std::vector<long> observed, const double& alpha)
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>, double)
-     */
-    public static bool kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data, double alpha)
-             
-            {
-        return KS_TEST.kolmogorov_smirnov_test(dist, data, alpha);
-    }
+	{
+		return CHI_SQUARE_TEST.chi_square_test(expected, observed, alpha);
+	}
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_statistic(std::vector<double>, std::vector<double>)
-     */
-    public static double kolmogorov_smirnov_statistic(std::vector<double> x, std::vector<double> y)
-             
-            {
-        return KS_TEST.kolmogorov_smirnov_statistic(x, y);
-    }
+	/**
+	 * @see Chi_Square_Test#chi_square_test(std::vector<double>, long[])
+	 */
+	public static double chi_square_test(const std::vector<double> expected, const std::vector<long> observed)
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(std::vector<double>, std::vector<double>)
-     */
-    public static double kolmogorov_smirnov_test(std::vector<double> x, std::vector<double> y)
-             
-            {
-        return KS_TEST.kolmogorov_smirnov_test(x, y);
-    }
+	{
+		return CHI_SQUARE_TEST.chi_square_test(expected, observed);
+	}
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(std::vector<double>, std::vector<double>, bool)
-     */
-    public static double kolmogorov_smirnov_test(std::vector<double> x, std::vector<double> y, bool strict)
-              
-            {
-        return KS_TEST.kolmogorov_smirnov_test(x, y, strict);
-    }
+	/**
+	 * @see Chi_Square_Test#chi_square_test(long[][], double)
+	 */
+	public static bool chi_square_test(const std::vector<std::vector<long>> counts, const double& alpha)
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#exact_p(double, int, int, bool)
-     */
-    public static double exact_p(double d, int m, int n, bool strict) 
-    {
-        return KS_TEST.exact_p(d, n, m, strict);
-    }
+	{
+		return CHI_SQUARE_TEST.chi_square_test(counts, alpha);
+	}
 
-    /**
-     * @see Kolmogorov_Smirnov_Test#approximate_p(double, int, int)
-     */
-    public static double approximate_p(double d, int n, int m) 
-    {
-        return KS_TEST.approximate_p(d, n, m);
-    }
+	/**
+	 * @see Chi_Square_Test#chi_square_test(long[][])
+	 */
+	public static double chi_square_test(const std::vector<std::vector<long>> counts)
 
-    // CHECKSTYLE: resume Javadoc_Method_Check
+	{
+		return CHI_SQUARE_TEST.chi_square_test(counts);
+	}
 
+	/**
+	 * @see Chi_Square_Test#chi_square_data_sets_comparison(long[], long[])
+	 */
+	public static double chi_square_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
+
+	{
+		return CHI_SQUARE_TEST.chi_square_data_sets_comparison(observed1, observed2);
+	}
+
+	/**
+	 * @see Chi_Square_Test#chi_square_test_data_sets_comparison(long[], long[])
+	 */
+	public static double chi_square_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
+
+	{
+		return CHI_SQUARE_TEST.chi_square_test_data_sets_comparison(observed1, observed2);
+	}
+
+	/**
+	 * @see Chi_Square_Test#chi_square_test_data_sets_comparison(long[], long[], double)
+	 */
+	public static bool chi_square_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2, const double& alpha)
+
+	{
+		return CHI_SQUARE_TEST.chi_square_test_data_sets_comparison(observed1, observed2, alpha);
+	}
+
+	/**
+	 * @see OneWay_anova#anova_f_value(Collection)
+	 */
+	public static double one_way_anova_f_value(const Collection<std::vector<double>> category_data)
+
+	{
+		return ONE_WAY_ANANOVA.anova_f_value(category_data);
+	}
+
+	/**
+	 * @see OneWay_anova#anova_p_value(Collection)
+	 */
+	public static double one_way_anova_p_value(const Collection<std::vector<double>> category_data)
+
+	{
+		return ONE_WAY_ANANOVA.anova_p_value(category_data);
+	}
+
+	/**
+	 * @see OneWay_anova#anova_test(Collection,double)
+	 */
+	public static bool one_way_anova_test(const Collection<std::vector<double>> category_data, const double& alpha)
+
+	{
+		return ONE_WAY_ANANOVA.anova_test(category_data, alpha);
+	}
+
+	/**
+	* @see G_Test#g(std::vector<double>, long[])
+	*/
+	public static double g(const std::vector<double> expected, const std::vector<long> observed)
+
+	{
+		return G_TEST.g(expected, observed);
+	}
+
+	/**
+	 * @see G_Test#g_test( std::vector<double>,  std::vector<long> )
+	 */
+	public static double g_test(const std::vector<double> expected, const std::vector<long> observed)
+
+	{
+		return G_TEST.g_test(expected, observed);
+	}
+
+	/**
+	 * @see G_Test#g_test_intrinsic(std::vector<double>, std::vector<long> )
+	 */
+	public static double g_test_intrinsic(const std::vector<double> expected, const std::vector<long> observed)
+
+	{
+		return G_TEST.g_test_intrinsic(expected, observed);
+	}
+
+	/**
+	* @see G_Test#g_test( std::vector<double>,long[],double)
+	*/
+	public static bool g_test(const std::vector<double> expected, const std::vector<long> observed, const double& alpha)
+
+	{
+		return G_TEST.g_test(expected, observed, alpha);
+	}
+
+	/**
+	 * @see G_Test#g_data_sets_comparison(long[], long[])
+	 */
+	public static double g_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
+
+	{
+		return G_TEST.g_data_sets_comparison(observed1, observed2);
+	}
+
+	/**
+	 * @see G_Test#root_log_likelihood_ratio(long, long, long, long)
+	 */
+	public static double root_log_likelihood_ratio(const long k11, const long k12, const long k21, const long k22)
+
+	{
+		return G_TEST.root_log_likelihood_ratio(k11, k12, k21, k22);
+	}
+
+	/**
+	 * @see G_Test#g_test_data_sets_comparison(long[], long[])
+	 */
+	public static double g_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
+
+	{
+		return G_TEST.g_test_data_sets_comparison(observed1, observed2);
+	}
+
+	/**
+	 * @see G_Test#g_test_data_sets_comparison(long[],long[],double)
+	 */
+	public static bool g_test_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2, const double& alpha)
+
+	{
+		return G_TEST.g_test_data_sets_comparison(observed1, observed2, alpha);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_statistic(Real_Distribution, std::vector<double>)
+	 */
+	public static double kolmogorov_smirnov_statistic(Real_Distribution dist, std::vector<double> data)
+
+	{
+		return KS_TEST.kolmogorov_smirnov_statistic(dist, data);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>)
+	 */
+	public static double kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data)
+
+	{
+		return KS_TEST.kolmogorov_smirnov_test(dist, data);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>, bool)
+	 */
+	public static double kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data, bool strict)
+
+	{
+		return KS_TEST.kolmogorov_smirnov_test(dist, data, strict);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(Real_Distribution, std::vector<double>, double)
+	 */
+	public static bool kolmogorov_smirnov_test(Real_Distribution dist, std::vector<double> data, double alpha)
+
+	{
+		return KS_TEST.kolmogorov_smirnov_test(dist, data, alpha);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_statistic(std::vector<double>, std::vector<double>)
+	 */
+	public static double kolmogorov_smirnov_statistic(std::vector<double> x, std::vector<double> y)
+
+	{
+		return KS_TEST.kolmogorov_smirnov_statistic(x, y);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(std::vector<double>, std::vector<double>)
+	 */
+	public static double kolmogorov_smirnov_test(std::vector<double> x, std::vector<double> y)
+
+	{
+		return KS_TEST.kolmogorov_smirnov_test(x, y);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#kolmogorov_smirnov_test(std::vector<double>, std::vector<double>, bool)
+	 */
+	public static double kolmogorov_smirnov_test(std::vector<double> x, std::vector<double> y, bool strict)
+
+	{
+		return KS_TEST.kolmogorov_smirnov_test(x, y, strict);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#exact_p(double, int, int, bool)
+	 */
+	public static double exact_p(double d, int m, int n, bool strict)
+	{
+		return KS_TEST.exact_p(d, n, m, strict);
+	}
+
+	/**
+	 * @see Kolmogorov_Smirnov_Test#approximate_p(double, int, int)
+	 */
+	public static double approximate_p(double d, int n, int m)
+	{
+		return KS_TEST.approximate_p(d, n, m);
+	}
+
+	// CHECKSTYLE: resume Javadoc_Method_Check
 }
-
-

@@ -15,23 +15,22 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.analysis.solvers;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.analysis.solvers;
 
-
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.Field;
-//import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.Math_Illegal_State_Exception;
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Incrementor;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
+  //import org.hipparchus.Calculus_Field_Element;
+  //import org.hipparchus.Field;
+  //import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
+  //import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.exception.Math_Illegal_State_Exception;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.util.Incrementor;
+  //import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.util.Math_Utils;
 #include <type_traits>
 #include <vector>
 #include "../../CalculusFieldElement.hpp"
@@ -52,440 +51,420 @@
  * @param <T> the type of the field elements
  */
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univariate_Solver<T> 
+class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univariate_Solver<T>
 {
+	/** Maximal aging triggering an attempt to balance the bracketing interval. */
+	private static const int MAXIMAL_AGING = 2;
 
-   /** Maximal aging triggering an attempt to balance the bracketing interval. */
-    private static const int MAXIMAL_AGING = 2;
+	/** Field to which the elements belong. */
+	private const Field<T> field;
 
-    /** Field to which the elements belong. */
-    private const Field<T> field;
+	/** Maximal order. */
+	private const int maximal_order;
 
-    /** Maximal order. */
-    private const int maximal_order;
+	/** Function value accuracy. */
+	private const T function_value_accuracy;
 
-    /** Function value accuracy. */
-    private const T function_value_accuracy;
+	/** Absolute accuracy. */
+	private const T absolute_accuracy;
 
-    /** Absolute accuracy. */
-    private const T absolute_accuracy;
+	/** Relative accuracy. */
+	private const T relative_accuracy;
 
-    /** Relative accuracy. */
-    private const T relative_accuracy;
+	/** Evaluations counter. */
+	private Incrementor evaluations;
 
-    /** Evaluations counter. */
-    private Incrementor evaluations;
+	/**
+	 * Construct a solver.
+	 *
+	 * @param relative_accuracy Relative accuracy.
+	 * @param absolute_accuracy Absolute accuracy.
+	 * @param function_value_accuracy Function value accuracy.
+	 * @param maximal_order maximal order.
+	 * @exception  if maximal order is lower than 2
+	 */
+	public FieldBracketing_Nth_Order_Brent_Solver(const T relative_accuracy, const T absolute_accuracy, const T function_value_accuracy, const int maximal_order)
 
-    /**
-     * Construct a solver.
-     *
-     * @param relative_accuracy Relative accuracy.
-     * @param absolute_accuracy Absolute accuracy.
-     * @param function_value_accuracy Function value accuracy.
-     * @param maximal_order maximal order.
-     * @exception  if maximal order is lower than 2
-     */
-    public FieldBracketing_Nth_Order_Brent_Solver(const T relative_accuracy, const T absolute_accuracy, const T function_value_accuracy, const int maximal_order)
-         
-        {
-        if (maximal_order < 2) 
-        {
-            throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
-        }
-        this.field                 = relative_accuracy.get_field();
-        this.maximal_order          = maximal_order;
-        this.absolute_accuracy      = absolute_accuracy;
-        this.relative_accuracy      = relative_accuracy;
-        this.function_value_accuracy = function_value_accuracy;
-        this.evaluations           = Incrementor();
-    }
+	{
+		if (maximal_order < 2)
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
+		}
+		this.field = relative_accuracy.get_field();
+		this.maximal_order = maximal_order;
+		this.absolute_accuracy = absolute_accuracy;
+		this.relative_accuracy = relative_accuracy;
+		this.function_value_accuracy = function_value_accuracy;
+		this.evaluations = Incrementor();
+	}
 
-    /** Get the maximal order.
-     * @return maximal order
-     */
-    public int get_maximal_order() 
-    {
-        return maximal_order;
-    }
+	/** Get the maximal order.
+	 * @return maximal order
+	 */
+	public int get_maximal_order()
+	{
+		return maximal_order;
+	}
 
-    /**
-     * Get the maximal number of function evaluations.
-     *
-     * @return the maximal number of function evaluations.
-     */
-    //override
-    public int get_max_evaluations() 
-    {
-        return evaluations.get_maximal_count();
-    }
+	/**
+	 * Get the maximal number of function evaluations.
+	 *
+	 * @return the maximal number of function evaluations.
+	 */
+	 //override
+	public int get_max_evaluations()
+	{
+		return evaluations.get_maximal_count();
+	}
 
-    /**
-     * Get the number of evaluations of the objective function.
-     * The number of evaluations corresponds to the last call to the
-     * {@code optimize} method. It is 0 if the method has not been
-     * called yet.
-     *
-     * @return the number of evaluations of the objective function.
-     */
-    //override
-    public int get_evaluations() 
-    {
-        return evaluations.get_count();
-    }
+	/**
+	 * Get the number of evaluations of the objective function.
+	 * The number of evaluations corresponds to the last call to the
+	 * {@code optimize} method. It is 0 if the method has not been
+	 * called yet.
+	 *
+	 * @return the number of evaluations of the objective function.
+	 */
+	 //override
+	public int get_evaluations()
+	{
+		return evaluations.get_count();
+	}
 
-    /**
-     * Get the absolute accuracy.
-     * @return absolute accuracy
-     */
-    //override
-    public T get_absolute_accuracy() 
-    {
-        return absolute_accuracy;
-    }
+	/**
+	 * Get the absolute accuracy.
+	 * @return absolute accuracy
+	 */
+	 //override
+	public T get_absolute_accuracy()
+	{
+		return absolute_accuracy;
+	}
 
-    /**
-     * Get the relative accuracy.
-     * @return relative accuracy
-     */
-    //override
-    public T get_relative_accuracy() 
-    {
-        return relative_accuracy;
-    }
+	/**
+	 * Get the relative accuracy.
+	 * @return relative accuracy
+	 */
+	 //override
+	public T get_relative_accuracy()
+	{
+		return relative_accuracy;
+	}
 
-    /**
-     * Get the function accuracy.
-     * @return function accuracy
-     */
-    //override
-    public T get_function_value_accuracy() 
-    {
-        return function_value_accuracy;
-    }
+	/**
+	 * Get the function accuracy.
+	 * @return function accuracy
+	 */
+	 //override
+	public T get_function_value_accuracy()
+	{
+		return function_value_accuracy;
+	}
 
-    /**
-     * Solve for a zero in the given interval.
-     * A solver may require that the interval brackets a single zero root.
-     * Solvers that do require bracketing should be able to handle the case
-     * where one of the endpoints is itself a root.
-     *
-     * @param max_eval Maximum number of evaluations.
-     * @param f Function to solve.
-     * @param min Lower bound for the interval.
-     * @param max Upper bound for the interval.
-     * @param allowed_solution The kind of solutions that the root-finding algorithm may
-     * accept as solutions.
-     * @return a value where the function is zero.
-     * @exception  if f is NULL.
-     * @exception  if root cannot be bracketed
-     */
-    //override
-    public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const Allowed_Solution allowed_solution)
-         
-        {
-        return solve(max_eval, f, min, max, min.add(max).divide(2), allowed_solution);
-    }
+	/**
+	 * Solve for a zero in the given interval.
+	 * A solver may require that the interval brackets a single zero root.
+	 * Solvers that do require bracketing should be able to handle the case
+	 * where one of the endpoints is itself a root.
+	 *
+	 * @param max_eval Maximum number of evaluations.
+	 * @param f Function to solve.
+	 * @param min Lower bound for the interval.
+	 * @param max Upper bound for the interval.
+	 * @param allowed_solution The kind of solutions that the root-finding algorithm may
+	 * accept as solutions.
+	 * @return a value where the function is zero.
+	 * @exception  if f is NULL.
+	 * @exception  if root cannot be bracketed
+	 */
+	 //override
+	public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const Allowed_Solution allowed_solution)
 
-    /**
-     * Solve for a zero in the given interval, start at {@code start_value}.
-     * A solver may require that the interval brackets a single zero root.
-     * Solvers that do require bracketing should be able to handle the case
-     * where one of the endpoints is itself a root.
-     *
-     * @param max_eval Maximum number of evaluations.
-     * @param f Function to solve.
-     * @param min Lower bound for the interval.
-     * @param max Upper bound for the interval.
-     * @param start_value Start value to use.
-     * @param allowed_solution The kind of solutions that the root-finding algorithm may
-     * accept as solutions.
-     * @return a value where the function is zero.
-     * @exception  if f is NULL.
-     * @exception  if root cannot be bracketed
-     */
-    //override
-    public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const T start_value, const Allowed_Solution allowed_solution)
-         
-        {
-        // find interval containing root
-        return solve_interval(max_eval, f, min, max, start_value).get_side(allowed_solution);
-    }
+	{
+		return solve(max_eval, f, min, max, min.add(max).divide(2), allowed_solution);
+	}
 
-    /** {@inherit_doc} */
-    //override
-    public Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, T start_value)
-             
-            {
+	/**
+	 * Solve for a zero in the given interval, start at {@code start_value}.
+	 * A solver may require that the interval brackets a single zero root.
+	 * Solvers that do require bracketing should be able to handle the case
+	 * where one of the endpoints is itself a root.
+	 *
+	 * @param max_eval Maximum number of evaluations.
+	 * @param f Function to solve.
+	 * @param min Lower bound for the interval.
+	 * @param max Upper bound for the interval.
+	 * @param start_value Start value to use.
+	 * @param allowed_solution The kind of solutions that the root-finding algorithm may
+	 * accept as solutions.
+	 * @return a value where the function is zero.
+	 * @exception  if f is NULL.
+	 * @exception  if root cannot be bracketed
+	 */
+	 //override
+	public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const T start_value, const Allowed_Solution allowed_solution)
 
-        // Checks.
-        //Math_Utils::check_not_null(f);
+	{
+		// find interval containing root
+		return solve_interval(max_eval, f, min, max, start_value).get_side(allowed_solution);
+	}
 
-        // Reset.
-        evaluations = evaluations.with_maximal_count(max_eval);
-        T zero = field.get_zero();
-        T nan  = zero.add(Double.NaN);
+	/** {@inherit_doc} */
+	//override
+	public Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, T start_value)
 
-        // prepare arrays with the first points
-        const std::vector<T> x = Math_Arrays::build_array(field, maximal_order + 1);
-        const std::vector<T> y = Math_Arrays::build_array(field, maximal_order + 1);
-        x[0] = min;
-        x[1] = start_value;
-        x[2] = max;
+	{
+		// Checks.
+		//Math_Utils::check_not_null(f);
 
-        // evaluate initial guess
-        evaluations.increment();
-        y[1] = f.value(x[1]);
-        if (y[1].get_real() == 0.0) 
-        {
-            // return the initial guess if it is a perfect root.
-            return Interval<>(x[1], y[1], x[1], y[1]);
-        }
+		// Reset.
+		evaluations = evaluations.with_maximal_count(max_eval);
+		T zero = field.get_zero();
+		T nan = zero.add(Double.NaN);
 
-        // evaluate first endpoint
-        evaluations.increment();
-        y[0] = f.value(x[0]);
-        if (y[0].get_real() == 0.0) 
-        {
-            // return the first endpoint if it is a perfect root.
-            return Interval<>(x[0], y[0], x[0], y[0]);
-        }
+		// prepare arrays with the first points
+		const std::vector<T> x = Math_Arrays::build_array(field, maximal_order + 1);
+		const std::vector<T> y = Math_Arrays::build_array(field, maximal_order + 1);
+		x[0] = min;
+		x[1] = start_value;
+		x[2] = max;
 
-        int nb_points;
-        int sign_change_index;
-        if (y[0].multiply(y[1]).get_real() < 0) 
-        {
+		// evaluate initial guess
+		evaluations.increment();
+		y[1] = f.value(x[1]);
+		if (y[1].get_real() == 0.0)
+		{
+			// return the initial guess if it is a perfect root.
+			return Interval<>(x[1], y[1], x[1], y[1]);
+		}
 
-            // reduce interval if it brackets the root
-            nb_points        = 2;
-            sign_change_index = 1;
+		// evaluate first endpoint
+		evaluations.increment();
+		y[0] = f.value(x[0]);
+		if (y[0].get_real() == 0.0)
+		{
+			// return the first endpoint if it is a perfect root.
+			return Interval<>(x[0], y[0], x[0], y[0]);
+		}
 
-        }
-else 
-        {
+		int nb_points;
+		int sign_change_index;
+		if (y[0].multiply(y[1]).get_real() < 0)
+		{
+			// reduce interval if it brackets the root
+			nb_points = 2;
+			sign_change_index = 1;
+		}
+		else
+		{
+			// evaluate second endpoint
+			evaluations.increment();
+			y[2] = f.value(x[2]);
+			if (y[2].get_real() == 0.0)
+			{
+				// return the second endpoint if it is a perfect root.
+				return Interval<>(x[2], y[2], x[2], y[2]);
+			}
 
-            // evaluate second endpoint
-            evaluations.increment();
-            y[2] = f.value(x[2]);
-            if (y[2].get_real() == 0.0) 
-            {
-                // return the second endpoint if it is a perfect root.
-                return Interval<>(x[2], y[2], x[2], y[2]);
-            }
+			if (y[1].multiply(y[2]).get_real() < 0)
+			{
+				// use all computed point as a start sampling array for solving
+				nb_points = 3;
+				sign_change_index = 2;
+			}
+			else
+			{
+				throw std::exception("not implemented");
+				//throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x[0].get_real(), x[2].get_real(), y[0].get_real(), y[2].get_real());
+			}
+		}
 
-            if (y[1].multiply(y[2]).get_real() < 0) 
-            {
-                // use all computed point as a start sampling array for solving
-                nb_points        = 3;
-                sign_change_index = 2;
-            }
-            else 
-            {
-                throw std::exception("not implemented");
-                //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x[0].get_real(), x[2].get_real(), y[0].get_real(), y[2].get_real());
-            }
+		// prepare a work array for inverse polynomial interpolation
+		const std::vector<T> tmp_x = Math_Arrays::build_array(field, x.size());
 
-        }
+		// current tightest bracketing of the root
+		T x_a = x[sign_change_index - 1];
+		T y_a = y[sign_change_index - 1];
+		T abs_x_a = x_a.abs();
+		T abs_ya = y_a.abs();
+		int aging_a = 0;
+		T x_b = x[sign_change_index];
+		T yB = y[sign_change_index];
+		T abs_x_b = x_b.abs();
+		T abs_y_b = yB.abs();
+		int aging_b = 0;
 
-        // prepare a work array for inverse polynomial interpolation
-        const std::vector<T> tmp_x = Math_Arrays::build_array(field, x.size());
+		// search loop
+		while (true)
+		{
+			// check convergence of bracketing interval
+			T max_x = abs_x_a.subtract(abs_x_b).get_real() < 0 ? abs_x_b : abs_x_a;
+			T max_y = abs_ya.subtract(abs_y_b).get_real() < 0 ? abs_y_b : abs_ya;
+			const T x_tol = absolute_accuracy.add(relative_accuracy.multiply(max_x));
+			const T midpoint = x_a.add(x_b.subtract(x_a).divide(2));
+			if (x_b.subtract(x_a).subtract(x_tol).get_real() <= 0 ||
+				max_y.subtract(function_value_accuracy).get_real() < 0 ||
+				x_a.equals(midpoint) || x_b.equals(midpoint))
+			{
+				return Interval<>(x_a, y_a, x_b, yB);
+			}
 
-        // current tightest bracketing of the root
-        T x_a    = x[sign_change_index - 1];
-        T y_a    = y[sign_change_index - 1];
-        T abs_x_a = x_a.abs();
-        T abs_ya = y_a.abs();
-        int aging_a   = 0;
-        T x_b    = x[sign_change_index];
-        T yB    = y[sign_change_index];
-        T abs_x_b = x_b.abs();
-        T abs_y_b = yB.abs();
-        int aging_b   = 0;
+			// target for the next evaluation point
+			T target_y;
+			if (aging_a >= MAXIMAL_AGING)
+			{
+				// we keep updating the high bracket, try to compensate this
+				target_y = yB.divide(16).negate();
+			}
+			else if (aging_b >= MAXIMAL_AGING)
+			{
+				// we keep updating the low bracket, try to compensate this
+				target_y = y_a.divide(16).negate();
+			}
+			else
+			{
+				// bracketing is balanced, try to find the root itself
+				target_y = zero;
+			}
 
-        // search loop
-        while (true) 
-        {
+			// make a few attempts to guess a root, T next_x;
+			int start = 0;
+			int end = nb_points;
+			do
+			{
+				// guess a value for current target, using inverse polynomial interpolation
+				System.arraycopy(x, start, tmp_x, start, end - start);
+				next_x = guess_x(target_y, tmp_x, y, start, end);
 
-            // check convergence of bracketing interval
-            T max_x = abs_x_a.subtract(abs_x_b).get_real() < 0 ? abs_x_b : abs_x_a;
-            T max_y = abs_ya.subtract(abs_y_b).get_real() < 0 ? abs_y_b : abs_ya;
-            const T x_tol = absolute_accuracy.add(relative_accuracy.multiply(max_x));
-            const T midpoint = x_a.add(x_b.subtract(x_a).divide(2));
-            if (x_b.subtract(x_a).subtract(x_tol).get_real() <= 0 ||
-                max_y.subtract(function_value_accuracy).get_real() < 0 ||
-                    x_a.equals(midpoint) || x_b.equals(midpoint)) 
-                    {
-                return Interval<>(x_a, y_a, x_b, yB);
-            }
+				if (!((next_x.subtract(x_a).get_real() > 0) && (next_x.subtract(x_b).get_real() < 0)))
+				{
+					// the guessed root is not strictly inside of the tightest bracketing interval
 
-            // target for the next evaluation point
-            T target_y;
-            if (aging_a >= MAXIMAL_AGING) 
-            {
-                // we keep updating the high bracket, try to compensate this
-                target_y = yB.divide(16).negate();
-            }
-else if (aging_b >= MAXIMAL_AGING) 
-            {
-                // we keep updating the low bracket, try to compensate this
-                target_y = y_a.divide(16).negate();
-            }
-else 
-            {
-                // bracketing is balanced, try to find the root itself
-                target_y = zero;
-            }
+					// the guessed root is either not strictly inside the interval or it
+					// is a NaN (which occurs when some sampling points share the same y)
+					// we try again with a lower interpolation order
+					if (sign_change_index - start >= end - sign_change_index)
+					{
+						// we have more points before the sign change, drop the lowest point
+						++start;
+					}
+					else
+					{
+						// we have more points after sign change, drop the highest point
+						--end;
+					}
 
-            // make a few attempts to guess a root, T next_x;
-            int start = 0;
-            int end   = nb_points;
-            do 
-            {
+					// we need to do one more attempt
+					next_x = nan;
+				}
+			} while (std::isnan(next_x.get_real()) && (end - start > 1));
 
-                // guess a value for current target, using inverse polynomial interpolation
-                System.arraycopy(x, start, tmp_x, start, end - start);
-                next_x = guess_x(target_y, tmp_x, y, start, end);
+			if (std::isnan(next_x.get_real()))
+			{
+				// fall back to bisection
+				next_x = x_a.add(x_b.subtract(x_a).divide(2));
+				start = sign_change_index - 1;
+				end = sign_change_index;
+			}
 
-                if (!((next_x.subtract(x_a).get_real() > 0) && (next_x.subtract(x_b).get_real() < 0))) 
-                {
-                    // the guessed root is not strictly inside of the tightest bracketing interval
+			// evaluate the function at the guessed root
+			evaluations.increment();
+			const T next_y = f.value(next_x);
+			if (next_y.get_real() == 0.0)
+			{
+				// we have found an exact root, since it is not an approximation
+				// we don't need to bother about the allowed solutions setting
+				return Interval<>(next_x, next_y, next_x, next_y);
+			}
 
-                    // the guessed root is either not strictly inside the interval or it
-                    // is a NaN (which occurs when some sampling points share the same y)
-                    // we try again with a lower interpolation order
-                    if (sign_change_index - start >= end - sign_change_index) 
-                    {
-                        // we have more points before the sign change, drop the lowest point
-                        ++start;
-                    }
-else 
-                    {
-                        // we have more points after sign change, drop the highest point
-                        --end;
-                    }
+			if ((nb_points > 2) && (end - start != nb_points))
+			{
+				// we have been forced to ignore some points to keep bracketing, // they are probably too far from the root, drop them from now on
+				nb_points = end - start;
+				System.arraycopy(x, start, x, 0, nb_points);
+				System.arraycopy(y, start, y, 0, nb_points);
+				sign_change_index -= start;
+			}
+			else  if (nb_points == x.size())
+			{
+				// we have to drop one point in order to insert the one
+				nb_points--;
 
-                    // we need to do one more attempt
-                    next_x = nan;
+				// keep the tightest bracketing interval as centered as possible
+				if (sign_change_index >= (x.size() + 1) / 2)
+				{
+					// we drop the lowest point, we have to shift the arrays and the index
+					System.arraycopy(x, 1, x, 0, nb_points);
+					System.arraycopy(y, 1, y, 0, nb_points);
+					--sign_change_index;
+				}
+			}
 
-                }
+			// insert the last computed point
+			//(by construction, we know it lies inside the tightest bracketing interval)
+			System.arraycopy(x, sign_change_index, x, sign_change_index + 1, nb_points - sign_change_index);
+			x[sign_change_index] = next_x;
+			System.arraycopy(y, sign_change_index, y, sign_change_index + 1, nb_points - sign_change_index);
+			y[sign_change_index] = next_y;
+			++nb_points;
 
-            } while (std::isnan(next_x.get_real()) && (end - start > 1));
+			// update the bracketing interval
+			if (next_y.multiply(y_a).get_real() <= 0)
+			{
+				// the sign change occurs before the inserted point
+				x_b = next_x;
+				yB = next_y;
+				abs_y_b = yB.abs();
+				++aging_a;
+				aging_b = 0;
+			}
+			else
+			{
+				// the sign change occurs after the inserted point
+				x_a = next_x;
+				y_a = next_y;
+				abs_ya = y_a.abs();
+				aging_a = 0;
+				++aging_b;
 
-            if (std::isnan(next_x.get_real())) 
-            {
-                // fall back to bisection
-                next_x = x_a.add(x_b.subtract(x_a).divide(2));
-                start = sign_change_index - 1;
-                end   = sign_change_index;
-            }
+				// update the sign change index
+				sign_change_index++;
+			}
+		}
+	}
 
-            // evaluate the function at the guessed root
-            evaluations.increment();
-            const T next_y = f.value(next_x);
-            if (next_y.get_real() == 0.0) 
-            {
-                // we have found an exact root, since it is not an approximation
-                // we don't need to bother about the allowed solutions setting
-                return Interval<>(next_x, next_y, next_x, next_y);
-            }
+	/** Guess an x value by n<sup>th</sup> order inverse polynomial interpolation.
+	 * <p>
+	 * The x value is guessed by evaluating polynomial Q(y) at y = target_y, where Q
+	 * is built such that for all considered points (x<sub>i</sub>, y<sub>i</sub>), * Q(y<sub>i</sub>) = x<sub>i</sub>.
+	 * </p>
+	 * @param target_y target value for y
+	 * @param x reference points abscissas for interpolation, * note that this array <em>is</em> modified during computation
+	 * @param y reference points ordinates for interpolation
+	 * @param start start index of the points to consider (inclusive)
+	 * @param end end index of the points to consider (exclusive)
+	 * @return guessed root (will be a NaN if two points share the same y)
+	 */
+	private T guess_x(const T target_y, const std::vector<T> x, const std::vector<T> y, const int start, const int end)
+	{
+		// compute Q Newton coefficients by divided differences
+		for (int i = start; i < end - 1; ++i)
+		{
+			const int delta = i + 1 - start;
+			for (int j = end - 1; j > i; --j)
+			{
+				x[j] = x[j].subtract(x[j - 1]).divide(y[j].subtract(y[j - delta]));
+			}
+		}
 
-            if ((nb_points > 2) && (end - start != nb_points)) 
-            {
+		// evaluate Q(target_y)
+		T x0 = field.get_zero();
+		for (int j = end - 1; j >= start; --j)
+		{
+			x0 = x[j].add(x0.multiply(target_y.subtract(y[j])));
+		}
 
-                // we have been forced to ignore some points to keep bracketing, // they are probably too far from the root, drop them from now on
-                nb_points = end - start;
-                System.arraycopy(x, start, x, 0, nb_points);
-                System.arraycopy(y, start, y, 0, nb_points);
-                sign_change_index -= start;
-
-            }
-else  if (nb_points == x.size()) 
-            {
-
-                // we have to drop one point in order to insert the one
-                nb_points--;
-
-                // keep the tightest bracketing interval as centered as possible
-                if (sign_change_index >= (x.size() + 1) / 2) 
-                {
-                    // we drop the lowest point, we have to shift the arrays and the index
-                    System.arraycopy(x, 1, x, 0, nb_points);
-                    System.arraycopy(y, 1, y, 0, nb_points);
-                    --sign_change_index;
-                }
-
-            }
-
-            // insert the last computed point
-            //(by construction, we know it lies inside the tightest bracketing interval)
-            System.arraycopy(x, sign_change_index, x, sign_change_index + 1, nb_points - sign_change_index);
-            x[sign_change_index] = next_x;
-            System.arraycopy(y, sign_change_index, y, sign_change_index + 1, nb_points - sign_change_index);
-            y[sign_change_index] = next_y;
-            ++nb_points;
-
-            // update the bracketing interval
-            if (next_y.multiply(y_a).get_real() <= 0) 
-            {
-                // the sign change occurs before the inserted point
-                x_b = next_x;
-                yB = next_y;
-                abs_y_b = yB.abs();
-                ++aging_a;
-                aging_b = 0;
-            }
-else 
-            {
-                // the sign change occurs after the inserted point
-                x_a = next_x;
-                y_a = next_y;
-                abs_ya = y_a.abs();
-                aging_a = 0;
-                ++aging_b;
-
-                // update the sign change index
-                sign_change_index++;
-
-            }
-
-        }
-
-    }
-
-    /** Guess an x value by n<sup>th</sup> order inverse polynomial interpolation.
-     * <p>
-     * The x value is guessed by evaluating polynomial Q(y) at y = target_y, where Q
-     * is built such that for all considered points (x<sub>i</sub>, y<sub>i</sub>), * Q(y<sub>i</sub>) = x<sub>i</sub>.
-     * </p>
-     * @param target_y target value for y
-     * @param x reference points abscissas for interpolation, * note that this array <em>is</em> modified during computation
-     * @param y reference points ordinates for interpolation
-     * @param start start index of the points to consider (inclusive)
-     * @param end end index of the points to consider (exclusive)
-     * @return guessed root (will be a NaN if two points share the same y)
-     */
-    private T guess_x(const T target_y, const std::vector<T> x, const std::vector<T> y, const int start, const int end) 
-    {
-
-        // compute Q Newton coefficients by divided differences
-        for (int i = start; i < end - 1; ++i) 
-        {
-            const int delta = i + 1 - start;
-            for (int j = end - 1; j > i; --j) 
-            {
-                x[j] = x[j].subtract(x[j-1]).divide(y[j].subtract(y[j - delta]));
-            }
-        }
-
-        // evaluate Q(target_y)
-        T x0 = field.get_zero();
-        for (int j = end - 1; j >= start; --j) 
-        {
-            x0 = x[j].add(x0.multiply(target_y.subtract(y[j])));
-        }
-
-        return x0;
-
-    }
-
+		return x0;
+	}
 };

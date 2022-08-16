@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 #include <type_traits>
 #include "../../../CalculusFieldElement.hpp"
 //import org.hipparchus.Calculus_Field_Element;
@@ -31,63 +31,61 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class Field_Theta
 {
+	/** Value of the \xce\xb8\xe2\x82\x81(z|\xcf\x84) function. */
+	private const T theta1;
 
-    /** Value of the \xce\xb8\xe2\x82\x81(z|\xcf\x84) function. */
-    private const T theta1;
+	/** Value of the \xce\xb8\xe2\x82\x82(z|\xcf\x84) function. */
+	private const T theta2;
 
-    /** Value of the \xce\xb8\xe2\x82\x82(z|\xcf\x84) function. */
-    private const T theta2;
+	/** Value of the \xce\xb8\xe2\x82\x83(z|\xcf\x84) function. */
+	private const T theta3;
 
-    /** Value of the \xce\xb8\xe2\x82\x83(z|\xcf\x84) function. */
-    private const T theta3;
+	/** Value of the \xce\xb8\xe2\x82\x84(z|\xcf\x84) function. */
+	private const T theta4;
 
-    /** Value of the \xce\xb8\xe2\x82\x84(z|\xcf\x84) function. */
-    private const T theta4;
+	/** Simple constructor.
+	 * @param theta1 value of the \xce\xb8\xe2\x82\x81(z|\xcf\x84) function
+	 * @param theta2 value of the \xce\xb8\xe2\x82\x82(z|\xcf\x84) function
+	 * @param theta3 value of the \xce\xb8\xe2\x82\x83(z|\xcf\x84) function
+	 * @param theta4 value of the \xce\xb8\xe2\x82\x84(z|\xcf\x84) function
+	 */
+	Field_Theta(const T theta1, const T theta2, const T theta3, const T theta4)
+	{
+		this.theta1 = theta1;
+		this.theta2 = theta2;
+		this.theta3 = theta3;
+		this.theta4 = theta4;
+	}
 
-    /** Simple constructor.
-     * @param theta1 value of the \xce\xb8\xe2\x82\x81(z|\xcf\x84) function
-     * @param theta2 value of the \xce\xb8\xe2\x82\x82(z|\xcf\x84) function
-     * @param theta3 value of the \xce\xb8\xe2\x82\x83(z|\xcf\x84) function
-     * @param theta4 value of the \xce\xb8\xe2\x82\x84(z|\xcf\x84) function
-     */
-    Field_Theta(const T theta1, const T theta2, const T theta3, const T theta4)
-    {
-        this.theta1 = theta1;
-        this.theta2 = theta2;
-        this.theta3 = theta3;
-        this.theta4 = theta4;
-    }
+	/** Get the value of the \xce\xb8\xe2\x82\x81(z|\xcf\x84) function.
+	 * @return \xce\xb8\xe2\x82\x81(z|\xcf\x84)
+	 */
+	public T theta1()
+	{
+		return theta1;
+	}
 
-    /** Get the value of the \xce\xb8\xe2\x82\x81(z|\xcf\x84) function.
-     * @return \xce\xb8\xe2\x82\x81(z|\xcf\x84)
-     */
-    public T theta1()
-    {
-        return theta1;
-    }
+	/** Get the value of the \xce\xb8\xe2\x82\x82(z|\xcf\x84) function.
+	 * @return \xce\xb8\xe2\x82\x82(z|\xcf\x84)
+	 */
+	public T theta2()
+	{
+		return theta2;
+	}
 
-    /** Get the value of the \xce\xb8\xe2\x82\x82(z|\xcf\x84) function.
-     * @return \xce\xb8\xe2\x82\x82(z|\xcf\x84)
-     */
-    public T theta2()
-    {
-        return theta2;
-    }
+	/** Get the value of the \xce\xb8\xe2\x82\x83(z|\xcf\x84) function.
+	 * @return \xce\xb8\xe2\x82\x83(z|\xcf\x84)
+	 */
+	public T theta3()
+	{
+		return theta3;
+	}
 
-    /** Get the value of the \xce\xb8\xe2\x82\x83(z|\xcf\x84) function.
-     * @return \xce\xb8\xe2\x82\x83(z|\xcf\x84)
-     */
-    public T theta3()
-    {
-        return theta3;
-    }
-
-    /** Get the value of the \xce\xb8\xe2\x82\x84(z|\xcf\x84) function.
-     * @return \xce\xb8\xe2\x82\x84(z|\xcf\x84)
-     */
-    public T theta4()
-    {
-        return theta4;
-    }
-
+	/** Get the value of the \xce\xb8\xe2\x82\x84(z|\xcf\x84) function.
+	 * @return \xce\xb8\xe2\x82\x84(z|\xcf\x84)
+	 */
+	public T theta4()
+	{
+		return theta4;
+	}
 };

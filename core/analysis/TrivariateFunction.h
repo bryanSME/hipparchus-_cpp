@@ -15,24 +15,24 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-/**
- * An interface representing a trivariate real function.
- *
- */
+  /**
+   * An interface representing a trivariate real function.
+   *
+   */
 class Trivariate_Function
 {
-    /**
-     * Compute the value for the function.
-     *
-     * @param x x-coordinate for which the function value should be computed.
-     * @param y y-coordinate for which the function value should be computed.
-     * @param z z-coordinate for which the function value should be computed.
-     * @return the value.
-     */
-    virtual double value(const double& x, const double& y, const double& z) = 0;
+	/**
+	 * Compute the value for the function.
+	 *
+	 * @param x x-coordinate for which the function value should be computed.
+	 * @param y y-coordinate for which the function value should be computed.
+	 * @param z z-coordinate for which the function value should be computed.
+	 * @return the value.
+	 */
+	virtual double value(const double& x, const double& y, const double& z) = 0;
 };

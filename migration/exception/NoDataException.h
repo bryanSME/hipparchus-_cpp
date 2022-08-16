@@ -15,44 +15,41 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Exception to be thrown when the required data is missing.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link }
- */
+  /**
+   * Exception to be thrown when the required data is missing.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link }
+   */
 @Deprecated
-class No_Data_Exception extends  
+class No_Data_Exception extends
 {
+	/** Serializable version Id. */
+	-3629324471511904459L;
 
-    /** Serializable version Id. */
-    -3629324471511904459L;
-
-    /**
-     * Construct the exception.
-     */
-    public No_Data_Exception() 
-    {
-        this(Localized_Formats.NO_DATA);
-    }
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Contextual information on what caused the exception.
-     */
-    public No_Data_Exception(Localizable specific) 
-    {
-        super(specific);
-    }
+	/**
+	 * Construct the exception.
+	 */
+	public No_Data_Exception()
+	{
+		this(Localized_Formats.NO_DATA);
+	}
+	/**
+	 * Construct the exception with a specific context.
+	 *
+	 * @param specific Contextual information on what caused the exception.
+	 */
+	public No_Data_Exception(Localizable specific)
+	{
+		super(specific);
+	}
 }
-
-

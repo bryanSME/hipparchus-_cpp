@@ -15,24 +15,23 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <vector>
 
-/**
- * An interface representing a univariate vectorial function.
- *
- */
+  /**
+   * An interface representing a univariate vectorial function.
+   *
+   */
 class Univariate_Vector_Function
 {
-
-    /**
-     * Compute the value for the function.
-     * @param x the point for which the function value should be computed
-     * @return the value
-     */
-    virtual std::vector<double> value(const double& x) = 0;
+	/**
+	 * Compute the value for the function.
+	 * @param x the point for which the function value should be computed
+	 * @return the value
+	 */
+	virtual std::vector<double> value(const double& x) = 0;
 };

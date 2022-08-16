@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.exception;
 
-//import java.io.IOException;
-//import java.io.Input_Stream;
-//import java.io.Input_StreamReader;
-//import java.net.URL;
-//import java.net.URL_Connection;
-//import java.util.Locale;
-//import java.util.Property_resource_Bundle;
-//import java.util.Resource_Bundle;
+  //import java.io.IOException;
+  //import java.io.Input_Stream;
+  //import java.io.Input_StreamReader;
+  //import java.net.URL;
+  //import java.net.URL_Connection;
+  //import java.util.Locale;
+  //import java.util.Property_resource_Bundle;
+  //import java.util.Resource_Bundle;
 #include <string>
 
 /** Control class loading properties in UTF-8 encoding.
@@ -41,44 +41,43 @@
 class UTF8_Control // : Resource_Bundle.Control
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    Resource_Bundle new_bundle(const std::string& base_name, const Locale& locale, const std::string& format, const Class_Loader& loader, const bool reload)
-    {
-        // The below is a copy of the default implementation.
-        const std::string bundle_name = to_bundle_name(base_name, locale);
-        const std::string resource_name = to_resource_name(bundle_name, "utf8");
-        Resource_Bundle bundle = NULL;
-        Input_Stream stream = NULL;
-        if (reload)
-        {
-            const URL url = loader.get_resource(resource_name);
-            if (url != NULL)
-            {
-                const URL_Connection connection = url.open_connection();
-                if (connection != NULL)
-                {
-                    connection.set_use_caches(false);
-                    stream = connection.get_input_stream();
-                }
-            }
-        }
-        else
-        {
-            stream = loader.get_resource_as_stream(resource_name);
-        }
-        if (stream != NULL)
-        {
-            try
-            {
-                // Only this line is changed to make it to read properties files as UTF-8.
-                bundle = Property_resource_Bundle(new Input_StreamReader(stream, "UTF-8"));
-            } constly
-            {
-                stream.close();
-            }
-        }
-        return bundle;
-    }
-
+	/** {@inherit_doc} */
+	//override
+	Resource_Bundle new_bundle(const std::string& base_name, const Locale& locale, const std::string& format, const Class_Loader& loader, const bool reload)
+	{
+		// The below is a copy of the default implementation.
+		const std::string bundle_name = to_bundle_name(base_name, locale);
+		const std::string resource_name = to_resource_name(bundle_name, "utf8");
+		Resource_Bundle bundle = NULL;
+		Input_Stream stream = NULL;
+		if (reload)
+		{
+			const URL url = loader.get_resource(resource_name);
+			if (url != NULL)
+			{
+				const URL_Connection connection = url.open_connection();
+				if (connection != NULL)
+				{
+					connection.set_use_caches(false);
+					stream = connection.get_input_stream();
+				}
+			}
+		}
+		else
+		{
+			stream = loader.get_resource_as_stream(resource_name);
+		}
+		if (stream != NULL)
+		{
+			try
+			{
+				// Only this line is changed to make it to read properties files as UTF-8.
+				bundle = Property_resource_Bundle(new Input_StreamReader(stream, "UTF-8"));
+			} constly
+			{
+				stream.close();
+			}
+		}
+		return bundle;
+	}
 };

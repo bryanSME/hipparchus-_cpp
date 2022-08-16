@@ -15,33 +15,29 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.linear;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.linear;
 
-
-/**
- * Exception to be thrown when a square linear operator is expected.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when a square linear operator is expected.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
 class Non_Square_Operator_Exception
-    : org.hipparchus.migration.exception.Dimension_Mismatch_Exception 
-    {
-
-    /**
-     * Construct an exception from the mismatched dimensions.
-     *
-     * @param wrong Row dimension.
-     * @param expected Column dimension.
-     */
-    public Non_Square_Operator_Exception(const int& wrong, int expected) 
-    {
-        super(org.hipparchus.migration.exception.util.Localized_Formats.NON_SQUARE_OPERATOR, wrong, expected);
-    }
+	: org.hipparchus.migration.exception.Dimension_Mismatch_Exception
+{
+	/**
+	 * Construct an exception from the mismatched dimensions.
+	 *
+	 * @param wrong Row dimension.
+	 * @param expected Column dimension.
+	 */
+	public Non_Square_Operator_Exception(const int& wrong, int expected)
+	{
+		super(org.hipparchus.migration.exception.util.Localized_Formats.NON_SQUARE_OPERATOR, wrong, expected);
+	}
 }
-
-

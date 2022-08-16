@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * Implementations of special functions such as Beta and Gamma::
- */
-//package org.hipparchus.special;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * Implementations of special functions such as Beta and Gamma::
+   */
+   //package org.hipparchus.special;

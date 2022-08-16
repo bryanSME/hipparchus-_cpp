@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- * Data storage, manipulation and summary routines.
- */
-//package org.hipparchus.stat;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   * Data storage, manipulation and summary routines.
+   */
+   //package org.hipparchus.stat;

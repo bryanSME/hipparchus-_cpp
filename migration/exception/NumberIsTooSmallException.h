@@ -15,78 +15,76 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.migration.exception.util.Localized_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.migration.exception.util.Localized_Formats;
 
-/**
- * Exception to be thrown when a number is too small.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when a number is too small.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
-class Number_Is_Too_Small_Exception extends Math_illegalNumberException 
+class Number_Is_Too_Small_Exception extends Math_illegalNumberException
 {
-    /** Serializable version Id. */
-    -6100997100383932834L;
-    /**
-     * Higher bound.
-     */
-    private const Number min;
-    /**
-     * Whether the maximum is included in the allowed range.
-     */
-    private const bool bound_is_allowed;
+	/** Serializable version Id. */
+	-6100997100383932834L;
+	/**
+	 * Higher bound.
+	 */
+	private const Number min;
+	/**
+	 * Whether the maximum is included in the allowed range.
+	 */
+	private const bool bound_is_allowed;
 
-    /**
-     * Construct the exception.
-     *
-     * @param wrong Value that is smaller than the minimum.
-     * @param min Minimum.
-     * @param bound_is_allowed Whether {@code min} is included in the allowed range.
-     */
-    public Number_Is_Too_Small_Exception(Number wrong, Number min, bool bound_is_allowed) 
-    {
-        this(bound_is_allowed ?
-             Localized_Formats.NUMBER_TOO_SMALL :
-             Localized_Formats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, wrong, min, bound_is_allowed);
-    }
+	/**
+	 * Construct the exception.
+	 *
+	 * @param wrong Value that is smaller than the minimum.
+	 * @param min Minimum.
+	 * @param bound_is_allowed Whether {@code min} is included in the allowed range.
+	 */
+	public Number_Is_Too_Small_Exception(Number wrong, Number min, bool bound_is_allowed)
+	{
+		this(bound_is_allowed ?
+			Localized_Formats.NUMBER_TOO_SMALL :
+			Localized_Formats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, wrong, min, bound_is_allowed);
+	}
 
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Specific context pattern.
-     * @param wrong Value that is smaller than the minimum.
-     * @param min Minimum.
-     * @param bound_is_allowed Whether {@code min} is included in the allowed range.
-     */
-    public Number_Is_Too_Small_Exception(Localizable specific, Number wrong, Number min, bool bound_is_allowed) 
-    {
-        super(specific, wrong, min);
+	/**
+	 * Construct the exception with a specific context.
+	 *
+	 * @param specific Specific context pattern.
+	 * @param wrong Value that is smaller than the minimum.
+	 * @param min Minimum.
+	 * @param bound_is_allowed Whether {@code min} is included in the allowed range.
+	 */
+	public Number_Is_Too_Small_Exception(Localizable specific, Number wrong, Number min, bool bound_is_allowed)
+	{
+		super(specific, wrong, min);
 
-        this.min = min;
-        this.bound_is_allowed = bound_is_allowed;
-    }
+		this.min = min;
+		this.bound_is_allowed = bound_is_allowed;
+	}
 
-    /**
-     * @return {@code true} if the minimum is included in the allowed range.
-     */
-    public bool get_bound_is_allowed() { // NOPMD - this method name is for a legacy API we cannot change
-        return bound_is_allowed;
-    }
+	/**
+	 * @return {@code true} if the minimum is included in the allowed range.
+	 */
+	public bool get_bound_is_allowed() { // NOPMD - this method name is for a legacy API we cannot change
+		return bound_is_allowed;
+	}
 
-    /**
-     * @return the minimum.
-     */
-    public Number get_min() 
-    {
-        return min;
-    }
+	/**
+	 * @return the minimum.
+	 */
+	public Number get_min()
+	{
+		return min;
+	}
 }
-
-

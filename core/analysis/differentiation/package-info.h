@@ -15,43 +15,41 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- * <p>
- *   This //package holds the main interfaces and basic building block classes
- *   dealing with differentiation.
- *   The core class is {@link org.hipparchus.analysis.differentiation.Derivative_Structure
- *   Derivative_Structure} which holds the value and the differentials of a function. This class
- *   handles some arbitrary number of free parameters and arbitrary differentiation order. It is used
- *   both as the input and the output type for the {@link
- *   org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function
- *   Univariate_Differentiable_Function} interface. Any differentiable function should implement this
- *   interface.
- * </p>
- * <p>
- *   The {@link org.hipparchus.analysis.differentiation.Univariate_Derivative_1 Univariate_Derivative_1}, *   {@link org.hipparchus.analysis.differentiation.Univariate_Derivative_2 Univariate_Derivative_2} and
- *   {@link org.hipparchus.analysis.differentiation.Gradient Gradient} classes are more restricted
- *   implementation of classes holding the value and the differentials of a function. These classes
- *   handle only either one free parameter (i.e. univariate functions) with derivation orders 1 or 2, *   or several free parameters with derivation order 1. As they arefar less general than {@link
- *   org.hipparchus.analysis.differentiation.Derivative_Structure Derivative_Structure}, they have less
- *   overhead and are more efficient in their respective domains.
- * </p>
- * <p>
- *   The {@link org.hipparchus.analysis.differentiation.Univariate_Function_differentiator
- *   Univariate_Function_differentiator} interface defines a way to differentiate a simple {@link
- *   org.hipparchus.analysis.Univariate_Function Univariate_Function} and get a {@link
- *   org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function
- *   Univariate_Differentiable_Function}.
- * </p>
- * <p>
- *   Similar interfaces also exist for multivariate functions and for vector or matrix valued functions.
- * </p>
- *
- */
-//package org.hipparchus.analysis.differentiation;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   * <p>
+   *   This //package holds the main interfaces and basic building block classes
+   *   dealing with differentiation.
+   *   The core class is {@link org.hipparchus.analysis.differentiation.Derivative_Structure
+   *   Derivative_Structure} which holds the value and the differentials of a function. This class
+   *   handles some arbitrary number of free parameters and arbitrary differentiation order. It is used
+   *   both as the input and the output type for the {@link
+   *   org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function
+   *   Univariate_Differentiable_Function} interface. Any differentiable function should implement this
+   *   interface.
+   * </p>
+   * <p>
+   *   The {@link org.hipparchus.analysis.differentiation.Univariate_Derivative_1 Univariate_Derivative_1}, *   {@link org.hipparchus.analysis.differentiation.Univariate_Derivative_2 Univariate_Derivative_2} and
+   *   {@link org.hipparchus.analysis.differentiation.Gradient Gradient} classes are more restricted
+   *   implementation of classes holding the value and the differentials of a function. These classes
+   *   handle only either one free parameter (i.e. univariate functions) with derivation orders 1 or 2, *   or several free parameters with derivation order 1. As they arefar less general than {@link
+   *   org.hipparchus.analysis.differentiation.Derivative_Structure Derivative_Structure}, they have less
+   *   overhead and are more efficient in their respective domains.
+   * </p>
+   * <p>
+   *   The {@link org.hipparchus.analysis.differentiation.Univariate_Function_differentiator
+   *   Univariate_Function_differentiator} interface defines a way to differentiate a simple {@link
+   *   org.hipparchus.analysis.Univariate_Function Univariate_Function} and get a {@link
+   *   org.hipparchus.analysis.differentiation.Univariate_Differentiable_Function
+   *   Univariate_Differentiable_Function}.
+   * </p>
+   * <p>
+   *   Similar interfaces also exist for multivariate functions and for vector or matrix valued functions.
+   * </p>
+   *
+   */
+   //package org.hipparchus.analysis.differentiation;

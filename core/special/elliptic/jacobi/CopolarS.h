@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.special.elliptic.jacobi;
+ //package org.hipparchus.special.elliptic.jacobi;
 #include "CopolarN.h"
 
 /** Copolar trio with pole at point s in Glaisher’s Notation.
@@ -24,53 +24,50 @@
  * </p>
  * @since 2.0
  */
-class Copolar_S 
+class Copolar_S
 {
 private:
-    /** Value of the cs function. */
-    const double my_cs;
+	/** Value of the cs function. */
+	const double my_cs;
 
-    /** Value of the dn function. */
-    const double my_ds;
+	/** Value of the dn function. */
+	const double my_ds;
 
-    /** Value of the ns function. */
-    const double my_ns;
+	/** Value of the ns function. */
+	const double my_ns;
 
 public:
-    /** Simple constructor.
-     * @param trio_n copolar trio with pole at point n in Glaisher’s Notation
-     */
-    Copolar_S(const Copolar_N& trio_n) 
-        :
-        my_ns{ 1.0 / trio_n.sn() },
-        my_cs{ my_ns * trio_n.cn() },
-        my_ds{ my_ns * trio_n.dn() }
-    {};
+	/** Simple constructor.
+	 * @param trio_n copolar trio with pole at point n in Glaisher’s Notation
+	 */
+	Copolar_S(const Copolar_N& trio_n)
+		:
+		my_ns{ 1.0 / trio_n.sn() },
+		my_cs{ my_ns * trio_n.cn() },
+		my_ds{ my_ns * trio_n.dn() }
+	{};
 
-    /** Get the value of the cs function.
-     * @return cs(u|m)
-     */
-    double cs() const
-    {
-        return my_cs;
-    }
+	/** Get the value of the cs function.
+	 * @return cs(u|m)
+	 */
+	double cs() const
+	{
+		return my_cs;
+	}
 
-    /** Get the value of the ds function.
-     * @return ds(u|m)
-     */
-    double ds() const
-    {
-        return my_ds;
-    }
+	/** Get the value of the ds function.
+	 * @return ds(u|m)
+	 */
+	double ds() const
+	{
+		return my_ds;
+	}
 
-    /** Get the value of the ns function.
-     * @return ns(u|m)
-     */
-    double ns() const
-    {
-        return my_ns;
-    }
-
+	/** Get the value of the ns function.
+	 * @return ns(u|m)
+	 */
+	double ns() const
+	{
+		return my_ns;
+	}
 }
-
-

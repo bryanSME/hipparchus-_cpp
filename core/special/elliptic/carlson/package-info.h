@@ -14,10 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Implementations of Carlson elliptic integrals.
- * @since 2.0
- */
-//package org.hipparchus.special.elliptic.carlson;
-
-
+ /**
+  * Implementations of Carlson elliptic integrals.
+  * @since 2.0
+  */
+  //package org.hipparchus.special.elliptic.carlson;

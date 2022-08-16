@@ -23,10 +23,10 @@
 #include <vector>
 #include "../core/util/MathArrays.h"
 
-/**
-* Calculates the L<sub>1</sub> (sum of abs) distance between two points
-*
-*/
+  /**
+  * Calculates the L<sub>1</sub> (sum of abs) distance between two points
+  *
+  */
 class Manhattan_Distance : public Distance_Measure
 {
 public:

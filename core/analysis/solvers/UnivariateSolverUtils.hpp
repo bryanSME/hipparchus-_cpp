@@ -102,21 +102,21 @@ public:
 		return solver.solve(std::numeric_limits<int>::max(), function, x0, x1);
 	}
 
-		/**
-		 * Convenience method to find a zero of a univariate real function.  A default
-		 * solver is used.
-		 *
-		 * @param function Function.
-		 * @param x0 Lower bound for the interval.
-		 * @param x1 Upper bound for the interval.
-		 * @param absolute_accuracy Accuracy to be used by the solver.
-		 * @return a value where the function is zero.
-		 * @ if the function has the same sign at the
-		 * endpoints.
-		 * @ if {@code function} is {@code NULL}.
-		 */
-		static double solve(const Univariate_Function& function, const double& x0, const double& x1, const double& absolute_accuracy)
-		{
+	/**
+	 * Convenience method to find a zero of a univariate real function.  A default
+	 * solver is used.
+	 *
+	 * @param function Function.
+	 * @param x0 Lower bound for the interval.
+	 * @param x1 Upper bound for the interval.
+	 * @param absolute_accuracy Accuracy to be used by the solver.
+	 * @return a value where the function is zero.
+	 * @ if the function has the same sign at the
+	 * endpoints.
+	 * @ if {@code function} is {@code NULL}.
+	 */
+	static double solve(const Univariate_Function& function, const double& x0, const double& x1, const double& absolute_accuracy)
+	{
 		//Math_Utils::check_not_null(function, hipparchus::exception::Localized_Core_Formats_Type::FUNCTION);
 		const Univariate_Solver solver = Brent_Solver(absolute_accuracy);
 		return solver.solve(std::numeric_limits<int>::max(), function, x0, x1);

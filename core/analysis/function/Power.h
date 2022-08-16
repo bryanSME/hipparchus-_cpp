@@ -15,46 +15,45 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <type_traits>
 #include <cmath>
 #include "../differentiation/UnivariateDifferentiableFunction.h"
 #include "../differentiation/Derivative.h"
 
-/**
- * Power function.
- *
- */
+  /**
+   * Power function.
+   *
+   */
 class Power : public Univariate_Differentiable_Function
 {
 private:
-    /** Power. */
-    const double my_p;
+	/** Power. */
+	const double my_p;
 
 public:
-    /**
-     * @param p Power.
-     */
-    Power(double p) : my_p{ p } {};
+	/**
+	 * @param p Power.
+	 */
+	Power(double p) : my_p{ p } {};
 
-    /** {@inherit_doc} */
-    //override
-    double value(const double& x) const
-    {
-        return std::pow(x, my_p);
-    }
+	/** {@inherit_doc} */
+	//override
+	double value(const double& x) const
+	{
+		return std::pow(x, my_p);
+	}
 
-    /** {@inherit_doc}
-     */
-     //override
-    template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
-    T value(const T& x) const
-    {
-        return t.pow(p);
-    }
-
+	/** {@inherit_doc}
+	 */
+	 //override
+	template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
+	T value(const T& x) const
+	{
+		return t.pow(p);
+	}
 };

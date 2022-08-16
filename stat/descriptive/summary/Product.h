@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.stat.descriptive.summary;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.stat.descriptive.summary;
 
-//import java.io.Serializable;
+  //import java.io.Serializable;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.;
-//import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
-//import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
-//import org.hipparchus.stat.descriptive.Weighted_Evaluation;
-//import org.hipparchus.util.FastMath;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.stat.descriptive.Abstract_Storeless_Univariate_Statistic;
+  //import org.hipparchus.stat.descriptive.Aggregatable_Statistic;
+  //import org.hipparchus.stat.descriptive.Weighted_Evaluation;
+  //import org.hipparchus.util.FastMath;
+  //import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.util.Math_Utils;
 #include <limits>
 #include <cmath>
 #include <vector>
@@ -56,149 +56,145 @@ class Product : public Abstract_Storeless_Univariate_Statistic, public Aggregata
 {
 private:
 
-    /** The number of values that have been added */
-    long my_n;
+	/** The number of values that have been added */
+	long my_n;
 
-    /** The current Running Product */
-    double my_value;
+	/** The current Running Product */
+	double my_value;
 
 public:
-    /**
-     * Create a Product instance.
-     */
-    Product() : my_n{}, my_value{ 1 }{};
+	/**
+	 * Create a Product instance.
+	 */
+	Product() : my_n{}, my_value{ 1 }{};
 
+	/**
+	 * Copy constructor, creates a {@code Product} identical
+	 * to the {@code original}.
+	 *
+	 * @param original the {@code Product} instance to copy
+	 * @  if original is NULL
+	 */
+	Product(const Product& original) : my_n{ original.get_n() }, my_value{ original.get_status() }
+	{
+		//Math_Utils::check_not_null(original);
+	}
 
-    /**
-     * Copy constructor, creates a {@code Product} identical
-     * to the {@code original}.
-     *
-     * @param original the {@code Product} instance to copy
-     * @  if original is NULL
-     */
-    Product(const Product& original) : my_n{ original.get_n() }, my_value{ original.get_status() }
-    {
-        //Math_Utils::check_not_null(original);
-    }
+	/** {@inherit_doc} */
+	//override
+	void increment(const double& d)
+	{
+		my_value *= d;
+		my_n++;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void increment(const double& d) 
-    {
-        my_value *= d;
-        my_n++;
-    }
+	/** {@inherit_doc} */
+	//override
+	double get_result() const
+	{
+		return my_value;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    double get_result() const
-    {
-        return my_value;
-    }
+	/** {@inherit_doc} */
+	//override
+	long get_n() const
+	{
+		return my_n;
+	}
 
-    /** {@inherit_doc} */
-    //override
-    long get_n() const
-    {
-        return my_n;
-    }
+	/** {@inherit_doc} */
+	void clear() override
+	{
+		my_value = 1;
+		my_n = 0;
+	}
 
-    /** {@inherit_doc} */
-    void clear() override
-    {
-        my_value = 1;
-        my_n = 0;
-    }
+	/** {@inherit_doc} */
+	//override
+	void aggregate(const Product& other)
+	{
+		//Math_Utils::check_not_null(other);
+		if (other.get_n() > 0)
+		{
+			my_n += other.get_n();
+			my_value *= other.get_result();
+		}
+	}
 
-    /** {@inherit_doc} */
-    //override
-    void aggregate(const Product& other) 
-    {
-        //Math_Utils::check_not_null(other);
-        if (other.get_n() > 0)
-        {
-            my_n     += other.get_n();
-            my_value *= other.get_result();
-        }
-    }
+	/**
+	 * Returns the product of the entries in the specified portion of
+	 * the input array, or <code>Double.NaN</code> if the designated subarray
+	 * is empty.
+	 *
+	 * @param values the input array
+	 * @param begin index of the first array element to include
+	 * @param length the number of elements to include
+	 * @return the product of the values or 1 if length = 0
+	 * @ if the array is NULL or the array index
+	 *  parameters are not valid
+	 */
+	 //override
+	double evaluate(const std::vector<double>& values, const int& begin, const int& length)
+	{
+		auto product = std::numeric_limits<double>::quiet_NaN();
+		if (Math_Arrays::verify_values(values, begin, length, true))
+		{
+			product = 1.0;
+			for (int i{ begin }; i < begin + length; i++)
+			{
+				product *= values[i];
+			}
+		}
+		return product;
+	}
 
-    /**
-     * Returns the product of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
-     *
-     * @param values the input array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return the product of the values or 1 if length = 0
-     * @ if the array is NULL or the array index
-     *  parameters are not valid
-     */
-    //override
-    double evaluate(const std::vector<double>& values, const int& begin, const int& length)
-    {
-        auto product = std::numeric_limits<double>::quiet_NaN();
-        if (Math_Arrays::verify_values(values, begin, length, true)) 
-        {
-            product = 1.0;
-            for (int i{ begin }; i < begin + length; i++) 
-            {
-                product *= values[i];
-            }
-        }
-        return product;
-    }
+	/**
+	 * Returns the weighted product of the entries in the specified portion of
+	 * the input array, or <code>Double.NaN</code> if the designated subarray
+	 * is empty.
+	 * <p>
+	 * Throws <code></code> if any of the following are true:
+	 * <ul><li>the values array is NULL</li>
+	 *     <li>the weights array is NULL</li>
+	 *     <li>the weights array does not have the same length as the values array</li>
+	 *     <li>the weights array contains one or more infinite values</li>
+	 *     <li>the weights array contains one or more NaN values</li>
+	 *     <li>the weights array contains negative values</li>
+	 *     <li>the start and length arguments do not determine a valid array</li>
+	 * </ul>
+	 * <p>
+	 * Uses the formula, * <pre>
+	 *    weighted product = &prod;values[i]<sup>weights[i]</sup>
+	 * </pre>
+	 * <p>
+	 * that is, the weights are applied as exponents when computing the weighted product.
+	 *
+	 * @param values the input array
+	 * @param weights the weights array
+	 * @param begin index of the first array element to include
+	 * @param length the number of elements to include
+	 * @return the product of the values or 1 if length = 0
+	 * @ if the parameters are not valid
+	 */
+	 //override
+	double evaluate(const std::vector<double>& values, const std::vector<double>& weights, const int& begin, const int& length)
+	{
+		auto product = std::numeric_limits<double>::quiet_NaN();
+		if (Math_Arrays::verify_values(values, weights, begin, length, true))
+		{
+			product = 1.0;
+			for (int i{ begin }; i < begin + length; i++)
+			{
+				product *= std::pow(values[i], weights[i]);
+			}
+		}
+		return product;
+	}
 
-    /**
-     * Returns the weighted product of the entries in the specified portion of
-     * the input array, or <code>Double.NaN</code> if the designated subarray
-     * is empty.
-     * <p>
-     * Throws <code></code> if any of the following are true:
-     * <ul><li>the values array is NULL</li>
-     *     <li>the weights array is NULL</li>
-     *     <li>the weights array does not have the same length as the values array</li>
-     *     <li>the weights array contains one or more infinite values</li>
-     *     <li>the weights array contains one or more NaN values</li>
-     *     <li>the weights array contains negative values</li>
-     *     <li>the start and length arguments do not determine a valid array</li>
-     * </ul>
-     * <p>
-     * Uses the formula, * <pre>
-     *    weighted product = &prod;values[i]<sup>weights[i]</sup>
-     * </pre>
-     * <p>
-     * that is, the weights are applied as exponents when computing the weighted product.
-     *
-     * @param values the input array
-     * @param weights the weights array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @return the product of the values or 1 if length = 0
-     * @ if the parameters are not valid
-     */
-    //override
-    double evaluate(const std::vector<double>& values, const std::vector<double>& weights, const int& begin, const int& length)  
-    {
-        auto product = std::numeric_limits<double>::quiet_NaN();
-        if (Math_Arrays::verify_values(values, weights, begin, length, true)) 
-        {
-            product = 1.0;
-            for (int i{ begin }; i < begin + length; i++)
-            {
-                product *= std::pow(values[i], weights[i]);
-            }
-        }
-        return product;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    //Product copy() 
-    //{
-    //    return Product(this);
-    //}
-
+	/** {@inherit_doc} */
+	//override
+	//Product copy()
+	//{
+	//    return Product(this);
+	//}
 }
-
-

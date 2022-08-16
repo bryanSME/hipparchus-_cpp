@@ -15,46 +15,45 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
 #include <type_traits>
 #include <cmath>
 #include "../differentiation/UnivariateDifferentiableFunction.h"
 #include "../differentiation/Derivative.h"
 
-/**
- * Constant function.
- *
- */
+  /**
+   * Constant function.
+   *
+   */
 class Constant : public Univariate_Differentiable_Function
 {
 private:
-    /** Constant. */
-    const double my_c;
+	/** Constant. */
+	const double my_c;
 
 public:
-    /**
-     * @param c Constant.
-     */
-    Constant(double c) : my_c{ c } {};
+	/**
+	 * @param c Constant.
+	 */
+	Constant(double c) : my_c{ c } {};
 
-    /** {@inherit_doc} */
-    //override
-    double value(const double& x) const
-    {
-        return c;
-    }
+	/** {@inherit_doc} */
+	//override
+	double value(const double& x) const
+	{
+		return c;
+	}
 
-    /** {@inherit_doc}
-     */
-     //override
-    template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
-    T value(const T& x) const
-    {
-        return t.get_field().get_zero().add(c);
-    }
-
+	/** {@inherit_doc}
+	 */
+	 //override
+	template<typename T, typename std::enable_if<std::is_base_of<Derivative<T>, T>::value>::type* = nullptr>
+	T value(const T& x) const
+	{
+		return t.get_field().get_zero().add(c);
+	}
 };

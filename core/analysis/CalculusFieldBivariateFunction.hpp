@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-//import org.hipparchus.CalculusFieldElement;
+ //import org.hipparchus.CalculusFieldElement;
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
 
@@ -28,14 +28,12 @@
 template<typename T, typename std::enable_if<std::is_base_of<CalculusFieldElement<T>, T>::value>::type* = nullptr>
 class CalculusFieldBivariateFunction
 {
-
-    /**
-     * Compute the value for the function.
-     *
-     * @param x Abscissa for which the function value should be computed.
-     * @param y Ordinate for which the function value should be computed.
-     * @return the value.
-     */
-    virtual T value(T x, T y) = 0;
-
+	/**
+	 * Compute the value for the function.
+	 *
+	 * @param x Abscissa for which the function value should be computed.
+	 * @param y Ordinate for which the function value should be computed.
+	 * @return the value.
+	 */
+	virtual T value(T x, T y) = 0;
 };

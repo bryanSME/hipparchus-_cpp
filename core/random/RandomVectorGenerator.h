@@ -15,25 +15,20 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
 
-//package org.hipparchus.random;
+  //package org.hipparchus.random;
 
-
-/**
- * This interface represents a random generator for whole vectors.
- */
-class Random_Vector_Generator 
+  /**
+   * This interface represents a random generator for whole vectors.
+   */
+class Random_Vector_Generator
 {
-
-    /** Generate a random vector.
-     * @return a random vector as an array of double.
-     */
-    std::vector<double> next_vector();
-
+	/** Generate a random vector.
+	 * @return a random vector as an array of double.
+	 */
+	std::vector<double> next_vector();
 }
-
-

@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.clustering.distance;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.clustering.distance;
 
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Math_Arrays;
+  //import org.hipparchus.exception.;
+  //import org.hipparchus.util.Math_Arrays;
 #include <vector>
 
 /**
@@ -32,10 +32,10 @@
 class Chebyshev_Distance : public Distance_Measure
 {
 public:
-    /** {@inherit_doc} */
-    //override
-    double compute(const std::vector<double>& a, const std::vector<double>& b)
-    {
-        return Math_Arrays::distance_inf(a, b);
-    }
+	/** {@inherit_doc} */
+	//override
+	double compute(const std::vector<double>& a, const std::vector<double>& b)
+	{
+		return Math_Arrays::distance_inf(a, b);
+	}
 };

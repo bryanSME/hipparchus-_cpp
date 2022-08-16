@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-//import org.hipparchus.Field;
-//import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.Field;
+ //import org.hipparchus.Calculus_Field_Element;
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
 #include "../Field.h"
@@ -28,26 +28,25 @@
  */
 class Field_Bivariate_Function
 {
+	/** Convert to a {@link Calculus_Field_Bivariate_Function} with a specific type.
+	 * @param <T> the type of the field elements
+	 * @param field field for the argument and value
+	 * @return converted function
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	Calculus_Field_Bivariate_Function<T> to_calculus_field_bivariate_function(Field<T> field)
+	{
+		return this::value;
+	}
 
-    /** Convert to a {@link Calculus_Field_Bivariate_Function} with a specific type.
-     * @param <T> the type of the field elements
-     * @param field field for the argument and value
-     * @return converted function
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    Calculus_Field_Bivariate_Function<T> to_calculus_field_bivariate_function(Field<T> field)
-    {
-        return this::value;
-    }
-
-    /**
-     * Compute the value for the function.
-     *
-     * @param x Abscissa for which the function value should be computed.
-     * @param y Ordinate for which the function value should be computed.
-     * @param <T> type of the field elements
-     * @return the value.
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    virtual T value(T x, T y) = 0;
+	/**
+	 * Compute the value for the function.
+	 *
+	 * @param x Abscissa for which the function value should be computed.
+	 * @param y Ordinate for which the function value should be computed.
+	 * @param <T> type of the field elements
+	 * @return the value.
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	virtual T value(T x, T y) = 0;
 };

@@ -19,35 +19,32 @@
 #include "CopolarN.h"
 #include "../../../util/SinCos.h"
 
-/** Algorithm for computing the principal Jacobi functions for parameters slightly above zero.
- * <p>
- * The algorithm for evaluating the functions is based on approximation
- * in terms of circular functions. It is given in Abramowitz and Stegun, * sections 16.13.
- * </p>
- * @since 2.0
- */
-class Near_Zero_Parameter : public Jacobi_Elliptic 
+ /** Algorithm for computing the principal Jacobi functions for parameters slightly above zero.
+  * <p>
+  * The algorithm for evaluating the functions is based on approximation
+  * in terms of circular functions. It is given in Abramowitz and Stegun, * sections 16.13.
+  * </p>
+  * @since 2.0
+  */
+class Near_Zero_Parameter : public Jacobi_Elliptic
 {
 public:
-    /** Simple constructor.
-     * @param m parameter of the Jacobi elliptic function (must be zero or slightly positive here)
-     */
-    Near_Zero_Parameter(const double& m) 
-    {
-        super(m);
-    }
+	/** Simple constructor.
+	 * @param m parameter of the Jacobi elliptic function (must be zero or slightly positive here)
+	 */
+	Near_Zero_Parameter(const double& m)
+	{
+		super(m);
+	}
 
-    /** {@inherit_doc} */
-    //override
-    Copolar_N values_n(const double& u) 
-    {
-        const Sin_Cos sc     = Sin_Cos(u);
-        const double factor = 0.25 * get_m() * (u - sc.sin() * sc.cos());
-        return Copolar_N(sc.sin() - factor * sc.cos(),            // equation 16.13.1
-                            sc.cos() + factor * sc.sin(),            // equation 16.13.2
-                            1 - 0.5 * get_m() * sc.sin() * sc.sin()); // equation 16.13.3
-    }
-
+	/** {@inherit_doc} */
+	//override
+	Copolar_N values_n(const double& u)
+	{
+		const Sin_Cos sc = Sin_Cos(u);
+		const double factor = 0.25 * get_m() * (u - sc.sin() * sc.cos());
+		return Copolar_N(sc.sin() - factor * sc.cos(),            // equation 16.13.1
+			sc.cos() + factor * sc.sin(),            // equation 16.13.2
+			1 - 0.5 * get_m() * sc.sin() * sc.sin()); // equation 16.13.3
+	}
 }
-
-

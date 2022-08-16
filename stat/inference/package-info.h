@@ -15,15 +15,13 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-/**
- *
- *      Classes providing hypothesis testing.
- *
- */
-//package org.hipparchus.stat.inference;
-
-
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  /**
+   *
+   *      Classes providing hypothesis testing.
+   *
+   */
+   //package org.hipparchus.stat.inference;

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
+ //import org.hipparchus.Calculus_Field_Element;
+ //import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
 #include <type_traits>
 #include "../../CalculusFieldElement.hpp"
 #include "../CalculusFieldUnivariateFunction.hpp"
@@ -27,18 +27,18 @@
  */
 class Field_Univariate_Interpolator
 {
-    /**
-     * Compute an interpolating function for the dataset.
-     *
-     * @param xval Arguments for the interpolation points.
-     * @param yval Values for the interpolation points.
-     * @param <T> the type of the field elements
-     * @return a function which interpolates the dataset.
-     * @
-     * if the arguments violate assumptions made by the interpolation
-     * algorithm.
-     * @ if arrays lengthes do not match
-     */
-    template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    Calculus_Field_Univariate_Function<T> interpolate(T xval[], T yval[]);
+	/**
+	 * Compute an interpolating function for the dataset.
+	 *
+	 * @param xval Arguments for the interpolation points.
+	 * @param yval Values for the interpolation points.
+	 * @param <T> the type of the field elements
+	 * @return a function which interpolates the dataset.
+	 * @
+	 * if the arguments violate assumptions made by the interpolation
+	 * algorithm.
+	 * @ if arrays lengthes do not match
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	Calculus_Field_Univariate_Function<T> interpolate(T xval[], T yval[]);
 };

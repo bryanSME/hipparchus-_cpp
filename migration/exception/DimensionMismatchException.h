@@ -15,59 +15,57 @@
  * limitations under the License.
  */
 
-/*
- * This is not the original file distributed by the Apache Software Foundation
- * It has been modified by the Hipparchus project
- */
-//package org.hipparchus.migration.exception;
+ /*
+  * This is not the original file distributed by the Apache Software Foundation
+  * It has been modified by the Hipparchus project
+  */
+  //package org.hipparchus.migration.exception;
 
-//import org.hipparchus.exception.Localizable;
-//import org.hipparchus.exception.Localized_Core_Formats;
+  //import org.hipparchus.exception.Localizable;
+  //import org.hipparchus.exception.Localized_Core_Formats;
 
-/**
- * Exception to be thrown when two dimensions differ.
- *
- * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
- */
+  /**
+   * Exception to be thrown when two dimensions differ.
+   *
+   * @deprecated as of 1.0, this exception is replaced by {@link org.hipparchus.exception.}
+   */
 @Deprecated
-class Dimension_Mismatch_Exception extends Math_illegalNumberException 
+class Dimension_Mismatch_Exception extends Math_illegalNumberException
 {
-    /** Serializable version Id. */
-    -8415396756375798143L;
-    /** Correct dimension. */
-    private const int dimension;
+	/** Serializable version Id. */
+	-8415396756375798143L;
+	/** Correct dimension. */
+	private const int dimension;
 
-    /**
-     * Construct an exception from the mismatched dimensions.
-     *
-     * @param specific Specific context information pattern.
-     * @param wrong Wrong dimension.
-     * @param expected Expected dimension.
-     */
-    public Dimension_Mismatch_Exception(Localizable specific, int wrong, int expected) 
-    {
-        super(specific, Integer.value_of(wrong), Integer.value_of(expected));
-        dimension = expected;
-    }
+	/**
+	 * Construct an exception from the mismatched dimensions.
+	 *
+	 * @param specific Specific context information pattern.
+	 * @param wrong Wrong dimension.
+	 * @param expected Expected dimension.
+	 */
+	public Dimension_Mismatch_Exception(Localizable specific, int wrong, int expected)
+	{
+		super(specific, Integer.value_of(wrong), Integer.value_of(expected));
+		dimension = expected;
+	}
 
-    /**
-     * Construct an exception from the mismatched dimensions.
-     *
-     * @param wrong Wrong dimension.
-     * @param expected Expected dimension.
-     */
-    public Dimension_Mismatch_Exception(const int& wrong, int expected) 
-    {
-        this(hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, wrong, expected);
-    }
+	/**
+	 * Construct an exception from the mismatched dimensions.
+	 *
+	 * @param wrong Wrong dimension.
+	 * @param expected Expected dimension.
+	 */
+	public Dimension_Mismatch_Exception(const int& wrong, int expected)
+	{
+		this(hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, wrong, expected);
+	}
 
-    /**
-     * @return the expected dimension.
-     */
-    public int get_dimension() 
-    {
-        return dimension;
-    }
+	/**
+	 * @return the expected dimension.
+	 */
+	public int get_dimension()
+	{
+		return dimension;
+	}
 }
-
-

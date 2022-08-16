@@ -19,7 +19,7 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
- 
+
 #include<type_traits>
 #include "Space.h"
 

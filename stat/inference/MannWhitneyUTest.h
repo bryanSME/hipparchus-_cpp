@@ -52,7 +52,7 @@
 // * correct = TRUE) will return the same p-value as mann_whitney_u_test(x, y, * false). The minimum of the W value returned by R for wilcox.test(x, y...) and
 // * wilcox.test(y, x...) should equal mann_whitney_u(x, y...).
 // */
-//class Mann_Whitney_U_Test 
+//class Mann_Whitney_U_Test
 //{
 //private:
 //    /**
@@ -71,7 +71,7 @@
 //     * Create a test instance using where NaN's are left in place and ties get
 //     * the average of applicable ranks.
 //     */
-//    public Mann_Whitney_U_Test() 
+//    public Mann_Whitney_U_Test()
 //    {
 //        natural_ranking = Natural_Ranking(NaN_Strategy.FIXED, Ties_Strategy.AVERAGE);
 //        standard_normal = Normal_Distribution(0, 1);
@@ -84,7 +84,7 @@
 //     *       NAN's
 //     * @param ties_strategy specifies the strategy that should be used for ties
 //     */
-//    public Mann_Whitney_U_Test(const NaN_Strategy nan_strategy, const Ties_Strategy ties_strategy) 
+//    public Mann_Whitney_U_Test(const NaN_Strategy nan_strategy, const Ties_Strategy ties_strategy)
 //    {
 //        natural_ranking = Natural_Ranking(nan_strategy, ties_strategy);
 //        standard_normal = Normal_Distribution(0, 1);
@@ -119,7 +119,7 @@
 //     *         zero-length.
 //     */
 //    public double mann_whitney_u(const std::vector<double> x, const std::vector<double> y)
-//         
+//
 //        {
 //
 //        ensure_data_conformance(x, y);
@@ -133,7 +133,7 @@
 //         * The ranks for x is in the first x.size() entries in ranks because x
 //         * is in the first x.size() entries in z
 //         */
-//        for (int i{}; i < x.size(); ++i) 
+//        for (int i{}; i < x.size(); ++i)
 //        {
 //            sum_rank_x += ranks[i];
 //        }
@@ -158,7 +158,7 @@
 //     * @param y second sample
 //     * @return concatenated array
 //     */
-//    private std::vector<double> concatenate_samples(const std::vector<double> x, const std::vector<double> y) 
+//    private std::vector<double> concatenate_samples(const std::vector<double> x, const std::vector<double> y)
 //    {
 //        const std::vector<double> z = std::vector<double>(x.size() + y.size()];
 //
@@ -200,13 +200,13 @@
 //     *         zero-length
 //     */
 //    public double mann_whitney_u_test(const std::vector<double> x, const std::vector<double> y)
-//         
+//
 //        {
 //        ensure_data_conformance(x, y);
 //
 //        // If samples are both small and there are no ties, perform exact test
 //        if (x.size() + y.size() <= SMALL_SAMPLE_SIZE &&
-//            ties_map(x, y).is_empty()) 
+//            ties_map(x, y).is_empty())
 //            {
 //            return mann_whitney_u_test(x, y, true);
 //        }
@@ -255,14 +255,14 @@
 //     *         present in the data
 //     */
 //    public double mann_whitney_u_test(const std::vector<double> x, const std::vector<double> y, const bool exact)
-//         
+//
 //        {
 //        ensure_data_conformance(x, y);
 //        const Map<Double, Integer> ties_map = ties_map(x, y);
 //        const double u = mann_whitney_u(x, y);
-//        if (exact) 
+//        if (exact)
 //        {
-//            if (!ties_map.is_empty()) 
+//            if (!ties_map.is_empty())
 //            {
 //                throw (Localized_Stat_Formats.TIES_ARE_NOT_ALLOWED);
 //            }
@@ -282,17 +282,17 @@
 //     *         zero-length.
 //     */
 //    private void ensure_data_conformance(const std::vector<double> x, const std::vector<double> y)
-//         
+//
 //        {
 //
-//        if (x == NULL || y == NULL) 
+//        if (x == NULL || y == NULL)
 //        {
 //            throw ();
 //        }
-//        if (x.size() == 0 || y.size() == 0) 
+//        if (x.size() == 0 || y.size() == 0)
 //        {
 //            throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
 //        }
 //    }
 //
@@ -314,13 +314,13 @@
 //     *         exceeded
 //     */
 //    private double approximate_p(const double u, const int& n1, const int& n2, const double var_u)
-//        Math_Illegal_State_Exception 
+//        Math_Illegal_State_Exception
 //        {
 //
 //        const double mu = static_cast<long>( n1 * n2 / 2.0;
 //
 //        // If u == mu, return 1
-//        if (Precision::equals(mu, u)) 
+//        if (Precision::equals(mu, u))
 //        {
 //            return 1;
 //        }
@@ -351,7 +351,7 @@
 //     * @param m second sample size
 //     * @return two-sided exact p-value
 //     */
-//    private double exact_p(const int& n, const int m, const double u) 
+//    private double exact_p(const int& n, const int m, const double u)
 //    {
 //        const double nm = m * n;
 //        if (u > nm) { // Quick exit if u is out of range
@@ -362,7 +362,7 @@
 //        const double crit = u < nm / 2 ? u : nm / 2 - u;
 //
 //        double cum = 0;
-//        for (const int& ct = 0; ct <= crit; ct++) 
+//        for (const int& ct = 0; ct <= crit; ct++)
 //        {
 //            cum += u_density(n, m, ct);
 //        }
@@ -382,9 +382,9 @@
 //     * @return the probability that a U statistic derived from random samples of
 //     *         size n and m (containing no ties) equals u
 //     */
-//    private double u_density(const int& n, const int m, double u) 
+//    private double u_density(const int& n, const int m, double u)
 //    {
-//        if (u < 0 || u > m * n) 
+//        if (u < 0 || u > m * n)
 //        {
 //            return 0;
 //        }
@@ -408,31 +408,31 @@
 //     * @param m second sample size
 //     * @return array of U statistic value frequencies
 //     */
-//    private std::vector<long> u_frequencies(const int& n, const int m) 
+//    private std::vector<long> u_frequencies(const int& n, const int m)
 //    {
 //        const int max = std::max(m, n);
-//        if (max > 100) 
+//        if (max > 100)
 //        {
 //            throw std::exception("not implemented");
-            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, max, 100);
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, max, 100);
 //        }
 //        const int min = std::min(m, n);
 //        const std::vector<long> out = long[n * m + 2];
 //        const std::vector<long> work = long[n * m + 2];
-//        for (int i{ 1 }; i < out.size(); i++) 
+//        for (int i{ 1 }; i < out.size(); i++)
 //        {
 //            out[i] = (i <= (max + 1)) ? 1 : 0;
 //        }
 //        work[1] = 0;
 //        int in = max;
-//        for (int i{ 2 }; i <= min; i++) 
+//        for (int i{ 2 }; i <= min; i++)
 //        {
 //            work[i] = 0;
 //            in = in + max;
 //            int n1 = in + 2;
 //            long l = 1 + in / 2;
 //            int k = i;
-//            for (int j{ 1 }; j <= l; j++) 
+//            for (int j{ 1 }; j <= l; j++)
 //            {
 //                k++;
 //                n1 = n1 - 1;
@@ -456,10 +456,10 @@
 //     * @param ties_map map of <value, multiplicity>
 //     * @return ties-adjusted variance
 //     */
-//    private double var_u(const int& n, const int m, Map<Double, Integer> ties_map) 
+//    private double var_u(const int& n, const int m, Map<Double, Integer> ties_map)
 //    {
 //        const double nm = static_cast<long>( n * m;
-//        if (ties_map.is_empty()) 
+//        if (ties_map.is_empty())
 //        {
 //            return nm * (n + m + 1) / 12.0;
 //        }
@@ -483,14 +483,14 @@
 //     *         more than once or an empty map if there are no ties (the returned
 //     *         map is <em>not</em> thread-safe, which is OK in the context of the callers)
 //     */
-//    private Map<Double, Integer> ties_map(const std::vector<double> x, const std::vector<double> y) 
+//    private Map<Double, Integer> ties_map(const std::vector<double> x, const std::vector<double> y)
 //    {
 //        const Map<Double, Integer> ties_map = Tree_Map<>(); // NOPMD - no concurrent access in the callers context
-//        for (int i{}; i < x.size(); i++) 
+//        for (int i{}; i < x.size(); i++)
 //        {
 //            ties_map.merge(x[i], 1, Integer::sum);
 //        }
-//        for (int i{}; i < y.size(); i++) 
+//        for (int i{}; i < y.size(); i++)
 //        {
 //            ties_map.merge(y[i], 1, Integer::sum);
 //        }
