@@ -19,9 +19,6 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.distribution;
-
-  //import org.hipparchus.exception.;
 
   /**
    * Base interface for continuous distributions.
@@ -38,7 +35,7 @@ class Real_Distribution
 	 * takes a value between {@code x0} and {@code x1}, * excluding the lower and including the upper endpoint
 	 * @ if {@code x0 > x1}
 	 */
-	double probability(double x0, double x1);
+	virtual double probability(const double& x0, const double& x1);
 
 	/**
 	 * Returns the probability density function (PDF) of this distribution
@@ -51,7 +48,7 @@ class Real_Distribution
 	 * @param x the point at which the PDF is evaluated
 	 * @return the value of the probability density function at point {@code x}
 	 */
-	double density(double x);
+	virtual double density(const double& x);
 
 	/**
 	 * Returns the natural logarithm of the probability density function
@@ -66,7 +63,7 @@ class Real_Distribution
 	 * @param x the point at which the PDF is evaluated
 	 * @return the logarithm of the value of the probability density function at point {@code x}
 	 */
-	double log_density(double x);
+	virtual double log_density(const double& x);
 
 	/**
 	 * For a random variable {@code X} whose values are distributed according
@@ -78,7 +75,7 @@ class Real_Distribution
 	 * @return the probability that a random variable with this
 	 * distribution takes a value less than or equal to {@code x}
 	 */
-	double cumulative_probability(double x);
+	virtual double cumulative_probability(const double& x);
 
 	/**
 	 * Computes the quantile function of this distribution. For a random
@@ -94,7 +91,7 @@ class Real_Distribution
 	 * (largest 0-quantile for {@code p = 0})
 	 * @ if {@code p < 0} or {@code p > 1}
 	 */
-	double inverse_cumulative_probability(const double& p);
+	virtual double inverse_cumulative_probability(const double& p);
 
 	/**
 	 * Use this method to get the numerical value of the mean of this
@@ -102,7 +99,7 @@ class Real_Distribution
 	 *
 	 * @return the mean or {@codeNAN} if it is not defined
 	 */
-	double get_numerical_mean();
+	virtual double get_numerical_mean();
 
 	/**
 	 * Use this method to get the numerical value of the variance of this
@@ -112,7 +109,7 @@ class Real_Distribution
 	 * for certain cases in {@link org.hipparchus.distribution.continuous.T_Distribution})
 	 * or {@codeNAN} if it is not defined
 	 */
-	double get_numerical_variance();
+	virtual double get_numerical_variance();
 
 	/**
 	 * Access the lower bound of the support. This method must return the same
@@ -123,7 +120,7 @@ class Real_Distribution
 	 * @return lower bound of the support (might be
 	 * {@code -INFINITY})
 	 */
-	double get_support_lower_bound();
+	virtual double get_support_lower_bound();
 
 	/**
 	 * Access the upper bound of the support. This method must return the same
@@ -134,7 +131,7 @@ class Real_Distribution
 	 * @return upper bound of the support (might be
 	 * {@code INFINITY})
 	 */
-	double get_support_upper_bound();
+	virtual double get_support_upper_bound();
 
 	/**
 	 * Use this method to get information about whether the support is connected, * i.e. whether all values between the lower and upper bound of the support
@@ -142,5 +139,5 @@ class Real_Distribution
 	 *
 	 * @return whether the support is connected or not
 	 */
-	bool is_support_connected();
-}
+	virtual bool is_support_connected();
+};

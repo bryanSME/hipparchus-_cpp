@@ -15,12 +15,10 @@
  * limitations under the License.
  */
 
- //import org.hipparchus.Field;
- //import org.hipparchus.Calculus_Field_Element;
 #include <type_traits>
 #include "../CalculusFieldElement.hpp"
 #include "../Field.h"
-#include "CalculusFieldBivariateFunction.h"
+#include "CalculusFieldBivariateFunction.hpp"
 
 /**
  * An interface representing a bivariate field function.
@@ -34,7 +32,7 @@ class Field_Bivariate_Function
 	 * @return converted function
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	Calculus_Field_Bivariate_Function<T> to_calculus_field_bivariate_function(Field<T> field)
+	Calculus_Field_Bivariate_Function<T> to_calculus_field_bivariate_function(const Field<T>& field)
 	{
 		return this::value;
 	}
@@ -48,5 +46,5 @@ class Field_Bivariate_Function
 	 * @return the value.
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	virtual T value(T x, T y) = 0;
+	virtual T value(const T& x, const T& y) = 0;
 };

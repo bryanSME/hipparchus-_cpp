@@ -33,5 +33,5 @@ class Bivariate_Function
 	 * @param y Ordinate for which the function value should be computed.
 	 * @return the value.
 	 */
-	virtual double value(const double& x, double y) = 0;
+	virtual double value(const double& x, const double& y) = 0;
 };

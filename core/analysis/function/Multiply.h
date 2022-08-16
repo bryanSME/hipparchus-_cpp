@@ -20,20 +20,18 @@
   * It has been modified by the Hipparchus project
   */
 
-  //package org.hipparchus.analysis.function;
-
-  //import org.hipparchus.analysis.Bivariate_Function;
+#include "../BivariateFunction.h"
 
   /**
    * Multiply the two operands.
    *
    */
-class Multiply : Bivariate_Function
+class Multiply : public Bivariate_Function
 {
 	/** {@inherit_doc} */
 	//override
-	public double value(const double& x, double y)
+	double value(const double& x, const double& y) const
 	{
 		return x * y;
 	}
-}
+};

@@ -366,7 +366,7 @@ class Gaussian_curveFitter : public Abstract_Curve_Fitter
 		 * @ if specified {@code y} is not within the
 		 * range of the specified {@code points}.
 		 */
-		private double interpolate_x_at_y(Weighted_Observed_Point points, int start_idx, int idx_step, double y)
+		private double interpolate_x_at_y(Weighted_Observed_Point points, int start_idx, int idx_step, const double& y)
 
 		{
 			if (idx_step == 0)
@@ -404,7 +404,7 @@ class Gaussian_curveFitter : public Abstract_Curve_Fitter
 		 * @ if specified {@code y} is not within the
 		 * range of the specified {@code points}.
 		 */
-		private Weighted_Observed_Point get_interpolation_points_for_y(Weighted_Observed_Point points, int start_idx, int idx_step, double y)
+		private Weighted_Observed_Point get_interpolation_points_for_y(Weighted_Observed_Point points, int start_idx, int idx_step, const double& y)
 
 		{
 			if (idx_step == 0)

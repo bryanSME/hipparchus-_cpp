@@ -33,6 +33,7 @@
   //import org.hipparchus.util.Math_Arrays;
   //import org.hipparchus.util.Math_Utils;
 #include <vector>
+#include "BivariateFunction.h"
 
 /**
  * Utilities for manipulating function objects.
@@ -295,7 +296,7 @@ public:
 	 * @param initial_value Initial value.
 	 * @return a collector function.
 	 */
-	public static Multivariate_Function collector(const Bivariate_Function combiner, const double initial_value)
+	public static Multivariate_Function collector(const Bivariate_Function& combiner, const double initial_value)
 	{
 		return collector(combiner, Identity(), initial_value);
 	}
@@ -326,13 +327,13 @@ public:
 	 * @param fixed value to which the second argument of {@code f} is set.
 	 * @return the unary function h(x) = f(x, fixed)
 	 */
-	public static Univariate_Function fix2nd_argument(const Bivariate_Function f, const double fixed)
+	public static Univariate_Function fix2nd_argument(const Bivariate_Function& f, const double& fixed)
 	{
 		return Univariate_Function()
 		{
 			/** {@inherit_doc} */
-			override
-				public double value(double x)
+			//override
+			public double value(const double& x)
 			{
 				return f.value(x, fixed);
 			}

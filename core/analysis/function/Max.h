@@ -20,21 +20,20 @@
   * It has been modified by the Hipparchus project
   */
 
-  //package org.hipparchus.analysis.function;
-
-  //import org.hipparchus.analysis.Bivariate_Function;
-  //import org.hipparchus.util.FastMath;
+#include "../BivariateFunction.h"
+#include <cmath>
 
   /**
    * Maximum function.
    *
    */
-class Max : Bivariate_Function
+class Max : public Bivariate_Function
 {
+public:
 	/** {@inherit_doc} */
 	//override
-	public double value(const double& x, double y)
+	double value(const double& x, const double& y) const
 	{
 		return std::max(x, y);
 	}
-}
+};

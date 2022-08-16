@@ -92,7 +92,7 @@ public:
 	 * {@code P(x0 < X <= x1) = P(X <= x1) - P(X <= x0)}
 	 */
 	 //override
-	double probability(double x0, double x1)
+	double probability(const double& x0, const double& x1)
 	{
 		if (x0 > x1)
 		{

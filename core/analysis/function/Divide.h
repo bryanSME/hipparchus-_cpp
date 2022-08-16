@@ -20,20 +20,19 @@
   * It has been modified by the Hipparchus project
   */
 
-  //package org.hipparchus.analysis.function;
-
-  //import org.hipparchus.analysis.Bivariate_Function;
+#include "../BivariateFunction.h"
 
   /**
    * Divide the first operand by the second.
    *
    */
-class Divide : Bivariate_Function
+class Divide : public Bivariate_Function
 {
+public:
 	/** {@inherit_doc} */
 	//override
-	public double value(const double& x, double y)
+	double value(const double& x, const double& y) const
 	{
 		return x / y;
 	}
-}
+};

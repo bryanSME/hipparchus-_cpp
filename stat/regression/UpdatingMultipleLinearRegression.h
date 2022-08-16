@@ -55,7 +55,7 @@ public:
 	 * @ if the length of {@code x} does not equal
 	 * the number of independent variables in the model
 	 */
-	void add_observation(std::vector<double> x, double y);
+	void add_observation(std::vector<double> x, const double& y);
 
 	/**
 	 * Adds a series of observations to the regression model. The lengths of

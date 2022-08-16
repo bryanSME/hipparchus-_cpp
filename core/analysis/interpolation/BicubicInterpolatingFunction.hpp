@@ -61,124 +61,21 @@ private:
 	};
 
 	/** Samples x-coordinates */
-	const std::vector<double> my_xval;
+	std::vector<double> my_xval;
 	/** Samples y-coordinates */
-	const std::vector<double> my_yval;
+	std::vector<double> my_yval;
 	/** Set of cubic splines patching the whole data grid */
-	const std::vector<std::vector<Bicubic_Function>> my_splines;
-
-public:
-	/**
-	 * @param x Sample values of the x-coordinate, in increasing order.
-	 * @param y Sample values of the y-coordinate, in increasing order.
-	 * @param f Values of the function on every grid point.
-	 * @param dFdX Values of the partial derivative of function with respect
-	 * to x on every grid point.
-	 * @param d_fd_y Values of the partial derivative of function with respect
-	 * to y on every grid point.
-	 * @param d2FdXdY Values of the cross partial derivative of function on
-	 * every grid point.
-	 * @ if the various arrays do not contain
-	 * the expected number of elements.
-	 * @ if {@code x} or {@code y} are
-	 * not strictly increasing.
-	 * @ if any of the arrays has zero length.
-	 */
-	Bicubic_Interpolating_Function(const std::vector<double>& x, const std::vector<double>& y, const std::vector<std::vector<double>>& f, const std::vector<std::vector<double>>& dFdX, const std::vector<std::vector<double>>& d_fd_y, const std::vector<std::vector<double>>& d2FdXdY)
-	{
-		const int x_len = x.size();
-		const int y_len = y.size();
-
-		if (x_len == 0 || y_len == 0 || f.size() == 0 || f[0].size() == 0)
-		{
-			throw std::exception("not implmented");
-			//throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
-		}
-		Math_Utils::check_dimension(x_len, f.size());
-		Math_Utils::check_dimension(x_len, dFdX.size());
-		Math_Utils::check_dimension(x_len, d_fd_y.size());
-		Math_Utils::check_dimension(x_len, d2FdXdY.size());
-		Math_Arrays::check_order(x);
-		Math_Arrays::check_order(y);
-
-		xval = x;
-		yval = y;
-
-		const int last_i = x_len - 1;
-		const int last_j = y_len - 1;
-		splines = Bicubic_Function[last_i][last_j];
-
-		for (int i{}; i < last_i; i++)
-		{
-			Math_Utils::check_dimension(f[i].size(), y_len);
-			Math_Utils::check_dimension(dFdX[i].size(), y_len);
-			Math_Utils::check_dimension(d_fd_y[i].size(), y_len);
-			Math_Utils::check_dimension(d2FdXdY[i].size(), y_len);
-
-			const int ip1 = i + 1;
-			const double x_r = xval[ip1] - xval[i];
-			for (int j{}; j < last_j; j++)
-			{
-				const int jp1 = j + 1;
-				const double y_r = yval[jp1] - yval[j];
-				const double x_ry_r = x_r * y_r;
-				const auto beta = std::vector<double>
-				{
-					f[i][j], f[ip1][j], f[i][jp1], f[ip1][jp1], dFdX[i][j] * x_r, dFdX[ip1][j] * x_r, dFdX[i][jp1] * x_r, dFdX[ip1][jp1] * x_r, d_fd_y[i][j] * y_r, d_fd_y[ip1][j] * y_r, d_fd_y[i][jp1] * y_r, d_fd_y[ip1][jp1] * y_r, d2FdXdY[i][j] * x_ry_r, d2FdXdY[ip1][j] * x_ry_r, d2FdXdY[i][jp1] * x_ry_r, d2FdXdY[ip1][jp1] * x_ry_r
-				};
-
-				splines[i][j] = Bicubic_Function(compute_spline_coefficients(beta));
-			}
-		}
-	}
+	std::vector<std::vector<Bicubic_Function>> my_splines;
 
 	/**
-	 * {@inherit_doc}
-	 */
-	 //override
-	public double value(const double& x, double y)
-
-	{
-		const int i = search_index(x, xval);
-		const int j = search_index(y, yval);
-
-		const double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
-		const double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
-
-		return splines[i][j].value(xN, yN);
-	}
-
-	/**
-	 * Indicates whether a point is within the interpolation range.
-	 *
-	 * @param x First coordinate.
-	 * @param y Second coordinate.
-	 * @return {@code true} if (x, y) is a valid point.
-	 */
-	public bool is_valid_point(const double& x, double y)
-	{
-		if (x < xval[0] ||
-			x > xval[xval.size() - 1] ||
-			y < yval[0] ||
-			y > yval[yval.size() - 1])
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	/**
-	 * @param c Coordinate.
-	 * @param val Coordinate samples.
-	 * @return the index in {@code val} corresponding to the interval
-	 * containing {@code c}.
-	 * @ if {@code c} is out of the
-	 * range defined by the boundary values of {@code val}.
-	 */
-	private int search_index(cosnt double& c, const std::vector<double>& val)
+ * @param c Coordinate.
+ * @param val Coordinate samples.
+ * @return the index in {@code val} corresponding to the interval
+ * containing {@code c}.
+ * @ if {@code c} is out of the
+ * range defined by the boundary values of {@code val}.
+ */
+	int search_index(const double& c, const std::vector<double>& val)
 	{
 		const int r = Arrays.binary_search(val, c);
 
@@ -236,9 +133,9 @@ public:
 	 * values.
 	 * @return the spline coefficients.
 	 */
-	private std::vector<double> compute_spline_coefficients(const std::vector<double>& beta)
+	std::vector<double> compute_spline_coefficients(const std::vector<double>& beta)
 	{
-		const std::vector<double> a = std::vector<double>(NUM_COEFF];
+		auto a = std::vector<double>(NUM_COEFF);
 
 		for (int i{}; i < NUM_COEFF; i++)
 		{
@@ -253,29 +150,146 @@ public:
 
 		return a;
 	}
-}
+
+public:
+	/**
+	 * @param x Sample values of the x-coordinate, in increasing order.
+	 * @param y Sample values of the y-coordinate, in increasing order.
+	 * @param f Values of the function on every grid point.
+	 * @param dFdX Values of the partial derivative of function with respect
+	 * to x on every grid point.
+	 * @param d_fd_y Values of the partial derivative of function with respect
+	 * to y on every grid point.
+	 * @param d2FdXdY Values of the cross partial derivative of function on
+	 * every grid point.
+	 * @ if the various arrays do not contain
+	 * the expected number of elements.
+	 * @ if {@code x} or {@code y} are
+	 * not strictly increasing.
+	 * @ if any of the arrays has zero length.
+	 */
+	Bicubic_Interpolating_Function(const std::vector<double>& x, const std::vector<double>& y, const std::vector<std::vector<double>>& f, const std::vector<std::vector<double>>& dFdX, const std::vector<std::vector<double>>& d_fd_y, const std::vector<std::vector<double>>& d2FdXdY)
+	{
+		const int x_len = x.size();
+		const int y_len = y.size();
+
+		if (x_len == 0 || y_len == 0 || f.size() == 0 || f[0].size() == 0)
+		{
+			throw std::exception("not implmented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+		}
+		Math_Utils::check_dimension(x_len, f.size());
+		Math_Utils::check_dimension(x_len, dFdX.size());
+		Math_Utils::check_dimension(x_len, d_fd_y.size());
+		Math_Utils::check_dimension(x_len, d2FdXdY.size());
+		Math_Arrays::check_order(x);
+		Math_Arrays::check_order(y);
+
+		my_xval = x;
+		my_yval = y;
+
+		const int last_i = x_len - 1;
+		const int last_j = y_len - 1;
+		my_splines = std::vector<std::vector<Bicubic_Function>>(last_i, std::vector<Bicubic_Function>(last_j));
+
+		for (int i{}; i < last_i; i++)
+		{
+			Math_Utils::check_dimension(f[i].size(), y_len);
+			Math_Utils::check_dimension(dFdX[i].size(), y_len);
+			Math_Utils::check_dimension(d_fd_y[i].size(), y_len);
+			Math_Utils::check_dimension(d2FdXdY[i].size(), y_len);
+
+			const int ip1 = i + 1;
+			const double x_r = my_xval[ip1] - my_xval[i];
+			for (int j{}; j < last_j; j++)
+			{
+				const int jp1 = j + 1;
+				const double y_r = my_yval[jp1] - my_yval[j];
+				const double x_ry_r = x_r * y_r;
+				const auto beta = std::vector<double>
+				{
+					f[i][j], f[ip1][j], f[i][jp1], f[ip1][jp1], dFdX[i][j] * x_r, dFdX[ip1][j] * x_r, dFdX[i][jp1] * x_r, dFdX[ip1][jp1] * x_r, d_fd_y[i][j] * y_r, d_fd_y[ip1][j] * y_r, d_fd_y[i][jp1] * y_r, d_fd_y[ip1][jp1] * y_r, d2FdXdY[i][j] * x_ry_r, d2FdXdY[ip1][j] * x_ry_r, d2FdXdY[i][jp1] * x_ry_r, d2FdXdY[ip1][jp1] * x_ry_r
+				};
+
+				my_splines[i][j] = Bicubic_Function(compute_spline_coefficients(beta));
+			}
+		}
+	}
+
+	/**
+	 * {@inherit_doc}
+	 */
+	 //override
+	double value(const double& x, const double& y)
+	{
+		const int i = search_index(x, my_xval);
+		const int j = search_index(y, my_yval);
+
+		const double xN = (x - my_xval[i]) / (my_xval[i + 1] - my_xval[i]);
+		const double yN = (y - my_yval[j]) / (my_yval[j + 1] - my_yval[j]);
+
+		return my_splines[i][j].value(xN, yN);
+	}
+
+	/**
+	 * Indicates whether a point is within the interpolation range.
+	 *
+	 * @param x First coordinate.
+	 * @param y Second coordinate.
+	 * @return {@code true} if (x, y) is a valid point.
+	 */
+	bool is_valid_point(const double& x, const double& y)
+	{
+		return  !(x < my_xval[0] ||
+			x > my_xval[my_xval.size() - 1] ||
+			y < my_yval[0] ||
+			y > my_yval[my_yval.size() - 1]);
+	}
+};
 
 /**
  * Bicubic function.
  */
-class Bicubic_Function : Bivariate_Function
+class Bicubic_Function : public Bivariate_Function
 {
+private:
 	/** Number of points. */
-	private static const short N = 4;
+	static constexpr short N{ 4 };
 	/** Coefficients */
-	private const std::vector<std::vector<double>> a;
+	std::vector<std::vector<double>> my_a;
 
+	/**
+	 * Compute the value of the bicubic polynomial.
+	 *
+	 * @param pX Powers of the x-coordinate.
+	 * @param pY Powers of the y-coordinate.
+	 * @param coeff Spline coefficients.
+	 * @return the interpolated value.
+	 */
+	double apply(const std::vector<double>& pX, const std::vector<double>& pY, const std::vector<std::vector<double>>& coeff)
+	{
+		double result{};
+		for (int i{}; i < N; i++)
+		{
+			const double r = Math_Arrays::linear_combination(coeff[i], pY);
+			result += r * pX[i];
+		}
+
+		return result;
+	}
+
+public:
 	/**
 	 * Simple constructor.
 	 *
 	 * @param coeff Spline coefficients.
 	 */
-	Bicubic_Function(std::vector<double> coeff)
+	Bicubic_Function(const std::vector<double>& coeff)
 	{
-		a = std::vector<double>(N][N];
+		my_a = std::vector<std::vector<double>>(N, std::vector<double>(N));
 		for (int j{}; j < N; j++)
 		{
-			const std::vector<double> aJ = a[j];
+			auto aJ = my_a[j];
 			for (int i{}; i < N; i++)
 			{
 				aJ[i] = coeff[i * N + j];
@@ -287,7 +301,7 @@ class Bicubic_Function : Bivariate_Function
 	 * {@inherit_doc}
 	 */
 	 //override
-	public double value(const double& x, double y)
+	double value(const double& x, const double& y)
 	{
 		Math_Utils::check_range_inclusive(x, 0, 1);
 		Math_Utils::check_range_inclusive(y, 0, 1);
@@ -300,26 +314,6 @@ class Bicubic_Function : Bivariate_Function
 		const double y3 = y2 * y;
 		const std::vector<double> pY = { 1, y, y2, y3 };
 
-		return apply(pX, pY, a);
+		return apply(pX, pY, my_a);
 	}
-
-	/**
-	 * Compute the value of the bicubic polynomial.
-	 *
-	 * @param pX Powers of the x-coordinate.
-	 * @param pY Powers of the y-coordinate.
-	 * @param coeff Spline coefficients.
-	 * @return the interpolated value.
-	 */
-	private double apply(std::vector<double> pX, std::vector<double> pY, std::vector<std::vector<double>> coeff)
-	{
-		double result{};
-		for (int i{}; i < N; i++)
-		{
-			const double r = Math_Arrays::linear_combination(coeff[i], pY);
-			result += r * pX[i];
-		}
-
-		return result;
-	}
-}
+};

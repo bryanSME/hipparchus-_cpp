@@ -26,6 +26,7 @@
   //import org.hipparchus.exception.;
   //import org.hipparchus.special.Beta;
   //import org.hipparchus.util.FastMath;
+#include "AbstractRealDistribution.h"
 
   /**
    * Implementation of the F-distribution.
@@ -33,16 +34,38 @@
    * @see <a href="http://en.wikipedia.org/wiki/F-distribution">F-distribution (Wikipedia)</a>
    * @see <a href="http://mathworld.wolfram.com/F-Distribution.html">F-distribution (MathWorld)</a>
    */
-class F_Distribution extends Abstract_Real_Distribution
+class F_Distribution : Abstract_Real_Distribution
 {
-	20160320L;
+private:
 	/** The numerator degrees of freedom. */
-	private const double numerator_degrees_of_freedom;
+	const double my_numerator_degrees_of_freedom;
 	/** The numerator degrees of freedom. */
-	private const double denominator_degrees_of_freedom;
+	const double my_denominator_degrees_of_freedom;
 	/** Cached numerical variance */
-	private const double numerical_variance;
+	const double my_numerical_variance;
 
+	/**
+	 * Calculates the numerical variance.
+	 *
+	 * @return the variance of this distribution
+	 */
+	double calculate_numerical_variance()
+	{
+		const double denominator_d_f = get_denominator_degrees_of_freedom();
+
+		if (denominator_d_f > 4)
+		{
+			const double numerator_d_f = get_numerator_degrees_of_freedom();
+			const double denom_d_f_minus_two = denominator_d_f - 2;
+
+			return (2 * (denominator_d_f * denominator_d_f) * (numerator_d_f + denominator_d_f - 2)) /
+				((numerator_d_f * (denom_d_f_minus_two * denom_d_f_minus_two) * (denominator_d_f - 4)));
+		}
+
+		return std::numeric_limits<double>::quiet_NaN();
+	}
+
+public:
 	/**
 	 * Creates an F distribution using the given degrees of freedom.
 	 *
@@ -52,10 +75,9 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * {@code numerator_degrees_of_freedom <= 0} or
 	 * {@code denominator_degrees_of_freedom <= 0}.
 	 */
-	public F_Distribution(double numerator_degrees_of_freedom, double denominator_degrees_of_freedom)
-
+	F_Distribution(const double& numerator_degrees_of_freedom, const double& denominator_degrees_of_freedom)
 	{
-		this(numerator_degrees_of_freedom, denominator_degrees_of_freedom, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
+		F_Distribution(numerator_degrees_of_freedom, denominator_degrees_of_freedom, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
 	}
 
 	/**
@@ -68,8 +90,11 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * @ if {@code numerator_degrees_of_freedom <= 0} or
 	 * {@code denominator_degrees_of_freedom <= 0}.
 	 */
-	public F_Distribution(double numerator_degrees_of_freedom, double denominator_degrees_of_freedom, double inverse_cum_accuracy)
-
+	F_Distribution(const double& numerator_degrees_of_freedom, const double& denominator_degrees_of_freedom, const double& inverse_cum_accuracy)
+		:
+		my_numerator_degrees_of_freedom{ numerator_degrees_of_freedom },
+		my_denominator_degrees_of_freedom{ denominator_degrees_of_freedom },
+		my_numerical_variance{ calculate_numerical_variance() }
 	{
 		super(inverse_cum_accuracy);
 
@@ -83,34 +108,31 @@ class F_Distribution extends Abstract_Real_Distribution
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, denominator_degrees_of_freedom);
 		}
-		this.numerator_degrees_of_freedom = numerator_degrees_of_freedom;
-		this.denominator_degrees_of_freedom = denominator_degrees_of_freedom;
-		this.numerical_variance = calculate_numerical_variance();
+
 	}
 
 	/**
 	 * {@inherit_doc}
 	 */
 	 //override
-	public double density(double x)
+	double density(const double& x)
 	{
 		return std::exp(log_density(x));
 	}
 
 	/** {@inherit_doc} **/
 	//override
-	public double log_density(double x)
+	double log_density(const double& x)
 	{
 		const double nhalf = numerator_degrees_of_freedom / 2;
 		const double mhalf = denominator_degrees_of_freedom / 2;
 		const double logx = std::log(x);
 		const double logn = std::log(numerator_degrees_of_freedom);
 		const double logm = std::log(denominator_degrees_of_freedom);
-		const double lognxm = std::log(numerator_degrees_of_freedom * x +
-			denominator_degrees_of_freedom);
+		const double lognxm = std::log(numerator_degrees_of_freedom * x + denominator_degrees_of_freedom);
 		return nhalf * logn + nhalf * logx - logx +
 			mhalf * logm - nhalf * lognxm - mhalf * lognxm -
-			Beta.log_beta(nhalf, mhalf);
+			Beta::log_beta(nhalf, mhalf);
 	}
 
 	/**
@@ -125,21 +147,16 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * </ul>
 	 */
 	 //override
-	public double cumulative_probability(const double& x)
+	double cumulative_probability(const double& x)
 	{
-		double ret;
 		if (x <= 0)
 		{
-			ret = 0;
+			return 0;
 		}
-		else
-		{
-			double n = numerator_degrees_of_freedom;
-			double m = denominator_degrees_of_freedom;
+		double n = my_numerator_degrees_of_freedom;
+		double m = my_denominator_degrees_of_freedom;
 
-			ret = Beta.regularized_beta((n * x) / (m + n * x), 0.5 * n, 0.5 * m);
-		}
-		return ret;
+		return Beta::regularized_beta((n * x) / (m + n * x), 0.5 * n, 0.5 * m);
 	}
 
 	/**
@@ -147,9 +164,9 @@ class F_Distribution extends Abstract_Real_Distribution
 	 *
 	 * @return the numerator degrees of freedom.
 	 */
-	public double get_numerator_degrees_of_freedom()
+	double get_numerator_degrees_of_freedom() const
 	{
-		return numerator_degrees_of_freedom;
+		return my_numerator_degrees_of_freedom;
 	}
 
 	/**
@@ -157,9 +174,9 @@ class F_Distribution extends Abstract_Real_Distribution
 	 *
 	 * @return the denominator degrees of freedom.
 	 */
-	public double get_denominator_degrees_of_freedom()
+	double get_denominator_degrees_of_freedom() const
 	{
-		return denominator_degrees_of_freedom;
+		return my_denominator_degrees_of_freedom;
 	}
 
 	/**
@@ -172,7 +189,7 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * </ul>
 	 */
 	 //override
-	public double get_numerical_mean() const
+	double get_numerical_mean() const
 	{
 		const double denominator_d_f = get_denominator_degrees_of_freedom();
 
@@ -197,30 +214,9 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * </ul>
 	 */
 	 //override
-	public double get_numerical_variance() const
+	double get_numerical_variance() const
 	{
-		return numerical_variance;
-	}
-
-	/**
-	 * Calculates the numerical variance.
-	 *
-	 * @return the variance of this distribution
-	 */
-	private double calculate_numerical_variance()
-	{
-		const double denominator_d_f = get_denominator_degrees_of_freedom();
-
-		if (denominator_d_f > 4)
-		{
-			const double numerator_d_f = get_numerator_degrees_of_freedom();
-			const double denom_d_f_minus_two = denominator_d_f - 2;
-
-			return (2 * (denominator_d_f * denominator_d_f) * (numerator_d_f + denominator_d_f - 2)) /
-				((numerator_d_f * (denom_d_f_minus_two * denom_d_f_minus_two) * (denominator_d_f - 4)));
-		}
-
-		return std::numeric_limits<double>::quiet_NaN();
+		return my_numerical_variance;
 	}
 
 	/**
@@ -231,7 +227,7 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * @return lower bound of the support (always 0)
 	 */
 	 //override
-	public double get_support_lower_bound() const
+	double get_support_lower_bound() const
 	{
 		return 0;
 	}
@@ -245,7 +241,7 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * @return upper bound of the support (always INFINITY)
 	 */
 	 //override
-	public double get_support_upper_bound() const
+	double get_support_upper_bound() const
 	{
 		return INFINITY;
 	}
@@ -258,8 +254,8 @@ class F_Distribution extends Abstract_Real_Distribution
 	 * @return {@code true}
 	 */
 	 //override
-	public bool is_support_connected() const
+	bool is_support_connected() const
 	{
 		return true;
 	}
-}
+};

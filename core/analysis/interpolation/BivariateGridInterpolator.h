@@ -19,10 +19,9 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.analysis.interpolation;
 
-  //import org.hipparchus.analysis.Bivariate_Function;
-  //import org.hipparchus.exception.;
+#include  <vector>
+#include "../BivariateFunction.h"
 
   /**
    * Interface representing a bivariate real interpolating function where the
@@ -47,6 +46,5 @@ class Bivariate_Grid_Interpolator
 	 * @ if the number of points is too small for
 	 * the order of the interpolation
 	 */
-	Bivariate_Function interpolate(std::vector<double> xval, std::vector<double> yval, std::vector<std::vector<double>> fval)
-		;
-}
+	virtual Bivariate_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>>& fval);
+};

@@ -27,7 +27,7 @@
 #include "../../CalculusFieldElement.hpp"
 #include "GridAxis.h"
 #include "../BivariateFunction.h"
-#include "../FieldBivariateFunction.h"
+#include "../FieldBivariateFunction.hpp"
 
 /**
  * Interpolate grid data using bi-linear interpolation.
@@ -84,7 +84,7 @@ public:
 	/** Get the lowest grid x coordinate.
 	 * @return lowest grid x coordinate
 	 */
-	public double get_x_inf()
+	double get_x_inf()
 	{
 		return x_grid.node(0);
 	}
@@ -92,7 +92,7 @@ public:
 	/** Get the highest grid x coordinate.
 	 * @return highest grid x coordinate
 	 */
-	public double get_x_sup()
+	double get_x_sup()
 	{
 		return x_grid.node(x_grid.size() - 1);
 	}
@@ -100,7 +100,7 @@ public:
 	/** Get the lowest grid y coordinate.
 	 * @return lowest grid y coordinate
 	 */
-	public double get_y_inf()
+	double get_y_inf()
 	{
 		return y_grid.node(0);
 	}
@@ -108,14 +108,14 @@ public:
 	/** Get the highest grid y coordinate.
 	 * @return highest grid y coordinate
 	 */
-	public double get_y_sup()
+	double get_y_sup()
 	{
 		return y_grid.node(y_grid.size() - 1);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double value(const double& x, const double y)
+	double value(const double& x, const double& y)
 	{
 		// get the interpolation nodes
 		const int    i = x_grid.interpolation_index(x);
@@ -149,7 +149,7 @@ public:
 	 */
 	 //override
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  T value(T x, T y)
+	T value(const T& x, const T& y)
 	{
 		// get the interpolation nodes
 		const int    i = x_grid.interpolation_index(x.get_real());
@@ -174,8 +174,8 @@ public:
 		const T      dy0 = y.subtract(y0);
 		const T      mdy1 = y.subtract(y1);
 		const double dy10 = y1 - y0;
-		return          dy0.multiply(z11).subtract(mdy1.multiply(z10)).multiply(dx0).
+		return dy0.multiply(z11).subtract(mdy1.multiply(z10)).multiply(dx0).
 			subtract(dy0.multiply(z01).subtract(mdy1.multiply(z00)).multiply(mdx1)).
 			divide(dx10 * dy10);
 	}
-}
+};

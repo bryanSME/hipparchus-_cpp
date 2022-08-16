@@ -19,23 +19,11 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.analysis.interpolation;
 
-  //import java.util.Arrays;
-
-  //import org.hipparchus.Calculus_Field_Element;
-  //import org.hipparchus.analysis.Bivariate_Function;
-  //import org.hipparchus.analysis.Field_Bivariate_Function;
-  //import org.hipparchus.analysis.polynomials.Field_Polynomial_Spline_Function;
-  //import org.hipparchus.analysis.polynomials.Polynomial_Spline_Function;
-  //import org.hipparchus.exception.Localized_Core_Formats;
-  //import org.hipparchus.exception.;
-  //import org.hipparchus.exception.;
-  //import org.hipparchus.util.Math_Arrays;
 #include <type_traits>
 #include <vector>
 #include "../../analysis/BivariateFunction.h"
-#include "../../analysis/FieldBivariateFunction.h"
+#include "../../analysis/FieldBivariateFunction.hpp"
 #include "../../exception/LocalizedCoreFormats.h"
 #include "../../util/MathArrays.h"
 #include "AkimaSplineInterpolator.h"
@@ -65,17 +53,17 @@ private:
 	std::vector<std::vector<double>> my_fval;
 
 	/**
- * @param c Coordinate.
- * @param val Coordinate samples.
- * @param offset how far back from found value to offset for querying
- * @param count total number of elements forward from beginning that will be
- *        queried
- * @return the index in {@code val} corresponding to the interval containing
- *         {@code c}.
- * @ if {@code c} is out of the range defined by
- *         the boundary values of {@code val}.
- */
-	private int search_index(const double& c, const std::vector<double>& val, const int& offset, const int& count)
+	 * @param c Coordinate.
+	 * @param val Coordinate samples.
+	 * @param offset how far back from found value to offset for querying
+	 * @param count total number of elements forward from beginning that will be
+	 *        queried
+	 * @return the index in {@code val} corresponding to the interval containing
+	 *         {@code c}.
+	 * @ if {@code c} is out of the range defined by
+	 *         the boundary values of {@code val}.
+	 */
+	int search_index(const double& c, const std::vector<double>& val, const int& offset, const int& count)
 	{
 		int r = Arrays.binary_search(val, c);
 
@@ -127,10 +115,7 @@ public:
 	 */
 	Piecewise_Bicubic_Spline_Interpolating_Function(const std::vector<double>& x, const std::vector<double>& y, const std::vector<std::vector<double>>& f)
 	{
-		if (x == NULL ||
-			y == NULL ||
-			f == NULL ||
-			f[0] == NULL)
+		if (f.empty())
 		{
 			throw std::exception("not implemented");
 			//throw ();
@@ -141,8 +126,8 @@ public:
 
 		if (x_len == 0 ||
 			y_len == 0 ||
-			f.size() == 0 ||
-			f[0].size() == 0)
+			f.empty() ||
+			f[0].empty())
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
@@ -204,7 +189,7 @@ public:
 		{
 			for (int index = 0; index < count; index++)
 			{
-				z_array[index] = fval[i + index][j + z_index];
+				z_array[index] = my_fval[i + index][j + z_index];
 			}
 			const auto spline = interpolator.interpolate(x_array, z_array);
 			interp_array[z_index] = spline.value(x);

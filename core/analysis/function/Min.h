@@ -24,17 +24,20 @@
 
   //import org.hipparchus.analysis.Bivariate_Function;
   //import org.hipparchus.util.FastMath;
+#include <cmath>
+#include "../BivariateFunction.h"
 
   /**
    * Minimum function.
    *
    */
-class Min : Bivariate_Function
+class Min : public Bivariate_Function
 {
+public:
 	/** {@inherit_doc} */
 	//override
-	public double value(const double& x, double y)
+	double value(const double& x, const double& y) const
 	{
 		return std::min(x, y);
 	}
-}
+};

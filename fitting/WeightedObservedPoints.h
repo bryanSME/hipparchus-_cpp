@@ -48,7 +48,7 @@ class Weighted_Observed_Points
 	 * @see #add(Weighted_Observed_Point)
 	 * @see #to_list()
 	 */
-	public void add(const double& x, double y)
+	public void add(const double& x, const double& y)
 	{
 		add(1d, x, y);
 	}
@@ -65,7 +65,7 @@ class Weighted_Observed_Points
 	 * @see #add(Weighted_Observed_Point)
 	 * @see #to_list()
 	 */
-	public void add(double weight, const double& x, double y)
+	public void add(double weight, const double& x, const double& y)
 	{
 		observations.add(new Weighted_Observed_Point(weight, x, y));
 	}

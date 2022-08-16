@@ -77,7 +77,7 @@ namespace Math_Utils
 	 * @param y Value
 	 * @return {@code Double(x).equals(new Double(y))}
 	 */
-	inline static bool equals(const double& x, double y)
+	inline static bool equals(const double& x, const double& y)
 	{
 		return Double(x).equals(new Double(y));
 	}
