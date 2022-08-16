@@ -107,13 +107,12 @@ class Akima_Spline_Interpolator
      *         than 5.
      */
     //override
-    public Polynomial_Spline_Function interpolate(const std::vector<double>& xvals, const std::vector<double>& yvals)
-         
+    public Polynomial_Spline_Function interpolate(const std::vector<double>& xvals, const std::vector<double>& yvals)     
+    {
+        if (xvals == NULL || yvals == NULL) 
         {
-        if (xvals == NULL ||
-            yvals == NULL) 
-            {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
 
         Math_Arrays::check_equal_length(xvals, yvals);
@@ -193,13 +192,12 @@ else
      */
     //override
     template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-    public  Field_Polynomial_Spline_Function<T> interpolate(const std::vector<T>& xvals, const std::vector<T>& yvals)
-         
+    public  Field_Polynomial_Spline_Function<T> interpolate(const std::vector<T>& xvals, const std::vector<T>& yvals)     
+    {
+        if (xvals == NULL || yvals == NULL) 
         {
-        if (xvals == NULL ||
-            yvals == NULL) 
-            {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
 
         Math_Arrays::check_equal_length(xvals, yvals);

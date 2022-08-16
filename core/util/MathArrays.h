@@ -1048,12 +1048,6 @@ public:
      */
     static void sort_in_place(const std::vector<double>& x, const Order_Direction& dir, const std::vector<double>&... y_list)
     {
-        // Consistency checks.
-        if (x == NULL) 
-        {
-            throw Null_Argument_Exception();
-        }
-
         const int y_list_len = y_list.size();
         const int len = x.size();
 

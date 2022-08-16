@@ -217,15 +217,15 @@ public:
      * @see #create_real_matrix(int, int)
      */
     static Real_Matrix create_real_matrix(std::vector<std::vector<double>> data)
-        , Null_Argument_Exception 
+    {
+        if (data == NULL || data[0] == NULL) 
         {
-        if (data == NULL ||
-            data[0] == NULL) 
-            {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
-        return (data.size() * data[0].size() <= 4096) ?
-                Array_2D_Row_Real_Matrix(data) : Block_Real_Matrix(data);
+        return (data.size() * data[0].size() <= 4096)
+            ? Array_2D_Row_Real_Matrix(data)
+            : Block_Real_Matrix(data);
     }
 
     /**
@@ -247,15 +247,15 @@ public:
      * @see #create_field_matrix(Field, int, int)
      */
     static <T extends Field_Element<T>> Field_Matrix<T> create_field_matrix(std::vector<std::vector<T>> data)
-        , Null_Argument_Exception 
+    {
+        if (data == NULL || data[0] == NULL) 
         {
-        if (data == NULL ||
-            data[0] == NULL) 
-            {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented"); 
+            //throw Null_Argument_Exception();
         }
-        return (data.size() * data[0].size() <= 4096) ?
-                Array2DRowField_Matrix<T>(data) : BlockField_Matrix<T>(data);
+        return (data.size() * data[0].size() <= 4096)
+            ? Array2DRowField_Matrix<T>(data)
+            : BlockField_Matrix<T>(data);
     }
 
     /**
@@ -344,12 +344,12 @@ public:
      * @ if {@code data} is empty.
      * @Null_Argument_Exception if {@code data} is {@code NULL}.
      */
-    static Real_Vector create_real__vector(std::vector<double> data)
-        , Null_Argument_Exception 
-        {
+    static Real_Vector create_real__vector(const std::vector<double>& data)
+    {
         if (data == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         return Array_Real_Vector(data, true);
     }
@@ -414,13 +414,14 @@ public:
      * @ if {@code row_data} is empty.
      * @Null_Argument_Exception if {@code row_data} is {@code NULL}.
      */
-    static Real_Matrix createRowReal_Matrix(std::vector<double> row_data) 
+    static Real_Matrix createRowReal_Matrix(const std::vector<double>& row_data) 
     {
         if (row_data == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
-        const int& n_cols = row_data.size();
+        const int n_cols = row_data.size();
         const Real_Matrix m = create_real_matrix(1, n_cols);
         for (int i{}; i < n_cols; ++i) 
         {
@@ -439,9 +440,8 @@ public:
      * @ if {@code row_data} is empty.
      * @Null_Argument_Exception if {@code row_data} is {@code NULL}.
      */
-    static <T extends Field_Element<T>> Field_Matrix<T>
-        createRowField_Matrix(const std::vector<T> row_data)
-        {
+    static <T extends Field_Element<T>> Field_Matrix<T> createRowField_Matrix(const std::vector<T> row_data)
+    {
         if (row_data == NULL) 
         {
             throw std::exception("not implemented");
@@ -470,11 +470,12 @@ public:
      * @ if {@code column_data} is empty.
      * @Null_Argument_Exception if {@code column_data} is {@code NULL}.
      */
-    static Real_Matrix create_column_real__matrix(std::vector<double> column_data)
+    static Real_Matrix create_column_real__matrix(const std::vector<double>& column_data)
     {
         if (column_data == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         const int& n_rows = column_data.size();
         const Real_Matrix m = create_real_matrix(n_rows, 1);
@@ -495,14 +496,9 @@ public:
      * @ if {@code data} is empty.
      * @Null_Argument_Exception if {@code column_data} is {@code NULL}.
      */
-    static <T extends Field_Element<T>> Field_Matrix<T>
-        createColumnField_Matrix(const std::vector<T> column_data)
+    static <T extends Field_Element<T>> Field_Matrix<T> createColumnField_Matrix(const std::vector<T>& column_data)
     {
-        if (column_data == NULL) 
-        {
-            throw Null_Argument_Exception();
-        }
-        const int& n_rows = column_data.size();
+        const int n_rows = column_data.size();
         if (n_rows == 0) 
         {
             throw std::exception("not implemented");

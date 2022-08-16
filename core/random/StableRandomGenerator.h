@@ -69,10 +69,6 @@ public:
     Stable_Random_Generator(const Random_Generator& generator, const double& alpha, const double& beta)
     {
         throw std::exception("not implemented");
-        /*if (generator == NULL) 
-        {
-            throw Null_Argument_Exception();
-        }*/
 
         if (!(alpha > 0 && alpha <= 2.0)) 
         {
