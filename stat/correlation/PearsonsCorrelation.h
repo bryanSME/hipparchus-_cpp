@@ -297,7 +297,8 @@ else
         Math_Arrays::check_equal_length(x_array, y_array);
         if (x_array.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DIMENSION, x_array.size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DIMENSION, x_array.size(), 2);
         }
 
         Simple_Regression regression = Simple_Regression();
@@ -351,9 +352,8 @@ else
         int n_cols = matrix.get_column_dimension();
         if (n_rows < 2 || n_cols < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_ROWS_AND_COLUMNS, n_rows, n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_ROWS_AND_COLUMNS, n_rows, n_cols);
         }
     }
-}
-
-
+};

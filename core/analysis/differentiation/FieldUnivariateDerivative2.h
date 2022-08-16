@@ -130,7 +130,8 @@ public:
             case 2 :
                 return my_f2;
             default :
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, n);
+                throw std::exception("not implmented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, n);
         }
     }
 

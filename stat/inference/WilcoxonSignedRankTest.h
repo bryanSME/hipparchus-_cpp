@@ -86,17 +86,18 @@ class Wilcoxon_Signed_Rank_Test
      * @ if all pairs are tied (i.e., if no
      *         data remains when tied pairs have been removed.
      */
-    private int ensure_data_conformance(const std::vector<double> x, const std::vector<double> y)
-        , Null_Argument_Exception 
-        {
+    private int ensure_data_conformance(const std::vector<double> x, const std::vector<double> y) 
+    {
 
         if (x == NULL || y == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (x.size() == 0 || y.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         Math_Arrays::check_equal_length(y, x);
         int n_ties = 0;
@@ -109,7 +110,8 @@ class Wilcoxon_Signed_Rank_Test
         }
         if (x.size() - n_ties == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DATA);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DATA);
         }
         return n_ties;
     }
@@ -159,7 +161,8 @@ class Wilcoxon_Signed_Rank_Test
 
         if (z.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
 
         const std::vector<double> z_abs = std::vector<double>(z.size()];
@@ -370,7 +373,8 @@ class Wilcoxon_Signed_Rank_Test
 
         if (exact_p_value && n > 30) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, n, 30);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, n, 30);
         }
 
         if (exact_p_value) 

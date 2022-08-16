@@ -126,7 +126,8 @@ public:
             case 1 :
                 return my_f1;
             default :
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, n);
+                throw std::exception("not implmented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, n);
         }
     }
 

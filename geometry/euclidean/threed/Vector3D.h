@@ -116,7 +116,8 @@ class Vector_3D , Vector<Euclidean_3D>
     {
         if (v.size() != 3) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), 3);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), 3);
         }
         this.x = v[0];
         this.y = v[1];

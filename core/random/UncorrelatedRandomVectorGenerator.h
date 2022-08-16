@@ -59,7 +59,8 @@ class UncorrelatedRandom_Vector_Generator
     {
         if (mean.size() != standard_deviation.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, mean.size(), standard_deviation.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, mean.size(), standard_deviation.size());
         }
         this.mean = mean.clone();
         this.standard_deviation = standard_deviation.clone();

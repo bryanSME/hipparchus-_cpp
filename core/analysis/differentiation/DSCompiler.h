@@ -602,7 +602,8 @@ else
             orders_sum += derivative_order;
             if (orders_sum > order) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, orders_sum, order);
+                throw std::exception("not implmented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, orders_sum, order);
             }
 
             while (derivative_order > 0) 

@@ -14,19 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//package org.hipparchus.analysis.polynomials;
 
-//import java.lang.reflect.Array;
-//import java.util.Arrays;
-
-//import org.hipparchus.Field;
-//import org.hipparchus.Calculus_Field_Element;
-//import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
 #include <type_traits>
 #include "../../CalculusFieldElement.hpp"
 
@@ -68,12 +56,12 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T> 
 {
-
+private:
     /**
      * Spline segment interval delimiters (knots).
      * Size is n + 1 for n segments.
      */
-    private const T knots[];
+    const std::vector<T> my_knots;
 
     /**
      * The polynomial functions that make up the spline.  The first element
@@ -82,15 +70,15 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      * evaluating these functions at {@code (x - knot[i])} where i is the
      * knot segment to which x belongs.
      */
-    private const Field_Polynomial_Function<T> polynomials[];
+    const std::vector<Field_Polynomial_Function<T>> polynomials;
 
     /**
      * Number of spline segments. It is equal to the number of polynomials and
      * to the number of partition points - 1.
      */
-    private const int& n;
+    const int my_n;
 
-
+public:
     /**
      * Construct a polynomial spline function with the given segment delimiters
      * and interpolating polynomials.
@@ -106,31 +94,32 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      *
      */
     //@Suppress_Warnings("unchecked")
-    public Field_Polynomial_Spline_Function(const T knots[], const Field_Polynomial_Function<T> polynomials[])
-        , Null_Argument_Exception 
-        {
-        if (knots == NULL ||
-            polynomials == NULL) 
-            {
-            throw Null_Argument_Exception();
-        }
-        if (knots.size() < 2) 
-        {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION, 2, knots.size(), false);
-        }
-        Math_Utils::check_dimension(polynomials.size(), knots.size() - 1);
-        Math_Arrays::check_order(knots);
+    Field_Polynomial_Spline_Function(const std::vector<T>& knots, const Field_Polynomial_Function<T> polynomials[])
+    {
+        throw std::exception("not implmented");
+        //if (knots == NULL || polynomials == NULL) 
+        //{
+        //    throw std::exception("not implemented");
+        //    //throw Null_Argument_Exception();
+        //}
+        //if (knots.size() < 2) 
+        //{
+        //    throw std::exception("not implemented");
+        //    //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION, 2, knots.size(), false);
+        //}
+        //Math_Utils::check_dimension(polynomials.size(), knots.size() - 1);
+        //Math_Arrays::check_order(knots);
 
-        this.n = knots.size() -1;
-        this.knots = knots.clone();
-        this.polynomials = (Field_Polynomial_Function<T>[]) Array.new_instance(Field_Polynomial_Function.class, n);
-        System.arraycopy(polynomials, 0, this.polynomials, 0, n);
+        //my_n = knots.size() -1;
+        //my_knots = knots;
+        //my_polynomials = (std::vector<Field_Polynomial_Function<T>>) Array.new_instance(Field_Polynomial_Function.class, n);
+        //System.arraycopy(polynomials, 0, this.polynomials, 0, n);
     }
 
     /** Get the {@link Field} to which the instance belongs.
      * @return {@link Field} to which the instance belongs
      */
-    public Field<T> get_field() 
+    Field<T> get_field() 
     {
         return knots[0].get_field();
     }
@@ -146,7 +135,7 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      * spline function (smaller than the smallest knot point or larger than the
      * largest knot point).
      */
-    public T value(const double v) 
+    T value(const double& v) 
     {
         return value(get_field().get_zero().add(v));
     }
@@ -163,7 +152,7 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      * largest knot point).
      */
     //override
-    public T value(const T v) 
+    T value(const T& v) 
     {
         Math_Utils::check_range_inclusive(v.get_real(), knots[0].get_real(), knots[n].get_real());
         int i = Arrays.binary_search(knots, v);
@@ -187,9 +176,9 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      *
      * @return the number of spline segments.
      */
-    public int get_n() 
+    int get_n() const
     {
-        return n;
+        return my_n;
     }
 
     /**
@@ -199,9 +188,9 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      *
      * @return the interpolating polynomials.
      */
-    public Field_Polynomial_Function<T>[] get_polynomials() 
+    std::vector<Field_Polynomial_Function<T>> get_polynomials() const
     {
-        return polynomials.clone();
+        return polynomials;
     }
 
     /**
@@ -211,9 +200,9 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      *
      * @return the knot points.
      */
-    public std::vector<T> get_knots() 
+    std::vector<T> get_knots() const
     {
-        return knots.clone();
+        return my_knots;
     }
 
     /**
@@ -222,17 +211,9 @@ class Field_Polynomial_Spline_Function : Calculus_Field_Univariate_Function<T>
      * @param x Point.
      * @return {@code true} if {@code x} is a valid point.
      */
-    public bool is_valid_point(T x) 
+    bool is_valid_point(const T& x) const 
     {
-        if (x.get_real() < knots[0].get_real() ||
-            x.get_real() > knots[n].get_real()) 
-            {
-            return false;
-        }
-else 
-        {
-            return true;
-        }
+        return !(x.get_real() < knots[0].get_real() || x.get_real() > knots[n].get_real());
     }
     /**
      * Get the derivative of the polynomial spline function.
@@ -240,18 +221,13 @@ else
      * @return the derivative function.
      */
     //@Suppress_Warnings("unchecked")
-    public Field_Polynomial_Spline_Function<T> polynomial_spline_derivative() 
+    Field_Polynomial_Spline_Function<T> polynomial_spline_derivative() 
     {
-        Field_Polynomial_Function<T> derivative_polynomials[] =
-                        (Field_Polynomial_Function<T>[]) Array.new_instance(Field_Polynomial_Function.class, n);
+        Field_Polynomial_Function<T> derivative_polynomials[] = (Field_Polynomial_Function<T>[]) Array.new_instance(Field_Polynomial_Function.class, n);
         for (int i{}; i < n; i++) 
         {
             derivative_polynomials[i] = polynomials[i].polynomial_derivative();
         }
         return Field_Polynomial_Spline_Function<>(knots, derivative_polynomials);
     }
-
-
-}
-
-
+};

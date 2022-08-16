@@ -226,12 +226,13 @@ else
         //Math_Utils::check_not_null(y, hipparchus::exception::Localized_Core_Formats_Type::INPUT_ARRAY);
         Math_Utils::check_dimension(x.size(), y.size());
         if (x.size() == 0) {  // Must be no y data either
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         if (x[0].size() + 1 > x.size()) 
         {
-            throw (
-                  Localized_Stat_Formats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS, x.size(), x[0].size());
+            throw std::exception("not implemented");
+            //throw (Localized_Stat_Formats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS, x.size(), x[0].size());
         }
         for (int i{}; i < x.size(); i++) 
         {

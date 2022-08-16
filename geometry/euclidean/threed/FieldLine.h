@@ -89,7 +89,8 @@ class Field_Line
         const T norm2 = delta.get_norm_sq();
         if (norm2.get_real() == 0.0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
         }
         this.direction = Field_Vector_3D<>(norm2.sqrt().reciprocal(), delta);
         zero = Field_Vector_3D<>(norm2.get_field().get_one(), p1, p1.dot_product(delta).negate().divide(norm2), delta);

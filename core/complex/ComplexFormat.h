@@ -160,11 +160,13 @@ public:
     {
         if (imaginary_character == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (imaginary_character.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         //Math_Utils::check_not_null(imaginary_format, hipparchus::exception::Localized_Core_Formats_Type::IMAGINARY_FORMAT);
         //Math_Utils::check_not_null(real_format, hipparchus::exception::Localized_Core_Formats_Type::REAL_FORMAT);
@@ -271,7 +273,8 @@ public:
             return format(new std::complex<double>(((Number)obj).double_value(), 0.0), to_append_to, pos);
         }
 
-        throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_FORMAT_INSTANCE_AS_COMPLEX, obj.get_class().get_name());
+        throw std::exception("not implemented");
+        //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_FORMAT_INSTANCE_AS_COMPLEX, obj.get_class().get_name());
     }
 
     /**

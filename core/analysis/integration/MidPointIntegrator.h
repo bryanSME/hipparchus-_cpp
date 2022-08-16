@@ -62,7 +62,8 @@ public:
         super(relative_accuracy, absolute_accuracy, minimal_iteration_count, maximal_iteration_count);
         if (maximal_iteration_count > MIDPOINT_MAX_ITERATIONS_COUNT) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximal_iteration_count, MIDPOINT_MAX_ITERATIONS_COUNT);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximal_iteration_count, MIDPOINT_MAX_ITERATIONS_COUNT);
         }
     }
 
@@ -83,7 +84,8 @@ public:
         super(minimal_iteration_count, maximal_iteration_count);
         if (maximal_iteration_count > MIDPOINT_MAX_ITERATIONS_COUNT) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximal_iteration_count, MIDPOINT_MAX_ITERATIONS_COUNT);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, maximal_iteration_count, MIDPOINT_MAX_ITERATIONS_COUNT);
         }
     }
 

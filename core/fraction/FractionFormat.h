@@ -196,7 +196,8 @@ class Fraction_Format extends Abstract_Format
         {
             return format(new Fraction(((Number) obj).double_value()), to_append_to, pos);
         }
-        throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_FORMAT_OBJECT_TO_FRACTION);
+        throw std::exception("not implemented");
+        //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_FORMAT_OBJECT_TO_FRACTION);
     }
 
     /**

@@ -306,11 +306,13 @@ else
     {
         if (n < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::FACTORIAL_NEGATIVE_PARAMETER, n);
+            throw std::exception("not implemented");
+            //  throw (hipparchus::exception::Localized_Core_Formats_Type::FACTORIAL_NEGATIVE_PARAMETER, n);
         }
         if (n > 20) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, n, 20);
+            throw std::exception("not implemented");
+            //   throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, n, 20);
         }
         return FACTORIALS[n];
     }
@@ -332,7 +334,8 @@ else
     {
         if (n < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::FACTORIAL_NEGATIVE_PARAMETER, n);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::FACTORIAL_NEGATIVE_PARAMETER, n);
         }
         if (n < 21) 
         {
@@ -376,11 +379,13 @@ else
         {
         if (k < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, k, 0);
+            throw std::exception("not implemented");
+            //  throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, k, 0);
         }
         if (k > n) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, k, n);
+            throw std::exception("not implemented");
+            //  throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, k, n);
         }
 
         std::vector<std::vector<long>> stirling_s2 = STIRLING_S2.get();
@@ -495,11 +500,13 @@ else
         {
         if (n < k) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::BINOMIAL_INVALID_PARAMETERS_ORDER, k, n, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::BINOMIAL_INVALID_PARAMETERS_ORDER, k, n, true);
         }
         if (n < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::BINOMIAL_NEGATIVE_PARAMETER, n);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::BINOMIAL_NEGATIVE_PARAMETER, n);
         }
     }
 
@@ -528,7 +535,8 @@ else
         {
             if (num_values < 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, num_values, 0);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, num_values, 0);
             }
 
             LOG_FACTORIALS = std::vector<double>(num_values];
@@ -584,7 +592,8 @@ else
         {
             if (n < 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::FACTORIAL_NEGATIVE_PARAMETER, n);
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::FACTORIAL_NEGATIVE_PARAMETER, n);
             }
 
             // Use cache of precomputed values.

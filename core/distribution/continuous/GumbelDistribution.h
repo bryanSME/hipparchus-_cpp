@@ -61,7 +61,8 @@ class Gumbel_Distribution extends Abstract_Real_Distribution
         {
         if (beta <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SCALE, beta);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SCALE, beta);
         }
 
         this.beta = beta;

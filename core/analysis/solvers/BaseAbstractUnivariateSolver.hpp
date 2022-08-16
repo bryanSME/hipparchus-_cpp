@@ -32,7 +32,7 @@
 #include "UnivariateSolverUtils.hpp"
 #include "../UnivariateFunction.h"
 #include "../../util/MathUtils.h"
-#include "../../util/Incrementor.h"
+#include "../../util/Incrementor.hpp"
 
 /**
  * Provide a default implementation for several functions useful to generic

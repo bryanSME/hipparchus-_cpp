@@ -107,7 +107,8 @@ class FDS_Factory
 
         if (index >= get_compiler().get_free_parameters()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, index, get_compiler().get_free_parameters());
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, index, get_compiler().get_free_parameters());
         }
 
         const Field_Derivative_Structure<T> fds = Field_Derivative_Structure<>(this);
@@ -141,7 +142,8 @@ class FDS_Factory
 
         if (index >= get_compiler().get_free_parameters()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, index, get_compiler().get_free_parameters());
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, index, get_compiler().get_free_parameters());
         }
 
         const Field_Derivative_Structure<T> fds = Field_Derivative_Structure<>(this);
@@ -168,18 +170,16 @@ class FDS_Factory
      */
    //@Safe_Varargs
     public const Field_Derivative_Structure<T> build(const T ... derivatives)
-         
-        {
-
+    {
         const std::vector<T> data = build_array();
         if (derivatives.size() != data.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, derivatives.size(), data.size());
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, derivatives.size(), data.size());
         }
         System.arraycopy(derivatives, 0, data, 0, data.size());
 
         return Field_Derivative_Structure<>(this, data);
-
     }
 
     /** Build a {@link Field_Derivative_Structure} from all its derivatives.
@@ -198,7 +198,8 @@ class FDS_Factory
         const std::vector<T> data = build_array();
         if (derivatives.size() != data.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, derivatives.size(), data.size());
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, derivatives.size(), data.size());
         }
         for (int i{}; i < data.size(); ++i) 
         {

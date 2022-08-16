@@ -88,7 +88,8 @@ class Spline_Interpolator : public Univariate_Interpolator, public Field_Univari
         Math_Arrays::check_equal_length(x, y);
         if (x.size() < 3) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 3, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 3, true);
         }
 
         // Number of intervals.  The number of data points is n + 1.
@@ -168,7 +169,8 @@ class Spline_Interpolator : public Univariate_Interpolator, public Field_Univari
         Math_Arrays::check_equal_length(x, y);
         if (x.size() < 3) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 3, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 3, true);
         }
 
         // Number of intervals.  The number of data points is n + 1.

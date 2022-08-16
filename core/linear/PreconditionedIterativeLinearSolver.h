@@ -146,11 +146,13 @@ class PreconditionedIterative_Linear_Solver
         {
             if (m.get_column_dimension() != m.get_row_dimension()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_OPERATOR, m.get_column_dimension(), m.get_row_dimension());
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_OPERATOR, m.get_column_dimension(), m.get_row_dimension());
             }
             if (m.get_row_dimension() != a.get_row_dimension()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m.get_row_dimension(), a.get_row_dimension());
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m.get_row_dimension(), a.get_row_dimension());
             }
         }
     }

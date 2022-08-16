@@ -82,7 +82,8 @@ public:
 
         if (expected.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, expected.size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, expected.size(), 2);
         }
         Math_Utils::check_dimension(expected.size(), observed.size());
         Math_Arrays::check_positive(expected);
@@ -406,7 +407,8 @@ public:
         // Make sure lengths are same
         if (observed1.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, observed1.size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, observed1.size(), 2);
         }
         Math_Utils::check_dimension(observed1.size(), observed2.size());
 
@@ -425,7 +427,8 @@ public:
         // Ensure neither sample is uniformly 0
         if (count_sum1 == 0 || count_sum2 == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NOT_ALLOWED);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NOT_ALLOWED);
         }
         // Compare and compute weight only if different
         double weight = 0.0;
@@ -440,7 +443,8 @@ public:
         {
             if (observed1[i] == 0 && observed2[i] == 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
             }
             else 
             {
@@ -572,12 +576,14 @@ private:
 
         if (in.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, in.size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, in.size(), 2);
         }
 
         if (in[0].size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, in[0].size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, in[0].size(), 2);
         }
 
         Math_Arrays::check_rectangular(in);

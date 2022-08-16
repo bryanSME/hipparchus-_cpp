@@ -397,14 +397,14 @@ class Symm_LQ
          * @ when the test fails
          */
         private static void check_symmetry(const Real_Vector x, const Real_Vector y, const Real_Vector z)
-             
-            {
+        {
             const double s = y.dot_product(y);
             const double t = x.dot_product(z);
             const double epsa = (s + MACH_PREC) * CBRT_MACH_PREC;
             if (std::abs(s - t) > epsa) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SELF_ADJOINT_OPERATOR);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SELF_ADJOINT_OPERATOR);
             }
         }
 
@@ -415,7 +415,8 @@ class Symm_LQ
          */
         private static void throw_npdlo_exception()  
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_POSITIVE_DEFINITE_OPERATOR);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_POSITIVE_DEFINITE_OPERATOR);
         }
 
         /**
@@ -758,13 +759,14 @@ else
             {
                 acond = gmax / gmin;
             }
-else 
+            else 
             {
                 acond = gmax / std::min(gmin, std::abs(diag));
             }
             if (acond * MACH_PREC >= 0.1) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::ILL_CONDITIONED_OPERATOR, acond);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::ILL_CONDITIONED_OPERATOR, acond);
             }
             if (beta1 <= epsx) 
             {
@@ -772,7 +774,8 @@ else
                  * x has converged to an eigenvector of A corresponding to the
                  * eigenvalue shift.
                  */
-                throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_OPERATOR);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_OPERATOR);
             }
             rnorm = std::min(cgnorm, lqnorm);
             has_converged = (cgnorm <= epsx) || (cgnorm <= epsr);

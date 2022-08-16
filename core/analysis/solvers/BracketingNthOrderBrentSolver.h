@@ -109,7 +109,8 @@ public:
         super(relative_accuracy, absolute_accuracy);
         if (maximal_order < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
         }
         this.maximal_order = maximal_order;
         this.allowed = Allowed_Solution.ANY_SIDE;
@@ -129,7 +130,8 @@ public:
         super(relative_accuracy, absolute_accuracy, function_value_accuracy);
         if (maximal_order < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
         }
         my_maximal_order = maximal_order;
         my_allowed = Allowed_Solution.ANY_SIDE;
@@ -241,7 +243,8 @@ protected:
             }
             else 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x[0], x[2], y[0], y[2]);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x[0], x[2], y[0], y[2]);
             }
 
         }

@@ -867,7 +867,8 @@ public:
         if (begin < 0) 
         {
             
-            throw (hipparchus::exception::Localized_Core_Formats_Type::START_POSITION, static_cast<int>(begin));
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::START_POSITION, static_cast<int>(begin));
         }
 
         if (length < 0) 

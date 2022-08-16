@@ -56,7 +56,8 @@ virtual class Base_Random_Generator : Random_Generator
     {
         if (n <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, n, 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, n, 0);
         }
 
         if ((n & -n) == n) 
@@ -79,7 +80,8 @@ virtual class Base_Random_Generator : Random_Generator
     {
         if (n <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, n, 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, n, 0);
         }
 
         long bits;

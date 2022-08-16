@@ -19,13 +19,9 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.special;
 
   //import org.hipparchus.exception.Localized_Core_Formats;
   //import org.hipparchus.exception.;
-  //import org.hipparchus.util.Continued_Fraction;
-  //import org.hipparchus.util.FastMath;
-  //import org.hipparchus.util.Math_Utils;
 #include <vector>
 #include "Gamma::h"
 #include "../util/MathUtils.h"
@@ -61,10 +57,10 @@ class Beta
 {
 private:
 	/** Maximum allowed numerical error. */
-	static constexpr double DEFAULT_EPSILON = 1E-14;
+	static constexpr double DEFAULT_EPSILON{ 1E-14 };
 
 	/** The constant value of ½log 2π. */
-	static constexpr double HALF_LOG_TWO_PI = .9189385332046727;
+	static constexpr double HALF_LOG_TWO_PI{ .9189385332046727 };
 
 	/**
 	 * <p>
@@ -121,7 +117,6 @@ private:
 	 * {@code 1.0} or greater than {@code 2.0}.
 	 */
 	static double log_gamma_sum(const double& a, const double& b)
-
 	{
 		Math_Utils::check_range_inclusive(a, 1, 2);
 		Math_Utils::check_range_inclusive(b, 1, 2);
@@ -131,14 +126,11 @@ private:
 		{
 			return Gamma::log_gamma1p(1.0 + x);
 		}
-		else if (x <= 1.5)
+		if (x <= 1.5)
 		{
 			return Gamma::log_gamma1p(x) + std::log1p(x);
 		}
-		else
-		{
-			return Gamma::log_gamma1p(x - 1.0) + std::log(x * (1.0 + x));
-		}
+		return Gamma::log_gamma1p(x - 1.0) + std::log(x * (1.0 + x));
 	}
 
 	/**
@@ -157,11 +149,13 @@ private:
 	{
 		if (a < 0.0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, a, 0.0);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, a, 0.0);
 		}
 		if (b < 10.0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, b, 10.0);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, b, 10.0);
 		}
 
 		/*
@@ -201,7 +195,8 @@ private:
 		Math_Utils::check_range_inclusive(a, 0, b);
 		if (b < 10)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, b, 10);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, b, 10);
 		}
 
 		const double h = a / b;
@@ -246,11 +241,13 @@ private:
 	{
 		if (p < 10.0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, p, 10.0);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, p, 10.0);
 		}
 		if (q < 10.0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, q, 10.0);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, q, 10.0);
 		}
 
 		const double& a = std::min(p, q);
@@ -343,10 +340,8 @@ public:
 	 * @org.hipparchus.exception.Math_Illegal_State_Exception
 	 * if the algorithm fails to converge.
 	 */
-	static double regularized_beta(const double& x, const double& a, const double b, double epsilon, int max_iterations)
+	static double regularized_beta(const double& x, const double& a, const double& b, const double& epsilon, const int& max_iterations)
 	{
-		double ret;
-
 		if (std::isnan(x) ||
 			std::isnan(a) ||
 			std::isnan(b) ||
@@ -355,50 +350,42 @@ public:
 			a <= 0 ||
 			b <= 0)
 		{
-			ret = std::numeric_limits<double>::quiet_NaN();
+			return std::numeric_limits<double>::quiet_NaN();
 		}
-		else if (x > (a + 1) / (2 + b + a) &&
+		if (x > (a + 1) / (2 + b + a) &&
 			1 - x <= (b + 1) / (2 + b + a))
 		{
-			ret = 1 - regularized_beta(1 - x, b, a, epsilon, max_iterations);
+			return 1 - regularized_beta(1 - x, b, a, epsilon, max_iterations);
 		}
-		else
+		auto fraction = Continued_Fraction()
 		{
-			auto fraction = Continued_Fraction()
+		protected:
+			/** {@inherit_doc} */
+			//override
+			double get_b(const int& n, const double& x)
 			{
-				/** {@inherit_doc} */
-				//override
-				protected double get_b(const int& n, double x)
-				{
-					double ret;
-					double m;
-					if (n % 2 == 0) { // even
-						m = n / 2.0;
-						ret = (m * (b - m) * x) /
-							((a + (2 * m) - 1) * (a + (2 * m)));
-					}
-					else
-					{
-						m = (n - 1.0) / 2.0;
-						ret = -((a + m) * (a + b + m) * x) /
-							((a + (2 * m)) * (a + (2 * m) + 1.0));
-					}
-					return ret;
+				if (n % 2 == 0)
+				{ // even
+					const double m = n / 2.0;
+					return (m * (b - m) * x) /
+						((a + (2 * m) - 1) * (a + (2 * m)));
 				}
+				const double m = (n - 1.0) / 2.0;
+				return -((a + m) * (a + b + m) * x) /
+					((a + (2 * m)) * (a + (2 * m) + 1.0));
+				
+			}
 
-				/** {@inherit_doc} */
-				//override
-				protected double get_a(const int& n, double x)
-				{
-					return 1.0;
-				}
-			};
-			ret = std::exp((a * std::log(x)) + (b * std::log1p(-x)) -
-				std::log(a) - log_beta(a, b)) *
-				1.0 / fraction.evaluate(x, epsilon, max_iterations);
-		}
-
-		return ret;
+			/** {@inherit_doc} */
+			//override
+			protected double get_a(const int& n, double x)
+			{
+				return 1.0;
+			}
+		};
+		return std::exp((a * std::log(x)) + (b * std::log1p(-x)) -
+			std::log(a) - log_beta(a, b)) *
+			1.0 / fraction.evaluate(x, epsilon, max_iterations);
 	}
 
 	/**
@@ -410,7 +397,7 @@ public:
 	 * @return the value of {@code log(Beta(p, q))}, {@code NaN} if
 	 * {@code p <= 0} or {@code q <= 0}.
 	 */
-	static double log_beta(const double p, const double q)
+	static double log_beta(const double& p, const double& q)
 	{
 		if (std::isnan(p) || std::isnan(q) || (p <= 0.0) || (q <= 0.0))
 		{

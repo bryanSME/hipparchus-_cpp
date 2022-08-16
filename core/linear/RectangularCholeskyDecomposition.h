@@ -133,7 +133,8 @@ public:
 
                 if (r == 0) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
                 }
 
                 // check remaining diagonal elements
@@ -142,7 +143,8 @@ public:
                     if (c[index[i]][index[i]] < -small) 
                     {
                         // there is at least one sufficiently negative diagonal element, // the symmetric positive semidefinite matrix is wrong
-                        throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
+                        throw std::exception("not implemented");
+                        //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
                     }
                 }
 

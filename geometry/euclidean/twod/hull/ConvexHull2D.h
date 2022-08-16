@@ -180,7 +180,8 @@ else
     {
         if (vertices.size() < 3) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DATA);
+            throw std::exception("not implemented");
+            //  throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DATA);
         }
         const Region_Factory<Euclidean_2D> factory = Region_Factory<>();
         const Segment[] segments = retrieve_line_segments();

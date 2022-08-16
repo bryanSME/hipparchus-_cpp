@@ -59,24 +59,29 @@ class Hypergeometric_Distribution : Abstract_Integer_Distribution
         {
         if (population_size <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::POPULATION_SIZE, population_size);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::POPULATION_SIZE, population_size);
         }
         if (number_of_successes < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SUCCESSES, number_of_successes);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SUCCESSES, number_of_successes);
         }
         if (sample_size < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SAMPLES, sample_size);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SAMPLES, sample_size);
         }
 
         if (number_of_successes > population_size) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE, number_of_successes, population_size, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE, number_of_successes, population_size, true);
         }
         if (sample_size > population_size) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE, sample_size, population_size, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE, sample_size, population_size, true);
         }
 
         this.number_of_successes = number_of_successes;

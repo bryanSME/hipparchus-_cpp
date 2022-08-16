@@ -69,7 +69,8 @@ class Jacobi_Preconditioner : Real_Linear_Operator
         const int n = a.get_column_dimension();
         if (a.get_row_dimension() != n) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_OPERATOR, a.get_row_dimension(), n);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_OPERATOR, a.get_row_dimension(), n);
         }
         const std::vector<double> diag = std::vector<double>(n];
         if (a instanceof Abstract_Real_Matrix) 

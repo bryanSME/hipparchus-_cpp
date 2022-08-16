@@ -388,7 +388,8 @@ else
         check_index(index);
         if (n < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
         }
         check_index(index + n - 1);
         OpenMapReal_Vector res = OpenMapReal_Vector(n);

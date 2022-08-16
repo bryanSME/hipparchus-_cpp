@@ -369,7 +369,8 @@ class FieldQR_Decomposition
             const int m = qrt[0].size();
             if (b.get_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
             }
             check_singular(r_diag, threshold, true);
 
@@ -418,7 +419,8 @@ class FieldQR_Decomposition
             const int m = qrt[0].size();
             if (b.get_row_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
             }
             check_singular(r_diag, threshold, true);
 
@@ -534,12 +536,10 @@ class FieldQR_Decomposition
                 {
                     if (raise) 
                     {
-                        throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+                        throw std::exception("not implemented");
+                        // throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
                     }
-else 
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;

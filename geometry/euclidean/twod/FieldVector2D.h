@@ -68,7 +68,8 @@ class Field_Vector_2D
     {
         if (v.size() != 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), 2);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), 2);
         }
         this.x = v[0];
         this.y = v[1];

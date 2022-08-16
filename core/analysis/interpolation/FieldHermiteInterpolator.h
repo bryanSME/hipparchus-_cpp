@@ -21,6 +21,7 @@
  */
 //package org.hipparchus.analysis.interpolation;
 
+#include <vector>
 //import java.util.Array_list;
 //import java.util.List;
 
@@ -51,24 +52,20 @@
  */
 class Field_Hermite_Interpolator<T extends Field_Element<T>> 
 {
-
+private:
     /** Sample abscissae. */
-    private const List<T> abscissae;
+    const std::vector<T> my_abscissae{};
 
     /** Top diagonal of the divided differences array. */
-    private const List<std::vector<T>> top_diagonal;
+    const std::vector<std::vector<T>> my_top_diagonal{};
 
     /** Bottom diagonal of the divided differences array. */
-    private const List<std::vector<T>> bottom_diagonal;
+    const std::vector<std::vector<T>> my_bottom_diagonal{};
 
+public:
     /** Create an empty interpolator.
      */
-    public Field_Hermite_Interpolator() 
-    {
-        this.abscissae      = Array_list<>();
-        this.top_diagonal    = Array_list<>();
-        this.bottom_diagonal = Array_list<>();
-    }
+    Field_Hermite_Interpolator() = default;
 
     /** Add a sample point.
      * <p>
@@ -92,7 +89,7 @@ class Field_Hermite_Interpolator<T extends Field_Element<T>>
      * @Null_Argument_Exception if x is NULL
      */
     //@Safe_Varargs
-    public const void add_sample_point(const T& x, const std::vector<T> ... value)
+    const void add_sample_point(const T& x, const std::vector<T> ... value)
     {
 
         //Math_Utils::check_not_null(x);
@@ -115,12 +112,13 @@ class Field_Hermite_Interpolator<T extends Field_Element<T>>
             const int n = abscissae.size();
             bottom_diagonal.add(n - i, y);
             std::vector<T> bottom0 = y;
-            for (int j = i; j < n; ++j) 
+            for (int j{ i }; j < n; ++j)
             {
                 const std::vector<T> bottom1 = bottom_diagonal.get(n - (j + 1));
                 if (x.equals(abscissae.get(n - (j + 1)))) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DUPLICATED_ABSCISSA_DIVISION_BY_ZERO, x);
+                    throw std::exception("not implmented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DUPLICATED_ABSCISSA_DIVISION_BY_ZERO, x);
                 }
                 const T inv = x.subtract(abscissae.get(n - (j + 1))).reciprocal();
                 for (int k{}; k < y.size(); ++k) 
@@ -131,7 +129,7 @@ class Field_Hermite_Interpolator<T extends Field_Element<T>>
             }
 
             // update the top diagonal of the divided differences array
-            top_diagonal.add(bottom0.clone());
+            my_top_diagonal.add(bottom0.clone());
 
             // update the abscissae array
             abscissae.add(x);
@@ -146,13 +144,14 @@ class Field_Hermite_Interpolator<T extends Field_Element<T>>
      * @exception  if sample is empty
      * @Null_Argument_Exception if x is NULL
      */
-    public std::vector<T> value(T x) , Null_Argument_Exception 
+    std::vector<T> value(T x) , Null_Argument_Exception 
     {
         // safety check
         //Math_Utils::check_not_null(x);
         if (abscissae.is_empty()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_INTERPOLATION_SAMPLE);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_INTERPOLATION_SAMPLE);
         }
 
         const std::vector<T> value = Math_Arrays::build_array(x.get_field(), top_diagonal.get(0).size());
@@ -179,13 +178,14 @@ class Field_Hermite_Interpolator<T extends Field_Element<T>>
      * @exception  if sample is empty
      * @Null_Argument_Exception if x is NULL
      */
-    public std::vector<std::vector<T>> derivatives(T x, int order) , Null_Argument_Exception 
+    std::vector<std::vector<T>> derivatives(T x, int order) , Null_Argument_Exception 
     {
         // safety check
         //Math_Utils::check_not_null(x);
         if (abscissae.is_empty()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_INTERPOLATION_SAMPLE);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_INTERPOLATION_SAMPLE);
         }
 
         const T zero = x.get_field().get_zero();
@@ -221,9 +221,6 @@ class Field_Hermite_Interpolator<T extends Field_Element<T>>
         }
 
         return derivatives;
-
     }
 
-}
-
-
+};

@@ -27,7 +27,7 @@
     <ClInclude Include="exception\MathInternalError.h" />
     <ClInclude Include="exception\MathParseException.h" />
     <ClInclude Include="exception\MathUnsupportedOperationException.h" />
-    <ClInclude Include="exception\MaxCountExceededException.h" />
+    <ClInclude Include="exception\MaxCountExceededException.hpp" />
     <ClInclude Include="exception\MultiDimensionMismatchException.h" />
     <ClInclude Include="exception\NoBracketingException.h" />
     <ClInclude Include="exception\NoDataException.h" />

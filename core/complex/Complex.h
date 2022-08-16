@@ -1655,7 +1655,8 @@
 //    {
 //        if (n <= 0) 
 //        {
-//            throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N, n);
+//            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N, n);
 //        }
 //
 //        const List<std::complex<double>> result = Array_list<>();

@@ -83,7 +83,8 @@ protected:
     {
         if (const auto d = get_dimension(); d != n)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d, n);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d, n);
         }
     }
 
@@ -97,7 +98,8 @@ protected:
     {
         if (index < 0 || index >= get_dimension())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
         }
     }
 
@@ -114,16 +116,19 @@ protected:
         const int dim = get_dimension();
         if ((start < 0) || (start >= dim))
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
         }
         if ((end < 0) || (end >= dim))
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
         }
         if (end < start)
         {
             // TODO Use more specific error message
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
         }
     }
 

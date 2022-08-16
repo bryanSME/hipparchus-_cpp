@@ -148,7 +148,8 @@ public:
     {
         if (x0 > x1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT, x0, x1, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT, x0, x1, true);
         }
         const double denom = standard_deviation * SQRT2;
         const double v0 = (x0 - mean) / denom;

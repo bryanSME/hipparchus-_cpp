@@ -261,12 +261,14 @@ class Binomial_Proportion
     {
         if (number_of_trials <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_TRIALS, number_of_trials);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_TRIALS, number_of_trials);
         }
         Math_Utils::check_range_inclusive(probability_of_success, 0, 1);
         if (confidence_level <= 0 || confidence_level >= 1) 
         {
-            throw (Localized_Stat_Formats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL, confidence_level, 0, 1);
+            throw std::exception("not implemented");
+            //throw (Localized_Stat_Formats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL, confidence_level, 0, 1);
         }
     }
 

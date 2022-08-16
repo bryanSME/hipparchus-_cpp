@@ -20,28 +20,24 @@
  * It has been modified by the Hipparchus project
  */
 
-//package org.hipparchus.analysis.function;
-
-//import java.util.Arrays;
-
-//import org.hipparchus.analysis.Univariate_Function;
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.;
-//import org.hipparchus.exception.Null_Argument_Exception;
-//import org.hipparchus.util.Math_Arrays;
+#include <vector>
+#include "../UnivariateFunction.h"
+#include "../../util/MathArrays.h"
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Step_function">
  *  Step function</a>.
  *
  */
-class Step_Function : Univariate_Function 
+class Step_Function : Univariate_Function
 {
+private:
     /** Abscissae. */
-    private const std::vector<double> abscissa;
+    const std::vector<double> my_abscissa;
     /** Ordinates. */
-    private const std::vector<double> ordinate;
+    const std::vector<double> my_ordinate;
 
+public:
     /**
      * Builds a step function from a list of arguments and the corresponding
      * values. Specifically, returns the function h(x) defined by <pre><code>
@@ -62,50 +58,38 @@ class Step_Function : Univariate_Function
      * @ if {@code x} and {@code y} do not
      * have the same length.
      */
-    public Step_Function(std::vector<double> x, std::vector<double> y)
-        , Null_Argument_Exception 
+    Step_Function(const std::vector<double>& x, const std::vector<double>& y)
+        :
+        my_abscissa{ x },
+        my_ordinate{ y }
+    {
+        if (x.size() == 0 || y.size() == 0)
         {
-        if (x == NULL ||
-            y == NULL) 
-            {
-            throw Null_Argument_Exception();
-        }
-        if (x.size() == 0 ||
-            y.size() == 0) 
-            {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         Math_Arrays::check_equal_length(y, x);
         Math_Arrays::check_order(x);
-
-        abscissa = x.clone();
-        ordinate = y.clone();
     }
 
     /** {@inherit_doc} */
     //override
-    public double value(double x) 
+    double value(const double& x)
     {
-        const int index = Arrays.binary_search(abscissa, x);
+        const int index = Arrays.binary_search(my_abscissa, x);
 
-        if (index < -1) 
+        if (index < -1)
         {
             // "x" is between "abscissa[-index-2]" and "abscissa[-index-1]".
-            return ordinate[-index-2];
+            return my_ordinate[-index - 2];
         }
-else if (index >= 0) 
+        if (index >= 0)
         {
             // "x" is exactly "abscissa[index]".
-            return ordinate[index];
+            return my_ordinate[index];
         }
-else 
-        {
-            // Otherwise, "x" is smaller than the first value in "abscissa"
-            // (hence the returned value should be "ordinate[0]").
-            return ordinate[0];
-        }
-
+        // Otherwise, "x" is smaller than the first value in "abscissa"
+        // (hence the returned value should be "ordinate[0]").
+        return my_ordinate[0];
     }
-}
-
-
+};

@@ -77,11 +77,13 @@ class F_Distribution extends Abstract_Real_Distribution
 
         if (numerator_degrees_of_freedom <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, numerator_degrees_of_freedom);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, numerator_degrees_of_freedom);
         }
         if (denominator_degrees_of_freedom <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, denominator_degrees_of_freedom);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, denominator_degrees_of_freedom);
         }
         this.numerator_degrees_of_freedom   = numerator_degrees_of_freedom;
         this.denominator_degrees_of_freedom = denominator_degrees_of_freedom;

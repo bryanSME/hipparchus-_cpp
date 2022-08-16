@@ -63,7 +63,8 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
         {
         if (scale <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SCALE, scale);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SCALE, scale);
         }
 
         this.scale = scale;

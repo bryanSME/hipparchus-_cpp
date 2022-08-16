@@ -195,13 +195,15 @@ public:
         }
         if (res.n_vals < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::BESSEL_FUNCTION_BAD_ARGUMENT,order, x);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::BESSEL_FUNCTION_BAD_ARGUMENT,order, x);
         }
         if (std::abs(res.vals[res.n_vals - 1]) < 1e-100) 
         {
             return res.vals[n]; // underflow; return value (will be zero)
         }
-        throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::BESSEL_FUNCTION_FAILED_CONVERGENCE, order, x);
+        throw std::exception("not implemented");
+        //throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::BESSEL_FUNCTION_FAILED_CONVERGENCE, order, x);
     }
 
     /**

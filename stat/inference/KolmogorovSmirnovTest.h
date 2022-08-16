@@ -504,7 +504,8 @@ private:
         const double h = k - n * d;
         if (h >= 1)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, h, 1.0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, h, 1.0);
         }
         auto Hdata = std::vector<std::vector<double>>(m, std::vector<double>(m));
 
@@ -586,7 +587,8 @@ private:
         //Math_Utils::check_not_null(array);
         if (arr.size() < 2)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, arr.size(), 2);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, arr.size(), 2);
         }
     }
 

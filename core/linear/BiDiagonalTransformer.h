@@ -40,32 +40,187 @@
  */
 class Bi_Diagonal_Transformer 
 {
-
+private:
     /** Householder vectors. */
-    private const std::vector<std::vector<double>> householder_vectors;
+    const std::vector<std::vector<double>> my_householder_vectors;
 
     /** Main diagonal. */
-    private const std::vector<double> main;
+    const std::vector<double> my_main;
 
     /** Secondary diagonal. */
-    private const std::vector<double> secondary;
+    const std::vector<double> my_secondary;
 
     /** Cached value of U. */
-    private Real_Matrix cached_u;
+    Real_Matrix my_cached_u;
 
     /** Cached value of B. */
-    private Real_Matrix cached_b;
+    Real_Matrix my_cached_b;
 
     /** Cached value of V. */
-    private Real_Matrix cached_v;
+    Real_Matrix my_cached_v;
 
+    /**
+     * Transform original matrix to upper bi-diagonal form.
+     * <p>Transformation is done using alternate Householder transforms
+     * on columns and rows.</p>
+     */
+    void transform_to_upper_bi_diagonal()
+    {
+        const int m = householder_vectors.size();
+        const int n = householder_vectors[0].size();
+        for (int k{}; k < n; k++)
+        {
+
+            //zero-out a column
+            double x_norm_sqr{};
+            for (int i = k; i < m; ++i)
+            {
+                const double c = householder_vectors[i][k];
+                x_norm_sqr += c * c;
+            }
+            const auto h_k = householder_vectors[k];
+            const double a = (h_k[k] > 0)
+                ? -std::sqrt(x_norm_sqr)
+                : std::sqrt(x_norm_sqr);
+            main[k] = a;
+            if (a != 0.0)
+            {
+                h_k[k] -= a;
+                for (int j{ k + 1 }; j < n; ++j)
+                {
+                    double alpha = 0;
+                    for (int i = k; i < m; ++i)
+                    {
+                        const std::vector<double> h_i = householder_vectors[i];
+                        alpha -= h_i[j] * h_i[k];
+                    }
+                    alpha /= a * householder_vectors[k][k];
+                    for (int i = k; i < m; ++i)
+                    {
+                        const std::vector<double> h_i = householder_vectors[i];
+                        h_i[j] -= alpha * h_i[k];
+                    }
+                }
+            }
+
+            if (k < n - 1)
+            {
+                //zero-out a row
+                x_norm_sqr = 0;
+                for (int j{ k + 1 }; j < n; ++j)
+                {
+                    const double c = h_k[j];
+                    x_norm_sqr += c * c;
+                }
+                const double b = (h_k[k + 1] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
+                secondary[k] = b;
+                if (b != 0.0)
+                {
+                    h_k[k + 1] -= b;
+                    for (int i = k + 1; i < m; ++i)
+                    {
+                        const std::vector<double> h_i = householder_vectors[i];
+                        double beta = 0;
+                        for (int j{ k + 1 }; j < n; ++j)
+                        {
+                            beta -= h_i[j] * h_k[j];
+                        }
+                        beta /= b * h_k[k + 1];
+                        for (int j{ k + 1 }; j < n; ++j)
+                        {
+                            h_i[j] -= beta * h_k[j];
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Transform original matrix to lower bi-diagonal form.
+     * <p>Transformation is done using alternate Householder transforms
+     * on rows and columns.</p>
+     */
+    void transform_to_lower_bi_diagonal()
+    {
+        const int m = householder_vectors.size();
+        const int n = householder_vectors[0].size();
+        for (int k{}; k < m; k++)
+        {
+
+            //zero-out a row
+            const std::vector<double> h_k = householder_vectors[k];
+            double x_norm_sqr{};
+            for (int j{ k }; j < n; ++j)
+            {
+                const double c = h_k[j];
+                x_norm_sqr += c * c;
+            }
+            const double& a = (h_k[k] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
+            main[k] = a;
+            if (a != 0.0)
+            {
+                h_k[k] -= a;
+                for (int i = k + 1; i < m; ++i)
+                {
+                    const std::vector<double> h_i = householder_vectors[i];
+                    double alpha = 0;
+                    for (int j{ k }; j < n; ++j)
+                    {
+                        alpha -= h_i[j] * h_k[j];
+                    }
+                    alpha /= a * householder_vectors[k][k];
+                    for (int j{ k }; j < n; ++j)
+                    {
+                        h_i[j] -= alpha * h_k[j];
+                    }
+                }
+            }
+
+            if (k < m - 1)
+            {
+                //zero-out a column
+                const std::vector<double> h_kp1 = householder_vectors[k + 1];
+                x_norm_sqr = 0;
+                for (int i = k + 1; i < m; ++i)
+                {
+                    const double c = householder_vectors[i][k];
+                    x_norm_sqr += c * c;
+                }
+                const double b = (h_kp1[k] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
+                secondary[k] = b;
+                if (b != 0.0)
+                {
+                    h_kp1[k] -= b;
+                    for (int j{ k + 1 }; j < n; ++j)
+                    {
+                        double beta = 0;
+                        for (int i = k + 1; i < m; ++i)
+                        {
+                            const std::vector<double> h_i = householder_vectors[i];
+                            beta -= h_i[j] * h_i[k];
+                        }
+                        beta /= b * h_kp1[k];
+                        for (int i = k + 1; i < m; ++i)
+                        {
+                            const std::vector<double> h_i = householder_vectors[i];
+                            h_i[j] -= beta * h_i[k];
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+public:
     /**
      * Build the transformation to bi-diagonal shape of a matrix.
      * @param matrix the matrix to transform.
      */
     Bi_Diagonal_Transformer(Real_Matrix matrix) 
     {
-
         const int m = matrix.get_row_dimension();
         const int n = matrix.get_column_dimension();
         const int p = std::min(m, n);
@@ -81,7 +236,7 @@ class Bi_Diagonal_Transformer
         {
             transform_to_upper_bi_diagonal();
         }
-else 
+        else 
         {
             transform_to_lower_bi_diagonal();
         }
@@ -93,9 +248,8 @@ else
      * <p>U is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the U matrix
      */
-    public Real_Matrix get_u() 
+    Real_Matrix get_u() 
     {
-
         if (cached_u == NULL) 
         {
 
@@ -144,14 +298,13 @@ else
 
         // return the cached matrix
         return cached_u;
-
     }
 
     /**
      * Returns the bi-diagonal matrix B of the transform.
      * @return the B matrix
      */
-    public Real_Matrix get_b() 
+    Real_Matrix get_b() 
     {
 
         if (cached_b == NULL) 
@@ -170,7 +323,7 @@ else
                         ba[i][i-1] = secondary[i - 1];
                     }
                 }
-else 
+                else 
                 {
                     if (i < main.size() - 1) 
                     {
@@ -191,7 +344,7 @@ else
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the V matrix
      */
-    public Real_Matrix get_v() 
+    Real_Matrix get_v() 
     {
 
         if (cached_v == NULL) 
@@ -250,9 +403,9 @@ else
      * <p>Note that since this class is only intended for internal use, * it returns directly a reference to its internal arrays, not a copy.</p>
      * @return the main diagonal elements of the B matrix
      */
-    std::vector<std::vector<double>> get_householder_vectors_ref() 
+    std::vector<std::vector<double>> get_householder_vectors_ref() const
     {
-        return householder_vectors; // NOPMD - returning an internal array is intentional and documented here
+        return my_householder_vectors; // NOPMD - returning an internal array is intentional and documented here
     }
 
     /**
@@ -260,9 +413,9 @@ else
      * <p>Note that since this class is only intended for internal use, * it returns directly a reference to its internal arrays, not a copy.</p>
      * @return the main diagonal elements of the B matrix
      */
-    std::vector<double> get_main_diagonal_ref() 
+    std::vector<double> get_main_diagonal_ref() const
     {
-        return main; // NOPMD - returning an internal array is intentional and documented here
+        return my_main; // NOPMD - returning an internal array is intentional and documented here
     }
 
     /**
@@ -270,175 +423,17 @@ else
      * <p>Note that since this class is only intended for internal use, * it returns directly a reference to its internal arrays, not a copy.</p>
      * @return the secondary diagonal elements of the B matrix
      */
-    std::vector<double> get_secondary_diagonal_ref() 
+    std::vector<double> get_secondary_diagonal_ref() const
     {
-        return secondary; // NOPMD - returning an internal array is intentional and documented here
+        return my_secondary; // NOPMD - returning an internal array is intentional and documented here
     }
 
     /**
      * Check if the matrix is transformed to upper bi-diagonal.
      * @return true if the matrix is transformed to upper bi-diagonal
      */
-    bool is_upper_bi_diagonal() 
+    bool is_upper_bi_diagonal() const
     {
-        return householder_vectors.size() >=  householder_vectors[0].size();
+        return my_householder_vectors.size() >=  my_householder_vectors[0].size();
     }
-
-    /**
-     * Transform original matrix to upper bi-diagonal form.
-     * <p>Transformation is done using alternate Householder transforms
-     * on columns and rows.</p>
-     */
-    private void transform_to_upper_bi_diagonal() 
-    {
-
-        const int m = householder_vectors.size();
-        const int n = householder_vectors[0].size();
-        for (int k{}; k < n; k++) 
-        {
-
-            //zero-out a column
-            double x_norm_sqr{};
-            for (int i = k; i < m; ++i) 
-            {
-                const double c = householder_vectors[i][k];
-                x_norm_sqr += c * c;
-            }
-            const std::vector<double> h_k = householder_vectors[k];
-            const double& a = (h_k[k] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
-            main[k] = a;
-            if (a != 0.0) 
-            {
-                h_k[k] -= a;
-                for (int j{ k + 1 }; j < n; ++j) 
-                {
-                    double alpha = 0;
-                    for (int i = k; i < m; ++i) 
-                    {
-                        const std::vector<double> h_i = householder_vectors[i];
-                        alpha -= h_i[j] * h_i[k];
-                    }
-                    alpha /= a * householder_vectors[k][k];
-                    for (int i = k; i < m; ++i) 
-                    {
-                        const std::vector<double> h_i = householder_vectors[i];
-                        h_i[j] -= alpha * h_i[k];
-                    }
-                }
-            }
-
-            if (k < n - 1) 
-            {
-                //zero-out a row
-                x_norm_sqr = 0;
-                for (int j{ k + 1 }; j < n; ++j) 
-                {
-                    const double c = h_k[j];
-                    x_norm_sqr += c * c;
-                }
-                const double b = (h_k[k + 1] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
-                secondary[k] = b;
-                if (b != 0.0) 
-                {
-                    h_k[k + 1] -= b;
-                    for (int i = k + 1; i < m; ++i) 
-                    {
-                        const std::vector<double> h_i = householder_vectors[i];
-                        double beta = 0;
-                        for (int j{ k + 1 }; j < n; ++j) 
-                        {
-                            beta -= h_i[j] * h_k[j];
-                        }
-                        beta /= b * h_k[k + 1];
-                        for (int j{ k + 1 }; j < n; ++j) 
-                        {
-                            h_i[j] -= beta * h_k[j];
-                        }
-                    }
-                }
-            }
-
-        }
-    }
-
-    /**
-     * Transform original matrix to lower bi-diagonal form.
-     * <p>Transformation is done using alternate Householder transforms
-     * on rows and columns.</p>
-     */
-    private void transform_to_lower_bi_diagonal() 
-    {
-
-        const int m = householder_vectors.size();
-        const int n = householder_vectors[0].size();
-        for (int k{}; k < m; k++) 
-        {
-
-            //zero-out a row
-            const std::vector<double> h_k = householder_vectors[k];
-            double x_norm_sqr{};
-            for (int j{ k }; j < n; ++j) 
-            {
-                const double c = h_k[j];
-                x_norm_sqr += c * c;
-            }
-            const double& a = (h_k[k] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
-            main[k] = a;
-            if (a != 0.0) 
-            {
-                h_k[k] -= a;
-                for (int i = k + 1; i < m; ++i) 
-                {
-                    const std::vector<double> h_i = householder_vectors[i];
-                    double alpha = 0;
-                    for (int j{ k }; j < n; ++j) 
-                    {
-                        alpha -= h_i[j] * h_k[j];
-                    }
-                    alpha /= a * householder_vectors[k][k];
-                    for (int j{ k }; j < n; ++j) 
-                    {
-                        h_i[j] -= alpha * h_k[j];
-                    }
-                }
-            }
-
-            if (k < m - 1) 
-            {
-                //zero-out a column
-                const std::vector<double> h_kp1 = householder_vectors[k + 1];
-                x_norm_sqr = 0;
-                for (int i = k + 1; i < m; ++i) 
-                {
-                    const double c = householder_vectors[i][k];
-                    x_norm_sqr += c * c;
-                }
-                const double b = (h_kp1[k] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
-                secondary[k] = b;
-                if (b != 0.0) 
-                {
-                    h_kp1[k] -= b;
-                    for (int j{ k + 1 }; j < n; ++j) 
-                    {
-                        double beta = 0;
-                        for (int i = k + 1; i < m; ++i) 
-                        {
-                            const std::vector<double> h_i = householder_vectors[i];
-                            beta -= h_i[j] * h_i[k];
-                        }
-                        beta /= b * h_kp1[k];
-                        for (int i = k + 1; i < m; ++i) 
-                        {
-                            const std::vector<double> h_i = householder_vectors[i];
-                            h_i[j] -= beta * h_i[k];
-                        }
-                    }
-                }
-            }
-
-        }
-    }
-
-}
-
-
+};

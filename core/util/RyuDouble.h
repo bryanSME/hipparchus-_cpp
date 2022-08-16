@@ -588,7 +588,8 @@ else
             value /= 5;
             count++;
         }
-        throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, value, 0);
+        throw std::exception("not implemented");
+        //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, value, 0);
     }
 
     /**
@@ -616,7 +617,8 @@ else
         int actualShift = j - 3 * 31 - 21;
         if (actualShift < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, j, 3 * 31 + 21);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, j, 3 * 31 + 21);
         }
         return ((((((((bits00 >>> 31) + bits01 + bits10) >>> 31) +
                         bits02 + bits11) >>> 31) +
@@ -649,7 +651,8 @@ else
         const int actualShift = j - 3 * 31 - 21;
         if (actualShift < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, j, 3 * 31 + 21);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, j, 3 * 31 + 21);
         }
         return ((((((((bits00 >>> 31) + bits01 + bits10) >>> 31) +
                         bits02 + bits11) >>> 31) +

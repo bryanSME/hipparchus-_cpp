@@ -76,7 +76,8 @@ class Schur_Transformer
     {
         if (!matrix.is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
         }
 
         Hessenberg_Transformer transformer = Hessenberg_Transformer(matrix);

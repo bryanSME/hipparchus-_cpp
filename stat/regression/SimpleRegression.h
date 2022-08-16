@@ -882,12 +882,13 @@ else
     {
         if (variables_to_include == NULL || variables_to_include.size() == 0) 
         {
-          throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
         }
         if (variables_to_include.size() > 2 || (variables_to_include.size() > 1 && !has_intercept)) 
         {
-            throw (
-                    hipparchus::exception::Localized_Core_Formats_Type::ARRAY_SIZE_EXCEEDS_MAX_VARIABLES, (variables_to_include.size() > 1 && !has_intercept) ? 1 : 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_SIZE_EXCEEDS_MAX_VARIABLES, (variables_to_include.size() > 1 && !has_intercept) ? 1 : 2);
         }
 
         if (has_intercept) 
@@ -896,22 +897,26 @@ else
             {
                 if (variables_to_include[0] == 1) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_INCREASING_SEQUENCE);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_INCREASING_SEQUENCE);
                 }
-else if (variables_to_include[0] != 0) 
+                if (variables_to_include[0] != 0) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 1);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 1);
                 }
                 if (variables_to_include[1] != 1) 
                 {
-                     throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 1);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 1);
                 }
                 return regress();
             }else
             {
                 if( variables_to_include[0] != 1 && variables_to_include[0] != 0 ) 
                 {
-                     throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 1);
+                    throw std::exception("not implemented");
+                    // throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 1);
                 }
                 const double _mean = sum_y * sum_y / n;
                 const double _syy = sum__y_y + _mean;
@@ -946,11 +951,12 @@ else if (variables_to_include[0] != 0)
                 }
             }
         }
-else 
+           else 
         {
             if (variables_to_include[0] != 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 0);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, variables_to_include[0], 0, 0);
             }
             return regress();
         }

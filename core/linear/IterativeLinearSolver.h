@@ -65,15 +65,18 @@ protected:
         //Math_Utils::check_not_null(x0);
         /*if (a.get_row_dimension() != a.get_column_dimension())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_OPERATOR, a.get_row_dimension(), a.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_OPERATOR, a.get_row_dimension(), a.get_column_dimension());
         }
         if (b.get_dimension() != a.get_row_dimension())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), a.get_row_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), a.get_row_dimension());
         }
         if (x0.get_dimension() != a.get_column_dimension())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x0.get_dimension(), a.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x0.get_dimension(), a.get_column_dimension());
         }*/
     }
 

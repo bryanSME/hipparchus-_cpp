@@ -118,7 +118,8 @@ class Muller_Solver2 extends Abstract_Univariate_Solver
 
         if(y0 * y1 > 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x0, x1, y0, y1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x0, x1, y0, y1);
         }
 
         double x2 = 0.5 * (x0 + x1);

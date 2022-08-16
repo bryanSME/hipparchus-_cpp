@@ -119,11 +119,13 @@ protected:
         //Math_Utils::check_not_null(c);
         if (a.empty() || c.empty())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         if (a.size() != c.size() + 1)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1, a.size(), c.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1, a.size(), c.size());
         }
     }
 

@@ -117,7 +117,7 @@
     <ClInclude Include="analysis\function\Tan.hpp" />
     <ClInclude Include="analysis\function\Tanh.hpp" />
     <ClInclude Include="analysis\function\Ulp.h" />
-    <ClInclude Include="analysis\integration\BaseAbstractFieldUnivariateIntegrator.h" />
+    <ClInclude Include="analysis\integration\BaseAbstractFieldUnivariateIntegrator.hpp" />
     <ClInclude Include="analysis\integration\BaseAbstractUnivariateIntegrator.h" />
     <ClInclude Include="analysis\integration\FieldMidPointIntegrator.h" />
     <ClInclude Include="analysis\integration\FieldRombergIntegrator.h" />
@@ -153,7 +153,7 @@
     <ClInclude Include="analysis\integration\TrapezoidIntegrator.h" />
     <ClInclude Include="analysis\integration\UnivariateIntegrator.h" />
     <ClInclude Include="analysis\interpolation\AkimaSplineInterpolator.h" />
-    <ClInclude Include="analysis\interpolation\BicubicInterpolatingFunction.h" />
+    <ClInclude Include="analysis\interpolation\BicubicInterpolatingFunction.hpp" />
     <ClInclude Include="analysis\interpolation\BicubicInterpolator.h" />
     <ClInclude Include="analysis\interpolation\BilinearInterpolatingFunction.hpp" />
     <ClInclude Include="analysis\interpolation\BilinearInterpolator.h" />
@@ -488,7 +488,7 @@
     <ClInclude Include="util\FieldSinCos.h" />
     <ClInclude Include="util\FieldSinhCosh.h" />
     <ClInclude Include="util\FieldTuple.h" />
-    <ClInclude Include="util\Incrementor.h" />
+    <ClInclude Include="util\Incrementor.hpp" />
     <ClInclude Include="util\IterationEvent.h" />
     <ClInclude Include="util\IterationListener.h" />
     <ClInclude Include="util\IterationManager.h" />

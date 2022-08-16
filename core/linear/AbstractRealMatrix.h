@@ -65,11 +65,13 @@ protected:
     {
         if (row_dimension < 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
         }
         if (column_dimension < 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
         }
     }
 
@@ -188,12 +190,14 @@ public:
     {
         if (p < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_EXPONENT, p);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_EXPONENT, p);
         }
 
         if (!is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, get_row_dimension(), get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, get_row_dimension(), get_column_dimension());
         }
 
         if (p == 0) 
@@ -356,14 +360,16 @@ public:
         const int columns_count = end_column + 1 - start_column;
         if ((destination.size() < rows_count) || (destination[0].size() < columns_count)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination[0].size(), rows_count, columns_count);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination[0].size(), rows_count, columns_count);
         }
 
         for (int i{ 1 }; i < rows_count; i++) 
         {
             if (destination[i].size() < columns_count) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination[i].size(), rows_count, columns_count);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination[i].size(), rows_count, columns_count);
             }
         }
 
@@ -403,7 +409,8 @@ public:
         if ((destination.size() < selected_rows.size()) ||
             (destination[0].size() < n_cols)) 
             {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination[0].size(), selected_rows.size(), selected_columns.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination[0].size(), selected_rows.size(), selected_columns.size());
         }
 
         for (int i{}; i < selected_rows.size(); i++) 
@@ -411,7 +418,8 @@ public:
             const auto destination_i = destination[i];
             if (destination_i.size() < n_cols) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination_i.size(), selected_rows.size(), selected_columns.size());
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, destination.size(), destination_i.size(), selected_rows.size(), selected_columns.size());
             }
             for (int j{}; j < selected_columns.size(); j++) 
             {
@@ -428,20 +436,23 @@ public:
         const auto n_rows = sub_matrix.size();
         if (n_rows == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
         }
 
         const int n_cols = sub_matrix[0].size();
         if (n_cols == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
         }
 
         for (const int r{ 1 }; r < n_rows; ++r)
         {
             if (sub_matrix[r].size() != n_cols) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, n_cols, sub_matrix[r].size());
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, n_cols, sub_matrix[r].size());
             }
         }
 
@@ -482,7 +493,8 @@ public:
         const auto n_cols = get_column_dimension();
         if ((matrix.get_row_dimension() != 1) || (matrix.get_column_dimension() != n_cols)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, matrix.get_row_dimension(), matrix.get_column_dimension(), 1, n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, matrix.get_row_dimension(), matrix.get_column_dimension(), 1, n_cols);
         }
         for (int i{}; i < n_cols; ++i) 
         {
@@ -515,8 +527,9 @@ public:
         const int n_rows = get_row_dimension();
         if ((matrix.get_row_dimension() != n_rows) ||
             (matrix.get_column_dimension() != 1)) 
-            {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, matrix.get_row_dimension(), matrix.get_column_dimension(), n_rows, 1);
+        {
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, matrix.get_row_dimension(), matrix.get_column_dimension(), n_rows, 1);
         }
         for (int i{}; i < n_rows; ++i) 
         {
@@ -541,7 +554,8 @@ public:
         const int n_cols = get_column_dimension();
         if (vector.get_dimension() != n_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, vector.get_dimension(), 1, n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, vector.get_dimension(), 1, n_cols);
         }
         for (int i{}; i < n_cols; ++i) 
         {
@@ -566,7 +580,8 @@ public:
         const int n_rows = get_row_dimension();
         if (vector.get_dimension() != n_rows) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, vector.get_dimension(), 1, n_rows, 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, vector.get_dimension(), 1, n_rows, 1);
         }
         for (int i{}; i < n_rows; ++i) 
         {
@@ -597,7 +612,8 @@ public:
         const int n_cols = get_column_dimension();
         if (array.size() != n_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, array.size(), 1, n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, array.size(), 1, n_cols);
         }
         for (int i{}; i < n_cols; ++i) 
         {
@@ -628,7 +644,8 @@ public:
         const int n_rows = get_row_dimension();
         if (array.size() != n_rows) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, array.size(), 1, n_rows, 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, array.size(), 1, n_rows, 1);
         }
         for (int i{}; i < n_rows; ++i) 
         {
@@ -705,7 +722,8 @@ public:
         const int n_cols = get_column_dimension();
         if (n_rows != n_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, n_rows, n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, n_rows, n_cols);
        }
         double trace = 0;
         for (int i{}; i < n_rows; ++i) 
@@ -724,7 +742,8 @@ public:
         const int n_cols = get_column_dimension();
         if (v.size() != n_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_cols);
         }
 
         auto out = std::vector<double>(n_rows);
@@ -754,7 +773,8 @@ public:
         const int n_cols = get_column_dimension();
         if (v.get_dimension() != n_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.get_dimension(), n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.get_dimension(), n_cols);
         }
 
         auto out = std::vector<double>(n_rows;
@@ -779,7 +799,8 @@ public:
         const int n_cols = get_column_dimension();
         if (v.size() != n_rows) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_rows);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_rows);
         }
 
         auto out = std::vector<double>(n_cols);
@@ -809,7 +830,8 @@ public:
         const int n_cols = get_column_dimension();
         if (v.get_dimension() != n_rows) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.get_dimension(), n_rows);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.get_dimension(), n_rows);
         }
 
         auto out = std::vector<double>(n_cols);

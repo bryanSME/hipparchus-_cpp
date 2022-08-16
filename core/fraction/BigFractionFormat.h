@@ -38,17 +38,14 @@
  * <p>
  * The number format for each of the whole number, numerator and, * denominator can be configured.
  */
-class Big_Fraction_Format extends Abstract_Format  
+class Big_Fraction_Format : public Abstract_Format  
 {
-
-    /** Serializable version identifier */
-    20160323L;
-
+public:
     /**
      * Create an improper formatting instance with the default number format
      * for the numerator and denominator.
      */
-    public Big_Fraction_Format() 
+    Big_Fraction_Format() 
     {
         // This constructor is intentionally empty. Nothing special is needed here.
     }
@@ -59,7 +56,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @param format the custom format for both the numerator and denominator.
      * @org.hipparchus.exception.Null_Argument_Exception if the provided format is NULL.
      */
-    public Big_Fraction_Format(const Number_Format format) 
+    Big_Fraction_Format(const Number_Format& format) 
     {
         super(format);
     }
@@ -71,7 +68,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @param denominator_format the custom format for the denominator.
      * @org.hipparchus.exception.Null_Argument_Exception if either provided format is NULL.
      */
-    public Big_Fraction_Format(const Number_Format numerator_format, const Number_Format denominator_format) 
+    Big_Fraction_Format(const Number_Format& numerator_format, const Number_Format& denominator_format) 
     {
         super(numerator_format, denominator_format);
     }
@@ -81,7 +78,7 @@ class Big_Fraction_Format extends Abstract_Format
      * is the same set as the {@link Number_Format} set.
      * @return available complex format locales.
      */
-    public static Locale[] get_available_locales() 
+    static std::vector<Locale>> get_available_locales() 
     {
         return Number_Format.get_available_locales();
     }
@@ -93,7 +90,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @param f Big_Fraction object to format
      * @return A formatted Big_Fraction in proper form.
      */
-    public static std::string format_big__fraction(const Big_Fraction f) 
+    static std::string format_big__fraction(const Big_Fraction f) 
     {
         return get_improper_instance().format(f);
     }
@@ -102,7 +99,7 @@ class Big_Fraction_Format extends Abstract_Format
      * Returns the default complex format for the current locale.
      * @return the default complex format.
      */
-    public static Big_Fraction_Format get_improper_instance() 
+    static Big_Fraction_Format get_improper_instance() 
     {
         return get_improper_instance(Locale.get_default());
     }
@@ -112,7 +109,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @param locale the specific locale used by the format.
      * @return the complex format specific to the given locale.
      */
-    public static Big_Fraction_Format get_improper_instance(const Locale& locale) 
+    static Big_Fraction_Format get_improper_instance(const Locale& locale) 
     {
         return Big_Fraction_Format(get_default_number_format(locale));
     }
@@ -121,7 +118,7 @@ class Big_Fraction_Format extends Abstract_Format
      * Returns the default complex format for the current locale.
      * @return the default complex format.
      */
-    public static Big_Fraction_Format get_proper_instance() 
+    static Big_Fraction_Format get_proper_instance() 
     {
         return get_proper_instance(Locale.get_default());
     }
@@ -131,7 +128,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @param locale the specific locale used by the format.
      * @return the complex format specific to the given locale.
      */
-    public static Big_Fraction_Format get_proper_instance(const Locale& locale) 
+    static Big_Fraction_Format get_proper_instance(const Locale& locale) 
     {
         return ProperBig_Fraction_Format(get_default_number_format(locale));
     }
@@ -146,7 +143,7 @@ class Big_Fraction_Format extends Abstract_Format
      *            offsets of the alignment field
      * @return the value passed in as to_append_to.
      */
-    public std::stringstreamformat(const Big_Fraction Big_Fraction, // NOPMD - PMD false positive, we cannot have //override here
+    std::stringstreamformat(const Big_Fraction Big_Fraction, // NOPMD - PMD false positive, we cannot have //override here
                                const std::stringstreamto_append_to, const Field_Position pos) 
                                {
 
@@ -175,7 +172,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @ if <code>obj</code> is not a valid type.
      */
     //override
-    public std::stringstreamformat(const Object obj, const std::stringstreamto_append_to, const Field_Position pos) 
+    std::stringstreamformat(const Object obj, const std::stringstreamto_append_to, const Field_Position pos) 
     {
         if (dynamic_cast<const Big_Fraction*>(*obj) != nullptr)
         {
@@ -189,7 +186,8 @@ class Big_Fraction_Format extends Abstract_Format
         {
             return format(new Big_Fraction(((Number) obj).double_value()), to_append_to, pos);
         }
-        throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_FORMAT_OBJECT_TO_FRACTION);
+        throw std::exception("not implmented");
+        //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_FORMAT_OBJECT_TO_FRACTION);
     }
 
     /**
@@ -200,13 +198,14 @@ class Big_Fraction_Format extends Abstract_Format
      *            cannot be parsed.
      */
     //override
-    public Big_Fraction parse(const std::string& source) Math_Illegal_State_Exception 
+    Big_Fraction parse(const std::string& source) Math_Illegal_State_Exception 
     {
         const Parse_Position parse_position = Parse_Position(0);
         const Big_Fraction result = parse(source, parse_position);
         if (parse_position.get_index() == 0) 
         {
-            throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CANNOT_PARSE_AS_TYPE, source, parse_position.get_error_index(), Big_Fraction.class);
+            throw std::exception("not implemented");
+            //throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CANNOT_PARSE_AS_TYPE, source, parse_position.get_error_index(), Big_Fraction.class);
         }
         return result;
     }
@@ -219,7 +218,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @return the parsed {@link Big_Fraction} object.
      */
     //override
-    public Big_Fraction parse(const std::string source, const Parse_Position pos) 
+    Big_Fraction parse(const std::string source, const Parse_Position pos) 
     {
         const int initial_index = pos.get_index();
 
@@ -275,6 +274,7 @@ class Big_Fraction_Format extends Abstract_Format
         return Big_Fraction(num, den);
     }
 
+    protected:
     /**
      * Parses a string to produce a <code>BigInteger</code>.
      * @param source the string to parse
@@ -282,7 +282,7 @@ class Big_Fraction_Format extends Abstract_Format
      * @return a parsed <code>BigInteger</code> or NULL if string does not
      * contain a BigInteger at the specified position
      */
-    protected BigInteger parse_next_big_integer(const std::string source, const Parse_Position pos) 
+    BigInteger parse_next_big_integer(const std::string source, const Parse_Position pos) 
     {
 
         const int start = pos.get_index();
@@ -299,7 +299,7 @@ class Big_Fraction_Format extends Abstract_Format
              pos.set_index(end);
              return n;
          }
-catch (Number_FormatException nfe) 
+        catch (Number_FormatException nfe) 
          {
              pos.set_error_index(start);
              return NULL;

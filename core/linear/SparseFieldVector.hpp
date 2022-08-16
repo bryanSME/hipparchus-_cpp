@@ -92,15 +92,18 @@ private:
         throw std::exception("not implemented");
         //if ((start < 0) || (start >= dim))
         //{
-        //    throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
+        //    throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
         //}
         //if ((end < 0) || (end >= dim))
         //{
-        //    throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
+        //    throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
         //}
         //if (end < start)
         //{
-        //    throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
+        //    throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
         //}
     }
 

@@ -77,11 +77,13 @@ class Zipf_Distribution : Abstract_Integer_Distribution
         {
         if (number_of_elements <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSION, number_of_elements);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSION, number_of_elements);
         }
         if (exponent <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EXPONENT, exponent);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EXPONENT, exponent);
         }
 
         this.number_of_elements = number_of_elements;

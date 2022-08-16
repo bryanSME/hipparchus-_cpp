@@ -113,7 +113,8 @@ class Halton_Sequence_Generator : Random_Vector_Generator
 
         if (weights != NULL && weights.size() != bases.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, weights.size(), bases.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, weights.size(), bases.size());
         }
 
         this.dimension = dimension;

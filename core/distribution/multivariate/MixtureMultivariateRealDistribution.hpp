@@ -91,11 +91,13 @@ public:
             const Pair<Double, T> comp = components.get(i);
             if (comp.get_second().get_dimension() != dim) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, comp.get_second().get_dimension(), dim);
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, comp.get_second().get_dimension(), dim);
             }
             if (comp.get_first() < 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, comp.get_first(), 0);
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, comp.get_first(), 0);
             }
             weight_sum += comp.get_first();
         }

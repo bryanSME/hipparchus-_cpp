@@ -73,11 +73,13 @@ class Nakagami_Distribution extends Abstract_Real_Distribution
 
         if (mu < 0.5) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, mu, 0.5);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, mu, 0.5);
         }
         if (omega <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_SCALE, omega);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_SCALE, omega);
         }
 
         this.mu = mu;

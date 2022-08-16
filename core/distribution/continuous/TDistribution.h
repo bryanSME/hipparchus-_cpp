@@ -68,7 +68,8 @@ class T_Distribution extends Abstract_Real_Distribution
 
         if (degrees_of_freedom <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, degrees_of_freedom);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, degrees_of_freedom);
         }
         this.degrees_of_freedom = degrees_of_freedom;
 

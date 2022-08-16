@@ -113,7 +113,8 @@ public:
     {
         if (!matrix.is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
         }
 
         const int order = matrix.get_row_dimension();
@@ -136,7 +137,8 @@ public:
                     relative_symmetry_threshold * std::max(std::abs(lij), std::abs(lji));
                 if (std::abs(lij - lji) > max_delta) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SYMMETRIC_MATRIX, i, j, relative_symmetry_threshold);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SYMMETRIC_MATRIX, i, j, relative_symmetry_threshold);
                 }
                 lJ[i] = 0;
            }
@@ -150,7 +152,8 @@ public:
             // check diagonal element
             if (lt_i[i] <= absolute_positivity_threshold) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
             }
 
             lt_i[i] = std::sqrt(lt_i[i]);
@@ -242,7 +245,8 @@ public:
             const int m = l_t_data.size();
             if (b.get_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
             }
 
             const std::vector<double> x = b.to_array();
@@ -280,7 +284,8 @@ public:
             const int m = l_t_data.size();
             if (b.get_row_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
             }
 
             const int& n_col_b = b.get_column_dimension();

@@ -113,7 +113,8 @@ private:
         {
             if (raiseException)
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rows, matrix.get_column_dimension());
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rows, matrix.get_column_dimension());
             }
             else
             {
@@ -131,7 +132,8 @@ private:
                 {
                     if (raiseException)
                     {
-                        throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SYMMETRIC_MATRIX, i, j, relative_tolerance);
+                        throw std::exception("not implemented");
+                        //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SYMMETRIC_MATRIX, i, j, relative_tolerance);
                     }
                     else
                     {
@@ -378,11 +380,13 @@ public:
     {
         if (data == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (data.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
         return ArrayField_Vector<T>(data[0].get_field(), data, true);
     }
@@ -437,16 +441,17 @@ public:
      */
     static <T extends Field_Element<T>> Field_Matrix<T>
         createRowField_Matrix(const std::vector<T> row_data)
-        , Null_Argument_Exception 
         {
         if (row_data == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         const int& n_cols = row_data.size();
         if (n_cols == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
         }
         const Field_Matrix<T> m = create_field_matrix(row_data[0].get_field(), 1, n_cols);
         for (int i{}; i < n_cols; ++i) 
@@ -500,7 +505,8 @@ public:
         const int& n_rows = column_data.size();
         if (n_rows == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
         }
         const Field_Matrix<T> m = create_field_matrix(column_data[0].get_field(), n_rows, 1);
         for (int i{}; i < n_rows; ++i) 
@@ -563,7 +569,8 @@ public:
     {
         if (row < 0 || row >= m.get_row_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ROW_INDEX, row, 0, m.get_row_dimension() - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ROW_INDEX, row, 0, m.get_row_dimension() - 1);
         }
     }
 
@@ -578,7 +585,8 @@ public:
     {
         if (column < 0 || column >= m.get_column_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::COLUMN_INDEX, column, 0, m.get_column_dimension() - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::COLUMN_INDEX, column, 0, m.get_column_dimension() - 1);
         }
     }
 
@@ -601,14 +609,16 @@ public:
         check_row_index(m, end_row);
         if (end_row < start_row) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end_row, start_row, false);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end_row, start_row, false);
         }
 
         check_column_index(m, start_column);
         check_column_index(m, end_column);
         if (end_column < start_column) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_COLUMN_AFTER_FINAL_COLUMN, end_column, start_column, false);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_COLUMN_AFTER_FINAL_COLUMN, end_column, start_column, false);
         }
     }
 
@@ -629,19 +639,23 @@ public:
     {
         if (selected_rows == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (selected_columns == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (selected_rows.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_SELECTED_ROW_INDEX_ARRAY);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_SELECTED_ROW_INDEX_ARRAY);
         }
         if (selected_columns.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_SELECTED_COLUMN_INDEX_ARRAY);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_SELECTED_COLUMN_INDEX_ARRAY);
         }
 
         for (const int row : selected_rows) 
@@ -668,7 +682,8 @@ public:
         if ((left.get_row_dimension()    != right.get_row_dimension()) ||
             (left.get_column_dimension() != right.get_column_dimension())) 
             {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, left.get_row_dimension(), left.get_column_dimension(), right.get_row_dimension(), right.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, left.get_row_dimension(), left.get_column_dimension(), right.get_row_dimension(), right.get_column_dimension());
         }
     }
 
@@ -684,8 +699,9 @@ public:
     {
         if ((left.get_row_dimension()    != right.get_row_dimension()) ||
             (left.get_column_dimension() != right.get_column_dimension())) 
-            {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, left.get_row_dimension(), left.get_column_dimension(), right.get_row_dimension(), right.get_column_dimension());
+        {
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, left.get_row_dimension(), left.get_column_dimension(), right.get_row_dimension(), right.get_column_dimension());
         }
     }
 
@@ -701,7 +717,8 @@ public:
     {
         if (left.get_column_dimension() != right.get_row_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, left.get_column_dimension(), right.get_row_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, left.get_column_dimension(), right.get_row_dimension());
         }
     }
 
@@ -717,7 +734,8 @@ public:
     {
         if (left.get_column_dimension() != right.get_column_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, left.get_column_dimension(), right.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, left.get_column_dimension(), right.get_column_dimension());
         }
     }
 
@@ -733,7 +751,8 @@ public:
     {
         if (left.get_row_dimension() != right.get_row_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, left.get_row_dimension(), right.get_row_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, left.get_row_dimension(), right.get_row_dimension());
         }
     }
 
@@ -1079,11 +1098,13 @@ public:
         {
         if ((rm == NULL) || (b == NULL) || ( rm.get_row_dimension() != b.get_dimension())) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, (rm == NULL) ? 0 : rm.get_row_dimension(), (b  == NULL) ? 0 : b.get_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, (rm == NULL) ? 0 : rm.get_row_dimension(), (b  == NULL) ? 0 : b.get_dimension());
         }
         if( rm.get_column_dimension() != rm.get_row_dimension() )
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rm.get_row_dimension(), rm.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rm.get_row_dimension(), rm.get_column_dimension());
         }
         int rows = rm.get_row_dimension();
         for( int i{}; i < rows ; i++ )
@@ -1091,7 +1112,8 @@ public:
             double diag = rm.get_entry(i, i);
             if( std::abs(diag) < Precision.SAFE_MIN )
             {
-                throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_DENOMINATOR);
+                throw std::exception("not implemented");
+                //throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_DENOMINATOR);
             }
             double bi = b.get_entry(i)/diag;
             b.set_entry(i,  bi );
@@ -1126,11 +1148,13 @@ public:
         {
         if ((rm == NULL) || (b == NULL) || ( rm.get_row_dimension() != b.get_dimension())) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, (rm == NULL) ? 0 : rm.get_row_dimension(), (b  == NULL) ? 0 : b.get_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, (rm == NULL) ? 0 : rm.get_row_dimension(), (b  == NULL) ? 0 : b.get_dimension());
         }
         if( rm.get_column_dimension() != rm.get_row_dimension() )
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rm.get_row_dimension(), rm.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rm.get_row_dimension(), rm.get_column_dimension());
         }
         int rows = rm.get_row_dimension();
         for( int i = rows-1 ; i >-1 ; i-- )
@@ -1166,7 +1190,8 @@ public:
         const int n = m.get_row_dimension();
         if (m.get_column_dimension() != n) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, m.get_row_dimension(), m.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, m.get_row_dimension(), m.get_column_dimension());
         }
 
         const int splitIndex1 = splitIndex + 1;
@@ -1180,7 +1205,8 @@ public:
         const Decomposition_Solver aSolver = aDec.get_solver();
         if (!aSolver.is_non_singular()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
         }
         const Real_Matrix& aInv = aSolver.get_inverse();
 
@@ -1188,7 +1214,8 @@ public:
         const Decomposition_Solver dSolver = dDec.get_solver();
         if (!dSolver.is_non_singular()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
         }
         const Real_Matrix dInv = dSolver.get_inverse();
 
@@ -1197,7 +1224,8 @@ public:
         const Decomposition_Solver tmp1Solver = tmp1Dec.get_solver();
         if (!tmp1Solver.is_non_singular()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
         }
         const Real_Matrix result00 = tmp1Solver.get_inverse();
 
@@ -1206,7 +1234,8 @@ public:
         const Decomposition_Solver tmp2Solver = tmp2_dec.get_solver();
         if (!tmp2Solver.is_non_singular()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
         }
         const Real_Matrix result11 = tmp2Solver.get_inverse();
 
@@ -1261,12 +1290,14 @@ public:
 
         if (!matrix.is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
         }
 
         if (matrix instanceof Diagonal_Matrix) 
         {
-            return ((Diagonal_Matrix) matrix).inverse(threshold);
+            throw std::exception("not implemented");
+            //return ((Diagonal_Matrix) matrix).inverse(threshold);
         }
 else 
         {
@@ -1293,7 +1324,8 @@ else
         // Check that the input matrix is square
         if (!rm.is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rm.get_row_dimension(), rm.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, rm.get_row_dimension(), rm.get_column_dimension());
         }
 
         // Preprocessing to reduce the norm

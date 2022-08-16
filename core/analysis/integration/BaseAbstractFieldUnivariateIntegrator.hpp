@@ -19,19 +19,7 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.analysis.integration;
 
-  //import org.hipparchus.Calculus_Field_Element;
-  //import org.hipparchus.Field;
-  //import org.hipparchus.analysis.Calculus_Field_Univariate_Function;
-  //import org.hipparchus.analysis.solvers.Univariate_Solver_Utils;
-  //import org.hipparchus.exception.Localized_Core_Formats;
-  //import org.hipparchus.exception.;
-  //import org.hipparchus.exception.Math_Illegal_State_Exception;
-  //import org.hipparchus.exception.Null_Argument_Exception;
-  //import org.hipparchus.util.Incrementor;
-  //import org.hipparchus.util.Math_Utils;
-  //#include "../CalculusFieldUnivariateFunction.hpp"
 #include <type_traits>
 #include "../../CalculusFieldElement.hpp"
 #include "../CalculusFieldUnivariateFunction.hpp"

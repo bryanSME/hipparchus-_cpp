@@ -120,7 +120,8 @@ class Akima_Spline_Interpolator
 
         if (xvals.size() < MINIMUM_NUMBER_POINTS) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), MINIMUM_NUMBER_POINTS, true);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), MINIMUM_NUMBER_POINTS, true);
         }
 
         Math_Arrays::check_order(xvals);
@@ -205,7 +206,8 @@ else
 
         if (xvals.size() < MINIMUM_NUMBER_POINTS) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), MINIMUM_NUMBER_POINTS, true);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), MINIMUM_NUMBER_POINTS, true);
         }
 
         Math_Arrays::check_order(xvals);
@@ -340,7 +342,8 @@ else
         const int minimum_length{ 2 };
         if (xvals.size() < minimum_length) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), minimum_length, true);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), minimum_length, true);
         }
 
         const int size = xvals.size() - 1;
@@ -389,7 +392,8 @@ else
         const int minimum_length{ 2 };
         if (xvals.size() < minimum_length) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), minimum_length, true);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, xvals.size(), minimum_length, true);
         }
 
         const Field<T> field = xvals[0].get_field();

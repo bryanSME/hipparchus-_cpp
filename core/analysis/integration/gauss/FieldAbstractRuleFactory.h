@@ -76,11 +76,13 @@ class FieldAbstractRule_Factory : FieldRule_Factory<T>
 
         if (number_of_points <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, number_of_points);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, number_of_points);
         }
         if (number_of_points > 1000) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, number_of_points, 1000);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, number_of_points, 1000);
         }
 
         Pair<std::vector<T>, std::vector<T>> rule;

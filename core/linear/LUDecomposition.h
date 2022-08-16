@@ -93,7 +93,8 @@ class LU_Decomposition
     {
         if (!matrix.is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
         }
 
         const int m = matrix.get_column_dimension();
@@ -311,11 +312,13 @@ else
             const int m = pivot.size();
             if (b.get_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
             }
             if (singular) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
             }
 
             const std::vector<double> bp = std::vector<double>(m];
@@ -358,11 +361,13 @@ else
             const int m = pivot.size();
             if (b.get_row_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
             }
             if (singular) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
             }
 
             const int& n_col_b = b.get_column_dimension();

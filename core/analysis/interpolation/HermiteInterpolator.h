@@ -74,7 +74,8 @@ private:
     {
         if (my_abscissae.empty())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_INTERPOLATION_SAMPLE);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_INTERPOLATION_SAMPLE);
         }
     }
 
@@ -135,7 +136,8 @@ public:
                 const double inv = 1.0 / (x - my_abscissae.at(n - (j + 1)));
                 if (std::isinfinite(inv)) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DUPLICATED_ABSCISSA_DIVISION_BY_ZERO, x);
+                    throw std::exception("not implmented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DUPLICATED_ABSCISSA_DIVISION_BY_ZERO, x);
                 }
                 for (int k{}; k < y.size(); ++k) 
                 {

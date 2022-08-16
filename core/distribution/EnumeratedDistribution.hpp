@@ -149,7 +149,8 @@ public:
     {
         if (weights == NULL || weights.size() == 0)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
         }
         const int len = weights.size();
         double sum_wt{};

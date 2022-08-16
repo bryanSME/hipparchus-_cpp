@@ -115,7 +115,8 @@ public:
 
         if (n == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_0TH_ROOT_OF_UNITY);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_0TH_ROOT_OF_UNITY);
         }
 
 
@@ -161,11 +162,13 @@ public:
 
         if (my_omega_count == 0) 
         {
-            throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::ROOTS_OF_UNITY_NOT_COMPUTED_YET);
+            throw std::exception("not implemented");
+            //throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::ROOTS_OF_UNITY_NOT_COMPUTED_YET);
         }
         if ((k < 0) || (k >= my_omega_count))
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, static_cast<int>(k), static_cast<int>(0), static_cast<int>(my_omega_count - 1));
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, static_cast<int>(k), static_cast<int>(0), static_cast<int>(my_omega_count - 1));
         }
 
         return my_omega_real[k];
@@ -184,11 +187,13 @@ public:
     {
         if (my_omega_count == 0)
         {
-            throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::ROOTS_OF_UNITY_NOT_COMPUTED_YET);
+            throw std::exception("not implemented");
+            // throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::ROOTS_OF_UNITY_NOT_COMPUTED_YET);
         }
         if ((k < 0) || (k >= my_omega_count))
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, static_cast<int>(k), static_cast<int>(0), static_cast<int>(my_omega_count - 1));
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, static_cast<int>(k), static_cast<int>(0), static_cast<int>(my_omega_count - 1));
         }
 
         return my_is_counter_clock_wise 

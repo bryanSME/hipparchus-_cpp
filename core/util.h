@@ -17,7 +17,7 @@
 #include "util/FieldSinCos.h"
 #include "util/FieldSinhCosh.h"
 #include "util/FieldTuple.h"
-#include "util/Incrementor.h"
+#include "util/Incrementor.hpp"
 #include "util/IterationEvent.h"
 #include "util/IterationManager.h"
 #include "util/KthSelector.h"

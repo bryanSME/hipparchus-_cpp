@@ -74,7 +74,8 @@ protected:
     {
         if (data.size() != n)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, my_data.size(), n);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, my_data.size(), n);
         }
     }
 
@@ -142,11 +143,13 @@ public:
     {
         if (d == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (d.size() < pos + size) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
         }
         my_data = std::vector<double>(size);
         System.arraycopy(d, pos, my_data, 0, size);
@@ -166,11 +169,13 @@ public:
     {
         if (d == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (d.size() < pos + size) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
         }
         my_data = std::vector<double>(size];
         for (int i = pos; i < pos + size; i++) 
@@ -731,7 +736,8 @@ public:
     {
         if (n < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
         }
         Array_Real_Vector out = Array_Real_Vector(n);
         try 

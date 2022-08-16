@@ -210,7 +210,8 @@ class Log_Normal_Distribution : Abstract_Real_Distribution
         {
         if (x0 > x1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT, x0, x1, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT, x0, x1, true);
         }
         if (x0 <= 0 || x1 <= 0) 
         {

@@ -215,7 +215,8 @@ public:
         // check the number of components
         if (orders.size() != my_grad.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, orders.size(), my_grad.size());
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, orders.size(), my_grad.size());
         }
 
         // check that either all derivation orders are set to 0, // or that only one is set to 1 and all other ones are set to 0
@@ -226,7 +227,8 @@ public:
             {
                 if (selected >= 0 || orders[i] != 1) 
                 {
-                     throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, orders[i]);
+                    throw std::exception("not implmented");
+                     //throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, orders[i]);
                 }
                 // found the component set to derivation order 1
                 selected = i;
@@ -249,7 +251,8 @@ public:
     {
         if (n < 0 || n >= my_grad.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, n, 0, my_grad.size() - 1);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, n, 0, my_grad.size() - 1);
         }
         return my_grad[n];
     }

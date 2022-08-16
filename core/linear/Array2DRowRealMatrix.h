@@ -145,18 +145,21 @@ public:
             const int& n_rows = d.size();
             if (d.empty())
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
             }
             const int& n_cols = d[0].size();
             if (n_cols == 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
             }
             for (int r{ 1 }; r < n_rows; r++)
             {
                 if (d[r].size() != n_cols) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d[r].size(), n_cols);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d[r].size(), n_cols);
                 }
             }
             my_data = d;
@@ -488,20 +491,23 @@ public:
             const int n_rows = sub_matrix.size();
             if (n_rows == 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_ROW);
             }
 
             const int& n_cols = sub_matrix[0].size();
             if (n_cols == 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::AT_LEAST_ONE_COLUMN);
             }
             data = std::vector<double>(sub_matrix.size()][n_cols];
             for (int i{}; i < data.size(); ++i) 
             {
                 if (sub_matrix[i].size() != n_cols) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, sub_matrix[i].size(), n_cols);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, sub_matrix[i].size(), n_cols);
                 }
                 System.arraycopy(sub_matrix[i], 0, data[i + row], column, n_cols);
             }
@@ -571,7 +577,8 @@ public:
         const int& n_cols = get_column_dimension();
         if (v.size() != n_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_cols);
         }
         auto out = std::vector<double>(n_rows);
         for (int row{}; row < n_rows; row++) 
@@ -595,7 +602,8 @@ public:
         const int& n_cols = get_column_dimension();
         if (v.size() != n_rows) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_rows);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), n_rows);
         }
 
         auto out = std::vector<double>(n_cols];
@@ -789,7 +797,8 @@ public:
         const int& n_cols = get_column_dimension();
         if (array.size() != n_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, array.size(), 1, n_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, array.size(), 1, n_cols);
         }
         System.arraycopy(array, 0, my_data[row], 0, n_cols);
     }
@@ -852,11 +861,13 @@ public:
 
         if (n != 1)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, n, 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, n, 1);
         }
         if (s * s != m)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, s, (static_cast<double>(m) / s);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, s, (static_cast<double>(m) / s);
         }
 
         const Real_Matrix unstacked = Matrix_Utils::create_real_matrix(s, s);

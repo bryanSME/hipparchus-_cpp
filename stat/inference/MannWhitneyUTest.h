@@ -291,7 +291,8 @@
 //        }
 //        if (x.size() == 0 || y.size() == 0) 
 //        {
-//            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+//            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
 //        }
 //    }
 //
@@ -412,7 +413,8 @@
 //        const int max = std::max(m, n);
 //        if (max > 100) 
 //        {
-//            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, max, 100);
+//            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, max, 100);
 //        }
 //        const int min = std::min(m, n);
 //        const std::vector<long> out = long[n * m + 2];

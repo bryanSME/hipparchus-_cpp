@@ -19,15 +19,11 @@
  * This is not the original file distributed by the Apache Software Foundation
  * It has been modified by the Hipparchus project
  */
-//package org.hipparchus.analysis.interpolation;
 
-//import java.util.Arrays;
-
-//import org.hipparchus.analysis.Bivariate_Function;
-//import org.hipparchus.exception.Localized_Core_Formats;
-//import org.hipparchus.exception.;
-//import org.hipparchus.util.Math_Arrays;
-//import org.hipparchus.util.Math_Utils;
+#include "../BivariateFunction.h"
+#include <vector>
+#include "../../util/MathArrays.h"
+#include "../../util/MathUtils.h"
 
 /**
  * Function that : the
@@ -37,25 +33,41 @@
  */
 class Bicubic_Interpolating_Function
     : Bivariate_Function 
-    {
+{
+private:
     /** Number of coefficients. */
-    private static const int NUM_COEFF = 16;
+    static constexpr int NUM_COEFF{ 16 };
     /**
      * Matrix to compute the spline coefficients from the function values
      * and function derivatives values
      */
-    private static const std::vector<std::vector<double>> AINV = 
-    {
-        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }, { 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0 }, { -3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0 }, { 2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0 }, { 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0 }, { 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0 }, { 0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0 }, { 0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0 }, { -3,0,3,0,0,0,0,0,-2,0,-1,0,0,0,0,0 }, { 0,0,0,0,-3,0,3,0,0,0,0,0,-2,0,-1,0 }, { 9,-9,-9,9,6,3,-6,-3,6,-6,3,-3,4,2,2,1 }, { -6,6,6,-6,-3,-3,3,3,-4,4,-2,2,-2,-2,-1,-1 }, { 2,0,-2,0,0,0,0,0,1,0,1,0,0,0,0,0 }, { 0,0,0,0,2,0,-2,0,0,0,0,0,1,0,1,0 }, { -6,6,6,-6,-4,-2,4,2,-3,3,-3,3,-2,-1,-2,-1 }, { 4,-4,-4,4,2,2,-2,-2,2,-2,2,-2,1,1,1,1 }
+    static const std::vector<std::vector<double>> AINV = {
+        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+        { 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0 }, 
+        { -3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0 }, 
+        { 2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0 },
+        { 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0 }, 
+        { 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0 }, 
+        { 0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0 },
+        { 0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0 }, 
+        { -3,0,3,0,0,0,0,0,-2,0,-1,0,0,0,0,0 }, 
+        { 0,0,0,0,-3,0,3,0,0,0,0,0,-2,0,-1,0 }, 
+        { 9,-9,-9,9,6,3,-6,-3,6,-6,3,-3,4,2,2,1 },
+        { -6,6,6,-6,-3,-3,3,3,-4,4,-2,2,-2,-2,-1,-1 },
+        { 2,0,-2,0,0,0,0,0,1,0,1,0,0,0,0,0 },
+        { 0,0,0,0,2,0,-2,0,0,0,0,0,1,0,1,0 },
+        { -6,6,6,-6,-4,-2,4,2,-3,3,-3,3,-2,-1,-2,-1 },
+        { 4,-4,-4,4,2,2,-2,-2,2,-2,2,-2,1,1,1,1 }
     };
 
     /** Samples x-coordinates */
-    private const std::vector<double> xval;
+    const std::vector<double> my_xval;
     /** Samples y-coordinates */
-    private const std::vector<double> yval;
+    const std::vector<double> my_yval;
     /** Set of cubic splines patching the whole data grid */
-    private const Bicubic_Function[][] splines;
+    const std::vector<std::vector<Bicubic_Function>> my_splines;
 
+public:
     /**
      * @param x Sample values of the x-coordinate, in increasing order.
      * @param y Sample values of the y-coordinate, in increasing order.
@@ -72,15 +84,15 @@ class Bicubic_Interpolating_Function
      * not strictly increasing.
      * @ if any of the arrays has zero length.
      */
-    public Bicubic_Interpolating_Function(std::vector<double> x, std::vector<double> y, std::vector<std::vector<double>> f, std::vector<std::vector<double>> dFdX, std::vector<std::vector<double>> d_fd_y, std::vector<std::vector<double>> d2FdXdY)
-         
-        {
+    Bicubic_Interpolating_Function(const std::vector<double>& x, const std::vector<double>& y, const std::vector<std::vector<double>>& f, const std::vector<std::vector<double>>& dFdX, const std::vector<std::vector<double>>& d_fd_y, const std::vector<std::vector<double>>& d2FdXdY)
+    {
         const int x_len = x.size();
         const int y_len = y.size();
 
         if (x_len == 0 || y_len == 0 || f.size() == 0 || f[0].size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         Math_Utils::check_dimension(x_len, f.size());
         Math_Utils::check_dimension(x_len, dFdX.size());
@@ -89,8 +101,8 @@ class Bicubic_Interpolating_Function
         Math_Arrays::check_order(x);
         Math_Arrays::check_order(y);
 
-        xval = x.clone();
-        yval = y.clone();
+        xval = x;
+        yval = y;
 
         const int last_i = x_len - 1;
         const int last_j = y_len - 1;
@@ -173,7 +185,8 @@ else
         if (r == -1 ||
             r == -val.size() - 1) 
             {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, c, val[0], val[val.size() - 1]);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, c, val[0], val[val.size() - 1]);
         }
 
         if (r < 0) 

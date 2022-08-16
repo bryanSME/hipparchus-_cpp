@@ -21,6 +21,9 @@
  */
 //package org.hipparchus.migration.exception;
 
+#include <type_traits>
+#include "../LocalizedMigrationFormats.h"
+#include "../../core/exception/Localizable.h"
 //import org.hipparchus.exception.Localizable;
 //import org.hipparchus.exception.Math_Illegal_State_Exception;
 //import org.hipparchus.migration.exception.util.Localized_Formats;
@@ -30,24 +33,28 @@
  *
  * @deprecated as of 1.0, this exception is replaced by {@link Math_Illegal_State_Exception}
  */
-@Deprecated
-class Max_Count_Exceeded_Exception extends Math_Illegal_State_Exception 
+//@Deprecated
+template<
+    typename T, //real type
+    typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+>
+class Max_Count_Exceeded_Exception //: public Math_Illegal_State_Exception 
 {
-    /** Serializable version Id. */
-    4330003017885151975L;
+private:
     /**
      * Maximum number of evaluations.
      */
-    private const Number& max;
+    const T max;
 
+public:
     /**
      * Construct the exception.
      *
      * @param max Maximum.
      */
-    public Max_Count_Exceeded_Exception(const Number& max) 
+    Max_Count_Exceeded_Exception(const T& max)
     {
-        this(Localized_Formats.MAX_COUNT_EXCEEDED, max);
+        Max_Count_Exceeded_Exception(Localized_Formats::MAX_COUNT_EXCEEDED, max);
     }
     /**
      * Construct the exception with a specific context.
@@ -56,19 +63,18 @@ class Max_Count_Exceeded_Exception extends Math_Illegal_State_Exception
      * @param max Maximum.
      * @param args Additional arguments.
      */
-    public Max_Count_Exceeded_Exception(Localizable specific, const Number& max, Object ... args) 
+    Max_Count_Exceeded_Exception(const Localizable& specific, const T& max, Object ... args)
+        :
+        my_max{ max }
     {
         super(specific, max, args);
-        this.max = max;
     }
 
     /**
      * @return the maximum number of evaluations.
      */
-    public Number get_max() 
+    T get_max() const
     {
-        return max;
+        return my_max;
     }
-}
-
-
+};

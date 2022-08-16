@@ -208,20 +208,23 @@ public:
     {
         if (nb_points <= 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, step_size, 1);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, step_size, 1);
         }
         this.nb_points = nb_points;
 
         if (step_size <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, step_size, 0);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, step_size, 0);
         }
         this.step_size = step_size;
 
         half_sample_span = 0.5 * step_size * (nb_points - 1);
         if (2 * half_sample_span >= t_upper - t_lower) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, 2 * half_sample_span, t_upper - t_lower);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, 2 * half_sample_span, t_upper - t_lower);
         }
         const double safety = FastMath.ulp(half_sample_span);
         this.t_min = t_lower + half_sample_span + safety;
@@ -275,7 +278,8 @@ public:
                 // check we can achieve the requested derivation order with the sample
                 if (t.get_order() >= nb_points) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, t.get_order(), nb_points);
+                    throw std::exception("not implmented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, t.get_order(), nb_points);
                 }
 
                 // compute sample position, trying to be centered if possible
@@ -324,7 +328,8 @@ public:
                 // check we can achieve the requested derivation order with the sample
                 if (t.get_order() >= nb_points) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, t.get_order(), nb_points);
+                    throw std::exception("not implmented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, t.get_order(), nb_points);
                 }
 
                 // compute sample position, trying to be centered if possible
@@ -381,13 +386,13 @@ public:
             /** {@inherit_doc} */
             //override
             public <T extends Derivative<T>> std::vector<std::vector<T>> value(T t)
-                 
-                {
+            {
 
                 // check we can achieve the requested derivation order with the sample
                 if (t.get_order() >= nb_points) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, t.get_order(), nb_points);
+                    throw std::exception("not implmented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, t.get_order(), nb_points);
                 }
 
                 // compute sample position, trying to be centered if possible

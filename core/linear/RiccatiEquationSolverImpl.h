@@ -64,11 +64,13 @@ public:
         // checking A
         if (!A.is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, A.get_row_dimension(), A.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, A.get_row_dimension(), A.get_column_dimension());
         }
         if (A.get_column_dimension() != B.get_row_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, A.get_row_dimension(), B.get_row_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, A.get_row_dimension(), B.get_row_dimension());
         }
         Matrix_Utils::check_multiplication_compatible(B, R);
         Matrix_Utils::check_multiplication_compatible(A, Q);
@@ -77,7 +79,8 @@ public:
         const Singular_Value_Decomposition svd = Singular_Value_Decomposition(R);
         if (!svd.get_solver().is_non_singular()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
         }
 
         const Real_Matrix R_inv = svd.get_solver().get_inverse();
@@ -127,19 +130,23 @@ public:
         const Real_Matrix m22 = A.transpose().scalar_multiply(-1).scalar_add(0);
         if (m11.get_row_dimension() != m12.get_row_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m11.get_row_dimension(), m12.get_row_dimension());
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m11.get_row_dimension(), m12.get_row_dimension());
         }
         if (m21.get_row_dimension() != m22.get_row_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m21.get_row_dimension(), m22.get_row_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m21.get_row_dimension(), m22.get_row_dimension());
         }
         if (m11.get_column_dimension() != m21.get_column_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m11.get_column_dimension(), m21.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m11.get_column_dimension(), m21.get_column_dimension());
         }
         if (m21.get_column_dimension() != m22.get_column_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m21.get_column_dimension(), m22.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, m21.get_column_dimension(), m22.get_column_dimension());
         }
 
         // defining M

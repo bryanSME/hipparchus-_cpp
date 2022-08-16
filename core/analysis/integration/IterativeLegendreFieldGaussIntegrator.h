@@ -80,7 +80,8 @@ class IterativeLegendreFieldGauss_Integrator
         super(field, relative_accuracy, absolute_accuracy, minimal_iteration_count, maximal_iteration_count);
         if (n <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, n);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, n);
         }
         factory = FieldGauss_Integrator_factory<>(field);
         number_of_points = n;

@@ -288,7 +288,8 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
         {
             if (facet.size() < 3) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::WRONG_NUMBER_OF_POINTS, 3, facet.size(), true);
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::WRONG_NUMBER_OF_POINTS, 3, facet.size(), true);
             }
             for (const int index : facet) 
             {

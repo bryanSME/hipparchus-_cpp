@@ -264,7 +264,8 @@ public:
     {
         if (initial_capacity <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_CAPACITY_NOT_POSITIVE, initial_capacity);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_CAPACITY_NOT_POSITIVE, initial_capacity);
         }
         check_contract_expand(contraction_criterion, expansion_factor);
         //Math_Utils::check_not_null(expansion_mode);
@@ -410,17 +411,20 @@ protected:
     {
         if (contraction < expansion) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR, contraction, expansion);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR, contraction, expansion);
         }
 
         if (contraction <= 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::CONTRACTION_CRITERIA_SMALLER_THAN_ONE, contraction);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::CONTRACTION_CRITERIA_SMALLER_THAN_ONE, contraction);
         }
 
         if (expansion <= 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EXPANSION_FACTOR_SMALLER_THAN_ONE, expansion);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EXPANSION_FACTOR_SMALLER_THAN_ONE, expansion);
         }
     }
 
@@ -761,7 +765,8 @@ public:
         // If index is negative thrown an error.
         if (i < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX_NOT_POSITIVE, i);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX_NOT_POSITIVE, i);
         }
 
         // Test the num elements, check to see if the array needs to be

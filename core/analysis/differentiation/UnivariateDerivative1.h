@@ -122,7 +122,8 @@ class Univariate_Derivative_1 : public Univariate_Derivative<Univariate_Derivati
             case 1 :
                 return f1;
             default :
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, n);
+                throw std::exception("not implmented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DERIVATION_ORDER_NOT_ALLOWED, n);
         }
     }
 
@@ -814,6 +815,4 @@ else
         return 453 - 19 * Double.hash_code(f0) + 37 * Double.hash_code(f1);
     }
 
-}
-
-
+};

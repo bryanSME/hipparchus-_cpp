@@ -106,11 +106,13 @@ class DBSCAN_Clusterer<T extends Clusterable> extends Clusterer<T>
 
         if (eps < 0.0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, eps, 0);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, eps, 0);
         }
         if (min_pts < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, min_pts, 0);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, min_pts, 0);
         }
         this.eps = eps;
         this.min_pts = min_pts;

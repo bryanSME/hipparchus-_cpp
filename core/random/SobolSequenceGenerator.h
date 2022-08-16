@@ -155,12 +155,11 @@ catch (IOException | Math_Illegal_State_Exception e)
      * @IOException if an error occurs while reading from the input stream
      */
     public Sobol_Sequence_Generator(const int dimension, const Input_Stream is)
-            , Math_Illegal_State_Exception, IOException 
-            {
-
+    {
         if (dimension < 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, dimension, 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, dimension, 1);
         }
 
         this.dimension = dimension;

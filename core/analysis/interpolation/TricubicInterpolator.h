@@ -25,13 +25,16 @@
 //import org.hipparchus.exception.;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
+#include <exception>
+#include <vector>
+#include  "TrivariateGridInterpolator.h"
 
 /**
  * Generates a tricubic interpolating function.
  *
  */
 class Tricubic_Interpolator
-    : Trivariate_Grid_Interpolator 
+    : public Trivariate_Grid_Interpolator 
     {
     /**
      * {@inherit_doc}
@@ -42,11 +45,13 @@ class Tricubic_Interpolator
         {
         if (xval.size() == 0 || yval.size() == 0 || zval.size() == 0 || fval.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         if (xval.size() != fval.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), fval.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), fval.size());
         }
 
         Math_Arrays::check_order(xval);

@@ -131,15 +131,15 @@ public:
     //override
     void next_bytes(std::vector<std::byte>& bytes, int start, int len)
     {
-        if (start < 0 ||
-            start >= bytes.size())
+        if (start < 0 || start >= bytes.size())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, start, 0, bytes.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, start, 0, bytes.size());
         }
-        if (len < 0 ||
-            len > bytes.size() - start)
+        if (len < 0 || len > bytes.size() - start)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, len, 0, bytes.size() - start);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, len, 0, bytes.size() - start);
         }
 
         next_bytes_fill(bytes, start, len);

@@ -87,7 +87,8 @@ public:
     {
         if (index >= get_compiler().get_free_parameters()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, index, get_compiler().get_free_parameters());
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, index, get_compiler().get_free_parameters());
         }
 
         const auto ds = Derivative_Structure(*this);
@@ -117,7 +118,8 @@ public:
     {
         if (derivatives.size() != compiler.get_size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, derivatives.size(), compiler.get_size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, derivatives.size(), compiler.get_size());
         }
 
         return Derivative_Structure(this, derivatives);

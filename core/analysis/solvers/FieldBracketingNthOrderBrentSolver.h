@@ -33,6 +33,7 @@
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
 #include <type_traits>
+#include <vector>
 #include "../../CalculusFieldElement.hpp"
 
 /**
@@ -89,7 +90,8 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
         {
         if (maximal_order < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
         }
         this.field                 = relative_accuracy.get_field();
         this.maximal_order          = maximal_order;
@@ -277,9 +279,10 @@ else
                 nb_points        = 3;
                 sign_change_index = 2;
             }
-else 
+            else 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x[0].get_real(), x[2].get_real(), y[0].get_real(), y[2].get_real());
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_BRACKETING_INTERVAL, x[0].get_real(), x[2].get_real(), y[0].get_real(), y[2].get_real());
             }
 
         }
@@ -485,6 +488,4 @@ else
 
     }
 
-}
-
-
+};

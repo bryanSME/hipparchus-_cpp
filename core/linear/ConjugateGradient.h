@@ -201,13 +201,14 @@ else
             const double rho_next = r.dot_product(z);
             if (check && (rho_next <= 0.)) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NON_POSITIVE_DEFINITE_OPERATOR);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_POSITIVE_DEFINITE_OPERATOR);
             }
             if (manager.get_iterations() == 2) 
             {
                 p.set_sub_vector(0, z);
             }
-else 
+            else 
             {
                 p.combine_to_self(rho_next / rho_prev, 1., z);
             }
@@ -215,7 +216,8 @@ else
             const double pq = p.dot_product(q);
             if (check && (pq <= 0.)) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NON_POSITIVE_DEFINITE_OPERATOR);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_POSITIVE_DEFINITE_OPERATOR);
             }
             const double& alpha = rho_next / pq;
             x.combine_to_self(1., alpha, p);

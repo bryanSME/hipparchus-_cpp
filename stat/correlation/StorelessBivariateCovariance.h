@@ -149,7 +149,8 @@ public:
     {
         if (my_n < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DIMENSION, n, 2, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DIMENSION, n, 2, true);
         }
         if (my_bias_corrected) 
         {

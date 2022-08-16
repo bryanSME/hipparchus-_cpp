@@ -28,9 +28,6 @@
  */
 class Localizable
 {
-private:
-
-
 public:
 
     /**

@@ -112,11 +112,13 @@ class Confidence_Interval
     {
         if (lower >= upper) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_BOUND_NOT_BELOW_UPPER_BOUND, lower, upper);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_BOUND_NOT_BELOW_UPPER_BOUND, lower, upper);
         }
         if (confidence <= 0 || confidence >= 1) 
         {
-            throw (Localized_Stat_Formats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL, confidence, 0, 1);
+            throw std::exception("not implemented");
+            //throw (Localized_Stat_Formats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL, confidence, 0, 1);
         }
     }
 }

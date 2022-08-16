@@ -55,7 +55,8 @@ class Logistic_Distribution extends Abstract_Real_Distribution
         {
         if (s <= 0.0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_SCALE, s);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_SCALE, s);
         }
 
         this.mu = mu;

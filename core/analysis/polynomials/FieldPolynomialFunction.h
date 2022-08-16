@@ -68,7 +68,8 @@ class Field_Polynomial_Function : Calculus_Field_Univariate_Function<T>
         int n = c.size();
         if (n == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         while ((n > 1) && (c[n - 1].get_real() == 0)) 
         {
@@ -162,7 +163,8 @@ class Field_Polynomial_Function : Calculus_Field_Univariate_Function<T>
         int n = coefficients.size();
         if (n == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         T result = coefficients[n - 1];
         for (int j = n - 2; j >= 0; j--) 
@@ -285,7 +287,8 @@ else
         int n = coefficients.size();
         if (n == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         const Field<T> field = coefficients[0].get_field();
         const std::vector<T> result = Math_Arrays::build_array(field, std::max(1, n - 1));
@@ -353,11 +356,13 @@ else
     {
         if (std::isinf(lower.get_real()) || std::isinf(upper.get_real())) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_BOUND);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_BOUND);
         }
         if (lower.get_real() > upper.get_real()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_BOUND_NOT_BELOW_UPPER_BOUND);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_BOUND_NOT_BELOW_UPPER_BOUND);
         }
         const Field_Polynomial_Function<T> anti = anti_derivative();
         return anti.value(upper).subtract(anti.value(lower));

@@ -42,7 +42,8 @@ public virtual class Field_Univariate_Derivative<S extends Calculus_Field_Elemen
     {
         if (orders.size() != 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, orders.size(), 1);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, orders.size(), 1);
         }
         return get_derivative(orders[0]);
     }

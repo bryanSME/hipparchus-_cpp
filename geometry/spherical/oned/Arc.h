@@ -65,8 +65,7 @@ class Arc
      * or tolerance is smaller than {@link Sphere_1D#SMALLEST_TOLERANCE}
      */
     public Arc(const double lower, const double upper, const double& tolerance)
-         
-        {
+    {
         Sphere_1D.check_tolerance(tolerance);
         this.tolerance = tolerance;
         if (Precision.equals(lower, upper, 0) || (upper - lower) >= Math_Utils::TWO_PI) 
@@ -76,15 +75,16 @@ class Arc
             this.upper  = Math_Utils::TWO_PI;
             this.middle = std::numbers::pi;
         }
-else  if (lower <= upper) 
+        else if (lower <= upper) 
         {
             this.lower  = Math_Utils::normalize_angle(lower, std::numbers::pi);
             this.upper  = this.lower + (upper - lower);
             this.middle = 0.5 * (this.lower + this.upper);
         }
-else 
+        else 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ENDPOINTS_NOT_AN_INTERVAL, lower, upper, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ENDPOINTS_NOT_AN_INTERVAL, lower, upper, true);
         }
     }
 

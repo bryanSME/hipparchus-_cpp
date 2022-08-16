@@ -57,7 +57,8 @@ private:
     {
         if (dimension < 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, dimension, 1);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, dimension, 1);
         }
         my_stats = Storeless_Univariate_Statistic[dimension];
         for (int i{}; i < dimension; i++) 

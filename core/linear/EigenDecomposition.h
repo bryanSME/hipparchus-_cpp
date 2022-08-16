@@ -475,13 +475,15 @@ else if (Precision.compare_to(imag_eigenvalues[i], 0.0, epsilon) < 0)
         {
             if (!is_non_singular()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
             }
 
             const int m = real_eigenvalues.size();
             if (b.get_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
             }
 
             const std::vector<double> bp = std::vector<double>(m];
@@ -506,13 +508,15 @@ else if (Precision.compare_to(imag_eigenvalues[i], 0.0, epsilon) < 0)
 
             if (!is_non_singular()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
             }
 
             const int m = real_eigenvalues.size();
             if (b.get_row_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
+                throw std::exception("not implemented");
+                // throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
             }
 
             const int& n_col_b = b.get_column_dimension();
@@ -600,7 +604,8 @@ else if (Precision.compare_to(imag_eigenvalues[i], 0.0, epsilon) < 0)
         {
             if (!is_non_singular()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
             }
 
             const int m = real_eigenvalues.size();

@@ -168,14 +168,16 @@ class Multivariate_Normal_Distribution : public AbstractMultivariate_Real_Distri
 
         if (covariances.size() != dim) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, covariances.size(), dim);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, covariances.size(), dim);
         }
 
         for (int i{}; i < dim; i++) 
         {
             if (dim != covariances[i].size()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, covariances[i].size(), dim);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, covariances[i].size(), dim);
             }
         }
 
@@ -199,7 +201,8 @@ class Multivariate_Normal_Distribution : public AbstractMultivariate_Real_Distri
         {
             if (cov_mat_eigenvalues[i] < 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_DEFINITE_MATRIX);
             }
         }
 
@@ -259,7 +262,8 @@ class Multivariate_Normal_Distribution : public AbstractMultivariate_Real_Distri
         const int dim = get_dimension();
         if (vals.size() != dim) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, vals.size(), dim);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, vals.size(), dim);
         }
 
         return std::pow(2 * std::numbers::pi, -0.5 * dim) *

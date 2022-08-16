@@ -92,12 +92,14 @@ class Pareto_Distribution extends Abstract_Real_Distribution
 
         if (scale <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SCALE, scale);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SCALE, scale);
         }
 
         if (shape <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SHAPE, shape);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SHAPE, shape);
         }
 
         this.scale = scale;

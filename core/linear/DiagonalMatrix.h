@@ -50,7 +50,8 @@ private:
     {
         /*if (!Precision.equals(0.0, value, 1))
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, std::abs(value), 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, std::abs(value), 0);
         }*/
     }
 
@@ -112,7 +113,8 @@ public:
     {
         /*if (row_dimension != column_dimension) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, row_dimension, column_dimension);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, row_dimension, column_dimension);
         }*/
 
         return Diagonal_Matrix(row_dimension);
@@ -432,7 +434,8 @@ public:
     {
         if (is_singular(threshold)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
         }
 
         auto result = std::vector<double>(my_data.size()];

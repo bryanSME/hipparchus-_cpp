@@ -200,7 +200,8 @@ private:
     {
         if (bin_count <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, bin_count, 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, bin_count, 0);
         }
         this.bin_count = bin_count;
         this.random_data = random_data;
@@ -255,7 +256,8 @@ catch (IOException ex)
             da1.compute_stats();
             if (sample_stats.get_n() == 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::URL_CONTAINS_NO_DATA, url);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::URL_CONTAINS_NO_DATA, url);
             }
             // adapter for the second pass
             try (Input_Stream       is2  = url.open_stream();

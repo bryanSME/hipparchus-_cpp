@@ -257,7 +257,8 @@ public:
 
         if (norm < Precision::SAFE_MIN) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NORM, norm);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NORM, norm);
         }
 
         return Quaternion(my_q0 / norm, my_q1 / norm, my_q2 / norm, my_q3 / norm);
@@ -371,7 +372,8 @@ public:
         const double square_norm = my_q0 * my_q0 + my_q1 * my_q1 + my_q2 * my_q2 + my_q3 * my_q3;
         if (square_norm < Precision::SAFE_MIN) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NORM, square_norm);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NORM, square_norm);
         }
 
         return Quaternion(my_q0 / square_norm, -my_q1 / square_norm, -my_q2 / square_norm, -my_q3 / square_norm);

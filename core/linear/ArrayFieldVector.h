@@ -156,7 +156,8 @@ catch (Array_indexOutOfboundsException e)
         //Math_Utils::check_not_null(d);
         if (d.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
         field = d[0].get_field();
         data = copy_array ? d.clone() : d;
@@ -200,7 +201,8 @@ catch (Array_indexOutOfboundsException e)
         //Math_Utils::check_not_null(d);
         if (d.size() < pos + size) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
         }
         field = d[0].get_field();
         data = Math_Arrays::build_array(field, size);
@@ -219,12 +221,12 @@ catch (Array_indexOutOfboundsException e)
      * than {@code pos + size}.
      */
     public ArrayField_Vector(Field<T> field, std::vector<T> d, int pos, int size)
-            , Null_Argument_Exception 
-            {
+    {
         //Math_Utils::check_not_null(d);
         if (d.size() < pos + size) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
         }
         this.field = field;
         data = Math_Arrays::build_array(field, size);
@@ -366,7 +368,8 @@ catch (Array_indexOutOfboundsException e)
         //Math_Utils::check_not_null(v2);
         if (v1.size() + v2.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
         data = Math_Arrays::build_array(v1[0].get_field(), v1.size() + v2.size());
         System.arraycopy(v1, 0, data, 0, v1.size());
@@ -392,7 +395,8 @@ catch (Array_indexOutOfboundsException e)
         //Math_Utils::check_not_null(v2);
         if (v1.size() + v2.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
         data = Math_Arrays::build_array(field, v1.size() + v2.size());
         System.arraycopy(v1, 0, data, 0, v1.size());
@@ -865,11 +869,11 @@ catch (const Math_Runtime_Exception e)
     /** {@inherit_doc} */
     //override
     public Field_Vector<T> get_sub_vector(const int& index, int n)
-         
-        {
+    {
         if (n < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
         }
         ArrayField_Vector<T> out = ArrayField_Vector<>(field, n);
         try 
@@ -977,11 +981,11 @@ catch (Index_Out_Of_Bounds_Exception e)
      * size of {@code this} vector.
      */
     protected void check_vector_dimensions(const int& n)
-         
-        {
+    {
         if (data.size() != n) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, data.size(), n);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, data.size(), n);
         }
     }
 
@@ -1234,7 +1238,8 @@ catch (Class_Cast_Exception ex)
     {
         if (index < 0 || index >= get_dimension()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
         }
     }
 
@@ -1247,20 +1252,22 @@ catch (Class_Cast_Exception ex)
      * @ if {@code end < start}
      */
     private void check_indices(const int start, const int end)
-         
-        {
+    {
         const int dim = get_dimension();
         if ((start < 0) || (start >= dim)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
         }
         if ((end < 0) || (end >= dim)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
         }
         if (end < start) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
         }
     }
 

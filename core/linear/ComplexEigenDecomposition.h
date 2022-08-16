@@ -125,7 +125,8 @@ class Complex_Eigen_Decomposition
 
         if (!matrix.is_square()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, matrix.get_row_dimension(), matrix.get_column_dimension());
         }
         this.eigen_vectors_equality = eigen_vectors_equality;
         this.epsilon              = epsilon;

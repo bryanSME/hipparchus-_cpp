@@ -56,7 +56,8 @@ class Binomial_Distribution : Abstract_Integer_Distribution
         {
         if (trials < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_TRIALS, trials);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_TRIALS, trials);
         }
 
         Math_Utils::check_range_inclusive(p, 0, 1);

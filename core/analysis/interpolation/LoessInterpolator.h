@@ -142,17 +142,17 @@ class Loess_Interpolator
      * @see #Loess_Interpolator(double, int)
      */
     public Loess_Interpolator(double bandwidth, int robustness_iters, double accuracy)
-         
+    {
+        if (bandwidth < 0 || bandwidth > 1) 
         {
-        if (bandwidth < 0 ||
-            bandwidth > 1) 
-            {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::BANDWIDTH, bandwidth, 0, 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::BANDWIDTH, bandwidth, 0, 1);
         }
         this.bandwidth = bandwidth;
         if (robustness_iters < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ROBUSTNESS_ITERATIONS, robustness_iters);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ROBUSTNESS_ITERATIONS, robustness_iters);
         }
         this.robustness_iters = robustness_iters;
         this.accuracy = accuracy;
@@ -206,18 +206,19 @@ class Loess_Interpolator
      * larger than 2/n).
      */
     public const std::vector<double> smooth(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<double> weights)
-         
-        {
+    {
         if (xval.size() != yval.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), yval.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), yval.size());
         }
 
         const int n = xval.size();
 
         if (n == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
 
         check_all_finite_real(xval);
@@ -240,7 +241,8 @@ class Loess_Interpolator
 
         if (bandwidth_in_points < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::BANDWIDTH, bandwidth_in_points, 2, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::BANDWIDTH, bandwidth_in_points, 2, true);
         }
 
         const std::vector<double> res = std::vector<double>(n];
@@ -389,11 +391,11 @@ else
      * larger than 2/n).
      */
     public const std::vector<double> smooth(const std::vector<double>& xval, const std::vector<double> yval)
-         
-        {
+    {
         if (xval.size() != yval.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), yval.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), yval.size());
         }
 
         const std::vector<double> unit_weights = std::vector<double>(xval.size()];

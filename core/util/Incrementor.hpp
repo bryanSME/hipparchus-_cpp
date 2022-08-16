@@ -19,14 +19,10 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.util;
 
-  //import org.hipparchus.exception.Localized_Core_Formats;
-  //import org.hipparchus.exception.;
-  //import org.hipparchus.exception.Math_Illegal_State_Exception;
-  //import org.hipparchus.exception.Null_Argument_Exception;
 #include <limits>
 #include "../exception/LocalizedCoreFormats.h"
+#include "../../migration/exception/MaxCountExceededException.hpp"
 
   /**
    * Utility that increments a counter until a maximum is reached, at
@@ -36,11 +32,15 @@
    * custom {@link Max_Count_Exceeded_Callback callback}, in order to e.g.
    * select which exception must be thrown.
    */
+template<
+	typename T, //real type
+	typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+>
 class Incrementor
 {
 private:
 	/** Default callback. */
-	static const Max_Count_Exceeded_Callback DEFAULT_CALLBACK = (const int& max)
+	static const Max_Count_Exceeded_Callback<T> DEFAULT_CALLBACK = (const int& max)
 	{
 		throw std::exception("not implemented");
 		//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::MAX_COUNT_EXCEEDED, max);
@@ -49,7 +49,7 @@ private:
 	/** Upper limit for the counter. */
 	const int my_maximal_count;
 	/** Function called at counter exhaustion. */
-	const Max_Count_Exceeded_Callback my_max_count_callback;
+	const Max_Count_Exceeded_Callback<T> my_max_count_callback;
 	/** Current count. */
 	int my_count;
 
@@ -74,9 +74,9 @@ public:
 	 * <p>
 	 * The maximal value will be set to {@code std::numeric_limits<int>::max()}.
 	 */
-	Incrementor()
+	Incrementor<T>()
 	{
-		Incrementor(std::numeric_limits<int>::max());
+		Incrementor<T>(std::numeric_limits<T>::max());
 	}
 
 	/**
@@ -85,9 +85,9 @@ public:
 	 * @param max Maximal count.
 	 * @ if {@code max} is negative.
 	 */
-	Incrementor(const int& max)
+	Incrementor<T>(const T& max)
 	{
-		Incrementor(max, DEFAULT_CALLBACK);
+		Incrementor<T>(max, DEFAULT_CALLBACK);
 	}
 
 	/**
@@ -98,9 +98,9 @@ public:
 	 * @Null_Argument_Exception if {@code cb} is {@code NULL}.
 	 * @ if {@code max} is negative.
 	 */
-	Incrementor(const int& max, const Max_Count_Exceeded_Callback& cb)
+	Incrementor<T>(const int& max, const Max_Count_Exceeded_Callback<T>& cb)
 	{
-		Incrementor(0, max, cb);
+		Incrementor<T>(0, max, cb);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public:
 	 * @Null_Argument_Exception if {@code cb} is {@code NULL}.
 	 * @ if {@code max} is negative.
 	 */
-	Incrementor(const int& count, int max, Max_Count_Exceeded_Callback cb)
+	Incrementor<T>(const int& count, const int& max, const Max_Count_Exceeded_Callback<T>& cb)
 		:
 		my_maximal_count{max},
 		my_max_count_callback{cb},
@@ -135,9 +135,9 @@ public:
 	 * @param value Value of the counter.
 	 * @return a instance.
 	 */
-	Incrementor with_count(const int& value)
+	Incrementor<T> with_count(const int& value)
 	{
-		return Incrementor(value, my_maximal_count, my_max_count_callback);
+		return Incrementor<T>(value, my_maximal_count, my_max_count_callback);
 	}
 
 	/**
@@ -148,9 +148,9 @@ public:
 	 * @return a instance.
 	 * @ if {@code max} is negative.
 	 */
-	Incrementor with_maximal_count(const int& max)
+	Incrementor<T> with_maximal_count(const int& max)
 	{
-		return Incrementor(0, max, my_max_count_callback);
+		return Incrementor<T>(0, max, my_max_count_callback);
 	}
 
 	/**
@@ -160,9 +160,9 @@ public:
 	 * @param cb Callback to be called at counter exhaustion.
 	 * @return a instance.
 	 */
-	Incrementor with_callback(const Max_Count_Exceeded_Callback& cb)
+	Incrementor<T> with_callback(const Max_Count_Exceeded_Callback<T>& cb)
 	{
-		return Incrementor(0, my_maximal_count, cb);
+		return Incrementor<T>(0, my_maximal_count, cb);
 	}
 
 	/**
@@ -209,7 +209,8 @@ public:
 	{
 		if (n_times < 0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, n_times, 0);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, n_times, 0);
 		}
 		return my_count <= my_maximal_count - n_times;
 	}
@@ -226,7 +227,8 @@ public:
 	{
 		if (n_times < 0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, n_times, 0);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, n_times, 0);
 		}
 
 		for (int i{}; i < n_times; i++)

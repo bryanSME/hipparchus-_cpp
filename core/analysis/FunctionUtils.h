@@ -367,12 +367,13 @@ public:
 
         if (n <= 0) 
         {
-            throw (
-                    hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_NUMBER_OF_SAMPLES, Integer.value_of(n));
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_POSITIVE_NUMBER_OF_SAMPLES, Integer.value_of(n));
         }
         if (min >= max) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, min, max);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE_BOUND_EXCLUDED, min, max);
         }
 
         const std::vector<double> s = std::vector<double>(n];
@@ -426,7 +427,8 @@ public:
             {
                 if (x.get_order() > derivatives.length) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, x.get_order(), derivatives.length);
+                    throw std::exception("not implmented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, x.get_order(), derivatives.length);
                 }
                 const std::vector<double> packed = std::vector<double>(x.get_order() + 1];
                 packed[0] = f.value(x.get_value());
@@ -489,7 +491,8 @@ public:
                     d_point[i] = point[i].get_value();
                     if (point[i].get_order() > 1) 
                     {
-                        throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, point[i].get_order(), 1);
+                        throw std::exception("not implmented");
+                        //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, point[i].get_order(), 1);
                     }
                 }
 

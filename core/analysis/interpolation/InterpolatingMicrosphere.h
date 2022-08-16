@@ -31,6 +31,9 @@
 //import org.hipparchus.util.FastMath;
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
+#include <exception>
+#include <vector>
+
 
 /**
  * Utility class for the {@link Microsphere_Projection_Interpolator} algorithm.
@@ -38,21 +41,23 @@
  */
 class Interpolating_Microsphere 
 {
+private:
     /** Microsphere. */
-    private const List<Facet> microsphere;
+    const std::vector<Facet> microsphere;
     /** Microsphere data. */
-    private const List<Facet_Data> microsphere_data;
+    const std::vector<Facet_Data> microsphere_data;
     /** Space dimension. */
-    private const int dimension;
+    const int dimension;
     /** Number of surface elements. */
-    private const int size;
+    const int size;
     /** Maximum fraction of the facets that can be dark. */
-    private const double max_dark_fraction;
+    const double max_dark_fraction;
     /** Lowest non-zero illumination. */
-    private const double dark_threshold;
+    const double dark_threshold;
     /** Background value. */
-    private const double background;
+    const double background;
 
+protected:
     /**
      * Create an unitialiazed sphere.
      * Sub-classes are responsible for calling the {@code add(std::vector<double>) add}
@@ -74,20 +79,23 @@ class Interpolating_Microsphere
      * @ if {@code max_dark_fraction} does not
      * belong to the interval {@code [0, 1]}.
      */
-    protected Interpolating_Microsphere(const int& dimension, int size, double max_dark_fraction, double dark_threshold, double background) 
+    Interpolating_Microsphere(const int& dimension, int size, double max_dark_fraction, double dark_threshold, double background) 
     {
         if (dimension <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, dimension, 0);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, dimension, 0);
         }
         if (size <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, size, 0);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, size, 0);
         }
         Math_Utils::check_range_inclusive(max_dark_fraction, 0, 1);
         if (dark_threshold < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, dark_threshold, 0);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, dark_threshold, 0);
         }
 
         this.dimension = dimension;
@@ -98,6 +106,33 @@ class Interpolating_Microsphere
         microsphere = Array_list<>(size);
         microsphere_data = Array_list<>(size);
     }
+
+    /**
+     * Copy constructor.
+     *
+     * @param other Instance to copy.
+     */
+    Interpolating_Microsphere(Interpolating_Microsphere other)
+    {
+        dimension = other.dimension;
+        size = other.size;
+        max_dark_fraction = other.max_dark_fraction;
+        dark_threshold = other.dark_threshold;
+        background = other.background;
+
+        // Field can be shared.
+        microsphere = other.microsphere;
+
+        // Field must be copied.
+        microsphere_data = Array_list<>(size);
+        for (Facet_Data fd : other.microsphere_data)
+        {
+            microsphere_data.add(new Facet_Data(fd.illumination(), fd.sample()));
+        }
+    }
+
+
+public:
 
     /**
      * Create a sphere from randomly sampled vectors.
@@ -121,7 +156,7 @@ class Interpolating_Microsphere
      * @ if {@code max_dark_fraction} does not
      * belong to the interval {@code [0, 1]}.
      */
-    public Interpolating_Microsphere(const int& dimension, int size, double max_dark_fraction, double dark_threshold, double background, UnitSphereRandom_Vector_Generator rand) 
+    Interpolating_Microsphere(const int& dimension, int size, double max_dark_fraction, double dark_threshold, double background, UnitSphereRandom_Vector_Generator rand) 
     {
         this(dimension, size, max_dark_fraction, dark_threshold, background);
 
@@ -133,36 +168,13 @@ class Interpolating_Microsphere
         }
     }
 
-    /**
-     * Copy constructor.
-     *
-     * @param other Instance to copy.
-     */
-    protected Interpolating_Microsphere(Interpolating_Microsphere other) 
-    {
-        dimension = other.dimension;
-        size = other.size;
-        max_dark_fraction = other.max_dark_fraction;
-        dark_threshold = other.dark_threshold;
-        background = other.background;
-
-        // Field can be shared.
-        microsphere = other.microsphere;
-
-        // Field must be copied.
-        microsphere_data = Array_list<>(size);
-        for (Facet_Data fd : other.microsphere_data) 
-        {
-            microsphere_data.add(new Facet_Data(fd.illumination(), fd.sample()));
-        }
-    }
 
     /**
      * Perform a copy.
      *
      * @return a copy of this instance.
      */
-    public Interpolating_Microsphere copy() 
+    Interpolating_Microsphere copy() 
     {
         return Interpolating_Microsphere(this);
     }
@@ -172,7 +184,7 @@ class Interpolating_Microsphere
      *
      * @return the number of space dimensions.
      */
-    public int get_dimension() 
+    int get_dimension() 
     {
         return dimension;
     }
@@ -182,7 +194,7 @@ class Interpolating_Microsphere
      *
      * @return the number of surface elements of the microspshere.
      */
-    public int get_size() 
+    int get_size() 
     {
         return size;
     }
@@ -207,11 +219,12 @@ class Interpolating_Microsphere
      * @return the estimated value at the given {@code point}.
      * @ if {@code exponent < 0}.
      */
-    public double value(std::vector<double> point, std::vector<std::vector<double>> sample_points, std::vector<double> sample_values, double exponent, double no_interpolation_tolerance) 
+    double value(std::vector<double> point, std::vector<std::vector<double>> sample_points, std::vector<double> sample_values, double exponent, double no_interpolation_tolerance) 
     {
         if (exponent < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, exponent, 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, exponent, 0);
         }
 
         clear();
@@ -254,11 +267,13 @@ class Interpolating_Microsphere
     {
         if (microsphere.size() >= size) 
         {
-            throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::MAX_COUNT_EXCEEDED, size);
+            throw std::exception("not implemented");
+            //throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::MAX_COUNT_EXCEEDED, size);
         }
         if (normal.size() > dimension) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, normal.size(), dimension);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, normal.size(), dimension);
         }
 
         microsphere.add(new Facet(copy ? normal.clone() : normal));
@@ -286,7 +301,7 @@ class Interpolating_Microsphere
                 value += iV * fd.sample();
                 total_weight += iV;
             }
-else 
+            else 
             {
                 ++dark_count;
             }

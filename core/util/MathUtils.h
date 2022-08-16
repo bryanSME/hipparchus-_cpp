@@ -289,7 +289,8 @@ namespace Math_Utils
     {
         if (std::isfinite(x) || std::isnan(x)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_FINITE_NUMBER, x);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_FINITE_NUMBER, x);
         }
     }
 
@@ -306,7 +307,8 @@ namespace Math_Utils
         {
             if (std::isinfinite(ele) || std::isnan(ele))
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_FINITE_NUMBER, x);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_FINITE_NUMBER, x);
             }
         }
     }
@@ -353,7 +355,8 @@ namespace Math_Utils
     {
         if (value < lo || value > hi) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, value, lo, hi);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, value, lo, hi);
         }
     }
 
@@ -369,7 +372,8 @@ namespace Math_Utils
     {
         if (value < lo || value > hi) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, value, lo, hi);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, value, lo, hi);
         }
     }
 

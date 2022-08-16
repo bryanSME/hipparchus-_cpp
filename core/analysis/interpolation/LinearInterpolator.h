@@ -65,7 +65,8 @@ class Linear_Interpolator : public Univariate_Interpolator, public Field_Univari
 
         if (x.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 2, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 2, true);
         }
 
         // Number of intervals.  The number of data points is n + 1.
@@ -117,7 +118,8 @@ class Linear_Interpolator : public Univariate_Interpolator, public Field_Univari
 
         if (x.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 2, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, x.size(), 2, true);
         }
 
         // Number of intervals.  The number of data points is n + 1.

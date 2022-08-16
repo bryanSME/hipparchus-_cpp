@@ -114,7 +114,8 @@ private:
     {
         if (knots.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION, 2, knots.size(), false);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION, 2, knots.size(), false);
         }
         Math_Utils::check_dimension(polynomials.size(), knots.size() - 1);
         Math_Arrays::check_order(knots);

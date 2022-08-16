@@ -127,7 +127,8 @@ public:
         Math_Utils::check_dimension(data.size(), nobs * (nvars + 1));
         if (nobs <= nvars) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, nobs, nvars + 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, nobs, nvars + 1);
         }
         std::vector<double> y = std::vector<double>(nobs];
         const int cols = my_no_intercept ? nvars: nvars + 1;
@@ -160,11 +161,13 @@ public:
     {
         if (y == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (y.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         my_y_vector = Array_Real_Vector(y);
     }
@@ -198,11 +201,13 @@ public:
     {
         if (x == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (x.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         if (my_no_intercept)
         {
@@ -244,15 +249,18 @@ else { // Augment design matrix with initial unitary column
     {
         if ((x == NULL) || (y == NULL)) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         Math_Utils::check_dimension(x.size(), y.size());
         if (x.size() == 0) {  // Must be no y data either
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         if (x[0].size() + (my_no_intercept ? 0 : 1) > x.size())
         {
-            throw (Localized_Stat_Formats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS, x.size(), x[0].size());
+            throw std::exception("not implemented");
+            //throw (Localized_Stat_Formats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS, x.size(), x[0].size());
         }
     }
 
@@ -271,7 +279,8 @@ else { // Augment design matrix with initial unitary column
         Math_Utils::check_dimension(x.size(), covariance.size());
         if (covariance.size() > 0 && covariance.size() != covariance[0].size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, covariance.size(), covariance[0].size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NON_SQUARE_MATRIX, covariance.size(), covariance[0].size());
         }
     }
 

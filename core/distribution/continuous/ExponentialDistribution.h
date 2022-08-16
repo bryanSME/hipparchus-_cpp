@@ -52,7 +52,8 @@ class Exponential_Distribution extends Abstract_Real_Distribution
         {
         if (mean <= 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::MEAN, mean);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::MEAN, mean);
         }
 
         this.mean    = mean;

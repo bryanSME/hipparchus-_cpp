@@ -26,6 +26,9 @@
 //import org.hipparchus.util.Math_Arrays;
 //import org.hipparchus.util.Math_Utils;
 #include <vector>
+#include "BivariateGridInterpolator.h"
+#include "../../util/MathArrays.h"
+#include "../../util/MathUtils.h"
 
 /**
  * Generates a {@link Bicubic_Interpolating_Function bicubic interpolating
@@ -43,18 +46,19 @@
  * </p>
  *
  */
-class Bicubic_Interpolator : public Bivariate_Grid_Interpolator 
+class Bicubic_Interpolator : public Bivariate_Grid_Interpolator
 {
+public:
     /**
      * {@inherit_doc}
      */
-    //override
-    public Bicubic_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>> fval)
-         
+     //override
+    Bicubic_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>> fval)
+    {
+        if (xval.size() == 0 || yval.size() == 0 || fval.size() == 0)
         {
-        if (xval.size() == 0 || yval.size() == 0 || fval.size() == 0) 
-        {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         Math_Utils::check_dimension(xval.size(), fval.size());
         Math_Arrays::check_order(xval);
@@ -64,12 +68,12 @@ class Bicubic_Interpolator : public Bivariate_Grid_Interpolator
         const int y_len = yval.size();
 
         // Approximation to the partial derivatives using finite differences.
-        const std::vector<std::vector<double>> dFdX = std::vector<double>(x_len][y_len];
-        const std::vector<std::vector<double>> d_fd_y = std::vector<double>(x_len][y_len];
-        const std::vector<std::vector<double>> d2FdXdY = std::vector<double>(x_len][y_len];
-        for (int i{ 1 }; i < x_len - 1; i++) 
+        auto dFdX = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
+        auto d_fd_y = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
+        auto d2FdXdY = std::vector<std::vector<double>>(x_len, std::vector<double>(y_len));
+        for (int i{ 1 }; i < x_len - 1; i++)
         {
-            const int& nI = i + 1;
+            const int nI = i + 1;
             const int pI = i - 1;
 
             const double nX = xval[nI];
@@ -77,7 +81,7 @@ class Bicubic_Interpolator : public Bivariate_Grid_Interpolator
 
             const double delta_x = nX - pX;
 
-            for (int j{ 1 }; j < y_len - 1; j++) 
+            for (int j{ 1 }; j < y_len - 1; j++)
             {
                 const int& nJ = j + 1;
                 const int pJ = j - 1;
@@ -97,26 +101,22 @@ class Bicubic_Interpolator : public Bivariate_Grid_Interpolator
         }
 
         // Create the interpolating function.
-        return Bicubic_Interpolating_Function(xval, yval, fval, dFdX, d_fd_y, d2FdXdY) 
+        return Bicubic_Interpolating_Function(xval, yval, fval, dFdX, d_fd_y, d2FdXdY)
         {
+        public:
             /** {@inherit_doc} */
             //override
-            public bool is_valid_point(const double& x, double y) 
+            bool is_valid_point(const double& x, const double& y)
             {
                 if (x < xval[1] ||
                     x > xval[xval.size() - 2] ||
                     y < yval[1] ||
-                    y > yval[yval.size() - 2]) 
-                    {
+                    y > yval[yval.size() - 2])
+                {
                     return false;
                 }
-else 
-                {
-                    return true;
-                }
+                return true;
             }
         };
     }
-}
-
-
+};

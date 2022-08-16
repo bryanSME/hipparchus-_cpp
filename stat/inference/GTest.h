@@ -80,12 +80,12 @@ class G_Test
      * are less than 2.
      */
     public double g(const std::vector<double> expected, const std::vector<long> observed)
-             
-            {
+    {
 
         if (expected.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, expected.size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, expected.size(), 2);
         }
         Math_Utils::check_dimension(expected.size(), observed.size());
         Math_Arrays::check_positive(expected);
@@ -358,13 +358,12 @@ class G_Test
      * at the same index is zero for both arrays.
      */
     public double g_data_sets_comparison(const std::vector<long> observed1, const std::vector<long> observed2)
-             
-            {
-
+    {
         // Make sure lengths are same
         if (observed1.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, observed1.size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, observed1.size(), 2);
         }
         Math_Utils::check_dimension(observed1.size(), observed2.size());
 
@@ -384,21 +383,22 @@ class G_Test
         {
             if (observed1[i] == 0 && observed2[i] == 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
             }
-else 
-            {
-                count_sum1 += observed1[i];
-                count_sum2 += observed2[i];
-                coll_sums[i] = observed1[i] + observed2[i];
-                k[0][i] = observed1[i];
-                k[1][i] = observed2[i];
-            }
+
+            count_sum1 += observed1[i];
+            count_sum2 += observed2[i];
+            coll_sums[i] = observed1[i] + observed2[i];
+            k[0][i] = observed1[i];
+            k[1][i] = observed2[i];
+            
         }
         // Ensure neither sample is uniformly 0
         if (count_sum1 == 0 || count_sum2 == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NOT_ALLOWED);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NOT_ALLOWED);
         }
         const std::vector<long> row_sums = {count_sum1, count_sum2};
         const double sum = static_cast<double>( count_sum1 + static_cast<double>( count_sum2;

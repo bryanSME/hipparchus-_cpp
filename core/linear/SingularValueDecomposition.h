@@ -679,7 +679,8 @@ else
 
         if (dimension == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::TOO_LARGE_CUTOFF_SINGULAR_VALUE, min_singular_value, singular_values[0], true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::TOO_LARGE_CUTOFF_SINGULAR_VALUE, min_singular_value, singular_values[0], true);
         }
 
         const std::vector<std::vector<double>> data = std::vector<double>(dimension][p];

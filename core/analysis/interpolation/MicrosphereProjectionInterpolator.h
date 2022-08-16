@@ -94,11 +94,11 @@ class Microsphere_Projection_Interpolator
      * @ if {@code exponent < 0}.
      */
     public Microsphere_Projection_Interpolator(Interpolating_Microsphere microsphere, double exponent, bool shared_sphere, double no_interpolation_tolerance)
-         
-        {
+    {
         if (exponent < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, exponent, 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, exponent, 0);
         }
 
         this.microsphere = microsphere;
@@ -117,27 +117,31 @@ class Microsphere_Projection_Interpolator
     public Multivariate_Function interpolate(const std::vector<std::vector<double>> xval, const std::vector<double> yval)
         , Null_Argument_Exception 
         {
-        if (xval == NULL ||
-            yval == NULL) 
-            {
-            throw Null_Argument_Exception();
+        if (xval == NULL || yval == NULL) 
+        {
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         if (xval.size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         if (xval.size() != yval.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), yval.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), yval.size());
         }
         if (xval[0] == NULL) 
         {
-            throw Null_Argument_Exception();
+            throw std::exception("not implemented");
+            //throw Null_Argument_Exception();
         }
         const int dimension = microsphere.get_dimension();
         if (dimension != xval[0].size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval[0].size(), dimension);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval[0].size(), dimension);
         }
 
         // Microsphere copy.

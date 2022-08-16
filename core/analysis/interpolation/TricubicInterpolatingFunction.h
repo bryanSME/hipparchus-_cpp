@@ -84,39 +84,48 @@ class Tricubic_Interpolating_Function
 
         if (x_len == 0 || y_len == 0 || z.size() == 0 || f.size() == 0 || f[0].size() == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
         if (x_len != f.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, f.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, f.size());
         }
         if (x_len != dFdX.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, dFdX.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, dFdX.size());
         }
         if (x_len != d_fd_y.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d_fd_y.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d_fd_y.size());
         }
         if (x_len != d_fd_z.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d_fd_z.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d_fd_z.size());
         }
         if (x_len != d2FdXdY.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d2FdXdY.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d2FdXdY.size());
         }
         if (x_len != d2_fd_xd_z.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d2_fd_xd_z.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d2_fd_xd_z.size());
         }
         if (x_len != d2_fd_yd_z.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d2_fd_yd_z.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d2_fd_yd_z.size());
         }
         if (x_len != d3_fd_xd_yd_z.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d3_fd_xd_yd_z.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, d3_fd_xd_yd_z.size());
         }
 
         Math_Arrays::check_order(x);
@@ -136,35 +145,43 @@ class Tricubic_Interpolating_Function
         {
             if (f[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, f[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, f[i].size(), y_len);
             }
             if (dFdX[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, dFdX[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, dFdX[i].size(), y_len);
             }
             if (d_fd_y[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_y[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_y[i].size(), y_len);
             }
             if (d_fd_z[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_z[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_z[i].size(), y_len);
             }
             if (d2FdXdY[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2FdXdY[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2FdXdY[i].size(), y_len);
             }
             if (d2_fd_xd_z[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_xd_z[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_xd_z[i].size(), y_len);
             }
             if (d2_fd_yd_z[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_yd_z[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_yd_z[i].size(), y_len);
             }
             if (d3_fd_xd_yd_z[i].size() != y_len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d3_fd_xd_yd_z[i].size(), y_len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d3_fd_xd_yd_z[i].size(), y_len);
             }
 
             const int ip1 = i + 1;
@@ -173,35 +190,43 @@ class Tricubic_Interpolating_Function
             {
                 if (f[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, f[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, f[i][j].size(), z_len);
                 }
                 if (dFdX[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, dFdX[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, dFdX[i][j].size(), z_len);
                 }
                 if (d_fd_y[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_y[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_y[i][j].size(), z_len);
                 }
                 if (d_fd_z[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_z[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d_fd_z[i][j].size(), z_len);
                 }
                 if (d2FdXdY[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2FdXdY[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2FdXdY[i][j].size(), z_len);
                 }
                 if (d2_fd_xd_z[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_xd_z[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_xd_z[i][j].size(), z_len);
                 }
                 if (d2_fd_yd_z[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_yd_z[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d2_fd_yd_z[i][j].size(), z_len);
                 }
                 if (d3_fd_xd_yd_z[i][j].size() != z_len) 
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d3_fd_xd_yd_z[i][j].size(), z_len);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, d3_fd_xd_yd_z[i][j].size(), z_len);
                 }
 
                 const int jp1 = j + 1;
@@ -244,17 +269,20 @@ class Tricubic_Interpolating_Function
         const int i = search_index(x, xval);
         if (i == -1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, x, xval[0], xval[xval.size() - 1]);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, x, xval[0], xval[xval.size() - 1]);
         }
         const int j = search_index(y, yval);
         if (j == -1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, y, yval[0], yval[yval.size() - 1]);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, y, yval[0], yval[yval.size() - 1]);
         }
         const int& k = search_index(z, zval);
         if (k == -1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, z, zval[0], zval[zval.size() - 1]);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, z, zval[0], zval[zval.size() - 1]);
         }
 
         const double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);

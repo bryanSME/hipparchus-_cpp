@@ -46,7 +46,8 @@ class Interval
     {
         if (upper < lower) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ENDPOINTS_NOT_AN_INTERVAL, upper, lower, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ENDPOINTS_NOT_AN_INTERVAL, upper, lower, true);
         }
         this.lower = lower;
         this.upper = upper;

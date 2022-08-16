@@ -81,7 +81,8 @@ private:
 
         if (r == -1 || r == -val.size() - 1)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, c, val[0], val[val.size() - 1]);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::OUT_OF_RANGE_SIMPLE, c, val[0], val[val.size() - 1]);
         }
 
         if (r < 0)
@@ -143,7 +144,8 @@ public:
             f.size() == 0 ||
             f[0].size() == 0)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
 
         if (x_len < MIN_NUM_POINTS ||
@@ -151,17 +153,20 @@ public:
             f.size() < MIN_NUM_POINTS ||
             f[0].size() < MIN_NUM_POINTS)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DATA);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DATA);
         }
 
         if (x_len != f.size())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, f.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, x_len, f.size());
         }
 
         if (y_len != f[0].size())
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, y_len, f[0].size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, y_len, f[0].size());
         }
 
         Math_Arrays::check_order(x);

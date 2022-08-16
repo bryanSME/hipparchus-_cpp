@@ -151,7 +151,7 @@
     <ClInclude Include="analysis\interpolation\HermiteInterpolator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="util\Incrementor.h">
+    <ClInclude Include="util\Incrementor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="random\ISAACRandom.h">
@@ -295,7 +295,7 @@
     <ClInclude Include="random\Well512a.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="analysis\integration\BaseAbstractFieldUnivariateIntegrator.h">
+    <ClInclude Include="analysis\integration\BaseAbstractFieldUnivariateIntegrator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="analysis\integration\gauss\AbstractRuleFactory.h">
@@ -766,7 +766,7 @@
     <ClInclude Include="util\Combinations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="analysis\interpolation\BicubicInterpolatingFunction.h">
+    <ClInclude Include="analysis\interpolation\BicubicInterpolatingFunction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="analysis\interpolation\InterpolatingMicrosphere.h">

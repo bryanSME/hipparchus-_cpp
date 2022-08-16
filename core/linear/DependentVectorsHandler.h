@@ -42,7 +42,8 @@ enum Dependent_Vectors_Handler
         public int manage_dependent(const int index, const List<Real_Vector> basis) 
         {
             // generate exception, dependent vectors are forbidden with this settings
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
         }
 
 
@@ -52,7 +53,8 @@ enum Dependent_Vectors_Handler
         public  int manage_dependent(const Field<T> field, const int index, const List<Field_Vector<T>> basis) 
         {
             // generate exception, dependent vectors are forbidden with this settings
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
         }
 
     }, 

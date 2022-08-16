@@ -95,7 +95,8 @@ class CorrelatedRandom_Vector_Generator
         int order = covariance.get_row_dimension();
         if (mean.size() != order) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, mean.size(), order);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, mean.size(), order);
         }
         this.mean = mean.clone();
 

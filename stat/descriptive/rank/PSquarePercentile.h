@@ -416,7 +416,8 @@ public:
             const int count_observed = initial_five == NULL ? -1 : initial_five.size();
             if (count_observed < PSQUARE_CONSTANT) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, count_observed, PSQUARE_CONSTANT);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, count_observed, PSQUARE_CONSTANT);
             }
             Collections.sort(initial_five);
             return std::vector<Marker>{

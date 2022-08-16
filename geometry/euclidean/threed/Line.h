@@ -132,7 +132,8 @@ class Line : Embedding<Euclidean_3D, Euclidean_1D>
         const double norm2 = delta.get_norm_sq();
         if (norm2 == 0.0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
         }
         this.direction = Vector_3D(1.0 / std::sqrt(norm2), delta);
         zero = Vector_3D(1.0, p1, -p1.dot_product(delta) / norm2, delta);

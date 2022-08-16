@@ -418,12 +418,12 @@ else
      * @ if the array dimension does not match the expected one
      */
     private void check_dimension(const int expected, const Object array)
-         
-        {
+    {
         int array_dimension = (array == NULL) ? 0 : Array.get_length(array);
         if (array_dimension != expected) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, array_dimension, expected);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, array_dimension, expected);
         }
     }
 
@@ -571,7 +571,8 @@ catch (Instantiation_Exception | Illegal_Access_Exception | Illegal_Argument_Exc
             this.h_y = h_y.clone();
             if (h_y.size() != ode.get_dimension()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, ode.get_dimension(), h_y.size());
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, ode.get_dimension(), h_y.size());
             }
         }
 

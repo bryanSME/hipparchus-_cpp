@@ -33,81 +33,77 @@
  * </p>
  * @see Fraction
  */
-class Big_Fraction_Field : Field<Big_Fraction> 
+class Big_Fraction_Field : public Field<Big_Fraction>
 {
-
-    /** Serializable version identifier */
-    -1699294557189741703L;
-
+private:
     /** Private constructor for the singleton.
      */
-    private Big_Fraction_Field() 
+    Big_Fraction_Field()
     {
-    }
-
-    /** Get the unique instance.
-     * @return the unique instance
-     */
-    public static Big_Fraction_Field get_instance() 
-    {
-        return Lazy_Holder.INSTANCE;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public Big_Fraction get_one() 
-    {
-        return Big_Fraction.ONE;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public Big_Fraction get_zero() 
-    {
-        return Big_Fraction.ZERO;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public Class<Big_Fraction> get_runtime_class() 
-    {
-        return Big_Fraction.class;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public bool equals(const Object& other) 
-    {
-        return this == other;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    public int hash_code() 
-    {
-        return 0x7666e832;
     }
 
     // CHECKSTYLE: stop Hide_Utility_Class_Constructor
     /** Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
-    private static class Lazy_Holder 
+    static class Lazy_Holder
     {
+    private:
         /** Cached field instance. */
-        private static const Big_Fraction_Field INSTANCE = Big_Fraction_Field();
+        static const Big_Fraction_Field INSTANCE = Big_Fraction_Field();
     }
     // CHECKSTYLE: resume Hide_Utility_Class_Constructor
 
     /** Handle deserialization of the singleton.
      * @return the singleton instance
      */
-    private Object read_resolve() 
+    Object read_resolve() const
     {
         // return the singleton instance
-        return Lazy_Holder.INSTANCE;
+        return Lazy_Holder::INSTANCE;
     }
 
-}
+public:
+    /** Get the unique instance.
+     * @return the unique instance
+     */
+    static Big_Fraction_Field get_instance()
+    {
+        return Lazy_Holder::INSTANCE;
+    }
 
+    /** {@inherit_doc} */
+    //override
+    Big_Fraction get_one() const
+    {
+        return Big_Fraction::ONE;
+    }
 
+    /** {@inherit_doc} */
+    //override
+    Big_Fraction get_zero() const
+    {
+        return Big_Fraction::ZERO;
+    }
+
+    /** {@inherit_doc} */
+    //override
+    Class<Big_Fraction> get_runtime_class()
+    {
+        return Big_Fraction.class;
+    }
+
+    /** {@inherit_doc} */
+    //override
+    bool equals(const Object& other) const
+    {
+        return *this == other;
+    }
+
+    /** {@inherit_doc} */
+    //override
+    int hash_code() const
+    {
+        return 0x7666e832;
+    }
+};

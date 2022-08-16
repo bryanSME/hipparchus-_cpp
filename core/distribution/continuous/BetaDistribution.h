@@ -26,9 +26,9 @@
 //import org.hipparchus.special.Beta;
 //import org.hipparchus.special.Gamma;
 //import org.hipparchus.util.FastMath;
-#include "AbstractRealDistribution.h
+#include "AbstractRealDistribution.h"
 #include "../../special/Beta.h"
-#include "../../special/Gamma::h"
+#include "../../special/Gamma.h"
 
 /**
  * Implements the Beta distribution.
@@ -39,11 +39,11 @@ class Beta_Distribution : public Abstract_Real_Distribution
 {
 private:
     /** First shape parameter. */
-    const double my_alpha;
+    const double my_alpha{};
     /** Second shape parameter. */
-    const double my_beta;
+    const double my_beta{};
     /** Normalizing factor used in density computations. */
-    const double my_z;
+    const double my_z{};
 
 public:
     /**
@@ -92,22 +92,14 @@ public:
      *
      * @return the second shape parameter.
      */
-    double get_beta() 
+    double get_beta() const
     {
-        return beta;
-    }
-
-    /** {@inherit_doc} */
-    //override
-    double density(double x) 
-    {
-        const double log_density = log_density(x);
-        return log_density == -INFINITY ? 0 : std::exp(log_density);
+        return my_beta;
     }
 
     /** {@inherit_doc} **/
     //override
-    double log_density(double x) 
+    double log_density(const double& x) const
     {
         if (x < 0 || x > 1) 
         {
@@ -115,17 +107,19 @@ public:
         }
         if (x == 0) 
         {
-            if (alpha < 1) 
+            if (my_alpha < 1) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA, alpha, 1, false);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA, alpha, 1, false);
             }
             return -INFINITY;
         }
         if (x == 1) 
         {
-            if (beta < 1) 
+            if (my_beta < 1) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA, beta, 1, false);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA, beta, 1, false);
             }
             return -INFINITY;
         } 
@@ -138,7 +132,17 @@ public:
 
     /** {@inherit_doc} */
     //override
-    double cumulative_probability(const double& x)  
+    double density(const double& x) const
+    {
+        const double log_density = log_density(x);
+        return log_density == -INFINITY
+            ? 0
+            : std::exp(log_density);
+    }
+
+    /** {@inherit_doc} */
+    //override
+    double cumulative_probability(const double& x) const
     {
         if (x <= 0) 
         {
@@ -148,7 +152,7 @@ public:
         {
             return 1;
         }
-        return Beta.regularized_beta(x, my_alpha, my_beta);
+        return Beta::regularized_beta(x, my_alpha, my_beta);
     }
 
     /**

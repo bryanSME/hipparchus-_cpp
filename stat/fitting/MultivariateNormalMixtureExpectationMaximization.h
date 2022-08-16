@@ -79,7 +79,8 @@ class Multivariate_Normal_Mixture_Expectation_Maximization
         {
         if (data.size() < 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, data.size(), 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, data.size(), 1);
         }
 
         this.data = std::vector<double>(data.size()][data[0].size()];
@@ -89,11 +90,13 @@ class Multivariate_Normal_Mixture_Expectation_Maximization
             if (data[i].size() != data[0].size()) 
             {
                 // Jagged arrays not allowed
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, data[i].size(), data[0].size());
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, data[i].size(), data[0].size());
             }
             if (data[i].size() < 2) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, data[i].size(), 2, true);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, data[i].size(), 2, true);
             }
             this.data[i] = data[i].clone();
         }
@@ -126,12 +129,14 @@ class Multivariate_Normal_Mixture_Expectation_Maximization
         {
         if (max_iterations < 1) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, max_iterations, 1);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, max_iterations, 1);
         }
 
         if (threshold < Double.MIN_VALUE) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, threshold, Double.MIN_VALUE);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, threshold, Double.MIN_VALUE);
         }
 
         const int n = data.size();
@@ -145,7 +150,8 @@ class Multivariate_Normal_Mixture_Expectation_Maximization
 
         if (num_mean_columns != num_cols) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, num_mean_columns, num_cols);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, num_mean_columns, num_cols);
         }
 
         double previous_log_likelihood = 0;
@@ -305,15 +311,18 @@ class Multivariate_Normal_Mixture_Expectation_Maximization
         {
         if (data.size() < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, data.size(), 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, data.size(), 2);
         }
         if (num_components < 2) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, num_components, 2);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, num_components, 2);
         }
         if (num_components > data.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, num_components, data.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, num_components, data.size());
         }
 
         const int& num_rows = data.size();

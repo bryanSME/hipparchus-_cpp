@@ -79,7 +79,8 @@ public:
     {
         if (v.size() != 3) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), 3);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), 3);
         }
         my_x = v[0];
         my_y = v[1];

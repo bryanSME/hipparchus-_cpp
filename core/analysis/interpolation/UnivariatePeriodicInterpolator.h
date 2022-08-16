@@ -91,7 +91,8 @@ class Univariate_Periodic_Interpolator
         {
         if (xval.size() < extend) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, xval.size(), extend);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, xval.size(), extend);
         }
 
         Math_Arrays::check_order(xval);

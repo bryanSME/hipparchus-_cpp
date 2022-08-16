@@ -117,7 +117,8 @@ public:
         super(relative_accuracy, absolute_accuracy, minimal_iteration_count, maximal_iteration_count);
         if (n <= 0)
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, n);
+            throw std::exception("not implmented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_POINTS, n);
         }
         my_number_of_points = n;
     }

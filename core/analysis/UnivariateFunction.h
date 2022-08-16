@@ -93,5 +93,5 @@ class Univariate_Function
      * usually the consequence of checking the actual parameters passed to
      * the method.
      */
-    virtual double value(double x) = 0;
+    virtual double value(const double& x) = 0;
 };

@@ -75,7 +75,8 @@ public:
         //// safety checks
         //if (my_grid.size() < n) 
         //{
-        //    throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DIMENSION, grid.size(), n);
+        //    throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::INSUFFICIENT_DIMENSION, grid.size(), n);
         //}
         //Math_Arrays::check_order(grid);
     }

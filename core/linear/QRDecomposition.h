@@ -355,7 +355,8 @@ public:
             const int m = my_qrt[0].size();
             if (b.get_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_dimension(), m);
             }
             check_singular(my_r_diag, my_threshold, true);
 
@@ -404,7 +405,8 @@ public:
             const int m = my_qrt[0].size();
             if (b.get_row_dimension() != m) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, b.get_row_dimension(), m);
             }
             check_singular(my_r_diag, my_threshold, true);
 
@@ -519,7 +521,8 @@ public:
                 {
                     if (raise) 
                     {
-                        throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
+                        throw std::exception("not implemented");
+                        //throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
                     }
                     return true;
                 }

@@ -155,9 +155,10 @@ class Arcs_Set : public Abstract_Region<Sphere_1D, Sphere_1D>, Iterable<std::vec
             // the tree must cover the whole circle
             return BSP_Tree<Sphere_1D>(Boolean.TRUE);
         }
-else  if (lower > upper) 
+        if (lower > upper) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::ENDPOINTS_NOT_AN_INTERVAL, lower, upper, true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::ENDPOINTS_NOT_AN_INTERVAL, lower, upper, true);
         }
 
         // this is a regular arc, covering only part of the circle

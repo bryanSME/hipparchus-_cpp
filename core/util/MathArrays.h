@@ -426,7 +426,8 @@ public:
 
         /*if (abort) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, a.size(), b.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, a.size(), b.size());
         }*/
         return false;
     }
@@ -464,7 +465,8 @@ public:
         }
         if (abort) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, a.size(), b.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, a.size(), b.size());
         }
         return false;
     }*/
@@ -502,7 +504,8 @@ public:
         }
         /*if (abort) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, a.size(), b.size());
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, a.size(), b.size());
         }*/
         return false;
     }
@@ -761,7 +764,8 @@ public:
         {
             if (ele.size() != ele.size()) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIFFERENT_ROWS_LENGTHS, in[i].size(), in[0].size());
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIFFERENT_ROWS_LENGTHS, in[i].size(), in[0].size());
             }
         }
     }
@@ -779,7 +783,8 @@ public:
         {
             if (ele <= 0)
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, in[i], 0);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, in[i], 0);
             }
         }
     }
@@ -796,7 +801,8 @@ public:
         {
             if (std::isnan(ele))
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NAN_ELEMENT_AT_INDEX, i);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NAN_ELEMENT_AT_INDEX, i);
             }
         }
     }
@@ -813,7 +819,8 @@ public:
         {
             if (ele < 0)
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, in[i], 0);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, in[i], 0);
             }
         }
     }
@@ -832,7 +839,8 @@ public:
             {
                 if (ele < 0)
                 {
-                    throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, ele, 0);
+                    throw std::exception("not implemented");
+                    //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, ele, 0);
                 }
             }
         }
@@ -1054,11 +1062,13 @@ public:
             const std::vector<double> y = y_list[j];
             if (y == NULL) 
             {
-                throw Null_Argument_Exception();
+                throw std::exception("not implemented");
+                //throw Null_Argument_Exception();
             }
             if (y.size() != len) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, y.size(), len);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, y.size(), len);
             }
         }
 
@@ -1730,11 +1740,13 @@ public:
     {
         if (std::isinf(normalized_sum)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NORMALIZE_INFINITE);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NORMALIZE_INFINITE);
         }
         if (std::isnan(normalized_sum)) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NORMALIZE_NAN);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NORMALIZE_NAN);
         }
         double sum{};
         const auto len = values.size();
@@ -1743,7 +1755,8 @@ public:
         {
             if (std::isinf(values[i])) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_ARRAY_ELEMENT, values[i], i);
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_ARRAY_ELEMENT, values[i], i);
             }
             if (!std::isnan(values[i])) 
             {
@@ -1752,7 +1765,8 @@ public:
         }
         if (sum == 0) 
         {
-            throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ARRAY_SUMS_TO_ZERO);
+            throw std::exception("not implemented");
+            //throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ARRAY_SUMS_TO_ZERO);
         }
         for (int i{}; i < len; i++) 
         {
@@ -1881,7 +1895,8 @@ public:
 
         if (x_len == 0 || h_len == 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
+            throw std::exception("not implemented");
+            // throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
         }
 
         // initialize the output array
@@ -2084,17 +2099,20 @@ public:
 
         if (begin < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::START_POSITION, static_cast<int>(begin));
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::START_POSITION, static_cast<int>(begin));
         }
 
         if (length < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::size(), static_cast<int>(length));
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::size(), static_cast<int>(length));
         }
 
         if (begin + length > values.size()) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::SUBARRAY_ENDS_AFTER_ARRAY_END, static_cast<int>(begin + length), static_cast<int>(values.size()), true);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::SUBARRAY_ENDS_AFTER_ARRAY_END, static_cast<int>(begin + length), static_cast<int>(values.size()), true);
         }
 
         if (length == 0 && !allow_empty) 
@@ -2182,15 +2200,18 @@ public:
             const double weight = weights[i];
             if (std::isnan(weight)) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NAN_ELEMENT_AT_INDEX, static_cast<int>(i));
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NAN_ELEMENT_AT_INDEX, static_cast<int>(i));
             }
             if (std::isinfinite(weight)) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_ARRAY_ELEMENT, static_cast<double>(weight), static_cast<int>(i));
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_ARRAY_ELEMENT, static_cast<double>(weight), static_cast<int>(i));
             }
             if (weight < 0) 
             {
-                throw (hipparchus::exception::Localized_Core_Formats_Type::NEGATIVE_ELEMENT_AT_INDEX, static_cast<int>(i), static_cast<double>(weight));
+                throw std::exception("not implemented");
+                //throw (hipparchus::exception::Localized_Core_Formats_Type::NEGATIVE_ELEMENT_AT_INDEX, static_cast<int>(i), static_cast<double>(weight));
             }
             if (!contains_positive_weight && weight > 0.0) 
             {
@@ -2200,7 +2221,8 @@ public:
 
         if (!contains_positive_weight) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::WEIGHT_AT_LEAST_ONE_NON_ZERO);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::WEIGHT_AT_LEAST_ONE_NON_ZERO);
         }
 
         return verify_values(values, begin, length, allow_empty);

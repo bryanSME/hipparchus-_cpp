@@ -102,11 +102,13 @@ class Binomial_Test
     {
         if (number_of_trials < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, number_of_trials, 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, number_of_trials, 0);
         }
         if (number_of_successes < 0) 
         {
-            throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, number_of_successes, 0);
+            throw std::exception("not implemented");
+            //throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, number_of_successes, 0);
         }
         Math_Utils::check_range_inclusive(probability, 0, 1);
         if (number_of_trials < number_of_successes) 
