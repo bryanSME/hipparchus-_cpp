@@ -24,7 +24,9 @@
 
   //import org.hipparchus.util.FastMath;
 #include <vector>
+#include <cmath>
 #include "MatrixUtils.h"
+#include "RealMatrix.h"
 
 /**
  * Class transforming any matrix to bi-diagonal shape.
@@ -66,22 +68,22 @@ private:
 	 */
 	void transform_to_upper_bi_diagonal()
 	{
-		const int m = householder_vectors.size();
-		const int n = householder_vectors[0].size();
+		const int m = my_householder_vectors.size();
+		const int n = my_householder_vectors[0].size();
 		for (int k{}; k < n; k++)
 		{
 			//zero-out a column
 			double x_norm_sqr{};
 			for (int i = k; i < m; ++i)
 			{
-				const double c = householder_vectors[i][k];
+				const double c = my_householder_vectors[i][k];
 				x_norm_sqr += c * c;
 			}
-			const auto h_k = householder_vectors[k];
+			auto h_k = my_householder_vectors[k];
 			const double a = (h_k[k] > 0)
 				? -std::sqrt(x_norm_sqr)
 				: std::sqrt(x_norm_sqr);
-			main[k] = a;
+			my_main[k] = a;
 			if (a != 0.0)
 			{
 				h_k[k] -= a;
@@ -90,13 +92,13 @@ private:
 					double alpha = 0;
 					for (int i = k; i < m; ++i)
 					{
-						const std::vector<double> h_i = householder_vectors[i];
+						const auto h_i = my_householder_vectors[i];
 						alpha -= h_i[j] * h_i[k];
 					}
-					alpha /= a * householder_vectors[k][k];
+					alpha /= a * my_householder_vectors[k][k];
 					for (int i = k; i < m; ++i)
 					{
-						const std::vector<double> h_i = householder_vectors[i];
+						const std::vector<double> h_i = my_householder_vectors[i];
 						h_i[j] -= alpha * h_i[k];
 					}
 				}
@@ -111,15 +113,17 @@ private:
 					const double c = h_k[j];
 					x_norm_sqr += c * c;
 				}
-				const double b = (h_k[k + 1] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
-				secondary[k] = b;
+				const double b = (h_k[k + 1] > 0)
+					? -std::sqrt(x_norm_sqr)
+					: std::sqrt(x_norm_sqr);
+				my_secondary[k] = b;
 				if (b != 0.0)
 				{
 					h_k[k + 1] -= b;
 					for (int i = k + 1; i < m; ++i)
 					{
-						const std::vector<double> h_i = householder_vectors[i];
-						double beta = 0;
+						const auto h_i = my_householder_vectors[i];
+						double beta{};
 						for (int j{ k + 1 }; j < n; ++j)
 						{
 							beta -= h_i[j] * h_k[j];
@@ -142,32 +146,34 @@ private:
 	 */
 	void transform_to_lower_bi_diagonal()
 	{
-		const int m = householder_vectors.size();
-		const int n = householder_vectors[0].size();
+		const int m = my_householder_vectors.size();
+		const int n = my_householder_vectors[0].size();
 		for (int k{}; k < m; k++)
 		{
 			//zero-out a row
-			const std::vector<double> h_k = householder_vectors[k];
+			auto h_k = my_householder_vectors[k];
 			double x_norm_sqr{};
 			for (int j{ k }; j < n; ++j)
 			{
 				const double c = h_k[j];
 				x_norm_sqr += c * c;
 			}
-			const double& a = (h_k[k] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
-			main[k] = a;
+			const double a = (h_k[k] > 0)
+				? -std::sqrt(x_norm_sqr)
+				: std::sqrt(x_norm_sqr);
+			my_main[k] = a;
 			if (a != 0.0)
 			{
 				h_k[k] -= a;
-				for (int i = k + 1; i < m; ++i)
+				for (int i{ k + 1 }; i < m; ++i)
 				{
-					const std::vector<double> h_i = householder_vectors[i];
+					auto h_i = my_householder_vectors[i];
 					double alpha = 0;
 					for (int j{ k }; j < n; ++j)
 					{
 						alpha -= h_i[j] * h_k[j];
 					}
-					alpha /= a * householder_vectors[k][k];
+					alpha /= a * my_householder_vectors[k][k];
 					for (int j{ k }; j < n; ++j)
 					{
 						h_i[j] -= alpha * h_k[j];
@@ -178,30 +184,32 @@ private:
 			if (k < m - 1)
 			{
 				//zero-out a column
-				const std::vector<double> h_kp1 = householder_vectors[k + 1];
-				x_norm_sqr = 0;
-				for (int i = k + 1; i < m; ++i)
+				auto h_kp1 = my_householder_vectors[k + 1];
+				x_norm_sqr{};
+				for (int i{ k + 1 }; i < m; ++i)
 				{
-					const double c = householder_vectors[i][k];
+					const double c = my_householder_vectors[i][k];
 					x_norm_sqr += c * c;
 				}
-				const double b = (h_kp1[k] > 0) ? -std::sqrt(x_norm_sqr) : std::sqrt(x_norm_sqr);
-				secondary[k] = b;
+				const double b = (h_kp1[k] > 0)
+					? -std::sqrt(x_norm_sqr) 
+					: std::sqrt(x_norm_sqr);
+				my_secondary[k] = b;
 				if (b != 0.0)
 				{
 					h_kp1[k] -= b;
 					for (int j{ k + 1 }; j < n; ++j)
 					{
-						double beta = 0;
+						double beta{};
 						for (int i = k + 1; i < m; ++i)
 						{
-							const std::vector<double> h_i = householder_vectors[i];
+							const auto h_i = my_householder_vectors[i];
 							beta -= h_i[j] * h_i[k];
 						}
 						beta /= b * h_kp1[k];
 						for (int i = k + 1; i < m; ++i)
 						{
-							const std::vector<double> h_i = householder_vectors[i];
+							const auto h_i = my_householder_vectors[i];
 							h_i[j] -= beta * h_i[k];
 						}
 					}
@@ -215,17 +223,17 @@ public:
 	 * Build the transformation to bi-diagonal shape of a matrix.
 	 * @param matrix the matrix to transform.
 	 */
-	Bi_Diagonal_Transformer(Real_Matrix matrix)
+	Bi_Diagonal_Transformer(const Real_Matrix& matrix)
 	{
 		const int m = matrix.get_row_dimension();
 		const int n = matrix.get_column_dimension();
 		const int p = std::min(m, n);
-		householder_vectors = matrix.get_data();
-		main = std::vector<double>(p];
-		secondary = std::vector<double>(p - 1];
-		cached_u = NULL;
-		cached_b = NULL;
-		cached_v = NULL;
+		my_householder_vectors = matrix.get_data();
+		my_main = std::vector<double>(p);
+		my_secondary = std::vector<double>(p - 1);
+		my_cached_u = NULL;
+		my_cached_b = NULL;
+		my_cached_v = NULL;
 
 		// transform matrix
 		if (m >= n)
@@ -245,25 +253,25 @@ public:
 	 */
 	Real_Matrix get_u()
 	{
-		if (cached_u == NULL)
+		if (my_cached_u == NULL)
 		{
-			const int m = householder_vectors.size();
-			const int n = householder_vectors[0].size();
-			const int p = main.size();
+			const int m = my_householder_vectors.size();
+			const int n = my_householder_vectors[0].size();
+			const int p = my_main.size();
 			const int diag_offset = (m >= n) ? 0 : 1;
-			const std::vector<double> diagonal = (m >= n) ? main : secondary;
-			std::vector<std::vector<double>> ua = std::vector<double>(m][m];
+			const std::vector<double> diagonal = (m >= n) ? my_main : my_secondary;
+			auto ua = std::vector<std::vector<double>>(m, std::vector<double>(m));
 
 			// fill up the part of the matrix not affected by Householder transforms
-			for (int k = m - 1; k >= p; --k)
+			for (int k{ m - 1 }; k >= p; --k)
 			{
 				ua[k][k] = 1;
 			}
 
 			// build up first part of the matrix by applying Householder transforms
-			for (int k = p - 1; k >= diag_offset; --k)
+			for (int k{ p - 1 }; k >= diag_offset; --k)
 			{
-				const std::vector<double> h_k = householder_vectors[k];
+				const auto h_k = my_householder_vectors[k];
 				ua[k][k] = 1;
 				if (h_k[k - diag_offset] != 0.0)
 				{
@@ -272,13 +280,13 @@ public:
 						double alpha = 0;
 						for (int i = k; i < m; ++i)
 						{
-							alpha -= ua[i][j] * householder_vectors[i][k - diag_offset];
+							alpha -= ua[i][j] * my_householder_vectors[i][k - diag_offset];
 						}
 						alpha /= diagonal[k - diag_offset] * h_k[k - diag_offset];
 
 						for (int i = k; i < m; ++i)
 						{
-							ua[i][j] += -alpha * householder_vectors[i][k - diag_offset];
+							ua[i][j] += -alpha * my_householder_vectors[i][k - diag_offset];
 						}
 					}
 				}
@@ -300,26 +308,26 @@ public:
 	 */
 	Real_Matrix get_b()
 	{
-		if (cached_b == NULL)
+		if (my_cached_b == NULL)
 		{
-			const int m = householder_vectors.size();
-			const int n = householder_vectors[0].size();
-			std::vector<std::vector<double>> ba = std::vector<double>(m][n];
-			for (int i{}; i < main.size(); ++i)
+			const int m = my_householder_vectors.size();
+			const int n = my_householder_vectors[0].size();
+			auto ba = std::vector<std::vector<double>(m, std::vector<double>(n));
+			for (int i{}; i < my_main.size(); ++i)
 			{
 				ba[i][i] = main[i];
 				if (m < n)
 				{
 					if (i > 0)
 					{
-						ba[i][i - 1] = secondary[i - 1];
+						ba[i][i - 1] = my_secondary[i - 1];
 					}
 				}
 				else
 				{
-					if (i < main.size() - 1)
+					if (i < my_main.size() - 1)
 					{
-						ba[i][i + 1] = secondary[i];
+						ba[i][i + 1] = my_secondary[i];
 					}
 				}
 			}
@@ -337,14 +345,14 @@ public:
 	 */
 	Real_Matrix get_v()
 	{
-		if (cached_v == NULL)
+		if (my_cached_v == NULL)
 		{
-			const int m = householder_vectors.size();
-			const int n = householder_vectors[0].size();
-			const int p = main.size();
+			const int m = my_householder_vectors.size();
+			const int n = my_householder_vectors[0].size();
+			const int p = my_main.size();
 			const int diag_offset = (m >= n) ? 1 : 0;
-			const std::vector<double> diagonal = (m >= n) ? secondary : main;
-			std::vector<std::vector<double>> va = std::vector<double>(n][n];
+			const std::vector<double> diagonal = (m >= n) ? my_secondary : my_main;
+			va = std::vector<std::vector<double>>(n, std::vector<double>(n));
 
 			// fill up the part of the matrix not affected by Householder transforms
 			for (int k{ n - 1 }; k >= p; --k)
@@ -353,9 +361,9 @@ public:
 			}
 
 			// build up first part of the matrix by applying Householder transforms
-			for (int k = p - 1; k >= diag_offset; --k)
+			for (int k{ p - 1 }; k >= diag_offset; --k)
 			{
-				const std::vector<double> h_k = householder_vectors[k - diag_offset];
+				const auto h_k = my_householder_vectors[k - diag_offset];
 				va[k][k] = 1;
 				if (h_k[k] != 0.0)
 				{

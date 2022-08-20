@@ -40,13 +40,16 @@
   //import org.hipparchus.util.Pair;
   //import org.hipparchus.util.Precision;
 #include "../util/BigInteger.h"
-#include "../"
+#include <string>
+#include <vector>
+
+
 /**
  * Representation of a rational number without any overflow. This class is
  * immutable.
  *
  */
-class Big_Fraction : public Field_Element<Big_Fraction>, public Comparable<Big_Fraction>
+class Big_Fraction : public Field_Element<Big_Fraction> //, public Comparable<Big_Fraction>
 {
 public:
 	/** A fraction representing "2 / 1". */
@@ -91,8 +94,6 @@ public:
 	/** A fraction representing "2/3". */
 	static const Big_Fraction TWO_THIRDS = Big_Fraction(2, 3);
 
-	static const long serial_version_uid = -5630213147331578515L;
-
 	/** <code>BigInteger</code> representation of 100. */
 	static const BigInteger ONE_HUNDRED = Bigstatic_cast<int>(100);
 
@@ -102,10 +103,10 @@ public:
 
 private:
 	/** The numerator. */
-	const BigInteger my_numerator;
+	BigInteger my_numerator;
 
 	/** The denominator. */
-	const BigInteger my_denominator;
+	BigInteger my_denominator;
 
 public:
 	/**
@@ -119,7 +120,7 @@ public:
 	 */
 	Big_Fraction(const BigInteger& num)
 	{
-		this(num, BigInteger::ONE);
+		Big_Fraction(num, BigInteger::ONE);
 	}
 
 	/**
@@ -131,7 +132,7 @@ public:
 	 * @ if the denominator is zero.
 	 * @ if either of the arguments is NULL
 	 */
-	Big_Fraction(BigInteger num, BigInteger den)
+	Big_Fraction(const BigInteger& num, const BigInteger& den)
 	{
 		//Math_Utils::check_not_null(num, hipparchus::exception::Localized_Core_Formats_Type::NUMERATOR);
 		//Math_Utils::check_not_null(den, hipparchus::exception::Localized_Core_Formats_Type::DENOMINATOR);
@@ -142,14 +143,14 @@ public:
 		}
 		if (num.signum() == 0)
 		{
-			numerator = BigInteger.ZERO;
-			denominator = BigInteger.ONE;
+			my_numerator = BigInteger::ZERO;
+			my_denominator = BigInteger::ONE;
 		}
 		else
 		{
 			// reduce numerator and denominator by greatest common denominator
 			const BigInteger gcd = num.gcd(den);
-			if (BigInteger.ONE.compare_to(gcd) < 0)
+			if (BigInteger::ONE.compare_to(gcd) < 0)
 			{
 				num = num.divide(gcd);
 				den = den.divide(gcd);
@@ -163,8 +164,8 @@ public:
 			}
 
 			// store the values in the const fields
-			numerator = num;
-			denominator = den;
+			my_numerator = num;
+			my_denominator = den;
 		}
 	}
 
@@ -188,7 +189,7 @@ public:
 	 * @param value the double value to convert to a fraction.
 	 * @exception  if value is NaN or infinite
 	 */
-	Big_Fraction(const double value)
+	Big_Fraction(const double& value)
 	{
 		if (std::isnan(value))
 		{
@@ -224,13 +225,13 @@ public:
 
 		if (k < 0)
 		{
-			numerator = Bigstatic_cast<int>(m);
-			denominator = BigInteger.ZERO.flip_bit(-k);
+			my_numerator = Bigstatic_cast<int>(m);
+			my_denominator = BigInteger::ZERO.flip_bit(-k);
 		}
 		else
 		{
-			numerator = Bigstatic_cast<int>(m).multiply(BigInteger.ZERO.flip_bit(k));
-			denominator = BigInteger.ONE;
+			my_numerator = Bigstatic_cast<int>(m).multiply(BigInteger::ZERO.flip_bit(k));
+			my_denominator = BigInteger::ONE;
 		}
 	}
 
@@ -255,8 +256,7 @@ public:
 	 *             if the continued fraction failed to converge.
 	 * @see #Big_Fractionstatic_cast<double>(
 	 */
-	Big_Fraction(const double& value, const double epsilon, const int max_iterations)
-		Math_Illegal_State_Exception
+	Big_Fraction(const double& value, const double& epsilon, const int& max_iterations)
 	{
 		Convergence_Step converged = Convergents_Iterator.convergent(value, max_iterations, s ->
 		{
@@ -265,12 +265,13 @@ public:
 		}).get_key();
 		if (std::abs(converged.get_fraction_value() - value) < epsilon)
 		{
-			this.numerator = Bigstatic_cast<int>(converged.get_numerator());
-			this.denominator = Bigstatic_cast<int>(converged.get_denominator());
+			my_numerator = Bigstatic_cast<int>(converged.get_numerator());
+			my_denominator = Bigstatic_cast<int>(converged.get_denominator());
 		}
 		else
 		{
-			throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::FAILED_FRACTION_CONVERSION, value, max_iterations);
+			throw std::exception("not implemented");
+			//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::FAILED_FRACTION_CONVERSION, value, max_iterations);
 		}
 	}
 
@@ -291,11 +292,10 @@ public:
 	 * @Math_Illegal_State_Exception
 	 *             if the continued fraction failed to converge.
 	 */
-	Big_Fraction(const double& value, const long max_denominator)
-		Math_Illegal_State_Exception
+	Big_Fraction(const double& value, const long& max_denominator)
 	{
-		const int max_iterations = 100;
-		Convergence_Step[] last_valid = Convergence_Step[1];
+		const int max_iterations{ 100 };
+		auto last_valid = std::vector<Convergence_Step>(1);
 		Convergents_Iterator.convergent(value, max_iterations, s ->
 		{
 			if (s.get_denominator() < max_denominator)
@@ -306,12 +306,13 @@ public:
 		});
 		if (last_valid[0] != NULL)
 		{
-			this.numerator = Bigstatic_cast<int>(last_valid[0].get_numerator());
-			this.denominator = Bigstatic_cast<int>(last_valid[0].get_denominator());
+			my_numerator = Bigstatic_cast<int>(last_valid[0].get_numerator());
+			my_denominator = Bigstatic_cast<int>(last_valid[0].get_denominator());
 		}
 		else
 		{
-			throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::FAILED_FRACTION_CONVERSION, value, max_iterations);
+			throw std::exception("not implemented");
+			//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::FAILED_FRACTION_CONVERSION, value, max_iterations);
 		}
 	}
 
@@ -326,7 +327,7 @@ public:
 	 */
 	Big_Fraction(const int& num)
 	{
-		this(Bigstatic_cast<int>(num), BigInteger.ONE);
+		Big_Fraction(Bigstatic_cast<int>(num), BigInteger::ONE);
 	}
 
 	/**
@@ -340,9 +341,9 @@ public:
 	 * @param den
 	 *            the denominator.
 	 */
-	Big_Fraction(const int& num, const int den)
+	Big_Fraction(const int& num, const int& den)
 	{
-		this(Bigstatic_cast<int>(num), Bigstatic_cast<int>(den));
+		Big_Fraction(Bigstatic_cast<int>(num), Bigstatic_cast<int>(den));
 	}
 
 	/**
@@ -353,9 +354,9 @@ public:
 	 * @param num
 	 *            the numerator.
 	 */
-	Big_Fraction(const long num)
+	Big_Fraction(const long& num)
 	{
-		this(Bigstatic_cast<int>(num), BigInteger.ONE);
+		Big_Fraction(Bigstatic_cast<int>(num), BigInteger::ONE);
 	}
 
 	/**
@@ -369,9 +370,9 @@ public:
 	 * @param den
 	 *            the denominator.
 	 */
-	Big_Fraction(const long num, const long den)
+	Big_Fraction(const long& num, const long& den)
 	{
-		this(Bigstatic_cast<int>(num), Bigstatic_cast<int>(den));
+		Big_Fraction(Bigstatic_cast<int>(num), Bigstatic_cast<int>(den));
 	}
 
 	/**
@@ -431,9 +432,9 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	double get_real()
+	double get_real() const
 	{
-		return double_value();
+		return my_double_value();
 	}
 
 	/**
@@ -474,7 +475,7 @@ public:
 	 */
 	Big_Fraction abs()
 	{
-		return (numerator.signum() == 1)
+		return (my_numerator.signum() == 1)
 			? *this
 			: negate();
 	}
@@ -482,9 +483,9 @@ public:
 	/** Check if a fraction is an integer.
 	 * @return true of fraction is an integer
 	 */
-	bool is_integer()
+	bool is_integer() const
 	{
-		return denominator.equals(BigInteger.ONE);
+		return my_denominator.equals(BigInteger::ONE);
 	}
 
 	/** Returns the signum function of this {@link Big_Fraction}.
@@ -495,9 +496,9 @@ public:
 	 * @return the signum function of this {@link Big_Fraction}
 	 * @since 1.7
 	 */
-	int signum()
+	int signum() const
 	{
-		return numerator.signum();
+		return my_numerator.signum();
 	}
 
 	/**
@@ -511,7 +512,7 @@ public:
 	 * @
 	 *             if the {@link BigInteger} is <code>null</code>.
 	 */
-	Big_Fraction add(const BigInteger bg)
+	Big_Fraction add(const BigInteger& bg)
 	{
 		//Math_Utils::check_not_null(bg);
 
@@ -521,7 +522,7 @@ public:
 		}
 		if (bg.signum() == 0)
 		{
-			return this;
+			return *this;
 		}
 
 		return Big_Fraction(numerator.add(denominator.multiply(bg)), denominator);
@@ -552,7 +553,7 @@ public:
 	 *            the {@code long} to add.
 	 * @return a <code>Big_Fraction</code> instance with the resulting values.
 	 */
-	Big_Fraction add(const long l)
+	Big_Fraction add(const long& l)
 	{
 		return add(Bigstatic_cast<int>(l));
 	}
@@ -574,7 +575,7 @@ public:
 		//Math_Utils::check_not_null(fraction, hipparchus::exception::Localized_Core_Formats_Type::FRACTION);
 		if (fraction.numerator.signum() == 0)
 		{
-			return this;
+			return *this;
 		}
 		if (numerator.signum() == 0)
 		{
@@ -600,7 +601,7 @@ public:
 		}
 
 		return Big_Fraction(num, den);
-	}
+	};
 
 	/**
 	 * <p>
@@ -616,7 +617,7 @@ public:
 	 */
 	BigDecimal big_decimal_value()
 	{
-		return BigDecimal(numerator).divide(new BigDecimal(denominator));
+		return BigDecimal(numerator).divide(BigDecimal(denominator));
 	}
 
 	/**
@@ -634,9 +635,9 @@ public:
 	 *             mode.
 	 * @see BigDecimal
 	 */
-	BigDecimal big_decimal_value(const int rounding_mode)
+	BigDecimal big_decimal_value(const int& rounding_mode)
 	{
-		return BigDecimal(numerator).divide(new BigDecimal(denominator), rounding_mode);
+		return BigDecimal(numerator).divide(BigDecimal(denominator), rounding_mode);
 	}
 
 	/**
@@ -654,7 +655,7 @@ public:
 	 * @return the fraction as a <code>BigDecimal</code>.
 	 * @see BigDecimal
 	 */
-	BigDecimal big_decimal_value(const int scale, const int rounding_mode)
+	BigDecimal big_decimal_value(const int& scale, const int& rounding_mode)
 	{
 		return BigDecimal(numerator).divide(new BigDecimal(denominator), scale, rounding_mode);
 	}
@@ -671,7 +672,7 @@ public:
 	 * @see java.lang.Comparable#compare_to(java.lang.Object)
 	 */
 	 //override
-	int compare_to(const Big_Fraction object)
+	int compare_to(const Big_Fraction& object)
 	{
 		int lhs_sig_num = numerator.signum();
 		int rhs_sig_num = object.numerator.signum();
@@ -700,7 +701,7 @@ public:
 	 * @ if the {@code BigInteger} is {@code NULL}
 	 * @Math_Runtime_Exception if the fraction to divide by is zero
 	 */
-	Big_Fraction divide(const BigInteger bg)
+	Big_Fraction divide(const BigInteger& bg)
 	{
 		//Math_Utils::check_not_null(bg);
 		if (bg.signum() == 0)
@@ -739,7 +740,7 @@ public:
 	 * @return a {@link Big_Fraction} instance with the resulting values
 	 * @Math_Runtime_Exception if the fraction to divide by is zero
 	 */
-	Big_Fraction divide(const long l)
+	Big_Fraction divide(const long& l)
 	{
 		return divide(Bigstatic_cast<int>(l));
 	}
@@ -813,19 +814,17 @@ public:
 	 //override
 	bool equals(const Object& other)
 	{
-		bool ret = false;
-
-		if (this == other)
+		if (*this == other)
 		{
-			ret = true;
+			return true;
 		}
 		if (dynamic_cast<const Big_Fraction*>(*other) != nullptr)
 		{
 			Big_Fraction rhs = (Big_Fraction)other;
-			ret = numerator.equals(rhs.numerator) && denominator.equals(rhs.denominator);
+			return numerator.equals(rhs.numerator) && denominator.equals(rhs.denominator);
 		}
 
-		return ret;
+		return false;
 	}
 
 	/**
@@ -859,9 +858,9 @@ public:
 	 *
 	 * @return the denominator as a <code>BigInteger</code>.
 	 */
-	BigInteger get_denominator()
+	BigInteger get_denominator() const
 	{
-		return denominator;
+		return my_denominator;
 	}
 
 	/**
@@ -871,9 +870,9 @@ public:
 	 *
 	 * @return the denominator as a {@code int}.
 	 */
-	int get_denominator_as_int()
+	int get_denominator_as_int() const
 	{
-		return denominator.int_value();
+		return my_denominator.int_value();
 	}
 
 	/**
@@ -883,9 +882,9 @@ public:
 	 *
 	 * @return the denominator as a {@code long}.
 	 */
-	long get_denominator_as_long()
+	long get_denominator_as_long() const
 	{
-		return denominator.long_value();
+		return my_denominator.long_value();
 	}
 
 	/**
@@ -895,9 +894,9 @@ public:
 	 *
 	 * @return the numerator as a <code>BigInteger</code>.
 	 */
-	BigInteger get_numerator()
+	BigInteger get_numerator() const
 	{
-		return numerator;
+		return my_numerator;
 	}
 
 	/**
@@ -907,9 +906,9 @@ public:
 	 *
 	 * @return the numerator as a {@code int}.
 	 */
-	int get_numerator_as_int()
+	int get_numerator_as_int() const
 	{
-		return numerator.int_value();
+		return my_numerator.int_value();
 	}
 
 	/**
@@ -919,9 +918,9 @@ public:
 	 *
 	 * @return the numerator as a {@code long}.
 	 */
-	long get_numerator_as_long()
+	long get_numerator_as_long() const
 	{
-		return numerator.long_value();
+		return my_numerator.long_value();
 	}
 
 	/**
@@ -978,7 +977,7 @@ public:
 	 * @return a {@code Big_Fraction} instance with the resulting values.
 	 * @ if {@code bg} is {@code NULL}.
 	 */
-	Big_Fraction multiply(const BigInteger bg)
+	Big_Fraction multiply(const BigInteger& bg)
 	{
 		//Math_Utils::check_not_null(bg);
 		if (numerator.signum() == 0 || bg.signum() == 0)
@@ -1018,7 +1017,7 @@ public:
 	 *            the {@code long} to multiply by.
 	 * @return a {@link Big_Fraction} instance with the resulting values.
 	 */
-	Big_Fraction multiply(const long l)
+	Big_Fraction multiply(const long& l)
 	{
 		if (l == 0 || numerator.signum() == 0)
 		{
@@ -1088,7 +1087,7 @@ public:
 	 *            raised.
 	 * @return <tt>this<sup>exponent</sup></tt>.
 	 */
-	Big_Fraction pow(const int exponent)
+	Big_Fraction pow(const int& exponent)
 	{
 		if (exponent == 0)
 		{
@@ -1096,7 +1095,7 @@ public:
 		}
 		if (numerator.signum() == 0)
 		{
-			return this;
+			return *this;
 		}
 
 		if (exponent < 0)
@@ -1116,7 +1115,7 @@ public:
 	 *            exponent to which this <code>Big_Fraction</code> is to be raised.
 	 * @return <tt>this<sup>exponent</sup></tt> as a <code>Big_Fraction</code>.
 	 */
-	Big_Fraction pow(const long exponent)
+	Big_Fraction pow(const long& exponent)
 	{
 		if (exponent == 0)
 		{
@@ -1124,7 +1123,7 @@ public:
 		}
 		if (numerator.signum() == 0)
 		{
-			return this;
+			return *this;
 		}
 
 		if (exponent < 0)
@@ -1144,7 +1143,7 @@ public:
 	 *            exponent to which this <code>Big_Fraction</code> is to be raised.
 	 * @return <tt>this<sup>exponent</sup></tt> as a <code>Big_Fraction</code>.
 	 */
-	Big_Fraction pow(const BigInteger exponent)
+	Big_Fraction pow(const BigInteger& exponent)
 	{
 		if (exponent.signum() == 0)
 		{
@@ -1152,7 +1151,7 @@ public:
 		}
 		if (numerator.signum() == 0)
 		{
-			return this;
+			return *this;
 		}
 
 		if (exponent.signum() == -1)
@@ -1173,7 +1172,7 @@ public:
 	 *            exponent to which this <code>Big_Fraction</code> is to be raised.
 	 * @return <tt>this<sup>exponent</sup></tt>.
 	 */
-	double pow(const double exponent)
+	double pow(const double& exponent)
 	{
 		return std::pow(numerator.double_value(), exponent) /
 			std::pow(denominator.double_value(), exponent);
@@ -1204,14 +1203,9 @@ public:
 	{
 		const BigInteger gcd = numerator.gcd(denominator);
 
-		if (BigInteger.ONE.compare_to(gcd) < 0)
-		{
-			return Big_Fraction(numerator.divide(gcd), denominator.divide(gcd));
-		}
-		else
-		{
-			return this;
-		}
+		return (BigInteger.ONE.compare_to(gcd) < 0)
+			? Big_Fraction(numerator.divide(gcd), denominator.divide(gcd))
+			: *this;
 	}
 
 	/**
@@ -1229,7 +1223,7 @@ public:
 		//Math_Utils::check_not_null(bg);
 		if (bg.signum() == 0)
 		{
-			return this;
+			return *this;
 		}
 		if (numerator.signum() == 0)
 		{
@@ -1282,7 +1276,7 @@ public:
 		//Math_Utils::check_not_null(fraction, hipparchus::exception::Localized_Core_Formats_Type::FRACTION);
 		if (fraction.numerator.signum() == 0)
 		{
-			return this;
+			return *this;
 		}
 		if (numerator.signum() == 0)
 		{
@@ -1320,14 +1314,11 @@ public:
 		{
 			return numerator.to_string();
 		}
-		else if (BigInteger.ZERO.equals(numerator))
+		if (BigInteger.ZERO.equals(numerator))
 		{
 			return "0";
 		}
-		else
-		{
-			return numerator + " / " + denominator;
-		}
+		return numerator + " / " + denominator;
 	}
 
 	/** {@inherit_doc} */
@@ -1336,4 +1327,4 @@ public:
 	{
 		return Big_Fraction_Field.get_instance();
 	}
-}
+};

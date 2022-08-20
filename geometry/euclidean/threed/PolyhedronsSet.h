@@ -46,17 +46,26 @@
   //import org.hipparchus.geometry.partitioning.Sub_Hyperplane;
   //import org.hipparchus.geometry.partitioning.Transform;
   //import org.hipparchus.util.FastMath;
+#include <vector>
+#include <algorithm>
+#include "Euclidean3D.h"
+#include "../twod/Euclidean2D.h"
+#include "../../partitioning/AbstractRegion.h"
+#include "../../partitioning/BSPTree.h"
+#include "Vector3D.h"
+#include "../../partitioning/SubHyperplane.h"
 
   /** This class represents a 3D region: a set of polyhedrons.
    */
-class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
+class Polyhedrons_Set : public Abstract_Region<Euclidean_3D, Euclidean_2D>
 {
+public:
 	/** Build a polyhedrons set representing the whole real line.
 	 * @param tolerance tolerance below which points are considered identical
 	 */
-	public Polyhedrons_Set(const double& tolerance)
+	Polyhedrons_Set(const double& tolerance)
 	{
-		super(tolerance);
+		Abstract_Region<Euclidean_3D, Euclidean_2D>(tolerance);
 	}
 
 	/** Build a polyhedrons set from a BSP tree.
@@ -79,9 +88,9 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @param tree inside/outside BSP tree representing the region
 	 * @param tolerance tolerance below which points are considered identical
 	 */
-	public Polyhedrons_Set(const BSP_Tree<Euclidean_3D> tree, const double& tolerance)
+	Polyhedrons_Set(const BSP_Tree<Euclidean_3D> tree, const double& tolerance)
 	{
-		super(tree, tolerance);
+		Abstract_Region<Euclidean_3D, Euclidean_2D>(tree, tolerance);
 	}
 
 	/** Build a polyhedrons set from a Boundary RE_Presentation (B-rep) specified by sub-hyperplanes.
@@ -104,9 +113,9 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * collection of {@link Sub_Hyperplane Sub_Hyperplane} objects
 	 * @param tolerance tolerance below which points are considered identical
 	 */
-	public Polyhedrons_Set(const Collection<Sub_Hyperplane<Euclidean_3D>> boundary, const double& tolerance)
+	Polyhedrons_Set(const Collection<Sub_Hyperplane<Euclidean_3D>>& boundary, const double& tolerance)
 	{
-		super(boundary, tolerance);
+		Abstract_Region<Euclidean_3D, Euclidean_2D>(boundary, tolerance);
 	}
 
 	/** Build a polyhedrons set from a Boundary RE_Presentation (B-rep) specified by connected vertices.
@@ -126,9 +135,9 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @param tolerance tolerance below which points are considered identical
 	 * @exception  if some basic sanity checks fail
 	 */
-	public Polyhedrons_Set(const List<Vector_3D> vertices, const List<std::vector<int>> facets, const double& tolerance)
+	Polyhedrons_Set(const std::vector<Vector_3D> vertices, const std::vector<std::vector<int>> facets, const double& tolerance)
 	{
-		super(build_boundary(vertices, facets, tolerance), tolerance);
+		Abstract_Region<Euclidean_3D, Euclidean_2D>(build_boundary(vertices, facets, tolerance), tolerance);
 	}
 
 	/** Build a polyhedrons set from a Boundary RE_Presentation (B-rep) specified by connected vertices.
@@ -142,7 +151,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @exception  if some basic sanity checks fail
 	 * @since 1.2
 	 */
-	public Polyhedrons_Set(const B_Rep brep, const double& tolerance)
+	Polyhedrons_Set(const B_Rep brep, const double& tolerance)
 	{
 		super(build_boundary(brep.get_vertices(), brep.get_facets(), tolerance), tolerance);
 	}
@@ -156,11 +165,12 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @param z_max high bound along the z direction
 	 * @param tolerance tolerance below which points are considered identical
 	 */
-	public Polyhedrons_Set(const double x_min, const double x_max, const double y_min, const double y_max, const double z_min, const double z_max, const double& tolerance)
+	Polyhedrons_Set(const double x_min, const double x_max, const double y_min, const double y_max, const double z_min, const double z_max, const double& tolerance)
 	{
 		super(build_boundary(x_min, x_max, y_min, y_max, z_min, z_max, tolerance), tolerance);
 	}
 
+private:
 	/** Build a parallellepipedic box boundary.
 	 * @param x_min low bound along the x direction
 	 * @param x_max high bound along the x direction
@@ -171,7 +181,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @param tolerance tolerance below which points are considered identical
 	 * @return boundary tree
 	 */
-	private static BSP_Tree<Euclidean_3D> build_boundary(const double x_min, const double x_max, const double y_min, const double y_max, const double z_min, const double z_max, const double& tolerance)
+	static BSP_Tree<Euclidean_3D> build_boundary(const double x_min, const double x_max, const double y_min, const double y_max, const double z_min, const double z_max, const double& tolerance)
 	{
 		if ((x_min >= x_max - tolerance) || (y_min >= y_max - tolerance) || (z_min >= z_max - tolerance))
 		{
@@ -196,7 +206,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @return boundary as a list of sub-hyperplanes
 	 * @exception  if some basic sanity checks fail
 	 */
-	private static List<Sub_Hyperplane<Euclidean_3D>> build_boundary(const List<Vector_3D> vertices, const List<std::vector<int>> facets, const double& tolerance)
+	static std::vector<Sub_Hyperplane<Euclidean_3D>> build_boundary(const std::vector<Vector_3D>& vertices, const std::vector<std::vector<int>> facets, const double& tolerance)
 	{
 		// check vertices distances
 		for (int i{}; i < vertices.size() - 1; ++i)
@@ -206,7 +216,8 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 			{
 				if (Vector_3D.distance(vi, vertices.get(j)) <= tolerance)
 				{
-					throw (Localized_Geometry_Formats.CLOSE_VERTICES, vi.get_x(), vi.get_y(), vi.get_z());
+					throw std::exception("not implemented");
+					//throw (Localized_Geometry_Formats.CLOSE_VERTICES, vi.get_x(), vi.get_y(), vi.get_z());
 				}
 			}
 		}
@@ -218,15 +229,15 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 		const std::vector<std::vector<int>> successors = successors(vertices, facets, references);
 
 		// check edges orientations
-		for (const int& v_a = 0; v_a < vertices.size(); ++v_a)
+		for (int v_a{}; v_a < vertices.size(); ++v_a)
 		{
 			for (const int v_b : successors[v_a])
 			{
 				if (v_b >= 0)
 				{
 					// when facets are properly oriented, if v_b is the successor of v_a on facet f1, // then there must be an adjacent facet f2 where v_a is the successor of v_b
-					bool found = false;
-					for (const int v : successors[v_b])
+					bool found{};
+					for (const auto& v : successors[v_b])
 					{
 						found = found || (v == v_a);
 					}
@@ -234,37 +245,39 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 					{
 						const Vector_3D start = vertices.get(v_a);
 						const Vector_3D end = vertices.get(v_b);
-						throw (Localized_Geometry_Formats.EDGE_CONNECTED_TO_ONE_FACET, start.get_x(), start.get_y(), start.get_z(), end.get_x(), end.get_y(), end.get_z());
+						throw std::exception("not implemented");
+						//throw (Localized_Geometry_Formats.EDGE_CONNECTED_TO_ONE_FACET, start.get_x(), start.get_y(), start.get_z(), end.get_x(), end.get_y(), end.get_z());
 					}
 				}
 			}
 		}
 
-		const List<Sub_Hyperplane<Euclidean_3D>> boundary = Array_list<>();
+		std::vector<Sub_Hyperplane<Euclidean_3D>> boundary{};
 
-		for (const std::vector<int> facet : facets)
+		for (const auto& facet : facets)
 		{
 			// define facet plane from the first 3 points
 			Plane plane = Plane(vertices.get(facet[0]), vertices.get(facet[1]), vertices.get(facet[2]), tolerance);
 
 			// check all points are in the plane
-			const Vector_2D[] two_2_points = Vector_2D[facet.size()];
+			auto two_2_points = Vector_2D[facet.size()];
 			for (int i = 0; i < facet.size(); ++i)
 			{
 				const Vector_3D v = vertices.get(facet[i]);
 				if (!plane.contains(v))
 				{
-					throw (Localized_Geometry_Formats.OUT_OF_PLANE, v.get_x(), v.get_y(), v.get_z());
+					throw std::exception("not implemented");
+					//throw (Localized_Geometry_Formats.OUT_OF_PLANE, v.get_x(), v.get_y(), v.get_z());
 				}
 				two_2_points[i] = plane.to_sub_space(v);
 			}
 
 			// create the polygonal facet
-			boundary.add(new Sub_Plane(plane, Polygons_Set(tolerance, two_2_points)));
+			boundary.add(Sub_Plane(plane, Polygons_Set(tolerance, two_2_points)));
 		}
 
 		return boundary;
-	}
+	};
 
 	/** Find the facets that reference each edges.
 	 * @param vertices list of polyhedrons set vertices
@@ -272,12 +285,12 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @return references array such that r[v][k] = f for some k if facet f contains vertex v
 	 * @exception  if some facets have fewer than 3 vertices
 	 */
-	private static std::vector<std::vector<int>> find_references(const List<Vector_3D> vertices, const List<std::vector<int>> facets)
+	static std::vector<std::vector<int>> find_references(const std::vector<Vector_3D> vertices, const std::vector<std::vector<int>> facets)
 	{
 		// find the maximum number of facets a vertex belongs to
-		const std::vector<int> nb_facets = int[vertices.size()];
-		int max_facets = 0;
-		for (const std::vector<int> facet : facets)
+		const std::vector<int> nb_facets = std::vector<int>(vertices.size());
+		int max_facets{};
+		for (const auto& facet : facets)
 		{
 			if (facet.size() < 3)
 			{
@@ -291,8 +304,8 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 		}
 
 		// set up the references array
-		const std::vector<std::vector<int>> references = int[vertices.size()][max_facets];
-		for (std::vector<int> r : references)
+		auto references = std::vector<std::vector<int>(vertices.size(), std::vector<int>(max_facets));
+		for (auto& r : references)
 		{
 			Arrays.fill(r, -1);
 		}
@@ -322,16 +335,16 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @exception  if the same vertex appears more than
 	 * once in the successors list (which means one facet orientation is wrong)
 	 */
-	private static std::vector<std::vector<int>> successors(const List<Vector_3D> vertices, const List<std::vector<int>> facets, const std::vector<std::vector<int>> references)
+	static std::vector<std::vector<int>> successors(const std::vector<Vector_3D>& vertices, const std::vector<std::vector<int>>& facets, const std::vector<std::vector<int>>& references)
 	{
 		// create an array large enough
-		const std::vector<std::vector<int>> successors = int[vertices.size()][references[0].size()];
-		for (const std::vector<int> s : successors)
+		const std::vector<std::vector<int>> successors = std::vector<std::vector<int>(vertices.size(), std::vector<int>(references[0].size());
+		for (auto& s : successors)
 		{
 			Arrays.fill(s, -1);
 		}
 
-		for (const int& v = 0; v < vertices.size(); ++v)
+		for (int v{}; v < vertices.size(); ++v)
 		{
 			for (int k{}; k < successors[v].size() && references[v][k] >= 0; ++k)
 			{
@@ -388,7 +401,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * @exception Math_Runtime_Exception if polyhedrons is unbounded
 	 * @since 1.2
 	 */
-	public B_Rep get_b_rep() Math_Runtime_Exception
+	public B_Rep get_b_rep()
 	{
 		B_RepExtractor extractor = B_RepExtractor(get_tolerance());
 		get_tree(true).visit(extractor);
@@ -396,49 +409,108 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	}
 
 	/** Visitor extracting B_Rep. */
-	private static class B_RepExtractor : BSP_Tree_Visitor<Euclidean_3D>
+	private static class B_RepExtractor : public BSP_Tree_Visitor<Euclidean_3D>
 	{
+	private:
 		/** Tolerance for vertices identification. */
-		private const double& tolerance;
+		const double my_tolerance;
 
 		/** Extracted vertices. */
-		private const List<Vector_3D> vertices;
+		const std::vector<Vector_3D> my_vertices;
 
 		/** Extracted facets. */
-		private const List<std::vector<int>> facets;
+		const std::vector<std::vector<int>> my_facets;
 
+		/** Add he contribution of a boundary facet.
+		 * @param facet boundary facet
+		 * @param reversed if true, the facet has the inside on its plus side
+		 * @exception Math_Runtime_Exception if facet is unbounded
+		 */
+		void add_contribution(const Sub_Hyperplane<Euclidean_3D>& facet, const bool reversed)
+		{
+			const Plane plane = (Plane)facet.get_hyperplane();
+			const Polygons_Set polygon = (Polygons_Set)((Sub_Plane)facet).get_remaining_region();
+			const Vector_2D[][] loops_2d = polygon.get_vertices();
+			if (loops_2d.size() == 0)
+			{
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(Localized_Geometry_Formats.OUTLINE_BOUNDARY_LOOP_OPEN);
+			}
+			if (loops_2d.size() > 1)
+			{
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(Localized_Geometry_Formats.FACET_WITH_SEVERAL_BOUNDARY_LOOPS);
+			}
+
+			for (const auto& loop_2d : polygon.get_vertices())
+			{
+				auto loop_3d = std::vector<int>(loop_2d.size());
+				for (int i{}; i < loop_2d.size(); ++i)
+				{
+					if (loop_2d[i] == NULL)
+					{
+						throw std::exception("not implemented");
+						//throw Math_Runtime_Exception(Localized_Geometry_Formats.OUTLINE_BOUNDARY_LOOP_OPEN);
+					}
+					loop_3d[reversed ? loop_2d.size() - 1 - i : i] = get_vertex_index(plane.to_space(loop_2d[i]));
+				}
+				facets.add(loop_3d);
+			}
+		}
+
+		/** Get the index of a vertex.
+		 * @param vertex vertex as a 3D point
+		 * @return index of the vertex
+		 */
+		int get_vertex_index(const Vector_3D& vertex)
+		{
+			for (int i{}; i < vertices.size(); ++i)
+			{
+				if (Vector_3D.distance(vertex, vertices.get(i)) <= my_tolerance)
+				{
+					// the vertex is already known
+					return i;
+				}
+			}
+
+			// the vertex is a one, add it
+			vertices.add(vertex);
+			return vertices.size() - 1;
+		}
+
+	public:
 		/** Simple constructor.
 		 * @param tolerance tolerance for vertices identification
 		 */
 		B_RepExtractor(const double& tolerance)
+			:
+			my_tolerance{ tolerance },
+			my_vertices{ },
+			my_facets{}
 		{
-			this.tolerance = tolerance;
-			this.vertices = Array_list<>();
-			this.facets = Array_list<>();
 		}
 
 		/** Get the B_Rep.
 		 * @return extracted B_Rep
 		 */
-		public B_Rep get_b_rep()
+		B_Rep get_b_rep()
 		{
-			return B_Rep(vertices, facets);
+			return B_Rep(my_vertices, my_facets);
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public Order visit_order(const BSP_Tree<Euclidean_3D> node)
+		Order visit_order([[maybe_unused]]const BSP_Tree<Euclidean_3D>& node)
 		{
-			return Order.MINUS_SUB_PLUS;
+			return Order::MINUS_SUB_PLUS;
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public void visit_internal_node(const BSP_Tree<Euclidean_3D> node)
+		void visit_internal_node(const BSP_Tree<Euclidean_3D>& node)
 		{
 			//@Suppress_Warnings("unchecked")
-			const Boundary_Attribute<Euclidean_3D> attribute =
-				(Boundary_Attribute<Euclidean_3D>) node.get_attribute();
+			const Boundary_Attribute<Euclidean_3D> attribute = (Boundary_Attribute<Euclidean_3D>) node.get_attribute();
 			if (attribute.get_plus_outside() != NULL)
 			{
 				add_contribution(attribute.get_plus_outside(), false);
@@ -451,67 +523,10 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 
 		/** {@inherit_doc} */
 		//override
-		public void visit_leaf_node(const BSP_Tree<Euclidean_3D> node)
+		void visit_leaf_node([[maybe_unused]]const BSP_Tree<Euclidean_3D>& node)
 		{
 		}
-
-		/** Add he contribution of a boundary facet.
-		 * @param facet boundary facet
-		 * @param reversed if true, the facet has the inside on its plus side
-		 * @exception Math_Runtime_Exception if facet is unbounded
-		 */
-		private void add_contribution(const Sub_Hyperplane<Euclidean_3D> facet, const bool reversed)
-			Math_Runtime_Exception
-		{
-			const Plane plane = (Plane)facet.get_hyperplane();
-			const Polygons_Set polygon = (Polygons_Set)((Sub_Plane)facet).get_remaining_region();
-			const Vector_2D[][] loops_2d = polygon.get_vertices();
-			if (loops_2d.size() == 0)
-			{
-				throw Math_Runtime_Exception(Localized_Geometry_Formats.OUTLINE_BOUNDARY_LOOP_OPEN);
-			}
-			else if (loops_2d.size() > 1)
-			{
-				throw Math_Runtime_Exception(Localized_Geometry_Formats.FACET_WITH_SEVERAL_BOUNDARY_LOOPS);
-			}
-			else
-			{
-				for (const Vector_2D[] loop_2d : polygon.get_vertices())
-				{
-					const std::vector<int> loop_3d = int[loop_2d.size()];
-					for (int i{}; i < loop_2d.size(); ++i)
-					{
-						if (loop_2d[i] == NULL)
-						{
-							throw Math_Runtime_Exception(Localized_Geometry_Formats.OUTLINE_BOUNDARY_LOOP_OPEN);
-						}
-						loop_3d[reversed ? loop_2d.size() - 1 - i : i] = get_vertex_index(plane.to_space(loop_2d[i]));
-					}
-					facets.add(loop_3d);
-				}
-			}
-		}
-
-		/** Get the index of a vertex.
-		 * @param vertex vertex as a 3D point
-		 * @return index of the vertex
-		 */
-		private int get_vertex_index(const Vector_3D vertex)
-		{
-			for (int i{}; i < vertices.size(); ++i)
-			{
-				if (Vector_3D.distance(vertex, vertices.get(i)) <= tolerance)
-				{
-					// the vertex is already known
-					return i;
-				}
-			}
-
-			// the vertex is a one, add it
-			vertices.add(vertex);
-			return vertices.size() - 1;
-		}
-	}
+	};
 
 	/** {@inherit_doc} */
 	//override
@@ -554,11 +569,10 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 
 		/** {@inherit_doc} */
 		//override
-		public void visit_internal_node(const BSP_Tree<Euclidean_3D> node)
+		public void visit_internal_node(const BSP_Tree<Euclidean_3D>& node)
 		{
 			//@Suppress_Warnings("unchecked")
-			const Boundary_Attribute<Euclidean_3D> attribute =
-				(Boundary_Attribute<Euclidean_3D>) node.get_attribute();
+			const Boundary_Attribute<Euclidean_3D> attribute = (Boundary_Attribute<Euclidean_3D>) node.get_attribute();
 			if (attribute.get_plus_outside() != NULL)
 			{
 				add_contribution(attribute.get_plus_outside(), false);
@@ -571,7 +585,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 
 		/** {@inherit_doc} */
 		//override
-		public void visit_leaf_node(const BSP_Tree<Euclidean_3D> node)
+		public void visit_leaf_node(const BSP_Tree<Euclidean_3D>& node)
 		{
 		}
 
@@ -579,10 +593,10 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 		 * @param facet boundary facet
 		 * @param reversed if true, the facet has the inside on its plus side
 		 */
-		private void add_contribution(const Sub_Hyperplane<Euclidean_3D> facet, const bool reversed)
+		private void add_contribution(const Sub_Hyperplane<Euclidean_3D>& facet, const bool reversed)
 		{
 			const Region<Euclidean_2D> polygon = ((Sub_Plane)facet).get_remaining_region();
-			const double& area = polygon.get_size();
+			const double area = polygon.get_size();
 
 			if (std::isinf(area))
 			{
@@ -603,7 +617,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 				set_barycenter((Point<Euclidean_3D>) Vector_3D(1.0, (Vector_3D)get_barycenter(), scaled, facet_b));
 			}
 		}
-	}
+	};
 
 	/** Get the first sub-hyperplane crossed by a semi-infinite line.
 	 * @param point start point of the part of the line considered
@@ -612,7 +626,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * given point, or NULL if the line does not intersect any
 	 * sub-hyperplane
 	 */
-	public Sub_Hyperplane<Euclidean_3D> first_intersection(const Vector_3D point, const Line& line)
+	public Sub_Hyperplane<Euclidean_3D> first_intersection(const Vector_3D& point, const Line& line)
 	{
 		return recurse_first_intersection(get_tree(true), point, line);
 	}
@@ -625,7 +639,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 * given point, or NULL if the line does not intersect any
 	 * sub-hyperplane
 	 */
-	private Sub_Hyperplane<Euclidean_3D> recurse_first_intersection(const BSP_Tree<Euclidean_3D> node, const Vector_3D point, const Line& line)
+	private Sub_Hyperplane<Euclidean_3D> recurse_first_intersection(const BSP_Tree<Euclidean_3D>& node, const Vector_3D point, const Line& line)
 	{
 		const Sub_Hyperplane<Euclidean_3D> cut = node.get_cut();
 		if (cut == NULL)
@@ -786,7 +800,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 			}
 			return ((Sub_Line)sub).apply_transform(cached_transform);
 		}
-	}
+	};
 
 	/** Translate the region by the specified amount.
 	 * <p>The instance is not modified, a instance is created.</p>
@@ -851,7 +865,7 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 
 			return ((Sub_Line)sub).apply_transform(cached_transform);
 		}
-	}
+	};
 
 	/** Container for Boundary RE_Presentation (B-Rep).
 	 * <p>
@@ -866,36 +880,39 @@ class Polyhedrons_Set extends Abstract_Region<Euclidean_3D, Euclidean_2D>
 	 */
 	public static class B_Rep
 	{
+	private:
 		/** List of polyhedrons set vertices. */
-		private const List<Vector_3D> vertices;
+		const std::vector<Vector_3D> my_vertices;
 
 		/** List of facets, as vertices indices in the vertices list. */
-		private const List<std::vector<int>> facets;
+		const std::vector<std::vector<int>> my_facets;
 
+	public:
 		/** Simple constructor.
 		 * @param vertices list of polyhedrons set vertices
 		 * @param facets list of facets, as vertices indices in the vertices list
 		 */
-		public B_Rep(const List<Vector_3D> vertices, const List<std::vector<int>> facets)
+		B_Rep(const std::vector<Vector_3D>& vertices, const std::vector<std::vector<int>>& facets)
+			:
+			my_vertices{ vertices },
+			my_facets{ facets }
 		{
-			this.vertices = vertices;
-			this.facets = facets;
 		}
 
 		/** Get the extracted vertices.
 		 * @return extracted vertices
 		 */
-		public List<Vector_3D> get_vertices()
+		std::vector<Vector_3D> get_vertices() const
 		{
-			return vertices;
+			return my_vertices;
 		}
 
 		/** Get the extracted facets.
 		 * @return extracted facets
 		 */
-		public List<std::vector<int>> get_facets()
+		std::vector<std::vector<int>> get_facets() const
 		{
-			return facets;
+			return my_facets;
 		}
-	}
-}
+	};
+};

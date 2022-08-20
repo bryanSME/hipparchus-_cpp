@@ -61,7 +61,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 *
 	 * @return the maximum number of function evaluations.
 	 */
-	int get_max_evaluations();
+	virtual int get_max_evaluations();
 
 	/**
 	 * Get the number of evaluations of the objective function.
@@ -71,7 +71,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 *
 	 * @return the number of evaluations of the objective function.
 	 */
-	int get_evaluations();
+	virtual int get_evaluations();
 
 	/**
 	 * Get the absolute accuracy of the solver.  Solutions returned by the
@@ -82,7 +82,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 *
 	 * @return the absolute accuracy.
 	 */
-	T get_absolute_accuracy();
+	virtual T get_absolute_accuracy();
 
 	/**
 	 * Get the relative accuracy of the solver.  The contract for relative
@@ -94,7 +94,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 *
 	 * @return the relative accuracy.
 	 */
-	T get_relative_accuracy();
+	virtual T get_relative_accuracy();
 
 	/**
 	 * Get the function value accuracy of the solver.  If {@code v} is
@@ -103,7 +103,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 *
 	 * @return the function value accuracy.
 	 */
-	T get_function_value_accuracy();
+	virtual T get_function_value_accuracy();
 
 	/**
 	 * Solve for a zero in the given interval.
@@ -123,7 +123,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 * @org.hipparchus.exception.Math_Illegal_State_Exception if
 	 * the allowed number of evaluations is exceeded.
 	 */
-	T solve(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, Allowed_Solution allowed_solution);
+	virtual T solve(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& min, const T& max, const Allowed_Solution& allowed_solution);
 
 	/**
 	 * Solve for a zero in the given interval, start at {@code start_value}.
@@ -144,7 +144,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 * @org.hipparchus.exception.Math_Illegal_State_Exception if
 	 * the allowed number of evaluations is exceeded.
 	 */
-	T solve(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, T start_value, Allowed_Solution allowed_solution);
+	virtual T solve(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& min, const T& max, const T& start_value, const Allowed_Solution& allowed_solution);
 
 	/**
 	 * Solve for a zero in the given interval and return a tolerance interval surrounding
@@ -169,10 +169,9 @@ class Bracketed_Real_Field_Univariate_Solver
 	 * @Math_Illegal_State_Exception    if the allowed number of evaluations is
 	 *                                      exceeded.
 	 */
-	default Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max)
-
+	default Interval<T> solve_interval(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& min, const T& max)
 	{
-		return this.solve_interval(max_eval, f, min, max, min.add(max.subtract(min).multiply(0.5)));
+		return solve_interval(max_eval, f, min, max, min.add(max.subtract(min).multiply(0.5)));
 	}
 
 	/**
@@ -198,8 +197,7 @@ class Bracketed_Real_Field_Univariate_Solver
 	 * @Math_Illegal_State_Exception    if the allowed number of evaluations is
 	 *                                      exceeded.
 	 */
-	Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, T start_value)
-		;
+	Interval<T> solve_interval(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& min, const T& max, const T& start_value);
 
 	/**
 	 * An interval of a function that brackets a root.
@@ -212,15 +210,17 @@ class Bracketed_Real_Field_Univariate_Solver
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 	class Interval
 	{
+	private:
 		/** Abscissa on the left end of the interval. */
-		private const T left_abscissa;
+		const T my_left_abscissa;
 		/** Function value at {@link #left_abscissa}. */
-		private const T left_value;
+		const T my_left_value;
 		/** Abscissa on the right end of the interval, >= {@link #left_abscissa}. */
-		private const T right_abscissa;
+		const T my_right_abscissa;
 		/** Function value at {@link #right_abscissa}. */
-		private const T right_value;
+		const T my_right_value;
 
+	public:
 		/**
 		 * Construct a interval with the given end points.
 		 *
@@ -230,12 +230,13 @@ class Bracketed_Real_Field_Univariate_Solver
 		 *                      Must be greater than or equal to {@code left_abscissa}.
 		 * @param right_value    is the function value at {@code right_abscissa}.
 		 */
-		public Interval(const T left_abscissa, const T left_value, const T right_abscissa, const T right_value)
+		Interval(const T& left_abscissa, const T& left_value, const T& right_abscissa, const T& right_value)
+			:
+			my_left_abscissa{ left_abscissa },
+			my_left_value{ left_value },
+			my_right_abscissa{ right_abscissa },
+			my_right_value{ right_value }
 		{
-			this.left_abscissa = left_abscissa;
-			this.left_value = left_value;
-			this.right_abscissa = right_abscissa;
-			this.right_value = right_value;
 		}
 
 		/**
@@ -243,9 +244,9 @@ class Bracketed_Real_Field_Univariate_Solver
 		 *
 		 * @return abscissa of the start of the interval.
 		 */
-		public T get_left_abscissa()
+		T get_left_abscissa() const
 		{
-			return left_abscissa;
+			return my_left_abscissa;
 		}
 
 		/**
@@ -253,9 +254,9 @@ class Bracketed_Real_Field_Univariate_Solver
 		 *
 		 * @return abscissa of the end of the interval.
 		 */
-		public T get_right_abscissa()
+		T get_right_abscissa() const
 		{
-			return right_abscissa;
+			return my_right_abscissa;
 		}
 
 		/**
@@ -263,9 +264,9 @@ class Bracketed_Real_Field_Univariate_Solver
 		 *
 		 * @return value of the function at the start of the interval.
 		 */
-		public T get_left_value()
+		T get_left_value() const
 		{
-			return left_value;
+			return my_left_value;
 		}
 
 		/**
@@ -273,9 +274,9 @@ class Bracketed_Real_Field_Univariate_Solver
 		 *
 		 * @return value of the function at the end of the interval.
 		 */
-		public T get_right_value()
+		T get_right_value() const
 		{
-			return right_value;
+			return my_right_value;
 		}
 
 		/**
@@ -284,29 +285,36 @@ class Bracketed_Real_Field_Univariate_Solver
 		 * @param allowed side of the root.
 		 * @return the abscissa on the selected side of the root.
 		 */
-		public T get_side(const Allowed_Solution allowed)
+		T get_side(const Allowed_Solution& allowed)
 		{
-			const T x_a = this.get_left_abscissa();
-			const T y_a = this.get_left_value();
-			const T x_b = this.get_right_abscissa();
+			const T x_a = get_left_abscissa();
+			const T y_a = get_left_value();
+			const T x_b = get_right_abscissa();
 			switch (allowed)
 			{
 			case ANY_SIDE:
-				const T abs_ya = this.get_left_value().abs();
-				const T abs_y_b = this.get_right_value().abs();
-				return abs_ya.subtract(abs_y_b).get_real() < 0 ? x_a : x_b;
+				const T abs_ya = get_left_value().abs();
+				const T abs_y_b = get_right_value().abs();
+				return abs_ya.subtract(abs_y_b).get_real() < 0
+					? x_a
+					: x_b;
 			case LEFT_SIDE:
 				return x_a;
 			case RIGHT_SIDE:
 				return x_b;
 			case BELOW_SIDE:
-				return (y_a.get_real() <= 0) ? x_a : x_b;
+				return (y_a.get_real() <= 0)
+					? x_a
+					: x_b;
 			case ABOVE_SIDE:
-				return (y_a.get_real() < 0) ? x_b : x_a;
+				return (y_a.get_real() < 0)
+					? x_b
+					: x_a;
 			default:
+				throw std::exception("not implemented");
 				// this should never happen
-				throw Math_Runtime_Exception.create_internal_error();
+				//throw Math_Runtime_Exception.create_internal_error();
 			}
 		}
 	}
-}
+};

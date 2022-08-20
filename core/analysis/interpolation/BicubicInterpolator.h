@@ -29,6 +29,7 @@
 #include "BivariateGridInterpolator.h"
 #include "../../util/MathArrays.h"
 #include "../../util/MathUtils.h"
+#include "BicubicInterpolatingFunction.hpp"
 
 /**
  * Generates a {@link Bicubic_Interpolating_Function bicubic interpolating
@@ -61,8 +62,8 @@ public:
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NO_DATA);
 		}
 		Math_Utils::check_dimension(xval.size(), fval.size());
-		Math_Arrays::check_order(xval);
-		Math_Arrays::check_order(yval);
+		//Math_Arrays::check_order(xval);
+		//Math_Arrays::check_order(yval);
 
 		const int x_len = xval.size();
 		const int y_len = yval.size();

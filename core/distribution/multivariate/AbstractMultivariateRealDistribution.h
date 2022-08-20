@@ -47,7 +47,9 @@ protected:
 	 * @param n Number of dimensions.
 	 */
 	AbstractMultivariate_Real_Distribution(const Random_Generator& rng, const int& n)
-		: my_random{ rng }, my_dimension{ n }
+		:
+		my_random{ rng },
+		my_dimension{ n }
 	{};
 
 public:

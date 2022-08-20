@@ -27,6 +27,7 @@
   //import org.hipparchus.util.FastMath;
   //import org.hipparchus.util.Precision;
 #include "AbstractUnivariateSolver.h"
+#include "../../util/Precision.h"
 
 /**
  * This class : the <a href="http://mathworld.wolfram.com/Brents_method.html">
@@ -49,7 +50,7 @@ class Brent_Solver : public Abstract_Univariate_Solver
 {
 private:
 	/** Default absolute accuracy. */
-	static constexpr double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+	static constexpr double DEFAULT_ABSOLUTE_ACCURACY{ 1e-6 };
 
 	/**
 	 * Search for a zero inside the provided interval.
@@ -191,7 +192,7 @@ public:
 	 */
 	Brent_Solver(double absolute_accuracy)
 	{
-		super(absolute_accuracy);
+		Abstract_Univariate_Solver(absolute_accuracy);
 	}
 	/**
 	 * Construct a solver.
@@ -201,7 +202,7 @@ public:
 	 */
 	Brent_Solver(double relative_accuracy, double absolute_accuracy)
 	{
-		super(relative_accuracy, absolute_accuracy);
+		Abstract_Univariate_Solver(relative_accuracy, absolute_accuracy);
 	}
 	/**
 	 * Construct a solver.
@@ -214,7 +215,7 @@ public:
 	 */
 	Brent_Solver(double relative_accuracy, double absolute_accuracy, double function_value_accuracy)
 	{
-		super(relative_accuracy, absolute_accuracy, function_value_accuracy);
+		Abstract_Univariate_Solver(relative_accuracy, absolute_accuracy, function_value_accuracy);
 	}
 
 protected:

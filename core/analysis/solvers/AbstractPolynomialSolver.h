@@ -33,7 +33,10 @@
    * Base class for solvers.
    *
    */
-class Abstract_Polynomial_Solver : public Base_Abstract_Univariate_Solver<Polynomial_Function>, public Polynomial_Solver
+class Abstract_Polynomial_Solver
+	:
+	public Base_Abstract_Univariate_Solver<Polynomial_Function>, 
+	public Polynomial_Solver
 {
 private:
 	/** Function. */

@@ -20,11 +20,8 @@
   * It has been modified by the Hipparchus project
   */
 
-  //package org.hipparchus.fraction;
-
-  //import java.io.Serializable;
-
-  //import org.hipparchus.Field;
+#include "../Field.h"
+#include "BigFraction.h"
 
   /**
    * Representation of the fractional numbers  without any overflow field.
@@ -38,9 +35,7 @@ class Big_Fraction_Field : public Field<Big_Fraction>
 private:
 	/** Private constructor for the singleton.
 	 */
-	Big_Fraction_Field()
-	{
-	}
+	Big_Fraction_Field() = default;
 
 	// CHECKSTYLE: stop Hide_Utility_Class_Constructor
 	/** Holder for the instance.

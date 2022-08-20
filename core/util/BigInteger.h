@@ -6,7 +6,7 @@
 
 class BigInteger
 {
-	std::string digits;
+	std::string my_digits;
 public:
 
 	//Constructors:

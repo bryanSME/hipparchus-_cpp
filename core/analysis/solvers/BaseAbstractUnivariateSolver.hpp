@@ -78,7 +78,7 @@ protected:
 	 */
 	Base_Abstract_Univariate_Solver(const double& absolute_accuracy)
 	{
-		this(DEFAULT_RELATIVE_ACCURACY, absolute_accuracy, DEFAULT_FUNCTION_VALUE_ACCURACY);
+		Base_Abstract_Univariate_Solver(DEFAULT_RELATIVE_ACCURACY, absolute_accuracy, DEFAULT_FUNCTION_VALUE_ACCURACY);
 	}
 
 	/**
@@ -156,17 +156,17 @@ protected:
 	 * @ if the initial search interval does not bracket
 	 * a root and the solver requires it.
 	 */
-	virtual double do_solve()
+	virtual double do_solve();
 
-		/**
-		 * Check whether the function takes opposite signs at the endpoints.
-		 *
-		 * @param lower Lower endpoint.
-		 * @param upper Upper endpoint.
-		 * @return {@code true} if the function values have opposite signs at the
-		 * given points.
-		 */
-		bool is_bracketing(const double& lower, const double& upper)
+	/**
+		* Check whether the function takes opposite signs at the endpoints.
+		*
+		* @param lower Lower endpoint.
+		* @param upper Upper endpoint.
+		* @return {@code true} if the function values have opposite signs at the
+		* given points.
+		*/
+	bool is_bracketing(const double& lower, const double& upper)
 	{
 		return Univariate_Solver_Utils::is_bracketing(my_function, lower, upper);
 	}
@@ -308,7 +308,7 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	double solve(const int& max_eval, F f, const double& min, const double& max, const double& start_value)
+	double solve(const int& max_eval, const F& f, const double& min, const double& max, const double& start_value)
 	{
 		// Initialization.
 		setup(max_eval, f, min, max, start_value);

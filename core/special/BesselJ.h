@@ -151,9 +151,10 @@ public:
 	 *
 	 * @param order order of the function computed when using {@link #valuestatic_cast<double>(}.
 	 */
-	Bessel_J(double order)
+	Bessel_J(const double& order)
+		:
+		my_order{ order }
 	{
-		my_order = order;
 	}
 
 	/**
@@ -165,9 +166,9 @@ public:
 	 * @Math_Illegal_State_Exception if the algorithm fails to converge
 	 */
 	 //override
-	double value(double x)
+	double value(const double& x)
 	{
-		return Bessel_J.value(order, x);
+		return Bessel_J.value(my_order, x);
 	}
 
 	/**
@@ -182,8 +183,8 @@ public:
 	static double value(const double& order, const double& x)
 	{
 		const int n = static_cast<int>(order;
-		const double& alpha = order - n;
-		const int& nb = n + 1;
+		const double alpha = order - n;
+		const int nb = n + 1;
 		const Bessel_J_Result res = rj_besl(x, alpha, nb);
 
 		if (res.n_vals >= nb)
@@ -239,10 +240,11 @@ public:
 		 * @param b values
 		 * @param n count of valid values
 		 */
-		Bessel_J_Result(std::vector<double> b, int n)
+		Bessel_J_Result(std::vector<double>& b, const int& n)
+			:
+			my_vals{ b },
+			my_n_vals{ n }
 		{
-			my_vals = b.clone();
-			my_n_vals = n;
 		}
 
 		/**
@@ -281,9 +283,9 @@ public:
 	 * \(J_{alpha}(x)\) through \(J_{nb-1+alpha}(x)\), or the corresponding exponentially
 	 * scaled functions and an integer output variable indicating possible errors
 	 */
-	public static Bessel_J_Result rj_besl(const double& x, double alpha, int nb)
+	public static Bessel_J_Result rj_besl(const double& x, const double& alpha, const int& nb)
 	{
-		const std::vector<double> b = std::vector<double>(nb];
+		const auto b = std::vector<double>(nb);
 
 		int ncalc;
 		double alpem;

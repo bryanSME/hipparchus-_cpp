@@ -55,7 +55,7 @@ private:
 	Object read_resolve()
 	{
 		// return the singleton instance
-		return Lazy_Holder.INSTANCE;
+		return Lazy_Holder::INSTANCE;
 	}
 
 public:
@@ -64,19 +64,19 @@ public:
 	 */
 	static Big_Real_Field get_instance()
 	{
-		return Lazy_Holder.INSTANCE;
+		return Lazy_Holder::INSTANCE;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	BigReal get_one()
+	BigReal get_one() const
 	{
 		return BigReal::ONE;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	BigReal get_zero()
+	BigReal get_zero() const
 	{
 		return BigReal::ZERO;
 	}
@@ -90,14 +90,14 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	bool equals(const Object& other)
+	bool equals(const Object& other) const
 	{
-		return this == other;
+		return *this == other;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	int hash_code()
+	int hash_code() const
 	{
 		return 0xf38b3541;
 	}

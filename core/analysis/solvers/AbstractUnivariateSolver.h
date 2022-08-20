@@ -21,7 +21,7 @@
   */
 
 #include <exception>
-#include "BaseAbstractUnivariateSolver.h"
+#include "BaseAbstractUnivariateSolver.hpp"
 #include "../UnivariateFunction.h"
 #include "UnivariateSolver.h"
 
@@ -29,7 +29,10 @@
    * Base class for solvers.
    *
    */
-class Abstract_Univariate_Solver : public Base_Abstract_Univariate_Solver<Univariate_Function>, public Univariate_Solver
+class Abstract_Univariate_Solver 
+	:
+	public Base_Abstract_Univariate_Solver<Univariate_Function>, 
+	public Univariate_Solver
 {
 protected:
 	/**
@@ -39,8 +42,7 @@ protected:
 	 */
 	Abstract_Univariate_Solver(const double& absolute_accuracy)
 	{
-		throw std::exception("not implemented");
-		//super(absolute_accuracy);
+		Base_Abstract_Univariate_Solver<Univariate_Function>(absolute_accuracy);
 	}
 	/**
 	 * Construct a solver with given accuracies.
@@ -50,8 +52,8 @@ protected:
 	 */
 	Abstract_Univariate_Solver(const double& relative_accuracy, const double& absolute_accuracy)
 	{
-		throw std::exception("not implemented");
-		//super(relative_accuracy, absolute_accuracy);
+		//throw std::exception("not implemented");
+		Base_Abstract_Univariate_Solver<Univariate_Function>(relative_accuracy, absolute_accuracy);
 	}
 	/**
 	 * Construct a solver with given accuracies.
@@ -62,7 +64,6 @@ protected:
 	 */
 	Abstract_Univariate_Solver(const double& relative_accuracy, const double& absolute_accuracy, const double& function_value_accuracy)
 	{
-		throw std::exception("not implemented");
-		//super(relative_accuracy, absolute_accuracy, function_value_accuracy);
+		Base_Abstract_Univariate_Solver<Univariate_Function>(relative_accuracy, absolute_accuracy, function_value_accuracy);
 	}
 };

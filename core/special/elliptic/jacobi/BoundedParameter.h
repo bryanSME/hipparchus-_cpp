@@ -41,7 +41,7 @@ public:
 	 */
 	Bounded_Parameter(const double& m)
 	{
-		super(m);
+		Jacobi_Elliptic(m);
 
 		// compute nome
 		const double q = Legendre_Elliptic_Integral.nome(m);

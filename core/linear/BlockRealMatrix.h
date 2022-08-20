@@ -155,7 +155,7 @@ public:
 		my_block_rows{ (rows + BLOCK_SIZE - 1) / BLOCK_SIZE },
 		my_block_columns{ (columns + BLOCK_SIZE - 1) / BLOCK_SIZE }
 	{
-		super(my_rows, my_columns);
+		Abstract_Real_Matrix(my_rows, my_columns);
 
 		// allocate storage blocks, taking care of smaller ones at right and bottom
 		my_blocks = create_blocks_layout(my_rows, my_columns);
@@ -204,7 +204,7 @@ public:
 		my_rows{ rows },
 		my_columns{ columns }
 	{
-		super(my_rows, my_columns);
+		Abstract_Real_Matrix(my_rows, my_columns);
 
 		if (copy_array)
 		{
@@ -257,8 +257,7 @@ public:
 	 * @see #create_blocks_layout(int, int)
 	 * @see #Block_Real_Matrix(int, int, std::vector<std::vector<double>>, bool)
 	 */
-	static std::vector<std::vector<double>> to_blocks_layout(const std::vector<std::vector<double>> raw_data)
-
+	static std::vector<std::vector<double>> to_blocks_layout(const std::vector<std::vector<double>>& raw_data)
 	{
 		const int rows = raw_data.size();
 		const int columns = raw_data[0].size();
@@ -1278,7 +1277,7 @@ public:
 		}
 		else
 		{
-			super.set_row_matrix(row, matrix);
+			Abstract_Real_Matrix.set_row_matrix(row, matrix);
 		}
 	}
 
@@ -1373,7 +1372,7 @@ public:
 		}
 		else
 		{
-			super.set_column_matrix(column, matrix);
+			Abstract_Real_Matrix.set_column_matrix(column, matrix);
 		}
 	}
 
@@ -1454,7 +1453,7 @@ public:
 		}
 		else
 		{
-			super.set_row_vector(row, vector);
+			Abstract_Real_Matrix.set_row_vector(row, vector);
 		}
 	}
 
@@ -1464,7 +1463,7 @@ public:
 
 	{
 		Matrix_Utils::check_column_index(this, column);
-		const auto out_data = std::vector<double>(rows];
+		const auto out_data = std::vector<double>(rows);
 
 		// perform copy block-wise, to ensure good cache behavior
 		const int j_block = column / BLOCK_SIZE;
@@ -1495,16 +1494,16 @@ public:
 		}
 		else
 		{
-			super.set_column_vector(column, vector);
+			Abstract_Real_Matrix.set_column_vector(column, vector);
 		}
 	}
 
 	/** {@inherit_doc} */
 	//override
-	std::vector<double> get_row(const int row)
+	std::vector<double> get_row(const int& row)
 	{
 		Matrix_Utils::check_row_index(this, row);
-		const std::vector<double> out = std::vector<double>(columns];
+		auto out = std::vector<double>(columns);
 
 		// perform copy block-wise, to ensure good cache behavior
 		const int i_block{ row / BLOCK_SIZE };
@@ -1523,12 +1522,12 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	void set_row(const int& row, const std::vector<double> array)
+	void set_row(const int& row, const std::vector<double>& arr)
 
 	{
-		Matrix_Utils::check_row_index(this, row);
+		Matrix_Utils::check_row_index(*this, row);
 		const int n_cols = get_column_dimension();
-		if (array.size() != n_cols)
+		if (arr.size() != n_cols)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, array.size(), 1, n_cols);
@@ -1552,7 +1551,7 @@ public:
 	std::vector<double> get_column(const int& column)
 	{
 		Matrix_Utils::check_column_index(this, column);
-		const std::vector<double> out = std::vector<double>(rows];
+		auto out = std::vector<double>(rows);
 
 		// perform copy block-wise, to ensure good cache behavior
 		const int j_block{ column / BLOCK_SIZE };
@@ -1709,7 +1708,7 @@ public:
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), columns);
 		}
-		const auto out = std::vector<double>(rows];
+		const auto out = std::vector<double>(rows);
 
 		// perform multiplication block-wise, to ensure good cache behavior
 		for (int i_block{}; i_block < my_block_rows; ++i_block)
@@ -1756,7 +1755,7 @@ public:
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, v.size(), rows);
 		}
-		const std::vector<double> out = std::vector<double>(columns];
+		auto out = std::vector<double>(columns];
 
 		// perform multiplication block-wise, to ensure good cache behavior
 		for (int j_block{}; j_block < my_block_columns; ++j_block)

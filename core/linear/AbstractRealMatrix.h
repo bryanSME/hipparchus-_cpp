@@ -78,7 +78,7 @@ public:
 	// //override
 	Real_Matrix add(Real_Matrix m)
 	{
-		Matrix_Utils::check_addition_compatible(this, m);
+		Matrix_Utils::check_addition_compatible(*this, m);
 
 		const auto row_count = get_row_dimension();
 		const auto column_count = get_column_dimension();
@@ -98,7 +98,7 @@ public:
 	// //override
 	Real_Matrix subtract(const Real_Matrix& m)
 	{
-		Matrix_Utils::check_subtraction_compatible(this, m);
+		Matrix_Utils::check_subtraction_compatible(*this, m);
 
 		const auto row_count = get_row_dimension();
 		const auto column_count = get_column_dimension();
@@ -153,7 +153,7 @@ public:
 	// //override
 	Real_Matrix multiply(const Real_Matrix& m)
 	{
-		Matrix_Utils::check_multiplication_compatible(this, m);
+		Matrix_Utils::check_multiplication_compatible(*this, m);
 
 		const auto n_rows = get_row_dimension();
 		const auto n_cols = m.get_column_dimension();
@@ -217,9 +217,9 @@ public:
 		 * In general, the same approach is used for A^p.
 		 */
 
-		const char[] binary_representation = Integer.to_binary_string(power).to_char_array();
+		const auto binary_representation = Integer.to_binary_string(power).to_char_array();
 		const Array_list<Integer> non_zero_positions = Array_list<>();
-		int max_i = -1;
+		int max_i{ -1 };
 
 		for (int i{}; i < binary_representation.size(); ++i)
 		{
@@ -237,7 +237,7 @@ public:
 		}
 
 		auto results = Real_Matrix[max_i + 1];
-		results[0] = this.copy();
+		results[0] = std::copy(*this);
 
 		for (int i{ 1 }; i <= max_i; ++i)
 		{
@@ -276,8 +276,7 @@ public:
 	// //override
 	double get_frobenius_norm()
 	{
-		return walk_in_optimized_order(
-			Real_Matrix_Preserving_Visitor()
+		return walk_in_optimized_order(Real_Matrix_Preserving_Visitor()
 		{
 			/** Sum of squared entries. */
 			private double my_sum;
@@ -310,7 +309,7 @@ public:
 	// //override
 	Real_Matrix get_sub_matrix(const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 	{
-		Matrix_Utils::check_sub_matrix_index(this, start_row, end_row, start_column, end_column);
+		Matrix_Utils::check_sub_matrix_index(*this, start_row, end_row, start_column, end_column);
 
 		const Real_Matrix sub_matrix = create_matrix(end_row - start_row + 1, end_column - start_column + 1);
 		for (int i{ start_row }; i <= end_row; ++i)
@@ -328,7 +327,7 @@ public:
 	// //override
 	Real_Matrix get_sub_matrix(const std::vector<int> selected_rows, const std::vector<int> selected_columns)
 	{
-		Matrix_Utils::check_sub_matrix_index(this, selected_rows, selected_columns);
+		Matrix_Utils::check_sub_matrix_index(*this, selected_rows, selected_columns);
 
 		const auto sub_matrix = create_matrix(selected_rows.size(), selected_columns.size());
 		sub_matrix.walk_in_optimized_order(
@@ -336,10 +335,10 @@ public:
 			{
 				/** {@inherit_doc} */
 				// //override
-				public double visit(const int& row, const int& column, const double value)
+				public double visit(const int& row, const int& column, const double& value)
 				{
 					return get_entry(selected_rows[row], selected_columns[column]);
-			}
+				}
 			}
 		);
 
@@ -351,7 +350,7 @@ public:
 	void copy_sub_matrix(const int& start_row, const int& end_row, const int& start_column, const int& end_column, const std::vector<std::vector<double>> destination)
 
 	{
-		Matrix_Utils::check_sub_matrix_index(this, start_row, end_row, start_column, end_column);
+		Matrix_Utils::check_sub_matrix_index(*this, start_row, end_row, start_column, end_column);
 		const int rows_count = end_row + 1 - start_row;
 		const int columns_count = end_column + 1 - start_column;
 		if ((destination.size() < rows_count) || (destination[0].size() < columns_count))
@@ -398,7 +397,7 @@ public:
 	// //override
 	void copy_sub_matrix(std::vector<int> selected_rows, std::vector<int> selected_columns, std::vector<std::vector<double>> destination)
 	{
-		Matrix_Utils::check_sub_matrix_index(this, selected_rows, selected_columns);
+		Matrix_Utils::check_sub_matrix_index(*this, selected_rows, selected_columns);
 		const int& n_cols = selected_columns.size();
 		if ((destination.size() < selected_rows.size()) ||
 			(destination[0].size() < n_cols))
@@ -424,7 +423,7 @@ public:
 
 	/** {@inherit_doc} */
 	// //override
-	void set_sub_matrix(const std::vector<std::vector<double>> sub_matrix, const int& row, const int column)
+	void set_sub_matrix(const std::vector<std::vector<double>>& sub_matrix, const int& row, const int column)
 	{
 		//Math_Utils::check_not_null(sub_matrix);
 		const auto n_rows = sub_matrix.size();
@@ -450,10 +449,10 @@ public:
 			}
 		}
 
-		Matrix_Utils::check_row_index(this, row);
-		Matrix_Utils::check_column_index(this, column);
-		Matrix_Utils::check_row_index(this, n_rows + row - 1);
-		Matrix_Utils::check_column_index(this, n_cols + column - 1);
+		Matrix_Utils::check_row_index(*this, row);
+		Matrix_Utils::check_column_index(*this, column);
+		Matrix_Utils::check_row_index(*this, n_rows + row - 1);
+		Matrix_Utils::check_column_index(*this, n_cols + column - 1);
 
 		for (int i{}; i < n_rows; ++i)
 		{
@@ -468,7 +467,7 @@ public:
 	// //override
 	Real_Matrix get_row_matrix(const int& row)
 	{
-		Matrix_Utils::check_row_index(this, row);
+		Matrix_Utils::check_row_index(*this, row);
 		const auto n_cols = get_column_dimension();
 		auto out = create_matrix(1, n_cols);
 		for (int i{}; i < n_cols; ++i)
@@ -481,9 +480,9 @@ public:
 
 	/** {@inherit_doc} */
 	// //override
-	void set_row_matrix(const int& row, const Real_Matrix matrix)
+	void set_row_matrix(const int& row, const Real_Matrix& matrix)
 	{
-		Matrix_Utils::check_row_index(this, row);
+		Matrix_Utils::check_row_index(*this, row);
 		const auto n_cols = get_column_dimension();
 		if ((matrix.get_row_dimension() != 1) || (matrix.get_column_dimension() != n_cols))
 		{
@@ -501,7 +500,7 @@ public:
 	Real_Matrix get_column_matrix(const int column)
 
 	{
-		Matrix_Utils::check_column_index(this, column);
+		Matrix_Utils::check_column_index(*this, column);
 		const int n_rows = get_row_dimension();
 		auto out = create_matrix(n_rows, 1);
 		for (int i{}; i < n_rows; ++i)
@@ -517,7 +516,7 @@ public:
 	void set_column_matrix(const int& column, const Real_Matrix matrix)
 
 	{
-		Matrix_Utils::check_column_index(this, column);
+		Matrix_Utils::check_column_index(*this, column);
 		const int n_rows = get_row_dimension();
 		if ((matrix.get_row_dimension() != n_rows) ||
 			(matrix.get_column_dimension() != 1))
@@ -544,7 +543,7 @@ public:
 	void set_row_vector(const int& row, const Real_Vector vector)
 
 	{
-		Matrix_Utils::check_row_index(this, row);
+		Matrix_Utils::check_row_index(*this, row);
 		const int n_cols = get_column_dimension();
 		if (vector.get_dimension() != n_cols)
 		{
@@ -570,7 +569,7 @@ public:
 	void set_column_vector(const int& column, const Real_Vector vector)
 
 	{
-		Matrix_Utils::check_column_index(this, column);
+		Matrix_Utils::check_column_index(*this, column);
 		const int n_rows = get_row_dimension();
 		if (vector.get_dimension() != n_rows)
 		{
@@ -587,7 +586,7 @@ public:
 	// //override
 	std::vector<double> get_row(const int row)
 	{
-		Matrix_Utils::check_row_index(this, row);
+		Matrix_Utils::check_row_index(*this, row);
 		const int n_cols = get_column_dimension();
 		const auto out = std::vector<double>(n_cols);
 		for (int i{}; i < n_cols; ++i)
@@ -600,18 +599,18 @@ public:
 
 	/** {@inherit_doc} */
 	// //override
-	void set_row(const int& row, const std::vector<double> array)
+	void set_row(const int& row, const std::vector<double>& arr)
 	{
-		Matrix_Utils::check_row_index(this, row);
+		Matrix_Utils::check_row_index(*this, row);
 		const int n_cols = get_column_dimension();
-		if (array.size() != n_cols)
+		if (arr.size() != n_cols)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, array.size(), 1, n_cols);
 		}
 		for (int i{}; i < n_cols; ++i)
 		{
-			set_entry(row, i, array[i]);
+			set_entry(row, i, arr[i]);
 		}
 	}
 
@@ -619,7 +618,7 @@ public:
 	// //override
 	std::vector<double> get_column(const int& column)
 	{
-		Matrix_Utils::check_column_index(this, column);
+		Matrix_Utils::check_column_index(*this, column);
 		const int n_rows = get_row_dimension();
 		auto out = std::vector<double>(n_rows);
 		for (int i{}; i < n_rows; ++i)
@@ -632,18 +631,18 @@ public:
 
 	/** {@inherit_doc} */
 	// //override
-	void set_column(const int& column, const std::vector<double> array)
+	void set_column(const int& column, const std::vector<double>& arr)
 	{
-		Matrix_Utils::check_column_index(this, column);
+		Matrix_Utils::check_column_index(*this, column);
 		const int n_rows = get_row_dimension();
-		if (array.size() != n_rows)
+		if (arr.size() != n_rows)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, array.size(), 1, n_rows, 1);
 		}
 		for (int i{}; i < n_rows; ++i)
 		{
-			set_entry(i, column, array[i]);
+			set_entry(i, column, arr[i]);
 		}
 	}
 
@@ -651,7 +650,7 @@ public:
 	// //override
 	void add_to_entry(const int& row, const int& column, double increment)
 	{
-		Matrix_Utils::check_matrix_index(this, row, column);
+		Matrix_Utils::check_matrix_index(*this, row, column);
 		set_entry(row, column, get_entry(row, column) + increment);
 	}
 
@@ -659,7 +658,7 @@ public:
 	// //override
 	void multiply_entry(const int& row, const int& column, double factor)
 	{
-		Matrix_Utils::check_matrix_index(this, row, column);
+		Matrix_Utils::check_matrix_index(*this, row, column);
 		set_entry(row, column, get_entry(row, column) * factor);
 	}
 
@@ -880,7 +879,7 @@ public:
 	double walk_in_row_order(const Real_Matrix_Changing_Visitor& visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 
 	{
-		Matrix_Utils::check_sub_matrix_index(this, start_row, end_row, start_column, end_column);
+		Matrix_Utils::check_sub_matrix_index(*this, start_row, end_row, start_column, end_column);
 		visitor.start(get_row_dimension(), get_column_dimension(), start_row, end_row, start_column, end_column);
 		for (int row = start_row; row <= end_row; ++row)
 		{
@@ -898,7 +897,7 @@ public:
 	// //override
 	double walk_in_row_order(const Real_Matrix_Preserving_Visitor& visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 	{
-		Matrix_Utils::check_sub_matrix_index(this, start_row, end_row, start_column, end_column);
+		Matrix_Utils::check_sub_matrix_index(*this, start_row, end_row, start_column, end_column);
 		visitor.start(get_row_dimension(), get_column_dimension(), start_row, end_row, start_column, end_column);
 		for (int row = start_row; row <= end_row; ++row)
 		{
@@ -950,7 +949,7 @@ public:
 	// //override
 	double walk_in_column_order(const Real_Matrix_Changing_Visitor& visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 	{
-		Matrix_Utils::check_sub_matrix_index(this, start_row, end_row, start_column, end_column);
+		Matrix_Utils::check_sub_matrix_index(*this, start_row, end_row, start_column, end_column);
 		visitor.start(get_row_dimension(), get_column_dimension(), start_row, end_row, start_column, end_column);
 		for (int column = start_column; column <= end_column; ++column)
 		{
@@ -968,7 +967,7 @@ public:
 	// //override
 	double walk_in_column_order(const Real_Matrix_Preserving_Visitor& visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 	{
-		Matrix_Utils::check_sub_matrix_index(this, start_row, end_row, start_column, end_column);
+		Matrix_Utils::check_sub_matrix_index(*this, start_row, end_row, start_column, end_column);
 		visitor.start(get_row_dimension(), get_column_dimension(), start_row, end_row, start_column, end_column);
 		for (int column = start_column; column <= end_column; ++column)
 		{
@@ -1105,4 +1104,4 @@ public:
 	/** {@inherit_doc} */
 	// //override
 	virtual void set_entry(const int& row, const int& column, double value) = 0;
-}
+};

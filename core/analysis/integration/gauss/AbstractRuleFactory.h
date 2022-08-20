@@ -27,12 +27,15 @@
  //import org.hipparchus.util.Incrementor;
  //import org.hipparchus.util.Pair;
 
+#include <cmath>
 #include <algorithm>
 #include <vector>
 #include <map>
 #include <utility>
 #include <cmath>
 #include "RuleFactory.h"
+#include "../../UnivariateFunction.h"
+#include "../../../util/Incrementor.hpp"
 
 /**
  * Base class for rules that determines the integration nodes and their
@@ -45,7 +48,7 @@ class AbstractRule_Factory : public Rule_Factory
 {
 private:
 	/** List of points and weights, indexed by the order of the rule. */
-	const std::map<int, std : pair<std::vector<double>, std::vector<double>>> points_and_weights = Tree_Map<>();
+	const std::map<int, std::pair<std::vector<double>, std::vector<double>>> my_points_and_weights = Tree_Map<>();
 
 public:
 	/** {@inherit_doc} */
@@ -108,7 +111,7 @@ protected:
 	 * @param ratio_evaluator function evaluating the ratio Pₙ(x)/Pₙ'(x)
 	 * @return sorted array of roots
 	 */
-	std::vector<double> find_roots(const int& n, const Univariate_Function ratio_evaluator)
+	std::vector<double> find_roots(const int& n, const Univariate_Function& ratio_evaluator)
 	{
 		auto roots = std::vector<double>(n);
 
@@ -144,10 +147,10 @@ protected:
 		}
 
 		// use Aberth method to find all roots simultaneously
-		const std::vector<double>    ratio = std::vector<double>(n];
-		const Incrementor incrementor = Incrementor(1000);
-		double            tol;
-		double            max_offset;
+		auto ratio = std::vector<double>(n);
+		auto incrementor = Incrementor(1000);
+		double tol;
+		double max_offset;
 		do
 		{
 			// safety check that triggers an exception if too much iterations are made
@@ -178,7 +181,7 @@ protected:
 
 			// we set tolerance to 1 ulp of the largest root
 			tol = 0;
-			for (const double r : roots)
+			for (const auto& r : roots)
 			{
 				tol = std::max(tol, FastMath.ulp(r));
 			}

@@ -67,14 +67,14 @@ public:
 		:
 		my_x_grid{ Grid_Axis(x_val, 2) },
 		my_y_grid{ Grid_Axis(y_val, 2) },
-		my_y_size{ y_val.size() }
+		my_y_size{ y_val.size() },
 		my_f_val{ std::vector<double>(x_val.size() * y_val.size()) }
 	{
 		int k{};
 		for (int i{}; i < x_val.size(); ++i)
 		{
 			const std::vector<double> fi = f_val[i];
-			for (int j{}; j < y_size; ++j)
+			for (int j{}; j < my_y_size; ++j)
 			{
 				my_f_val[k++] = fi[j];
 			}
@@ -86,7 +86,7 @@ public:
 	 */
 	double get_x_inf()
 	{
-		return x_grid.node(0);
+		return my_x_grid.node(0);
 	}
 
 	/** Get the highest grid x coordinate.
@@ -94,7 +94,7 @@ public:
 	 */
 	double get_x_sup()
 	{
-		return x_grid.node(x_grid.size() - 1);
+		return my_x_grid.node(my_x_grid.size() - 1);
 	}
 
 	/** Get the lowest grid y coordinate.
@@ -102,7 +102,7 @@ public:
 	 */
 	double get_y_inf()
 	{
-		return y_grid.node(0);
+		return my_y_grid.node(0);
 	}
 
 	/** Get the highest grid y coordinate.
@@ -110,7 +110,7 @@ public:
 	 */
 	double get_y_sup()
 	{
-		return y_grid.node(y_grid.size() - 1);
+		return my_y_grid.node(my_y_grid.size() - 1);
 	}
 
 	/** {@inherit_doc} */
@@ -118,20 +118,20 @@ public:
 	double value(const double& x, const double& y)
 	{
 		// get the interpolation nodes
-		const int    i = x_grid.interpolation_index(x);
-		const int    j = y_grid.interpolation_index(y);
-		const double x0 = x_grid.node(i);
-		const double x1 = x_grid.node(i + 1);
-		const double y0 = y_grid.node(j);
-		const double y1 = y_grid.node(j + 1);
+		const int    i = my_x_grid.interpolation_index(x);
+		const int    j = my_y_grid.interpolation_index(y);
+		const double x0 = my_x_grid.node(i);
+		const double x1 = my_x_grid.node(i + 1);
+		const double y0 = my_y_grid.node(j);
+		const double y1 = my_y_grid.node(j + 1);
 
 		// get the function values at interpolation nodes
-		const int    k0 = i * y_size + j;
-		const int    k1 = k0 + y_size;
-		const double z00 = f_val[k0];
-		const double z01 = f_val[k0 + 1];
-		const double z10 = f_val[k1];
-		const double z11 = f_val[k1 + 1];
+		const int    k0 = i * my_y_size + j;
+		const int    k1 = k0 + my_y_size;
+		const double z00 = my_f_val[k0];
+		const double z01 = my_f_val[k0 + 1];
+		const double z10 = my_f_val[k1];
+		const double z11 = my_f_val[k1 + 1];
 
 		// interpolate
 		const double dx0 = x - x0;

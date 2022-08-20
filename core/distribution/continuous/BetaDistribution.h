@@ -74,7 +74,7 @@ public:
 					 Gamma::log_gamma(beta) -
 					 Gamma::log_gamma(alpha + beta) }
 	{
-		super(inverse_cum_accuracy);
+		Abstract_Real_Distribution(inverse_cum_accuracy);
 	}
 
 	/**
@@ -134,10 +134,10 @@ public:
 	//override
 	double density(const double& x) const
 	{
-		const double log_density = log_density(x);
-		return log_density == -INFINITY
+		const double _log_density = log_density(x);
+		return _log_density == -INFINITY
 			? 0
-			: std::exp(log_density);
+			: std::exp(_log_density);
 	}
 
 	/** {@inherit_doc} */

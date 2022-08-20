@@ -34,40 +34,73 @@
   //import org.hipparchus.geometry.partitioning.Hyperplane;
   //import org.hipparchus.geometry.partitioning.Region_Factory;
   //import org.hipparchus.util.FastMath;
+#include "../../partitioning/Hyperplane.h"
+#include "../../partitioning/Embedding.h"
+#include "Euclidean3D.h"
+#include "../twod/Euclidean2D.h"
+#include "Vector3D.h"
+#include "../twod/Vector2D.h"
+#include <exception>
+#include "../../Point.hpp"
 
   /** The class represent planes in a three dimensional space.
    */
 class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 {
+private:
 	/** Offset of the origin with respect to the plane. */
-	private double origin_offset;
+	double my_origin_offset;
 
 	/** Origin of the plane frame. */
-	private Vector_3D origin;
+	Vector_3D my_origin;
 
 	/** First vector of the plane frame (in plane). */
-	private Vector_3D u;
+	Vector_3D my_u;
 
 	/** Second vector of the plane frame (in plane). */
-	private Vector_3D v;
+	Vector_3D my_v;
 
 	/** Third vector of the plane frame (plane normal). */
-	private Vector_3D w;
+	Vector_3D my_w;
 
 	/** Tolerance below which points are considered identical. */
-	private const double& tolerance;
+	double my_tolerance;
 
+	/** Set the normal vactor.
+	 * @param normal normal direction to the plane (will be copied)
+	 * @exception Math_Runtime_Exception if the normal norm is too small
+	 */
+	void set_normal(const Vector_3D& normal)
+	{
+		const double norm = normal.get_norm();
+		if (norm < 1.0e-10)
+		{
+			throw std::exception("not implemented");
+			//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+		}
+		my_w = Vector_3D(1.0 / norm, normal);
+	}
+
+	/** Reset the plane frame.
+	 */
+	void set_frame()
+	{
+		my_origin = Vector_3D(-my_origin_offset, my_w);
+		my_u = my_w.orthogonal();
+		my_v = Vector_3D.cross_product(my_w, my_u);
+	}
+
+public:
 	/** Build a plane normal to a given direction and containing the origin.
 	 * @param normal normal direction to the plane
 	 * @param tolerance tolerance below which points are considered identical
 	 * @exception Math_Runtime_Exception if the normal norm is too small
 	 */
-	public Plane(const Vector_3D normal, const double& tolerance)
-		Math_Runtime_Exception
+	Plane(const Vector_3D& normal, const double& tolerance)
 	{
 		set_normal(normal);
-		this.tolerance = tolerance;
-		origin_offset = 0;
+		my_tolerance = tolerance;
+		my_origin_offset = 0;
 		set_frame();
 	}
 
@@ -77,12 +110,11 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param tolerance tolerance below which points are considered identical
 	 * @exception Math_Runtime_Exception if the normal norm is too small
 	 */
-	public Plane(const Vector_3D p, const Vector_3D normal, const double& tolerance)
-		Math_Runtime_Exception
+	Plane(const Vector_3D& p, const Vector_3D& normal, const double& tolerance)
 	{
 		set_normal(normal);
-		this.tolerance = tolerance;
-		origin_offset = -p.dot_product(w);
+		my_tolerance = tolerance;
+		my_origin_offset = -p.dot_product(w);
 		set_frame();
 	}
 
@@ -95,10 +127,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param tolerance tolerance below which points are considered identical
 	 * @exception Math_Runtime_Exception if the points do not constitute a plane
 	 */
-	public Plane(const Vector_3D p1, const Vector_3D p2, const Vector_3D p3, const double& tolerance)
-		Math_Runtime_Exception
+	Plane(const Vector_3D& p1, const Vector_3D& p2, const Vector_3D& p3, const double& tolerance)
 	{
-		this(p1, p2.subtract(p1).cross_product(p3.subtract(p1)), tolerance);
+		Plane(p1, p2.subtract(p1).cross_product(p3.subtract(p1)), tolerance);
 	}
 
 	/** Copy constructor.
@@ -107,14 +138,14 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * shared.</p>
 	 * @param plane plane to copy
 	 */
-	public Plane(const Plane plane)
+	Plane(const Plane& plane)
 	{
-		origin_offset = plane.origin_offset;
-		origin = plane.origin;
-		u = plane.u;
-		v = plane.v;
-		w = plane.w;
-		tolerance = plane.tolerance;
+		my_origin_offset = plane.origin_offset;
+		my_origin = plane.origin;
+		my_u = plane.u;
+		my_v = plane.v;
+		my_w = plane.w;
+		my_tolerance = plane.tolerance;
 	}
 
 	/** Copy the instance.
@@ -124,9 +155,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return a hyperplane, copy of the instance
 	 */
 	 //override
-	public Plane copy_self()
+	Plane copy_self()
 	{
-		return Plane(this);
+		return Plane(*this);
 	}
 
 	/** Reset the instance as if built from a point and a normal.
@@ -134,10 +165,10 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param normal normal direction to the plane
 	 * @exception Math_Runtime_Exception if the normal norm is too small
 	 */
-	public void reset(const Vector_3D p, const Vector_3D normal) Math_Runtime_Exception
+	void reset(const Vector_3D& p, const Vector_3D& normal)
 	{
 		set_normal(normal);
-		origin_offset = -p.dot_product(w);
+		my_origin_offset = -p.dot_product(my_w);
 		set_frame();
 	}
 
@@ -147,36 +178,13 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * shared.</p>
 	 * @param original plane to reset from
 	 */
-	public void reset(const Plane original)
+	void reset(const Plane& original)
 	{
-		origin_offset = original.origin_offset;
-		origin = original.origin;
-		u = original.u;
-		v = original.v;
-		w = original.w;
-	}
-
-	/** Set the normal vactor.
-	 * @param normal normal direction to the plane (will be copied)
-	 * @exception Math_Runtime_Exception if the normal norm is too small
-	 */
-	private void set_normal(const Vector_3D normal) Math_Runtime_Exception
-	{
-		const double norm = normal.get_norm();
-		if (norm < 1.0e-10)
-		{
-			throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
-		}
-		w = Vector_3D(1.0 / norm, normal);
-	}
-
-	/** Reset the plane frame.
-	 */
-	private void set_frame()
-	{
-		origin = Vector_3D(-origin_offset, w);
-		u = w.orthogonal();
-		v = Vector_3D.cross_product(w, u);
+		my_origin_offset = original.get_origin_offset();
+		my_origin = original.get_origin();
+		my_u = original.get_u();
+		my_v = original.get_v();
+		my_w = original.get_w();
 	}
 
 	/** Get the origin point of the plane frame.
@@ -185,9 +193,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return the origin point of the plane frame (point closest to the
 	 * 3D-space origin)
 	 */
-	public Vector_3D get_origin()
+	Vector_3D get_origin() const
 	{
-		return origin;
+		return my_origin;
 	}
 
 	/** Get the normalized normal vector.
@@ -197,9 +205,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @see #get_u
 	 * @see #get_v
 	 */
-	public Vector_3D get_normal()
+	Vector_3D get_normal() const
 	{
-		return w;
+		return my_w;
 	}
 
 	/** Get the plane first canonical vector.
@@ -209,9 +217,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @see #get_v
 	 * @see #get_normal
 	 */
-	public Vector_3D get_u()
+	Vector_3D get_u() const
 	{
-		return u;
+		return my_u;
 	}
 
 	/** Get the plane second canonical vector.
@@ -221,15 +229,15 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @see #get_u
 	 * @see #get_normal
 	 */
-	public Vector_3D get_v()
+	Vector_3D get_v() const
 	{
-		return v;
+		return my_v;
 	}
 
 	/** {@inherit_doc}
 	 */
 	 //override
-	public Point<Euclidean_3D> project(Point<Euclidean_3D> point)
+	Point<Euclidean_3D> project(Point<Euclidean_3D>& point)
 	{
 		return to_space(to_sub_space(point));
 	}
@@ -237,9 +245,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	/** {@inherit_doc}
 	 */
 	 //override
-	public double get_tolerance()
+	double get_tolerance() const
 	{
-		return tolerance;
+		return my_tolerance;
 	}
 
 	/** Revert the plane.
@@ -252,13 +260,13 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * vectors returned by the {@link #get_u} and {@link #get_v} methods are exchanged, * and the {@code w} vector returned by the {@link #get_normal} method is
 	 * reversed.</p>
 	 */
-	public void revert_self()
+	void revert_self()
 	{
-		const Vector_3D tmp = u;
-		u = v;
-		v = tmp;
-		w = w.negate();
-		origin_offset = -origin_offset;
+		const Vector_3D tmp = my_u;
+		my_u = my_v;
+		my_v = tmp;
+		my_w = my_w.negate();
+		my_origin_offset = -my_origin_offset;
 	}
 
 	/** Transform a space point into a sub-space point.
@@ -266,7 +274,7 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return (n-1)-dimension point of the sub-space corresponding to
 	 * the specified space point
 	 */
-	public Vector_2D to_sub_space(Vector<Euclidean_3D> vector)
+	Vector_2D to_sub_space(Vector<Euclidean_3D>& vector)
 	{
 		return to_sub_space((Point<Euclidean_3D>) vector);
 	}
@@ -276,7 +284,7 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return n-dimension point of the space corresponding to the
 	 * specified sub-space point
 	 */
-	public Vector_3D to_space(const Vector<Euclidean_2D>& vector)
+	Vector_3D to_space(const Vector<Euclidean_2D>& vector)
 	{
 		return to_space((Point<Euclidean_2D>) vector);
 	}
@@ -289,10 +297,10 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @see #to_space
 	 */
 	 //override
-	public Vector_2D to_sub_space(const Point<Euclidean_3D> point)
+	Vector_2D to_sub_space(const Point<Euclidean_3D>& point)
 	{
 		const Vector_3D p3D = (Vector_3D)point;
-		return Vector_2D(p3D.dot_product(u), p3D.dot_product(v));
+		return Vector_2D(p3D.dot_product(u), p3D.dot_product(my_v));
 	}
 
 	/** Transform an in-plane point into a 3D space point.
@@ -302,10 +310,10 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @see #to_sub_space
 	 */
 	 //override
-	public Vector_3D to_space(const Point<Euclidean_2D>& point)
+	Vector_3D to_space(const Point<Euclidean_2D>& point)
 	{
 		const Vector_2D p2_d = (Vector_2D)point;
-		return Vector_3D(p2_d.get_x(), u, p2_d.get_y(), v, -origin_offset, w);
+		return Vector_3D(p2_d.get_x(), my_u, p2_d.get_y(), my_v, -origin_offset, my_w);
 	}
 
 	/** Get one point from the 3D-space.
@@ -315,9 +323,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return one point in the 3D-space, with given coordinates and offset
 	 * relative to the plane
 	 */
-	public Vector_3D get_point_at(const Vector_2D in_plane, const double& offset)
+	Vector_3D get_point_at(const Vector_2D in_plane, const double& offset)
 	{
-		return Vector_3D(in_plane.get_x(), u, in_plane.get_y(), v, offset - origin_offset, w);
+		return Vector_3D(in_plane.get_x(), my_u, in_plane.get_y(), my_v, offset - my_origin_offset, my_w);
 	}
 
 	/** Check if the instance is similar to another plane.
@@ -327,11 +335,11 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param plane plane to which the instance is compared
 	 * @return true if the planes are similar
 	 */
-	public bool is_similar_to(const Plane plane)
+	bool is_similar_to(const Plane plane)
 	{
-		const double& angle = Vector_3D.angle(w, plane.w);
-		return ((angle < 1.0e-10) && (std::abs(origin_offset - plane.origin_offset) < tolerance)) ||
-			((angle > (std::numbers::pi - 1.0e-10)) && (std::abs(origin_offset + plane.origin_offset) < tolerance));
+		const double& angle = Vector_3D.angle(my_w, plane.get_w());
+		return ((angle < 1.0e-10) && (std::abs(origin_offset - plane.get_origin_offset()) < my_tolerance)) ||
+			((angle > (std::numbers::pi - 1.0e-10)) && (std::abs(origin_offset + plane.get_origin_offset()) < tolerance));
 	}
 
 	/** Rotate the plane around the specified point.
@@ -340,14 +348,14 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param rotation vectorial rotation operator
 	 * @return a plane
 	 */
-	public Plane rotate(const Vector_3D center, const Rotation& rotation)
+	Plane rotate(const Vector_3D& center, const Rotation& rotation)
 	{
 		const Vector_3D delta = origin.subtract(center);
-		const Plane plane = Plane(center.add(rotation.apply_to(delta)), rotation.apply_to(w), tolerance);
+		const Plane plane = Plane(center.add(rotation.apply_to(delta)), rotation.apply_to(my_w), my_tolerance);
 
 		// make sure the frame is transformed as desired
-		plane.u = rotation.apply_to(u);
-		plane.v = rotation.apply_to(v);
+		plane.get_u() = rotation.apply_to(my_u);
+		plane.get_v() = rotation.apply_to(my_v);
 
 		return plane;
 	}
@@ -357,13 +365,13 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param translation translation to apply
 	 * @return a plane
 	 */
-	public Plane translate(const Vector_3D translation)
+	Plane translate(const Vector_3D& translation)
 	{
-		const Plane plane = Plane(origin.add(translation), w, tolerance);
+		const Plane plane = Plane(my_origin.add(translation), my_w, my_tolerance);
 
 		// make sure the frame is transformed as desired
-		plane.u = u;
-		plane.v = v;
+		plane.get_u() = my_u;
+		plane.get_v() = my_v;
 
 		return plane;
 	}
@@ -373,16 +381,16 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return intersection point between between the line and the
 	 * instance (null if the line is parallel to the instance)
 	 */
-	public Vector_3D intersection(const Line& line)
+	Vector_3D intersection(const Line& line)
 	{
 		const Vector_3D& direction = line.get_direction();
-		const double   dot = w.dot_product(direction);
+		const double   dot = my_w.dot_product(direction);
 		if (std::abs(dot) < 1.0e-10)
 		{
 			return NULL;
 		}
 		const Vector_3D point = line.to_space((Point<Euclidean_1D>) Vector_1D.ZERO);
-		const double   k = -(origin_offset + w.dot_product(point)) / dot;
+		const double   k = -(origin_offset + my_w.dot_product(point)) / dot;
 		return Vector_3D(1.0, point, k, direction);
 	}
 
@@ -391,15 +399,15 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return line at the intersection of the instance and the
 	 * other plane (really a {@link Line Line} instance)
 	 */
-	public Line intersection(const Plane other)
+	Line intersection(const Plane other)
 	{
-		const Vector_3D& direction = Vector_3D.cross_product(w, other.w);
-		if (direction.get_norm() < tolerance)
+		const Vector_3D direction = Vector_3D.cross_product(my_w, other.get_w());
+		if (direction.get_norm() < my_tolerance)
 		{
 			return NULL;
 		}
-		const Vector_3D point = intersection(this, other, Plane(direction, tolerance));
-		return Line(point, point.add(direction), tolerance);
+		const Vector_3D point = intersection(*this, other, Plane(direction, my_tolerance));
+		return Line(point, point.add(direction), my_tolerance);
 	}
 
 	/** Get the intersection point of three planes.
@@ -408,27 +416,27 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param plane3 third plane2
 	 * @return intersection point of three planes, NULL if some planes are parallel
 	 */
-	public static Vector_3D intersection(const Plane plane1, const Plane plane2, const Plane plane3)
+	static Vector_3D intersection(const Plane& plane1, const Plane& plane2, const Plane& plane3)
 	{
 		// coefficients of the three planes linear equations
-		const double& a1 = plane1.w.get_x();
-		const double b1 = plane1.w.get_y();
-		const double c1 = plane1.w.get_z();
-		const double d1 = plane1.origin_offset;
+		const double a1 = plane1.get_w().get_x();
+		const double b1 = plane1.get_w().get_y();
+		const double c1 = plane1.get_w().get_z();
+		const double d1 = plane1.get_origin_offset();
 
-		const double& a2 = plane2.w.get_x();
-		const double b2 = plane2.w.get_y();
-		const double c2 = plane2.w.get_z();
-		const double d2 = plane2.origin_offset;
+		const double a2 = plane2.get_w().get_x();
+		const double b2 = plane2.get_w().get_y();
+		const double c2 = plane2.get_w().get_z();
+		const double d2 = plane2.get_origin_offset();
 
-		const double& a3 = plane3.w.get_x();
-		const double b3 = plane3.w.get_y();
-		const double c3 = plane3.w.get_z();
-		const double d3 = plane3.origin_offset;
+		const double a3 = plane3.get_w().get_x();
+		const double b3 = plane3.get_w().get_y();
+		const double c3 = plane3.get_w().get_z();
+		const double d3 = plane3.get_origin_offset();
 
 		// direct Cramer resolution of the linear system
 		// (this is still feasible for a 3x3 system)
-		const double& a23 = b2 * c3 - b3 * c2;
+		const double a23 = b2 * c3 - b3 * c2;
 		const double b23 = c2 * a3 - c3 * a2;
 		const double c23 = a2 * b3 - a3 * b2;
 		const double determinant = a1 * a23 + b1 * b23 + c1 * c23;
@@ -446,16 +454,16 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return a region covering the whole hyperplane
 	 */
 	 //override
-	public Sub_Plane whole_hyperplane()
+	Sub_Plane whole_hyperplane()
 	{
-		return Sub_Plane(this, Polygons_Set(tolerance));
+		return Sub_Plane(*this, Polygons_Set(my_tolerance));
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Sub_Plane empty_hyperplane()
+	Sub_Plane empty_hyperplane()
 	{
-		return Sub_Plane(this, Region_Factory<Euclidean_2D>().get_complement(new Polygons_Set(tolerance)));
+		return Sub_Plane(*this, Region_Factory<Euclidean_2D>().get_complement(Polygons_Set(my_tolerance)));
 	}
 
 	/** Build a region covering the whole space.
@@ -463,18 +471,18 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * Polyhedrons_Set Polyhedrons_Set} instance)
 	 */
 	 //override
-	public Polyhedrons_Set whole_space()
+	Polyhedrons_Set whole_space()
 	{
-		return Polyhedrons_Set(tolerance);
+		return Polyhedrons_Set(my_tolerance);
 	}
 
 	/** Check if the instance contains a point.
 	 * @param p point to check
 	 * @return true if p belongs to the plane
 	 */
-	public bool contains(const Vector_3D p)
+	bool contains(const Vector_3D& p)
 	{
-		return std::abs(get_offset(p)) < tolerance;
+		return std::abs(get_offset(p)) < my_tolerance;
 	}
 
 	/** Get the offset (oriented distance) of a parallel plane.
@@ -487,16 +495,16 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @param plane plane to check
 	 * @return offset of the plane
 	 */
-	public double get_offset(const Plane plane)
+	double get_offset(const Plane& plane)
 	{
-		return origin_offset + (same_orientation_as(plane) ? -plane.origin_offset : plane.origin_offset);
+		return my_origin_offset + (same_orientation_as(plane) ? -plane.get_origin_offset() : plane.get_origin_offset());
 	}
 
 	/** Get the offset (oriented distance) of a vector.
 	 * @param vector vector to check
 	 * @return offset of the vector
 	 */
-	public double get_offset(Vector<Euclidean_3D> vector)
+	double get_offset(Vector<Euclidean_3D>& vector)
 	{
 		return get_offset((Point<Euclidean_3D>) vector);
 	}
@@ -508,9 +516,9 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * @return offset of the point
 	 */
 	 //override
-	public double get_offset(const Point<Euclidean_3D> point)
+	double get_offset(const Point<Euclidean_3D>& point)
 	{
-		return ((Vector_3D)point).dot_product(w) + origin_offset;
+		return ((Vector_3D)point).dot_product(my_w) + my_origin_offset;
 	}
 
 	/** Check if the instance has the same orientation as another hyperplane.
@@ -519,8 +527,8 @@ class Plane : Hyperplane<Euclidean_3D>, Embedding<Euclidean_3D, Euclidean_2D>
 	 * the same orientation
 	 */
 	 //override
-	public bool same_orientation_as(const Hyperplane<Euclidean_3D> other)
+	bool same_orientation_as(const Hyperplane<Euclidean_3D>& other)
 	{
-		return (((Plane)other).w).dot_product(w) > 0.0;
+		return (((Plane)other).get_w()).dot_product(my_w) > 0.0;
 	}
-}
+};

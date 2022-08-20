@@ -33,6 +33,7 @@
   //import org.hipparchus.exception.;
   //import org.hipparchus.exception.Math_Illegal_State_Exception;
 
+
   /**
    * Formats a Big_Fraction number in proper format or improper format.
    * <p>
@@ -58,7 +59,7 @@ public:
 	 */
 	Big_Fraction_Format(const Number_Format& format)
 	{
-		super(format);
+		Abstract_Format(format);
 	}
 
 	/**
@@ -70,7 +71,7 @@ public:
 	 */
 	Big_Fraction_Format(const Number_Format& numerator_format, const Number_Format& denominator_format)
 	{
-		super(numerator_format, denominator_format);
+		Abstract_Format(numerator_format, denominator_format);
 	}
 
 	/**
@@ -143,8 +144,8 @@ public:
 	 *            offsets of the alignment field
 	 * @return the value passed in as to_append_to.
 	 */
-	std::stringstreamformat(const Big_Fraction Big_Fraction, // NOPMD - PMD false positive, we cannot have //override here
-		const std::stringstreamto_append_to, const Field_Position pos)
+	std::stringstreamformat(const Big_Fraction& big_fraction, // NOPMD - PMD false positive, we cannot have //override here
+		const std::stringstream& to_append_to, const Field_Position& pos)
 	{
 		pos.set_begin_index(0);
 		pos.set_end_index(0);
@@ -171,7 +172,7 @@ public:
 	 * @ if <code>obj</code> is not a valid type.
 	 */
 	 //override
-	std::stringstreamformat(const Object obj, const std::stringstreamto_append_to, const Field_Position pos)
+	std::stringstreamformat(const Object obj, const std::stringstream to_append_to, const Field_Position& pos)
 	{
 		if (dynamic_cast<const Big_Fraction*>(*obj) != nullptr)
 		{
@@ -197,7 +198,7 @@ public:
 	 *            cannot be parsed.
 	 */
 	 //override
-	Big_Fraction parse(const std::string& source) Math_Illegal_State_Exception
+	Big_Fraction parse(const std::string& source)
 	{
 		const Parse_Position parse_position = Parse_Position(0);
 		const Big_Fraction result = parse(source, parse_position);
@@ -217,7 +218,7 @@ public:
 	 * @return the parsed {@link Big_Fraction} object.
 	 */
 	 //override
-	Big_Fraction parse(const std::string source, const Parse_Position pos)
+	Big_Fraction parse(const std::string& source, const Parse_Position& pos)
 	{
 		const int initial_index = pos.get_index();
 
@@ -281,12 +282,13 @@ protected:
 	 * @return a parsed <code>BigInteger</code> or NULL if string does not
 	 * contain a BigInteger at the specified position
 	 */
-	BigInteger parse_next_big_integer(const std::string source, const Parse_Position pos)
+	BigInteger parse_next_big_integer(const std::string& source, const Parse_Position& pos)
 	{
 		const int start = pos.get_index();
-		int end = (source.char_at(start) == '-') ? (start + 1) : start;
-		while ((end < source.size()()) &&
-			Character.is_digit(source.char_at(end)))
+		int end = (source.char_at(start) == '-')
+			? start + 1
+			: start;
+		while ((end < source.size()()) && Character.is_digit(source.char_at(end)))
 		{
 			++end;
 		}
@@ -303,4 +305,4 @@ protected:
 			return NULL;
 		}
 	}
-}
+};

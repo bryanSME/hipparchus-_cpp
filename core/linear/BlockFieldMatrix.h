@@ -32,6 +32,7 @@
   //import org.hipparchus.util.FastMath;
   //import org.hipparchus.util.Math_Arrays;
   //import org.hipparchus.util.Math_Utils;
+#include <vector>
 #include <type_traits>
 #include "MatrixUtils.h"
 #include "../FieldElement.h"
@@ -74,23 +75,76 @@
  * </p>
  * @param <T> the type of the field elements
  */
-template<typename T, typename std::enable_if<std::is_base_of<Field_Element, T>::value>::type* = nullptr>
-class BlockField_Matrix : public Abstract_Field_Matrix<T>
+template<typename T, typename std::enable_if<std::is_base_of<Field_Element<T>, T>::value>::type* = nullptr>
+class BlockField_Matrix : Abstract_Field_Matrix<T>
 {
+public:
 	/** Block size. */
-	public static const int BLOCK_SIZE = 36;
+	static constexpr int BLOCK_SIZE{ 36 };
 
-	-4602336630143123183L;
+private:
 	/** Blocks of matrix entries. */
-	private const T& blocks[][];
+	std::vector<std::vector<T>> my_blocks;
 	/** Number of rows of the matrix. */
-	private const int rows;
+	int my_rows;
 	/** Number of columns of the matrix. */
-	private const int columns;
+	int my_columns;
 	/** Number of block rows of the matrix. */
-	private const int& block_rows;
+	int my_block_rows;
 	/** Number of block columns of the matrix. */
-	private const int& block_columns;
+	int my_block_columns;
+
+	/**
+	 * Get the height of a block.
+	 * @param block_row row index (in block sense) of the block
+	 * @return height (number of rows) of the block
+	 */
+	int block_height(const int& block_row) const
+	{
+		return (block_row == block_rows - 1)
+			? rows - block_row * BLOCK_SIZE
+			: BLOCK_SIZE;
+	}
+
+	/**
+	 * Get the width of a block.
+	 * @param block_column column index (in block sense) of the block
+	 * @return width (number of columns) of the block
+	 */
+	int block_width(const int& block_column) const
+	{
+		return (block_column == block_columns - 1)
+			? columns - block_column * BLOCK_SIZE
+			: BLOCK_SIZE;
+	}
+
+	/**
+	 * Copy a part of a block into another one
+	 * <p>This method can be called only when the specified part fits in both
+	 * blocks, no verification is done here.</p>
+	 * @param src_block source block
+	 * @param src_width source block width ({@link #BLOCK_SIZE} or smaller)
+	 * @param src_start_row start row in the source block
+	 * @param src_end_row end row (exclusive) in the source block
+	 * @param src_start_column start column in the source block
+	 * @param src_end_column end column (exclusive) in the source block
+	 * @param dst_block destination block
+	 * @param dst_width destination block width ({@link #BLOCK_SIZE} or smaller)
+	 * @param dst_start_row start row in the destination block
+	 * @param dst_start_column start column in the destination block
+	 */
+	void copy_block_part(const std::vector<T>& src_block, const int& src_width, const int& src_start_row, const int& src_end_row, const int& src_start_column, const int& src_end_column, const std::vector<T>& dst_block, const int& dst_width, const int& dst_start_row, const int& dst_start_column)
+	{
+		const int length = src_end_column - src_start_column;
+		int src_pos = src_start_row * src_width + src_start_column;
+		int dst_pos = dst_start_row * dst_width + dst_start_column;
+		for (int src_row = src_start_row; src_row < src_end_row; ++src_row)
+		{
+			System.arraycopy(src_block, src_pos, dst_block, dst_pos, length);
+			src_pos += src_width;
+			dst_pos += dst_width;
+		}
+	}
 
 	/**
 	 * Create a matrix with the supplied row and column dimensions.
@@ -101,18 +155,19 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * @ if row or column dimension is not
 	 * positive.
 	 */
-	public BlockField_Matrix(const Field<T>& field, const int& rows, const int& columns)
+	BlockField_Matrix(const Field<T>& field, const int& rows, const int& columns)
+		:
+		my_rows{ rows },
+		my_columns{ columns }
 	{
-		super(field, rows, columns);
-		this.rows = rows;
-		this.columns = columns;
+		Abstract_Field_Matrix<T>(field, rows, columns);
 
 		// number of blocks
-		block_rows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
-		block_columns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
+		my_block_rows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
+		my_block_columns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
 		// allocate storage blocks, taking care of smaller ones at right and bottom
-		blocks = create_blocks_layout(field, rows, columns);
+		my_blocks = create_blocks_layout(field, rows, columns);
 	}
 
 	/**
@@ -127,9 +182,9 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * inconsistent with block layout.
 	 * @see #BlockField_Matrix(int, int, Field_Element[][], bool)
 	 */
-	public BlockField_Matrix(const std::vector<std::vector<T>>& raw_data)
+	BlockField_Matrix(const std::vector<std::vector<T>>& raw_data)
 	{
-		this(raw_data.size(), raw_data[0].size(), to_blocks_layout(raw_data), false);
+		BlockField_Matrix(raw_data.size(), raw_data[0].size(), to_blocks_layout(raw_data), false);
 	}
 
 	/**
@@ -149,12 +204,11 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * @see #to_blocks_layout(Field_Element[][])
 	 * @see #BlockField_Matrix(Field_Element[][])
 	 */
-	public BlockField_Matrix(const int rows, const int columns, const std::vector<std::vector<T>> block_data, const bool copy_array) // NOPMD - array copy is taken care of by parameter
-
+	BlockField_Matrix(const int rows, const int columns, const std::vector<std::vector<T>> block_data, const bool copy_array) // NOPMD - array copy is taken care of by parameter
 	{
 		super(extract_field(block_data), rows, columns);
-		this.rows = rows;
-		this.columns = columns;
+		my_rows = rows;
+		my_columns = columns;
 
 		// number of blocks
 		block_rows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
@@ -175,7 +229,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		for (int i_block{}; i_block < block_rows; ++i_block)
 		{
 			const int i_height = block_height(i_block);
-			for (int j_block = 0; j_block < block_columns; ++j_block, ++index)
+			for (int j_block {}; j_block < block_columns; ++j_block, ++index)
 			{
 				if (block_data[index].size() != i_height * block_width(j_block))
 				{
@@ -215,12 +269,12 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * @see #BlockField_Matrix(int, int, Field_Element[][], bool)
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Field_Element<T>, T>::value>::type* = nullptr>
-	public static std::vector<std::vector<T>> to_blocks_layout(const std::vector<std::vector<T>> raw_data)
+	static std::vector<std::vector<T>> to_blocks_layout(const std::vector<std::vector<T>> raw_data)
 	{
 		const int rows = raw_data.size();
 		const int columns = raw_data[0].size();
-		const int& block_rows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
-		const int& block_columns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
+		const int block_rows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
+		const int block_columns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
 		// safety checks
 		for (int i{}; i < raw_data.size(); ++i)
@@ -236,13 +290,13 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		// convert array
 		const Field<T> field = extract_field(raw_data);
 		const std::vector<std::vector<T>> blocks = Math_Arrays::build_array(field, block_rows * block_columns, -1);
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		int block_index {};
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
 			const int i_height = p_end - p_start;
-			for (int j_block = 0; j_block < block_columns; ++j_block)
+			for (int j_block {}; j_block < block_columns; ++j_block)
 			{
 				const int q_start = j_block * BLOCK_SIZE;
 				const int q_end = std::min(q_start + BLOCK_SIZE, columns);
@@ -254,7 +308,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 				// copy data
 				int index = 0;
-				for (const int& p = p_start; p < p_end; ++p)
+				for (int p{ p_start }; p < p_end; ++p)
 				{
 					System.arraycopy(raw_data[p], q_start, block, index, j_width);
 					index += j_width;
@@ -283,19 +337,19 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * @see #BlockField_Matrix(int, int, Field_Element[][], bool)
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Field_Element<T>, T>::value>::type* = nullptr>
-	public static std::vector<std::vector<T>> create_blocks_layout(const Field<T>& field, const int& rows, const int& columns)
+	static std::vector<std::vector<T>> create_blocks_layout(const Field<T>& field, const int& rows, const int& columns)
 	{
-		const int& block_rows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
-		const int& block_columns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
+		const int block_rows = (rows + BLOCK_SIZE - 1) / BLOCK_SIZE;
+		const int block_columns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
 		const std::vector<std::vector<T>> blocks = Math_Arrays::build_array(field, block_rows * block_columns, -1);
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		int block_index{};
+		for (const int i_block{}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
 			const int i_height = p_end - p_start;
-			for (int j_block = 0; j_block < block_columns; ++j_block)
+			for (int j_block{}; j_block < block_columns; ++j_block)
 			{
 				const int q_start = j_block * BLOCK_SIZE;
 				const int q_end = std::min(q_start + BLOCK_SIZE, columns);
@@ -306,22 +360,21 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		}
 
 		return blocks;
-	}
+	};
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> create_matrix(const int row_dimension, const int column_dimension)
-
+	Field_Matrix<T> create_matrix(const int& row_dimension, const int& column_dimension)
 	{
 		return BlockField_Matrix<T>(get_field(), row_dimension, column_dimension);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> copy()
+	Field_Matrix<T> copy()
 	{
 		// create an empty matrix
-		BlockField_Matrix<T> copied = BlockField_Matrix<>(get_field(), rows, columns);
+		BlockField_Matrix<T> copied = BlockField_Matrix<T>(get_field(), rows, columns);
 
 		// copy the blocks
 		for (int i{}; i < blocks.size(); ++i)
@@ -334,50 +387,47 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> add(const Field_Matrix<T> m)
-
+	Field_Matrix<T> add(const Field_Matrix<T>& m)
 	{
 		if (m instanceof BlockField_Matrix)
 		{
 			return add((BlockField_Matrix<T>) m);
 		}
-		else
+
+		// safety check
+		check_addition_compatible(m);
+
+		auto out = BlockField_Matrix<T>(get_field(), rows, columns);
+
+		// perform addition block-wise, to ensure good cache behavior
+		int block_index{};
+		for (int i_block{}; i_block < out.block_rows; ++i_block)
 		{
-			// safety check
-			check_addition_compatible(m);
-
-			const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, columns);
-
-			// perform addition block-wise, to ensure good cache behavior
-			int block_index = 0;
-			for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+			for (int j_block{}; j_block < out.block_columns; ++j_block)
 			{
-				for (int j_block = 0; j_block < out.block_columns; ++j_block)
+				// perform addition on the current block
+				auto out_block = out.blocks[block_index];
+				const std::vector<T> t_block = blocks[block_index];
+				const int p_start = i_block * BLOCK_SIZE;
+				const int p_end = std::min(p_start + BLOCK_SIZE, rows);
+				const int q_start = j_block * BLOCK_SIZE;
+				const int q_end = std::min(q_start + BLOCK_SIZE, columns);
+				int k{};
+				for (int p{ p_start }; p < p_end; ++p)
 				{
-					// perform addition on the current block
-					const std::vector<T> out_block = out.blocks[block_index];
-					const std::vector<T> t_block = blocks[block_index];
-					const int      p_start = i_block * BLOCK_SIZE;
-					const int      p_end = std::min(p_start + BLOCK_SIZE, rows);
-					const int      q_start = j_block * BLOCK_SIZE;
-					const int      q_end = std::min(q_start + BLOCK_SIZE, columns);
-					int k = 0;
-					for (const int& p = p_start; p < p_end; ++p)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
-						for (const int& q = q_start; q < q_end; ++q)
-						{
-							out_block[k] = t_block[k].add(m.get_entry(p, q));
-							++k;
-						}
+						out_block[k] = t_block[k].add(m.get_entry(p, q));
+						++k;
 					}
-
-					// go to next block
-					++block_index;
 				}
-			}
 
-			return out;
+				// go to next block
+				++block_index;
+			}
 		}
+
+		return out;
 	}
 
 	/**
@@ -388,20 +438,19 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * @ if {@code m} is not the same
 	 * size as {@code this}
 	 */
-	public BlockField_Matrix<T> add(const BlockField_Matrix<T> m)
-
+	BlockField_Matrix<T> add(const BlockField_Matrix<T>& m)
 	{
 		// safety check
 		check_addition_compatible(m);
 
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, columns);
+		auto out = BlockField_Matrix<T>(get_field(), rows, columns);
 
 		// perform addition block-wise, to ensure good cache behavior
-		for (const int& block_index = 0; block_index < out.blocks.size(); ++block_index)
+		for (int block_index{}; block_index < out.blocks.size(); ++block_index)
 		{
-			const std::vector<T> out_block = out.blocks[block_index];
-			const std::vector<T> t_block = blocks[block_index];
-			const std::vector<T> m_block = m.blocks[block_index];
+			auto out_block = out.blocks[block_index];
+			auto t_block = blocks[block_index];
+			auto m_block = m.blocks[block_index];
 			for (int k{}; k < out_block.size(); ++k)
 			{
 				out_block[k] = t_block[k].add(m_block[k]);
@@ -413,50 +462,46 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> subtract(const Field_Matrix<T> m)
-
+	Field_Matrix<T> subtract(const Field_Matrix<T>& m)
 	{
 		if (m instanceof BlockField_Matrix)
 		{
 			return subtract((BlockField_Matrix<T>) m);
 		}
-		else
+		// safety check
+		check_subtraction_compatible(m);
+
+		auto out = BlockField_Matrix<T>(get_field(), rows, columns);
+
+		// perform subtraction block-wise, to ensure good cache behavior
+		int block_index {};
+		for (int i_block {}; i_block < out.block_rows; ++i_block)
 		{
-			// safety check
-			check_subtraction_compatible(m);
-
-			const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, columns);
-
-			// perform subtraction block-wise, to ensure good cache behavior
-			int block_index = 0;
-			for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+			for (int j_block {}; j_block < out.block_columns; ++j_block)
 			{
-				for (int j_block = 0; j_block < out.block_columns; ++j_block)
+				// perform subtraction on the current block
+				const std::vector<T> out_block = out.blocks[block_index];
+				const std::vector<T> t_block = blocks[block_index];
+				const int p_start = i_block * BLOCK_SIZE;
+				const int p_end = std::min(p_start + BLOCK_SIZE, rows);
+				const int q_start = j_block * BLOCK_SIZE;
+				const int q_end = std::min(q_start + BLOCK_SIZE, columns);
+				int k{};
+				for (int p{ p_start }; p < p_end; ++p)
 				{
-					// perform subtraction on the current block
-					const std::vector<T> out_block = out.blocks[block_index];
-					const std::vector<T> t_block = blocks[block_index];
-					const int      p_start = i_block * BLOCK_SIZE;
-					const int      p_end = std::min(p_start + BLOCK_SIZE, rows);
-					const int      q_start = j_block * BLOCK_SIZE;
-					const int      q_end = std::min(q_start + BLOCK_SIZE, columns);
-					int k = 0;
-					for (const int& p = p_start; p < p_end; ++p)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
-						for (const int& q = q_start; q < q_end; ++q)
-						{
-							out_block[k] = t_block[k].subtract(m.get_entry(p, q));
-							++k;
-						}
+						out_block[k] = t_block[k].subtract(m.get_entry(p, q));
+						++k;
 					}
-
-					// go to next block
-					++block_index;
 				}
-			}
 
-			return out;
+				// go to next block
+				++block_index;
+			}
 		}
+
+		return out;
 	}
 
 	/**
@@ -467,15 +512,15 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * @ if {@code m} is not the same
 	 * size as {@code this}
 	 */
-	public BlockField_Matrix<T> subtract(const BlockField_Matrix<T> m)
+	BlockField_Matrix<T> subtract(const BlockField_Matrix<T>& m)
 	{
 		// safety check
 		check_subtraction_compatible(m);
 
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, columns);
+		auto out = BlockField_Matrix<T>(get_field(), rows, columns);
 
 		// perform subtraction block-wise, to ensure good cache behavior
-		for (const int& block_index = 0; block_index < out.blocks.size(); ++block_index)
+		for (int block_index {}; block_index < out.blocks.size(); ++block_index)
 		{
 			const std::vector<T> out_block = out.blocks[block_index];
 			const std::vector<T> t_block = blocks[block_index];
@@ -491,12 +536,12 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> scalar_add(const T d)
+	Field_Matrix<T> scalar_add(const T d)
 	{
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, columns);
+		auto out = BlockField_Matrix<T>(get_field(), rows, columns);
 
 		// perform subtraction block-wise, to ensure good cache behavior
-		for (const int& block_index = 0; block_index < out.blocks.size(); ++block_index)
+		for (int block_index {}; block_index < out.blocks.size(); ++block_index)
 		{
 			const std::vector<T> out_block = out.blocks[block_index];
 			const std::vector<T> t_block = blocks[block_index];
@@ -511,12 +556,12 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> scalar_multiply(const T d)
+	Field_Matrix<T> scalar_multiply(const T d)
 	{
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, columns);
+		auto out = BlockField_Matrix<T>(get_field(), rows, columns);
 
 		// perform subtraction block-wise, to ensure good cache behavior
-		for (const int& block_index = 0; block_index < out.blocks.size(); ++block_index)
+		for (int block_index {}; block_index < out.blocks.size(); ++block_index)
 		{
 			const std::vector<T> out_block = out.blocks[block_index];
 			const std::vector<T> t_block = blocks[block_index];
@@ -531,69 +576,66 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> multiply(const Field_Matrix<T> m)
+	Field_Matrix<T> multiply(const Field_Matrix<T> m)
 
 	{
 		if (m instanceof BlockField_Matrix)
 		{
 			return multiply((BlockField_Matrix<T>) m);
 		}
-		else
+		// safety check
+		check_multiplication_compatible(m);
+
+		auto out = BlockField_Matrix<T>(get_field(), rows, m.get_column_dimension());
+		const T zero = get_field().get_zero();
+
+		// perform multiplication block-wise, to ensure good cache behavior
+		int block_index {};
+		for (int i_block {}; i_block < out.block_rows; ++i_block)
 		{
-			// safety check
-			check_multiplication_compatible(m);
+			const int p_start = i_block * BLOCK_SIZE;
+			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
 
-			const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, m.get_column_dimension());
-			const T zero = get_field().get_zero();
-
-			// perform multiplication block-wise, to ensure good cache behavior
-			int block_index = 0;
-			for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+			for (int j_block {}; j_block < out.block_columns; ++j_block)
 			{
-				const int p_start = i_block * BLOCK_SIZE;
-				const int p_end = std::min(p_start + BLOCK_SIZE, rows);
+				const int q_start = j_block * BLOCK_SIZE;
+				const int q_end = std::min(q_start + BLOCK_SIZE, m.get_column_dimension());
 
-				for (int j_block = 0; j_block < out.block_columns; ++j_block)
+				// select current block
+				auto out_block = out.blocks[block_index];
+
+				// perform multiplication on current block
+				for (int k_block {}; k_block < block_columns; ++k_block)
 				{
-					const int q_start = j_block * BLOCK_SIZE;
-					const int q_end = std::min(q_start + BLOCK_SIZE, m.get_column_dimension());
-
-					// select current block
-					const std::vector<T> out_block = out.blocks[block_index];
-
-					// perform multiplication on current block
-					for (const int& k_block = 0; k_block < block_columns; ++k_block)
+					const int& k_width = block_width(k_block);
+					const std::vector<T> t_block = blocks[i_block * block_columns + k_block];
+					const int r_start = k_block * BLOCK_SIZE;
+					int k{};
+					for (int p{ p_start }; p < p_end; ++p)
 					{
-						const int& k_width = block_width(k_block);
-						const std::vector<T> t_block = blocks[i_block * block_columns + k_block];
-						const int r_start = k_block * BLOCK_SIZE;
-						int k = 0;
-						for (const int& p = p_start; p < p_end; ++p)
+						const int l_start = (p - p_start) * k_width;
+						const int l_end = l_start + k_width;
+						for (int q{ q_start }; q < q_end; ++q)
 						{
-							const int l_start = (p - p_start) * k_width;
-							const int l_end = l_start + k_width;
-							for (const int& q = q_start; q < q_end; ++q)
+							T sum = zero;
+							int r { r_start };
+							for (int l { l_start }; l < l_end; ++l)
 							{
-								T sum = zero;
-								int r = r_start;
-								for (const int& l = l_start; l < l_end; ++l)
-								{
-									sum = sum.add(t_block[l].multiply(m.get_entry(r, q)));
-									++r;
-								}
-								out_block[k] = out_block[k].add(sum);
-								++k;
+								sum = sum.add(t_block[l].multiply(m.get_entry(r, q)));
+								++r;
 							}
+							out_block[k] = out_block[k].add(sum);
+							++k;
 						}
 					}
-
-					// go to next block
-					++block_index;
 				}
-			}
 
-			return out;
+				// go to next block
+				++block_index;
+			}
 		}
+
+		return out;
 	}
 
 	/**
@@ -603,23 +645,23 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * @return {@code this * m}
 	 * @ if the matrices are not compatible.
 	 */
-	public BlockField_Matrix<T> multiply(BlockField_Matrix<T> m)
+	BlockField_Matrix<T> multiply(BlockField_Matrix<T> m)
 
 	{
 		// safety check
 		check_multiplication_compatible(m);
 
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, m.columns);
+		auto out = BlockField_Matrix<T>(get_field(), rows, m.columns);
 		const T zero = get_field().get_zero();
 
 		// perform multiplication block-wise, to ensure good cache behavior
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+		int block_index {};
+		for (int i_block {}; i_block < out.block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
 
-			for (int j_block = 0; j_block < out.block_columns; ++j_block)
+			for (int j_block {}; j_block < out.block_columns; ++j_block)
 			{
 				const int j_width = out.block_width(j_block);
 				const int j_width2 = j_width + j_width;
@@ -630,17 +672,17 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 				const std::vector<T> out_block = out.blocks[block_index];
 
 				// perform multiplication on current block
-				for (const int& k_block = 0; k_block < block_columns; ++k_block)
+				for (int k_block {}; k_block < block_columns; ++k_block)
 				{
 					const int& k_width = block_width(k_block);
 					const std::vector<T> t_block = blocks[i_block * block_columns + k_block];
 					const std::vector<T> m_block = m.blocks[k_block * m.block_columns + j_block];
-					int k = 0;
-					for (const int& p = p_start; p < p_end; ++p)
+					int k{};
+					for (int p{ p_start }; p < p_end; ++p)
 					{
 						const int l_start = (p - p_start) * k_width;
 						const int l_end = l_start + k_width;
-						for (const int& n_start = 0; n_start < j_width; ++n_start)
+						for (int n_start = 0; n_start < j_width; ++n_start)
 						{
 							T sum = zero;
 							int l = l_start;
@@ -682,22 +724,22 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * {@code column_dimension(this) != column_dimension(m)}
 	 * @since 1.3
 	 */
-	public BlockField_Matrix<T> multiply_transposed(BlockField_Matrix<T> m)
+	BlockField_Matrix<T> multiply_transposed(BlockField_Matrix<T> m)
 
 	{
 		// safety check
-		Matrix_Utils::check_same_column_dimension(this, m);
+		Matrix_Utils::check_same_column_dimension(*this, m);
 
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, m.rows);
+		auto out = BlockField_Matrix<T>(get_field(), rows, m.rows);
 
 		// perform multiplication block-wise, to ensure good cache behavior
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+		int block_index {};
+		for (int i_block {}; i_block < out.block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
 
-			for (int j_block = 0; j_block < out.block_columns; ++j_block)
+			for (int j_block {}; j_block < out.block_columns; ++j_block)
 			{
 				const int j_width = out.block_width(j_block);
 
@@ -705,17 +747,17 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 				const std::vector<T> out_block = out.blocks[block_index];
 
 				// perform multiplication on current block
-				for (const int& k_block = 0; k_block < block_columns; ++k_block)
+				for (int k_block {}; k_block < block_columns; ++k_block)
 				{
 					const int& k_width = block_width(k_block);
 					const std::vector<T> t_block = blocks[i_block * block_columns + k_block];
 					const std::vector<T> m_block = m.blocks[j_block * m.block_columns + k_block];
-					int k = 0;
-					for (const int& p = p_start; p < p_end; ++p)
+					int k{};
+					for (int p{ p_start }; p < p_end; ++p)
 					{
 						const int l_start = (p - p_start) * k_width;
 						const int l_end = l_start + k_width;
-						for (const int& n_start = 0; n_start < j_width * k_width; n_start += k_width)
+						for (int n_start = 0; n_start < j_width * k_width; n_start += k_width)
 						{
 							T sum = get_field().get_zero();
 							int l = l_start;
@@ -749,7 +791,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public BlockField_Matrix<T> multiply_transposed(const Field_Matrix<T> m)
+	BlockField_Matrix<T> multiply_transposed(const Field_Matrix<T> m)
 
 	{
 		if (m instanceof BlockField_Matrix)
@@ -761,16 +803,16 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 			// safety check
 			Matrix_Utils::check_same_column_dimension(this, m);
 
-			const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, m.get_row_dimension());
+			auto out = BlockField_Matrix<T>(get_field(), rows, m.get_row_dimension());
 
 			// perform multiplication block-wise, to ensure good cache behavior
-			int block_index = 0;
-			for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+			int block_index {};
+			for (int i_block {}; i_block < out.block_rows; ++i_block)
 			{
 				const int p_start = i_block * BLOCK_SIZE;
 				const int p_end = std::min(p_start + BLOCK_SIZE, rows);
 
-				for (int j_block = 0; j_block < out.block_columns; ++j_block)
+				for (int j_block {}; j_block < out.block_columns; ++j_block)
 				{
 					const int q_start = j_block * BLOCK_SIZE;
 					const int q_end = std::min(q_start + BLOCK_SIZE, m.get_row_dimension());
@@ -779,21 +821,21 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 					const std::vector<T> out_block = out.blocks[block_index];
 
 					// perform multiplication on current block
-					for (const int& k_block = 0; k_block < block_columns; ++k_block)
+					for (int k_block {}; k_block < block_columns; ++k_block)
 					{
 						const int& k_width = block_width(k_block);
 						const std::vector<T> t_block = blocks[i_block * block_columns + k_block];
 						const int r_start = k_block * BLOCK_SIZE;
-						int k = 0;
-						for (const int& p = p_start; p < p_end; ++p)
+						int k{};
+						for (int p{ p_start }; p < p_end; ++p)
 						{
 							const int l_start = (p - p_start) * k_width;
 							const int l_end = l_start + k_width;
-							for (const int& q = q_start; q < q_end; ++q)
+							for (int q{ q_start }; q < q_end; ++q)
 							{
 								T sum = get_field().get_zero();
-								int r = r_start;
-								for (const int& l = l_start; l < l_end; ++l)
+								int r { r_start };
+								for (int l { l_start }; l < l_end; ++l)
 								{
 									sum = sum.add(t_block[l].multiply(m.get_entry(q, r)));
 									++r;
@@ -820,17 +862,17 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * {@code column_dimension(this) != column_dimension(m)}
 	 * @since 1.3
 	 */
-	public BlockField_Matrix<T> transpose_multiply(const BlockField_Matrix<T> m)
+	BlockField_Matrix<T> transpose_multiply(const BlockField_Matrix<T> m)
 
 	{
 		// safety check
 		Matrix_Utils::check_same_row_dimension(this, m);
 
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), columns, m.columns);
+		auto out = BlockField_Matrix<T>(get_field(), columns, m.columns);
 
 		// perform multiplication block-wise, to ensure good cache behavior
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+		int block_index {};
+		for (int i_block {}; i_block < out.block_rows; ++i_block)
 		{
 			const int i_height = out.block_height(i_block);
 			const int i_height2 = i_height + i_height;
@@ -839,7 +881,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, columns);
 
-			for (int j_block = 0; j_block < out.block_columns; ++j_block)
+			for (int j_block {}; j_block < out.block_columns; ++j_block)
 			{
 				const int j_width = out.block_width(j_block);
 				const int j_width2 = j_width + j_width;
@@ -850,17 +892,17 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 				const std::vector<T> out_block = out.blocks[block_index];
 
 				// perform multiplication on current block
-				for (const int& k_block = 0; k_block < block_rows; ++k_block)
+				for (int k_block {}; k_block < block_rows; ++k_block)
 				{
-					const int& k_height = block_height(k_block);
+					const int k_height = block_height(k_block);
 					const std::vector<T> t_block = blocks[k_block * block_columns + i_block];
 					const std::vector<T> m_block = m.blocks[k_block * m.block_columns + j_block];
-					int k = 0;
-					for (const int& p = p_start; p < p_end; ++p)
+					int k{};
+					for (int p{ p_start }; p < p_end; ++p)
 					{
 						const int l_start = p - p_start;
 						const int l_end = l_start + i_height * k_height;
-						for (const int& n_start = 0; n_start < j_width; ++n_start)
+						for (int n_start = 0; n_start < j_width; ++n_start)
 						{
 							T sum = get_field().get_zero();
 							int l = l_start;
@@ -895,88 +937,85 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public BlockField_Matrix<T> transpose_multiply(const Field_Matrix<T> m)
+	BlockField_Matrix<T> transpose_multiply(const Field_Matrix<T> m)
 
 	{
 		if (m instanceof BlockField_Matrix)
 		{
 			return transpose_multiply((BlockField_Matrix<T>) m);
 		}
-		else
+		// safety check
+		Matrix_Utils::check_same_row_dimension(this, m);
+
+		auto out = BlockField_Matrix<T>(get_field(), columns, m.get_column_dimension());
+
+		// perform multiplication block-wise, to ensure good cache behavior
+		int block_index {};
+		for (int i_block {}; i_block < out.block_rows; ++i_block)
 		{
-			// safety check
-			Matrix_Utils::check_same_row_dimension(this, m);
+			const int i_height = out.block_height(i_block);
+			const int p_start = i_block * BLOCK_SIZE;
+			const int p_end = std::min(p_start + BLOCK_SIZE, columns);
 
-			const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), columns, m.get_column_dimension());
-
-			// perform multiplication block-wise, to ensure good cache behavior
-			int block_index = 0;
-			for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+			for (int j_block {}; j_block < out.block_columns; ++j_block)
 			{
-				const int i_height = out.block_height(i_block);
-				const int p_start = i_block * BLOCK_SIZE;
-				const int p_end = std::min(p_start + BLOCK_SIZE, columns);
+				const int q_start = j_block * BLOCK_SIZE;
+				const int q_end = std::min(q_start + BLOCK_SIZE, m.get_column_dimension());
 
-				for (int j_block = 0; j_block < out.block_columns; ++j_block)
+				// select current block
+				const std::vector<T> out_block = out.blocks[block_index];
+
+				// perform multiplication on current block
+				for (int k_block {}; k_block < block_rows; ++k_block)
 				{
-					const int q_start = j_block * BLOCK_SIZE;
-					const int q_end = std::min(q_start + BLOCK_SIZE, m.get_column_dimension());
-
-					// select current block
-					const std::vector<T> out_block = out.blocks[block_index];
-
-					// perform multiplication on current block
-					for (const int& k_block = 0; k_block < block_rows; ++k_block)
+					const int k_height = block_height(k_block);
+					const auto t_block = blocks[k_block * block_columns + i_block];
+					const int r_start = k_block * BLOCK_SIZE;
+					int k{};
+					for (int p{ p_start }; p < p_end; ++p)
 					{
-						const int& k_height = block_height(k_block);
-						const std::vector<T> t_block = blocks[k_block * block_columns + i_block];
-						const int r_start = k_block * BLOCK_SIZE;
-						int k = 0;
-						for (const int& p = p_start; p < p_end; ++p)
+						const int l_start = p - p_start;
+						const int l_end = l_start + i_height * k_height;
+						for (int q{ q_start }; q < q_end; ++q)
 						{
-							const int l_start = p - p_start;
-							const int l_end = l_start + i_height * k_height;
-							for (const int& q = q_start; q < q_end; ++q)
+							T sum = get_field().get_zero();
+							int r { r_start };
+							for (int l { l_start }; l < l_end; l += i_height)
 							{
-								T sum = get_field().get_zero();
-								int r = r_start;
-								for (const int& l = l_start; l < l_end; l += i_height)
-								{
-									sum = sum.add(t_block[l].multiply(m.get_entry(r++, q)));
-								}
-								out_block[k] = out_block[k].add(sum);
-								++k;
+								sum = sum.add(t_block[l].multiply(m.get_entry(r++, q)));
 							}
+							out_block[k] = out_block[k].add(sum);
+							++k;
 						}
 					}
-					// go to next block
-					++block_index;
 				}
+				// go to next block
+				++block_index;
 			}
-
-			return out;
 		}
+
+		return out;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public std::vector<std::vector<T>> get_data()
+	std::vector<std::vector<T>> get_data()
 	{
 		const std::vector<std::vector<T>> data = Math_Arrays::build_array(get_field(), get_row_dimension(), get_column_dimension());
 		const int last_columns = columns - (block_columns - 1) * BLOCK_SIZE;
 
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
-			int regular_pos = 0;
-			int last_pos = 0;
-			for (const int& p = p_start; p < p_end; ++p)
+			int regular_pos {};
+			int last_pos {};
+			for (int p{ p_start }; p < p_end; ++p)
 			{
-				const std::vector<T> data_p = data[p];
+				const auto data_p = data[p];
 				int block_index = i_block * block_columns;
-				int data_pos = 0;
-				for (int j_block = 0; j_block < block_columns - 1; ++j_block)
+				int data_pos {};
+				for (int j_block {}; j_block < block_columns - 1; ++j_block)
 				{
 					System.arraycopy(blocks[block_index++], regular_pos, data_p, data_pos, BLOCK_SIZE);
 					data_pos += BLOCK_SIZE;
@@ -992,7 +1031,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> get_sub_matrix(const int& start_row, const int& end_row, const int& start_column, const int& end_column)
+	Field_Matrix<T> get_sub_matrix(const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 
 	{
 		// safety checks
@@ -1000,7 +1039,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 		// create the output matrix
 		const BlockField_Matrix<T> out =
-			BlockField_Matrix<>(get_field(), end_row - start_row + 1, end_column - start_column + 1);
+			BlockField_Matrix<T>(get_field(), end_row - start_row + 1, end_column - start_column + 1);
 
 		// compute blocks shifts
 		const int block_start_row = start_row / BLOCK_SIZE;
@@ -1010,11 +1049,11 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 		// perform extraction block-wise, to ensure good cache behavior
 		int p_block = block_start_row;
-		for (const int& i_block = 0; i_block < out.block_rows; ++i_block)
+		for (int i_block {}; i_block < out.block_rows; ++i_block)
 		{
 			const int i_height = out.block_height(i_block);
 			int q_block = block_start_column;
-			for (int j_block = 0; j_block < out.block_columns; ++j_block)
+			for (int j_block {}; j_block < out.block_columns; ++j_block)
 			{
 				const int j_width = out.block_width(j_block);
 
@@ -1069,37 +1108,9 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		return out;
 	}
 
-	/**
-	 * Copy a part of a block into another one
-	 * <p>This method can be called only when the specified part fits in both
-	 * blocks, no verification is done here.</p>
-	 * @param src_block source block
-	 * @param src_width source block width ({@link #BLOCK_SIZE} or smaller)
-	 * @param src_start_row start row in the source block
-	 * @param src_end_row end row (exclusive) in the source block
-	 * @param src_start_column start column in the source block
-	 * @param src_end_column end column (exclusive) in the source block
-	 * @param dst_block destination block
-	 * @param dst_width destination block width ({@link #BLOCK_SIZE} or smaller)
-	 * @param dst_start_row start row in the destination block
-	 * @param dst_start_column start column in the destination block
-	 */
-	private void copy_block_part(const std::vector<T> src_block, const int src_width, const int src_start_row, const int src_end_row, const int src_start_column, const int src_end_column, const std::vector<T> dst_block, const int dst_width, const int dst_start_row, const int dst_start_column)
-	{
-		const int length = src_end_column - src_start_column;
-		int src_pos = src_start_row * src_width + src_start_column;
-		int dst_pos = dst_start_row * dst_width + dst_start_column;
-		for (const int& src_row = src_start_row; src_row < src_end_row; ++src_row)
-		{
-			System.arraycopy(src_block, src_pos, dst_block, dst_pos, length);
-			src_pos += src_width;
-			dst_pos += dst_width;
-		}
-	}
-
 	/** {@inherit_doc} */
 	//override
-	public void set_sub_matrix(const std::vector<std::vector<T>> sub_matrix, const int& row, const int column)
+	void set_sub_matrix(const std::vector<std::vector<T>> sub_matrix, const int& row, const int column)
 
 	{
 		// safety checks
@@ -1129,7 +1140,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const int block_end_column = (end_column + BLOCK_SIZE) / BLOCK_SIZE;
 
 		// perform copy block-wise, to ensure good cache behavior
-		for (const int& i_block = block_start_row; i_block < block_end_row; ++i_block)
+		for (int i_block = block_start_row; i_block < block_end_row; ++i_block)
 		{
 			const int i_height = block_height(i_block);
 			const int first_row = i_block * BLOCK_SIZE;
@@ -1156,11 +1167,11 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> get_row_matrix(const int row)
+	Field_Matrix<T> get_row_matrix(const int row)
 
 	{
 		check_row_index(row);
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), 1, columns);
+		auto out = BlockField_Matrix<T>(get_field(), 1, columns);
 
 		// perform copy block-wise, to ensure good cache behavior
 		const int i_block = row / BLOCK_SIZE;
@@ -1168,7 +1179,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		int out_block_index = 0;
 		int out_index = 0;
 		std::vector<T> out_block = out.blocks[out_block_index];
-		for (int j_block = 0; j_block < block_columns; ++j_block)
+		for (int j_block {}; j_block < block_columns; ++j_block)
 		{
 			const int j_width = block_width(j_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1192,7 +1203,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void set_row_matrix(const int& row, const Field_Matrix<T> matrix)
+	void set_row_matrix(const int& row, const Field_Matrix<T> matrix)
 
 	{
 		if (matrix instanceof BlockField_Matrix)
@@ -1216,7 +1227,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 	 * not match one instance row.
 	 * @ if the specified row index is invalid.
 	 */
-	public void set_row_matrix(const int& row, const BlockField_Matrix<T> matrix)
+	void set_row_matrix(const int& row, const BlockField_Matrix<T> matrix)
 
 	{
 		check_row_index(row);
@@ -1234,7 +1245,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		int m_block_index = 0;
 		int m_index = 0;
 		std::vector<T> m_block = matrix.blocks[m_block_index];
-		for (int j_block = 0; j_block < block_columns; ++j_block)
+		for (int j_block {}; j_block < block_columns; ++j_block)
 		{
 			const int j_width = block_width(j_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1256,11 +1267,11 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> get_column_matrix(const int column)
+	Field_Matrix<T> get_column_matrix(const int column)
 
 	{
 		check_column_index(column);
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), rows, 1);
+		auto out = BlockField_Matrix<T>(get_field(), rows, 1);
 
 		// perform copy block-wise, to ensure good cache behavior
 		const int j_block = column / BLOCK_SIZE;
@@ -1269,7 +1280,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		int out_block_index = 0;
 		int out_index = 0;
 		std::vector<T> out_block = out.blocks[out_block_index];
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int i_height = block_height(i_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1289,7 +1300,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void set_column_matrix(const int& column, const Field_Matrix<T> matrix)
+	void set_column_matrix(const int& column, const Field_Matrix<T> matrix)
 
 	{
 		if (matrix instanceof BlockField_Matrix)
@@ -1332,7 +1343,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		int m_block_index = 0;
 		int m_index = 0;
 		std::vector<T> m_block = matrix.blocks[m_block_index];
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int i_height = block_height(i_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1350,7 +1361,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> get_row_vector(const int row)
+	Field_Vector<T> get_row_vector(const int row)
 
 	{
 		check_row_index(row);
@@ -1360,7 +1371,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const int i_block = row / BLOCK_SIZE;
 		const int i_row = row - i_block * BLOCK_SIZE;
 		int out_index = 0;
-		for (int j_block = 0; j_block < block_columns; ++j_block)
+		for (int j_block {}; j_block < block_columns; ++j_block)
 		{
 			const int j_width = block_width(j_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1373,7 +1384,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void set_row_vector(const int& row, const Field_Vector<T> vector)
+	void set_row_vector(const int& row, const Field_Vector<T> vector)
 
 	{
 		if (vector instanceof ArrayField_Vector)
@@ -1388,7 +1399,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> get_column_vector(const int column)
+	Field_Vector<T> get_column_vector(const int column)
 
 	{
 		check_column_index(column);
@@ -1399,7 +1410,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const int j_column = column - j_block * BLOCK_SIZE;
 		const int j_width = block_width(j_block);
 		int out_index = 0;
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int i_height = block_height(i_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1414,7 +1425,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void set_column_vector(const int& column, const Field_Vector<T> vector)
+	void set_column_vector(const int& column, const Field_Vector<T> vector)
 
 	{
 		if (vector instanceof ArrayField_Vector)
@@ -1429,7 +1440,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public std::vector<T> get_row(const int row)
+	std::vector<T> get_row(const int& row)
 	{
 		check_row_index(row);
 		const std::vector<T> out = Math_Arrays::build_array(get_field(), columns);
@@ -1438,7 +1449,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const int i_block = row / BLOCK_SIZE;
 		const int i_row = row - i_block * BLOCK_SIZE;
 		int out_index = 0;
-		for (int j_block = 0; j_block < block_columns; ++j_block)
+		for (int j_block {}; j_block < block_columns; ++j_block)
 		{
 			const int j_width = block_width(j_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1451,12 +1462,11 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void set_row(const int& row, const std::vector<T> array)
-
+	void set_row(const int& row, const std::vector<T>& arr)
 	{
 		check_row_index(row);
-		const int& n_cols = get_column_dimension();
-		if (array.size() != n_cols)
+		const int n_cols = get_column_dimension();
+		if (arr.size() != n_cols)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, 1, array.size(), 1, n_cols);
@@ -1466,18 +1476,18 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const int i_block = row / BLOCK_SIZE;
 		const int i_row = row - i_block * BLOCK_SIZE;
 		int out_index = 0;
-		for (int j_block = 0; j_block < block_columns; ++j_block)
+		for (int j_block {}; j_block < block_columns; ++j_block)
 		{
 			const int j_width = block_width(j_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
-			System.arraycopy(array, out_index, block, i_row * j_width, j_width);
+			System.arraycopy(arr, out_index, block, i_row * j_width, j_width);
 			out_index += j_width;
 		}
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public std::vector<T> get_column(const int column)
+	std::vector<T> get_column(const int& column)
 	{
 		check_column_index(column);
 		const std::vector<T> out = Math_Arrays::build_array(get_field(), rows);
@@ -1487,7 +1497,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const int j_column = column - j_block * BLOCK_SIZE;
 		const int j_width = block_width(j_block);
 		int out_index = 0;
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int i_height = block_height(i_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
@@ -1502,12 +1512,12 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void set_column(const int& column, const std::vector<T> array)
+	void set_column(const int& column, const std::vector<T>& arr)
 
 	{
 		check_column_index(column);
-		const int& n_rows = get_row_dimension();
-		if (array.size() != n_rows)
+		const int n_rows = get_row_dimension();
+		if (arr.size() != n_rows)
 		{
 			throw std::exception("not implemented");
 			// throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH_2x2, array.size(), 1, n_rows, 1);
@@ -1518,20 +1528,20 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const int j_column = column - j_block * BLOCK_SIZE;
 		const int j_width = block_width(j_block);
 		int out_index = 0;
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int i_height = block_height(i_block);
 			const std::vector<T> block = blocks[i_block * block_columns + j_block];
 			for (int i{}; i < i_height; ++i)
 			{
-				block[i * j_width + j_column] = array[out_index++];
+				block[i * j_width + j_column] = arr[out_index++];
 			}
 		}
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public T get_entry(const int& row, const int column)
+	T get_entry(const int& row, const int column)
 
 	{
 		check_row_index(row);
@@ -1547,7 +1557,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void set_entry(const int& row, const int& column, const T value)
+	void set_entry(const int& row, const int& column, const T value)
 
 	{
 		check_row_index(row);
@@ -1563,7 +1573,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void add_to_entry(const int& row, const int& column, const T increment)
+	void add_to_entry(const int& row, const int& column, const T increment)
 
 	{
 		check_row_index(row);
@@ -1580,7 +1590,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public void multiply_entry(const int& row, const int& column, const T factor)
+	void multiply_entry(const int& row, const int& column, const T factor)
 
 	{
 		check_row_index(row);
@@ -1597,31 +1607,31 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Matrix<T> transpose()
+	Field_Matrix<T> transpose()
 	{
 		const int& n_rows = get_row_dimension();
 		const int& n_cols = get_column_dimension();
-		const BlockField_Matrix<T> out = BlockField_Matrix<>(get_field(), n_cols, n_rows);
+		auto out = BlockField_Matrix<T>(get_field(), n_cols, n_rows);
 
 		// perform transpose block-wise, to ensure good cache behavior
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < block_columns; ++i_block)
+		int block_index {};
+		for (int i_block {}; i_block < block_columns; ++i_block)
 		{
-			for (int j_block = 0; j_block < block_rows; ++j_block)
+			for (int j_block {}; j_block < block_rows; ++j_block)
 			{
 				// transpose current block
 				const std::vector<T> out_block = out.blocks[block_index];
 				const std::vector<T> t_block = blocks[j_block * block_columns + i_block];
-				const int      p_start = i_block * BLOCK_SIZE;
-				const int      p_end = std::min(p_start + BLOCK_SIZE, columns);
-				const int      q_start = j_block * BLOCK_SIZE;
-				const int      q_end = std::min(q_start + BLOCK_SIZE, rows);
-				int k = 0;
-				for (const int& p = p_start; p < p_end; ++p)
+				const int p_start = i_block * BLOCK_SIZE;
+				const int p_end = std::min(p_start + BLOCK_SIZE, columns);
+				const int q_start = j_block * BLOCK_SIZE;
+				const int q_end = std::min(q_start + BLOCK_SIZE, rows);
+				int k{};
+				for (int p{ p_start }; p < p_end; ++p)
 				{
 					const int l_inc = p_end - p_start;
 					int l = p - p_start;
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						out_block[k] = t_block[l];
 						++k;
@@ -1639,21 +1649,21 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public int get_row_dimension()
+	int get_row_dimension()
 	{
 		return rows;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public int get_column_dimension()
+	int get_column_dimension()
 	{
 		return columns;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public std::vector<T> operate(const std::vector<T> v)
+	std::vector<T> operate(const std::vector<T> v)
 	{
 		if (v.size() != columns)
 		{
@@ -1664,17 +1674,17 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const T zero = get_field().get_zero();
 
 		// perform multiplication block-wise, to ensure good cache behavior
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
-			for (int j_block = 0; j_block < block_columns; ++j_block)
+			for (int j_block {}; j_block < block_columns; ++j_block)
 			{
 				const std::vector<T> block = blocks[i_block * block_columns + j_block];
 				const int      q_start = j_block * BLOCK_SIZE;
 				const int      q_end = std::min(q_start + BLOCK_SIZE, columns);
-				int k = 0;
-				for (const int& p = p_start; p < p_end; ++p)
+				int k{};
+				for (int p{ p_start }; p < p_end; ++p)
 				{
 					T sum = zero;
 					int q = q_start;
@@ -1702,7 +1712,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public std::vector<T> pre_multiply(const std::vector<T> v)
+	std::vector<T> pre_multiply(const std::vector<T> v)
 	{
 		if (v.size() != rows)
 		{
@@ -1713,7 +1723,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		const T zero = get_field().get_zero();
 
 		// perform multiplication block-wise, to ensure good cache behavior
-		for (int j_block = 0; j_block < block_columns; ++j_block)
+		for (int j_block {}; j_block < block_columns; ++j_block)
 		{
 			const int j_width = block_width(j_block);
 			const int j_width2 = j_width + j_width;
@@ -1721,12 +1731,12 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 			const int j_width4 = j_width3 + j_width;
 			const int q_start = j_block * BLOCK_SIZE;
 			const int q_end = std::min(q_start + BLOCK_SIZE, columns);
-			for (const int& i_block = 0; i_block < block_rows; ++i_block)
+			for (int i_block {}; i_block < block_rows; ++i_block)
 			{
 				const std::vector<T> block = blocks[i_block * block_columns + j_block];
 				const int      p_start = i_block * BLOCK_SIZE;
 				const int      p_end = std::min(p_start + BLOCK_SIZE, rows);
-				for (const int& q = q_start; q < q_end; ++q)
+				for (int q{ q_start }; q < q_end; ++q)
 				{
 					int k = q - q_start;
 					T sum = zero;
@@ -1756,23 +1766,23 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_row_order(const Field_Matrix_Changing_Visitor<T> visitor)
+	T walk_in_row_order(const Field_Matrix_Changing_Visitor<T> visitor)
 	{
 		visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
-			for (const int& p = p_start; p < p_end; ++p)
+			for (int p{ p_start }; p < p_end; ++p)
 			{
-				for (int j_block = 0; j_block < block_columns; ++j_block)
+				for (int j_block {}; j_block < block_columns; ++j_block)
 				{
 					const int j_width = block_width(j_block);
 					const int q_start = j_block * BLOCK_SIZE;
 					const int q_end = std::min(q_start + BLOCK_SIZE, columns);
 					const std::vector<T> block = blocks[i_block * block_columns + j_block];
 					int k = (p - p_start) * j_width;
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						block[k] = visitor.visit(p, q, block[k]);
 						++k;
@@ -1785,23 +1795,23 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_row_order(const Field_Matrix_Preserving_Visitor<T> visitor)
+	T walk_in_row_order(const Field_Matrix_Preserving_Visitor<T> visitor)
 	{
 		visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
-			for (const int& p = p_start; p < p_end; ++p)
+			for (int p{ p_start }; p < p_end; ++p)
 			{
-				for (int j_block = 0; j_block < block_columns; ++j_block)
+				for (int j_block {}; j_block < block_columns; ++j_block)
 				{
 					const int j_width = block_width(j_block);
 					const int q_start = j_block * BLOCK_SIZE;
 					const int q_end = std::min(q_start + BLOCK_SIZE, columns);
 					const std::vector<T> block = blocks[i_block * block_columns + j_block];
 					int k = (p - p_start) * j_width;
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						visitor.visit(p, q, block[k]);
 						++k;
@@ -1814,17 +1824,17 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_row_order(const Field_Matrix_Changing_Visitor<T> visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
+	T walk_in_row_order(const Field_Matrix_Changing_Visitor<T> visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 
 	{
 		check_sub_matrix_index(start_row, end_row, start_column, end_column);
 		visitor.start(rows, columns, start_row, end_row, start_column, end_column);
-		for (const int& i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
+		for (int i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
 		{
 			const int p0 = i_block * BLOCK_SIZE;
 			const int p_start = std::max(start_row, p0);
 			const int p_end = std::min((i_block + 1) * BLOCK_SIZE, 1 + end_row);
-			for (const int& p = p_start; p < p_end; ++p)
+			for (int p{ p_start }; p < p_end; ++p)
 			{
 				for (int j_block = start_column / BLOCK_SIZE; j_block < 1 + end_column / BLOCK_SIZE; ++j_block)
 				{
@@ -1834,7 +1844,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 					const int q_end = std::min((j_block + 1) * BLOCK_SIZE, 1 + end_column);
 					const std::vector<T> block = blocks[i_block * block_columns + j_block];
 					int k = (p - p0) * j_width + q_start - q0;
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						block[k] = visitor.visit(p, q, block[k]);
 						++k;
@@ -1847,17 +1857,17 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_row_order(const Field_Matrix_Preserving_Visitor<T> visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
+	T walk_in_row_order(const Field_Matrix_Preserving_Visitor<T> visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 
 	{
 		check_sub_matrix_index(start_row, end_row, start_column, end_column);
 		visitor.start(rows, columns, start_row, end_row, start_column, end_column);
-		for (const int& i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
+		for (int i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
 		{
 			const int p0 = i_block * BLOCK_SIZE;
 			const int p_start = std::max(start_row, p0);
 			const int p_end = std::min((i_block + 1) * BLOCK_SIZE, 1 + end_row);
-			for (const int& p = p_start; p < p_end; ++p)
+			for (int p{ p_start }; p < p_end; ++p)
 			{
 				for (int j_block = start_column / BLOCK_SIZE; j_block < 1 + end_column / BLOCK_SIZE; ++j_block)
 				{
@@ -1867,7 +1877,7 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 					const int q_end = std::min((j_block + 1) * BLOCK_SIZE, 1 + end_column);
 					const std::vector<T> block = blocks[i_block * block_columns + j_block];
 					int k = (p - p0) * j_width + q_start - q0;
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						visitor.visit(p, q, block[k]);
 						++k;
@@ -1880,23 +1890,23 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_optimized_order(const Field_Matrix_Changing_Visitor<T> visitor)
+	T walk_in_optimized_order(const Field_Matrix_Changing_Visitor<T>& visitor)
 	{
 		visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		int block_index {};
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
-			for (int j_block = 0; j_block < block_columns; ++j_block)
+			for (int j_block {}; j_block < block_columns; ++j_block)
 			{
 				const int q_start = j_block * BLOCK_SIZE;
 				const int q_end = std::min(q_start + BLOCK_SIZE, columns);
 				const std::vector<T> block = blocks[block_index];
-				int k = 0;
-				for (const int& p = p_start; p < p_end; ++p)
+				int k{};
+				for (int p{ p_start }; p < p_end; ++p)
 				{
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						block[k] = visitor.visit(p, q, block[k]);
 						++k;
@@ -1910,23 +1920,23 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_optimized_order(const Field_Matrix_Preserving_Visitor<T> visitor)
+	T walk_in_optimized_order(const Field_Matrix_Preserving_Visitor<T> visitor)
 	{
 		visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
-		int block_index = 0;
-		for (const int& i_block = 0; i_block < block_rows; ++i_block)
+		int block_index {};
+		for (int i_block {}; i_block < block_rows; ++i_block)
 		{
 			const int p_start = i_block * BLOCK_SIZE;
 			const int p_end = std::min(p_start + BLOCK_SIZE, rows);
-			for (int j_block = 0; j_block < block_columns; ++j_block)
+			for (int j_block {}; j_block < block_columns; ++j_block)
 			{
 				const int q_start = j_block * BLOCK_SIZE;
 				const int q_end = std::min(q_start + BLOCK_SIZE, columns);
 				const std::vector<T> block = blocks[block_index];
-				int k = 0;
-				for (const int& p = p_start; p < p_end; ++p)
+				int k{};
+				for (int p{ p_start }; p < p_end; ++p)
 				{
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						visitor.visit(p, q, block[k]);
 						++k;
@@ -1940,12 +1950,11 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_optimized_order(const Field_Matrix_Changing_Visitor<T> visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
-
+	T walk_in_optimized_order(const Field_Matrix_Changing_Visitor<T> visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 	{
 		check_sub_matrix_index(start_row, end_row, start_column, end_column);
 		visitor.start(rows, columns, start_row, end_row, start_column, end_column);
-		for (const int& i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
+		for (int i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
 		{
 			const int p0 = i_block * BLOCK_SIZE;
 			const int p_start = std::max(start_row, p0);
@@ -1957,10 +1966,10 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 				const int q_start = std::max(start_column, q0);
 				const int q_end = std::min((j_block + 1) * BLOCK_SIZE, 1 + end_column);
 				const std::vector<T> block = blocks[i_block * block_columns + j_block];
-				for (const int& p = p_start; p < p_end; ++p)
+				for (int p{ p_start }; p < p_end; ++p)
 				{
 					int k = (p - p0) * j_width + q_start - q0;
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						block[k] = visitor.visit(p, q, block[k]);
 						++k;
@@ -1973,12 +1982,11 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 
 	/** {@inherit_doc} */
 	//override
-	public T walk_in_optimized_order(const Field_Matrix_Preserving_Visitor<T> visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
-
+	T walk_in_optimized_order(const Field_Matrix_Preserving_Visitor<T>& visitor, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
 	{
 		check_sub_matrix_index(start_row, end_row, start_column, end_column);
 		visitor.start(rows, columns, start_row, end_row, start_column, end_column);
-		for (const int& i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
+		for (int i_block = start_row / BLOCK_SIZE; i_block < 1 + end_row / BLOCK_SIZE; ++i_block)
 		{
 			const int p0 = i_block * BLOCK_SIZE;
 			const int p_start = std::max(start_row, p0);
@@ -1990,10 +1998,10 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 				const int q_start = std::max(start_column, q0);
 				const int q_end = std::min((j_block + 1) * BLOCK_SIZE, 1 + end_column);
 				const std::vector<T> block = blocks[i_block * block_columns + j_block];
-				for (const int& p = p_start; p < p_end; ++p)
+				for (int p{ p_start }; p < p_end; ++p)
 				{
 					int k = (p - p0) * j_width + q_start - q0;
-					for (const int& q = q_start; q < q_end; ++q)
+					for (int q{ q_start }; q < q_end; ++q)
 					{
 						visitor.visit(p, q, block[k]);
 						++k;
@@ -2003,24 +2011,4 @@ class BlockField_Matrix : public Abstract_Field_Matrix<T>
 		}
 		return visitor.end();
 	}
-
-	/**
-	 * Get the height of a block.
-	 * @param block_row row index (in block sense) of the block
-	 * @return height (number of rows) of the block
-	 */
-	private int block_height(const int& block_row)
-	{
-		return (block_row == block_rows - 1) ? rows - block_row * BLOCK_SIZE : BLOCK_SIZE;
-	}
-
-	/**
-	 * Get the width of a block.
-	 * @param block_column column index (in block sense) of the block
-	 * @return width (number of columns) of the block
-	 */
-	private int block_width(const int& block_column)
-	{
-		return (block_column == block_columns - 1) ? columns - block_column * BLOCK_SIZE : BLOCK_SIZE;
-	}
-}
+};

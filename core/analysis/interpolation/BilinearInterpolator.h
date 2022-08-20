@@ -14,21 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- //package org.hipparchus.analysis.interpolation;
 
- //import org.hipparchus.exception.;
+#include <vector>
+#include "BivariateGridInterpolator.h"
+#include "BilinearInterpolatingFunction.hpp"
 
  /**
   * Interpolate grid data using bi-linear interpolation.
   * @since 1.4
   */
-class Bilinear_Interpolator : Bivariate_Grid_Interpolator
+class Bilinear_Interpolator : public Bivariate_Grid_Interpolator
 {
+public:
 	/** {@inherit_doc} */
 	//override
-	public Bilinear_interpolating_function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>> fval)
-
+	Bilinear_interpolating_function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<std::vector<double>>& fval)
 	{
 		return Bilinear_interpolating_function(xval, yval, fval);
 	}
-}
+};

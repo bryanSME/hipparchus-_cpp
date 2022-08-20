@@ -32,6 +32,7 @@
 #include "BracketedUnivariateSolver.hpp"
 #include "AllowedSolution.h"
 
+
 /**
  * Base class for all bracketing <em>Secant</em>-based methods for root-finding
  * (approximating a zero of a univariate real function).
@@ -58,9 +59,9 @@ private:
 	/** The <em>Secant</em>-based root-finding method to use. */
 	const Method my_method;
 
-	protected
-		/** Default absolute accuracy. */
-		static constexpr double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+protected:
+	/** Default absolute accuracy. */
+	static constexpr double DEFAULT_ABSOLUTE_ACCURACY{ 1e-6 };
 
 	/**
 	 * Construct a solver.
@@ -101,7 +102,7 @@ private:
 	 //override
 	const double do_solve()
 	{
-		return do_solve_interval().get_side(allowed);
+		return do_solve_interval().get_side(my_allowed);
 	}
 
 	/**
@@ -168,7 +169,7 @@ private:
 			}
 			else
 			{
-				switch (method)
+				switch (my_method)
 				{
 				case ILLINOIS:
 					f0 *= 0.5;
@@ -181,12 +182,14 @@ private:
 					// for the maximum number of iterations to be exceeded.
 					if (x == x1)
 					{
-						throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CONVERGENCE_FAILED);
+						throw std::exception("not implemented");
+						//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CONVERGENCE_FAILED);
 					}
 					break;
 				default:
 					// Should never happen.
-					throw Math_Runtime_Exception.create_internal_error();
+					throw std::exception("not implemented");
+					//throw Math_Runtime_Exception.create_internal_error();
 				}
 			}
 			// Update from [x0, x1] to [x0, x].
@@ -232,7 +235,10 @@ public:
 	 * @param absolute_accuracy Absolute accuracy.
 	 * @param method <em>Secant</em>-based root-finding method to use.
 	 */
-	Base_Secant_Solver(const double& absolute_accuracy, const Method& method) : my_allowed{ Allowed_Solution::ANY_SIDE }, my_method{ method }
+	Base_Secant_Solver(const double& absolute_accuracy, const Method& method) 
+		:
+		my_allowed{ Allowed_Solution::ANY_SIDE }, 
+		my_method{ method }
 	{
 		super(absolute_accuracy);
 	}
@@ -246,7 +252,7 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	double solve(const int max_eval, const Univariate_Function& f, const double& min, const double& max, const double& start_value, const Allowed_Solution& allowed_solution)
+	double solve(const int& max_eval, const Univariate_Function& f, const double& min, const double& max, const double& start_value, const Allowed_Solution& allowed_solution)
 	{
 		my_allowed = allowed_solution;
 		return super.solve(max_eval, f, min, max, start_value);
@@ -254,7 +260,7 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	double solve(const int max_eval, const Univariate_Function& f, const double& min, const double& max, const double& start_value)
+	double solve(const int& max_eval, const Univariate_Function& f, const double& min, const double& max, const double& start_value)
 	{
 		return solve(max_eval, f, min, max, start_value, Allowed_Solution::ANY_SIDE);
 	}

@@ -85,7 +85,9 @@ public:
 	 * @exception  if maximal order is lower than 2
 	 */
 	Bracketing_Nth_Order_Brent_Solver(const double& absolute_accuracy, const int& maximal_order)
-		: my_maximal_order{ maximal_order }, my_allowed{ Allowed_Solution::ANY_SIDE }
+		:
+		my_maximal_order{ maximal_order },
+		my_allowed{ Allowed_Solution::ANY_SIDE }
 	{
 		super(absolute_accuracy);
 		if (maximal_order < 2)
@@ -104,15 +106,17 @@ public:
 	 * @exception  if maximal order is lower than 2
 	 */
 	Bracketing_Nth_Order_Brent_Solver(const double& relative_accuracy, const double& absolute_accuracy, const int maximal_order)
+		:
+		my_maximal_order{ maximal_order },
+		my_allowed{ Allowed_Solution::ANY_SIDE }
+	
 	{
-		super(relative_accuracy, absolute_accuracy);
+		Abstract_Univariate_Solver(relative_accuracy, absolute_accuracy);
 		if (maximal_order < 2)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
 		}
-		this.maximal_order = maximal_order;
-		this.allowed = Allowed_Solution.ANY_SIDE;
 	}
 
 	/**
@@ -125,6 +129,9 @@ public:
 	 * @exception  if maximal order is lower than 2
 	 */
 	Bracketing_Nth_Order_Brent_Solver(const double& relative_accuracy, const double& absolute_accuracy, const double function_value_accuracy, const int maximal_order)
+		:
+		my_maximal_order{ maximal_order },
+		my_allowed{ Allowed_Solution::ANY_SIDE }
 	{
 		super(relative_accuracy, absolute_accuracy, function_value_accuracy);
 		if (maximal_order < 2)
@@ -132,8 +139,6 @@ public:
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
 		}
-		my_maximal_order = maximal_order;
-		my_allowed = Allowed_Solution.ANY_SIDE;
 	}
 
 	/** Get the maximal order.
@@ -176,7 +181,7 @@ protected:
 	 //override
 	double do_solve()
 	{
-		return do_solve_interval().get_side(allowed);
+		return do_solve_interval().get_side(my_allowed);
 	}
 
 	/**
@@ -188,16 +193,16 @@ protected:
 	Interval do_solve_interval()
 	{
 		// prepare arrays with the first points
-		auto x = std::vector<double>(my_maximal_order + 1];
-		auto y = std::vector<double>(my_maximal_order + 1];
+		auto x = std::vector<double>(my_maximal_order + 1);
+		auto y = std::vector<double>(my_maximal_order + 1);
 		x[0] = get_min();
 		x[1] = get_start_value();
 		x[2] = get_max();
 		verify_interval(x[0], x[2]);
 		if (x[1] < x[0] || x[2] < x[1])
 		{
-			throw (
-				hipparchus::exception::Localized_Core_Formats_Type::START_POINT_NOT_IN_INTERVAL, x[1], x[0], x[2]);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::START_POINT_NOT_IN_INTERVAL, x[1], x[0], x[2]);
 		}
 
 		// evaluate initial guess
@@ -248,24 +253,23 @@ protected:
 		}
 
 		// prepare a work array for inverse polynomial interpolation
-		const std::vector<double> tmp_x = std::vector<double>(x.size()];
+		auto tmp_x = std::vector<double>(x.size());
 
 		// current tightest bracketing of the root
-		double x_a = x[sign_change_index - 1];
-		double y_a = y[sign_change_index - 1];
-		double abs_ya = std::abs(y_a);
+		auto x_a = x[sign_change_index - 1];
+		auto y_a = y[sign_change_index - 1];
+		auto abs_ya = std::abs(y_a);
 		int aging_a{};
-		double x_b = x[sign_change_index];
-		double yB = y[sign_change_index];
-		double abs_y_b = std::abs(yB);
+		auto x_b = x[sign_change_index];
+		auto yB = y[sign_change_index];
+		auto abs_y_b = std::abs(yB);
 		int aging_b{};
 
 		// search loop
 		while (true)
 		{
 			// check convergence of bracketing interval
-			const double x_tol = get_absolute_accuracy() +
-				get_relative_accuracy() * std::max(std::abs(x_a), std::abs(x_b));
+			const double x_tol = get_absolute_accuracy() + get_relative_accuracy() * std::max(std::abs(x_a), std::abs(x_b));
 			if (x_b - x_a <= x_tol ||
 				std::max(abs_ya, abs_y_b) < get_function_value_accuracy() ||
 				Precision::equals(x_a, x_b, 1))
@@ -339,7 +343,7 @@ protected:
 
 			// evaluate the function at the guessed root
 			const double next_y = compute_objective_value(next_x);
-			if (next_y == 0.0 || std::abs(next_y) < get_function_value_accuracy() && allowed == Allowed_Solution.ANY_SIDE)
+			if (next_y == 0.0 || std::abs(next_y) < get_function_value_accuracy() && my_allowed == Allowed_Solution::ANY_SIDE)
 			{
 				// we have either:
 				// - an exact root, so we don't we don't need to bother about the allowed solutions setting
@@ -401,7 +405,7 @@ protected:
 				sign_change_index++;
 			}
 		}
-	}
+	};
 
 private:
 	/** Guess an x value by n<sup>th</sup> order inverse polynomial interpolation.
@@ -416,13 +420,13 @@ private:
 	 * @param end end index of the points to consider (exclusive)
 	 * @return guessed root (will be a NaN if two points share the same y)
 	 */
-	double guess_x(const double target_y, const std::vector<double> x, const std::vector<double> y, const int start, const int end)
+	double guess_x(const double& target_y, std::vector<double>& x, const std::vector<double>& y, const int& start, const int& end)
 	{
 		// compute Q Newton coefficients by divided differences
-		for (int i = start; i < end - 1; ++i)
+		for (int i{ start }; i < end - 1; ++i)
 		{
 			const int delta = i + 1 - start;
-			for (int j = end - 1; j > i; --j)
+			for (int j{ end - 1 }; j > i; --j)
 			{
 				x[j] = (x[j] - x[j - 1]) / (y[j] - y[j - delta]);
 			}
@@ -436,5 +440,5 @@ private:
 		}
 
 		return x0;
-	}
+	};
 };

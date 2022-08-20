@@ -19,13 +19,9 @@
   * This is not the original file distributed by the Apache Software Foundation
   * It has been modified by the Hipparchus project
   */
-  //package org.hipparchus.distribution.discrete;
 
-  //import org.hipparchus.exception.Localized_Core_Formats;
-  //import org.hipparchus.exception.;
-  //import org.hipparchus.special.Beta;
-  //import org.hipparchus.util.FastMath;
-  //import org.hipparchus.util.Math_Utils;
+#include <exception>
+#include <cmath>
 
   /**
    * Implementation of the binomial distribution.
@@ -33,14 +29,15 @@
    * @see <a href="http://en.wikipedia.org/wiki/Binomial_distribution">Binomial distribution (Wikipedia)</a>
    * @see <a href="http://mathworld.wolfram.com/Binomial_Distribution.html">Binomial Distribution (MathWorld)</a>
    */
-class Binomial_Distribution : Abstract_Integer_Distribution
+class Binomial_Distribution : public Abstract_Integer_Distribution
 {
-	20160320L;
+private:
 	/** The number of trials. */
-	private const int& number_of_trials;
+	const int my_number_of_trials;
 	/** The probability of success. */
-	private const double probability_of_success;
+	const double my_probability_of_success;
 
+public:
 	/**
 	 * Create a binomial distribution with the given number of trials and
 	 * probability of success.
@@ -50,8 +47,10 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 * @ if {@code trials < 0}.
 	 * @ if {@code p < 0} or {@code p > 1}.
 	 */
-	public Binomial_Distribution(const int& trials, double p)
-
+	Binomial_Distribution(const int& trials, const double& p)
+		:
+		my_probability_of_success{ p },
+		my_number_of_trials{ trials }
 	{
 		if (trials < 0)
 		{
@@ -60,9 +59,6 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 		}
 
 		Math_Utils::check_range_inclusive(p, 0, 1);
-
-		probability_of_success = p;
-		number_of_trials = trials;
 	}
 
 	/**
@@ -70,9 +66,9 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 *
 	 * @return the number of trials.
 	 */
-	public int get_number_of_trials()
+	int get_number_of_trials() const
 	{
-		return number_of_trials;
+		return my_number_of_trials;
 	}
 
 	/**
@@ -80,57 +76,51 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 *
 	 * @return the probability of success.
 	 */
-	public double get_probability_of_success()
+	double get_probability_of_success() const
 	{
-		return probability_of_success;
+		return my_probability_of_success;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double probability(const int& x)
+	double probability(const int& x)
 	{
-		const double log_probability = log_probability(x);
-		return log_probability == -INFINITY ? 0 : std::exp(log_probability);
+		const double _log_probability = log_probability(x);
+		return _log_probability == -INFINITY 
+			? 0 
+			: std::exp(_log_probability);
 	}
 
 	/** {@inherit_doc} **/
 	//override
-	public double log_probability(const int& x)
+	double log_probability(const int& x)
 	{
-		if (number_of_trials == 0)
+		if (my_number_of_trials == 0)
 		{
-			return (x == 0) ? 0. : -INFINITY;
+			return (x == 0) 
+				? 0. 
+				: -INFINITY;
 		}
-		double ret;
-		if (x < 0 || x > number_of_trials)
+		if (x < 0 || x > my_number_of_trials)
 		{
-			ret = -INFINITY;
+			return -INFINITY;
 		}
-		else
-		{
-			ret = Saddle_Point_Expansion.log_binomial_probability(x, number_of_trials, probability_of_success, 1.0 - probability_of_success);
-		}
-		return ret;
+		return Saddle_Point_Expansion::log_binomial_probability(x, my_number_of_trials, my_probability_of_success, 1.0 - my_probability_of_success);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double cumulative_probability(const int& x)
+	double cumulative_probability(const int& x)
 	{
-		double ret;
 		if (x < 0)
 		{
-			ret = 0.0;
+			return 0.0;
 		}
-		else if (x >= number_of_trials)
+		if (x >= my_number_of_trials)
 		{
-			ret = 1.0;
+			return 1.0;
 		}
-		else
-		{
-			ret = 1.0 - Beta.regularized_beta(probability_of_success, x + 1.0, number_of_trials - x);
-		}
-		return ret;
+		return 1.0 - Beta::regularized_beta(my_probability_of_success, x + 1.0, my_number_of_trials - x);
 	}
 
 	/**
@@ -140,9 +130,9 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 * {@code n * p}.
 	 */
 	 //override
-	public double get_numerical_mean() const
+	double get_numerical_mean() const
 	{
-		return number_of_trials * probability_of_success;
+		return my_number_of_trials * my_probability_of_success;
 	}
 
 	/**
@@ -152,10 +142,10 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 * {@code n * p * (1 - p)}.
 	 */
 	 //override
-	public double get_numerical_variance() const
+	double get_numerical_variance() const
 	{
-		const double p = probability_of_success;
-		return number_of_trials * p * (1 - p);
+		const double p = my_probability_of_success;
+		return my_number_of_trials * p * (1 - p);
 	}
 
 	/**
@@ -167,9 +157,11 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 * @return lower bound of the support (0 or the number of trials)
 	 */
 	 //override
-	public int get_support_lower_bound()
+	int get_support_lower_bound()
 	{
-		return probability_of_success < 1.0 ? 0 : number_of_trials;
+		return my_probability_of_success < 1.0
+			? 0
+			: my_number_of_trials;
 	}
 
 	/**
@@ -181,9 +173,11 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 * @return upper bound of the support (number of trials or 0)
 	 */
 	 //override
-	public int get_support_upper_bound()
+	int get_support_upper_bound()
 	{
-		return probability_of_success > 0.0 ? number_of_trials : 0;
+		return my_probability_of_success > 0.0
+			? my_number_of_trials
+			: 0;
 	}
 
 	/**
@@ -194,8 +188,8 @@ class Binomial_Distribution : Abstract_Integer_Distribution
 	 * @return {@code true}
 	 */
 	 //override
-	public bool is_support_connected() const
+	bool is_support_connected() const
 	{
 		return true;
 	}
-}
+};

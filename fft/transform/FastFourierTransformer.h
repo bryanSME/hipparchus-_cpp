@@ -34,6 +34,15 @@
   //import org.hipparchus.util.Math_Utils;
 #include <vector>
 #include <cmath>
+#include <complex>
+#include <assert.h>
+#include "DftNormalization.h"
+#include "TransformType.h"
+#include "../../core/util/MathArrays.h"
+#include "../../core/util/MathUtils.h"
+#include "../../core/util/ArithmeticUtils.h"
+#include "../../core/complex/Complex.h"
+#include "../../core/analysis/UnivariateFunction.h"
 
   /**
    * Implements the Fast Fourier Transform for transformation of one-dimensional
@@ -61,23 +70,25 @@ private:
 	 * {@code exp(- 2 * i * pi / n)}:
 	 * {@code W_SUB_N_R[i] = cos(2 * pi/ n)}, where {@code n = 2^i}.
 	 */
-	static const std::vector<double> W_SUB_N_R =
-	{ 0x1.0p0, -0x1.0p0, 0x1.1a62633145c07p-54, 0x1.6a09e667f3bcdp-1
-	, 0x1.d906bcf328d46p-1, 0x1.f6297cff75cbp-1, 0x1.fd88da3d12526p-1, 0x1.ff621e3796d7ep-1
-	, 0x1.ffd886084cd0dp-1, 0x1.fff62169b92dbp-1, 0x1.fffd8858e8a92p-1, 0x1.ffff621621d02p-1
-	, 0x1.ffffd88586ee6p-1, 0x1.fffff62161a34p-1, 0x1.fffffd8858675p-1, 0x1.ffffff621619cp-1
-	, 0x1.ffffffd885867p-1, 0x1.fffffff62161ap-1, 0x1.fffffffd88586p-1, 0x1.ffffffff62162p-1
-	, 0x1.ffffffffd8858p-1, 0x1.fffffffff6216p-1, 0x1.fffffffffd886p-1, 0x1.ffffffffff621p-1
-	, 0x1.ffffffffffd88p-1, 0x1.fffffffffff62p-1, 0x1.fffffffffffd9p-1, 0x1.ffffffffffff6p-1
-	, 0x1.ffffffffffffep-1, 0x1.fffffffffffffp-1, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
-	, 0x1.0p0, 0x1.0p0, 0x1.0p0 };
+	static const std::vector<double> W_SUB_N_R = 
+	{
+		0x1.0p0, -0x1.0p0, 0x1.1a62633145c07p-54, 0x1.6a09e667f3bcdp-1,
+		0x1.d906bcf328d46p-1, 0x1.f6297cff75cbp-1, 0x1.fd88da3d12526p-1, 0x1.ff621e3796d7ep-1,
+		0x1.ffd886084cd0dp-1, 0x1.fff62169b92dbp-1, 0x1.fffd8858e8a92p-1, 0x1.ffff621621d02p-1,
+		0x1.ffffd88586ee6p-1, 0x1.fffff62161a34p-1, 0x1.fffffd8858675p-1, 0x1.ffffff621619cp-1,
+		0x1.ffffffd885867p-1, 0x1.fffffff62161ap-1, 0x1.fffffffd88586p-1, 0x1.ffffffff62162p-1,
+		0x1.ffffffffd8858p-1, 0x1.fffffffff6216p-1, 0x1.fffffffffd886p-1, 0x1.ffffffffff621p-1,
+		0x1.ffffffffffd88p-1, 0x1.fffffffffff62p-1, 0x1.fffffffffffd9p-1, 0x1.ffffffffffff6p-1,
+		0x1.ffffffffffffep-1, 0x1.fffffffffffffp-1, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0,
+		0x1.0p0, 0x1.0p0, 0x1.0p0
+	};
 
 	/**
 	 * {@code W_SUB_N_I[i]} is the imaginary part of
@@ -103,7 +114,7 @@ private:
 	, -0x1.921fb54442d18p-58, -0x1.921fb54442d18p-59, -0x1.921fb54442d18p-60 };
 
 	/** The type of DFT to be performed. */
-	const Dft_Normalization normalization;
+	const Dft_Normalization my_normalization;
 
 	/**
 	 * Performs identical index bit reversal shuffles on two arrays of identical
@@ -117,7 +128,7 @@ private:
 	static void bit_reversal_shuffle2(std::vector<double> a, std::vector<double> b)
 	{
 		const int n = a.size();
-		assert b.size() == n;
+		assert(b.size() == n);
 		const int half_of_n = n >> 1;
 
 		int j = 0;
@@ -154,15 +165,15 @@ private:
 	 */
 	static void normalize_transformed_data(const std::vector<std::vector<double>> data_r_i, const Dft_Normalization normalization, const Transform_Type& type)
 	{
-		const std::vector<double> data_r = data_r_i[0];
-		const std::vector<double> data_i = data_r_i[1];
+		auto data_r = data_r_i[0];
+		auto data_i = data_r_i[1];
 		const int n = data_r.size();
-		assert data_i.size() == n;
+		assert(data_i.size() == n);
 
 		switch (normalization)
 		{
 		case STANDARD:
-			if (type == Transform_Type.INVERSE)
+			if (type == Transform_Type::INVERSE)
 			{
 				const double scale_factor = 1.0 / n;
 				for (int i{}; i < n; i++)
@@ -185,7 +196,8 @@ private:
 			// clause has been added as a safeguard if other types of
 			// normalizations are ever implemented, and the corresponding
 			// test is forgotten in the present switch.
-			throw Math_Runtime_Exception.create_internal_error();
+			throw std::exception("not implemented");
+			//throw Math_Runtime_Exception.create_internal_error();
 		}
 	}
 
@@ -197,9 +209,10 @@ public:
 		* @param normalization the type of normalization to be applied to the
 		* transformed data
 		*/
-	Fast_Fourier_Transformer(const Dft_Normalization normalization)
+	Fast_Fourier_Transformer(const Dft_Normalization& normalization)
+		:
+		my_normalization{ normalization }
 	{
-		this.normalization = normalization;
 	}
 
 	/**
@@ -218,17 +231,18 @@ public:
 	 * @ if the number of data points is not
 	 *   a power of two
 	 */
-	static void transform_in_place(const std::vector<std::vector<double>> data_r_i, const Dft_Normalization normalization, const Transform_Type& type)
+	static void transform_in_place(const std::vector<std::vector<double>>& data_r_i, const Dft_Normalization& normalization, const Transform_Type& type)
 	{
 		Math_Utils::check_dimension(data_r_i.size(), 2);
-		const std::vector<double> data_r = data_r_i[0];
-		const std::vector<double> data_i = data_r_i[1];
+		auto data_r = data_r_i[0];
+		auto data_i = data_r_i[1];
 		Math_Arrays::check_equal_length(data_r, data_i);
 
 		const int n = data_r.size();
-		if (!Arithmetic_Utils.is_power_of_two(n))
+		if (!Arithmetic_Utils::is_power_of_two(n))
 		{
-			throw (Localized_FFT_Formats.NOT_POWER_OF_TWO_CONSIDER_PADDING, static_cast<int>(n));
+			throw std::exception("not implemented");
+			//throw (Localized_FFT_Formats.NOT_POWER_OF_TWO_CONSIDER_PADDING, static_cast<int>(n));
 		}
 
 		if (n == 1)
@@ -256,9 +270,9 @@ public:
 		bit_reversal_shuffle2(data_r, data_i);
 
 		// Do 4-term DFT.
-		if (type == Transform_Type.INVERSE)
+		if (type == Transform_Type::INVERSE)
 		{
-			for (const int& i0 = 0; i0 < n; i0 += 4)
+			for (int i0 = 0; i0 < n; i0 += 4)
 			{
 				const int i1 = i0 + 1;
 				const int i2 = i0 + 2;
@@ -290,7 +304,7 @@ public:
 		}
 		else
 		{
-			for (const int& i0 = 0; i0 < n; i0 += 4)
+			for (int i0 = 0; i0 < n; i0 += 4)
 			{
 				const int i1 = i0 + 1;
 				const int i2 = i0 + 2;
@@ -321,28 +335,28 @@ public:
 			}
 		}
 
-		int last_n0 = 4;
-		int last_log_n0 = 2;
+		int last_n0{ 4 };
+		int last_log_n0{ 2 };
 		while (last_n0 < n)
 		{
 			int n0 = last_n0 << 1;
 			int log_n0 = last_log_n0 + 1;
 			double wSubN0R = W_SUB_N_R[log_n0];
 			double wSubN0I = W_SUB_N_I[log_n0];
-			if (type == Transform_Type.INVERSE)
+			if (type == Transform_Type::INVERSE)
 			{
 				wSubN0I = -wSubN0I;
 			}
 
 			// Combine even/odd transforms of size last_n0 into a transform of size N0 (last_n0 * 2).
-			for (const int& dest_even_start_index = 0; dest_even_start_index < n; dest_even_start_index += n0)
+			for (int dest_even_start_index{}; dest_even_start_index < n; dest_even_start_index += n0)
 			{
 				int dest_odd_start_index = dest_even_start_index + last_n0;
 
 				double w_sub_n0_to_r_r = 1;
 				double w_sub_n0_to_r_i = 0;
 
-				for (const int& r = 0; r < last_n0; r++)
+				for (int r{}; r < last_n0; r++)
 				{
 					double grR = data_r[dest_even_start_index + r];
 					double grI = data_i[dest_even_start_index + r];
@@ -379,11 +393,11 @@ public:
 	 * @return the complex transformed array
 	 * @ if the length of the data array is not a power of two
 	 */
-	std::vector<std::complex<double>>transform(const std::vector<double>& f, const Transform_Type& type)
+	std::vector<std::complex<double>> transform(const std::vector<double>& f, const Transform_Type& type)
 	{
-		const std::vector<std::vector<double>> data_r_i = { f.clone(), std::vector<double>(f.size()] };
-		transform_in_place(data_r_i, normalization, type);
-		return Trans_form_Utils.create_complex_array(data_r_i);
+		const std::vector<std::vector<double>> data_r_i = { f, std::vector<double>(f.size()) };
+		transform_in_place(data_r_i, my_normalization, type);
+		return Trans_form_Utils::create_complex_array(data_r_i);
 	}
 
 	/**
@@ -402,9 +416,9 @@ public:
 	 * @ if the number of sample points
 	 *   {@code n} is not a power of two
 	 */
-	std::vector<std::complex<double>>transform(const Univariate_Function& f, const double& min, const double& max, const int& n, const Transform_Type& type)
+	std::vector<std::complex<double>> transform(const Univariate_Function& f, const double& min, const double& max, const int& n, const Transform_Type& type)
 	{
-		const std::vector<double> data = Function_Utils.sample(f, min, max, n);
+		const std::vector<double> data = Function_Utils::sample(f, min, max, n);
 		return transform(data, type);
 	}
 
@@ -416,12 +430,12 @@ public:
 	 * @return the complex transformed array
 	 * @ if the length of the data array is not a power of two
 	 */
-	std::vector<std::complex<double>>transform(const std::vector<std::complex<double>>& f, const Transform_Type& type)
+	std::vector<std::complex<double>> transform(const std::vector<std::complex<double>>& f, const Transform_Type& type)
 	{
-		const std::vector<std::vector<double>> data_r_i = Trans_form_Utils.create_real_imaginary_array(f);
+		const std::vector<std::vector<double>> data_r_i = Transform_Utils::create_real_imaginary_array(f);
 
-		transform_in_place(data_r_i, normalization, type);
+		transform_in_place(data_r_i, my_normalization, type);
 
-		return Trans_form_Utils.create_complex_array(data_r_i);
+		return Trans_form_Utils::create_complex_array(data_r_i);
 	}
-}
+};

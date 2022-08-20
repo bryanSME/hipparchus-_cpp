@@ -36,32 +36,32 @@ class BaseAbstractField_Univariate_Integrator : Field_Univariate_Integrator<T>
 {
 private:
 	/** Maximum absolute error. */
-	const double absolute_accuracy;
+	const double my_absolute_accuracy;
 
 	/** Maximum relative error. */
-	const double relative_accuracy;
+	const double my_relative_accuracy;
 
 	/** minimum number of iterations */
-	const int minimal_iteration_count;
+	const int my_minimal_iteration_count;
 
 	/** The functions evaluation count. */
-	Incrementor evaluations;
+	Incrementor my_evaluations;
 
 	/** Field to which function argument and value belong. */
-	const Field<T> field;
+	const Field<T> my_field;
 
 	/** Function to integrate. */
-	Calculus_Field_Univariate_Function<T> function;
+	Calculus_Field_Univariate_Function<T> my_function;
 
 	/** Lower bound for the interval. */
-	T min;
+	T my_min;
 
 	/** Upper bound for the interval. */
-	T max;
+	T my_max;
 
 protected:
 	/** The iteration count. */
-	const Incrementor iterations;
+	const Incrementor my_iterations;
 
 	/**
 	  * Construct an integrator with given accuracies and iteration counts.
@@ -97,12 +97,15 @@ protected:
 	  * @exception  if maximal number of iterations
 	  * is lesser than or equal to the minimal number of iterations
 	  */
-	BaseAbstractField_Univariate_Integrator(const Field<T> field, const double relative_accuracy, const double& absolute_accuracy, const int minimal_iteration_count, const int maximal_iteration_count)
+	BaseAbstractField_Univariate_Integrator(const Field<T>& field, const double& relative_accuracy, const double& absolute_accuracy, const int& minimal_iteration_count, const int& maximal_iteration_count)
+		:
+		my_relative_accuracy{ relative_accuracy },
+		my_absolute_accuracy{ absolute_accuracy },
+		my_minimal_iteration_count{ minimal_iteration_count },
+		my_iterations{ Incrementor(maximal_iteration_count) },
+		my_evaluations{ Incrementor() },
+		my_field{ field }
 	{
-		// accuracy settings
-		this.relative_accuracy = relative_accuracy;
-		this.absolute_accuracy = absolute_accuracy;
-
 		// iterations count settings
 		if (minimal_iteration_count <= 0)
 		{
@@ -112,13 +115,6 @@ protected:
 		{
 			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, maximal_iteration_count, minimal_iteration_count);
 		}
-		this.minimal_iteration_count = minimal_iteration_count;
-		this.iterations = Incrementor(maximal_iteration_count);
-
-		// prepare evaluations counter, but do not set it yet
-		evaluations = Incrementor();
-
-		this.field = field;
 	}
 
 	/**
@@ -127,9 +123,9 @@ protected:
 	 * @param relative_accuracy relative accuracy of the result
 	 * @param absolute_accuracy absolute accuracy of the result
 	 */
-	BaseAbstractField_Univariate_Integrator(const Field<T> field, const double relative_accuracy, const double& absolute_accuracy)
+	BaseAbstractField_Univariate_Integrator(const Field<T>& field, const double& relative_accuracy, const double& absolute_accuracy)
 	{
-		this(field, relative_accuracy, absolute_accuracy, DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
+		BaseAbstractField_Univariate_Integrator(field, relative_accuracy, absolute_accuracy, DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
 	}
 
 	/**
@@ -142,9 +138,9 @@ protected:
 	 * @exception  if maximal number of iterations
 	 * is lesser than or equal to the minimal number of iterations
 	 */
-	BaseAbstractField_Univariate_Integrator(const Field<T> field, const int minimal_iteration_count, const int maximal_iteration_count)
+	BaseAbstractField_Univariate_Integrator(const Field<T>& field, const int& minimal_iteration_count, const int& maximal_iteration_count)
 	{
-		this(field, DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY, minimal_iteration_count, maximal_iteration_count);
+		BaseAbstractField_Univariate_Integrator(field, DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY, minimal_iteration_count, maximal_iteration_count);
 	}
 
 	/**
@@ -152,14 +148,14 @@ protected:
 	 */
 	T get_min() const
 	{
-		return min;
+		return my_min;
 	}
 	/**
 	 * @return the upper bound.
 	 */
 	T get_max() const
 	{
-		return max;
+		return my_max;
 	}
 
 	/**
@@ -188,18 +184,18 @@ protected:
 	 * @ if {@code f} is {@code NULL}.
 	 * @ if {@code min >= max}.
 	 */
-	void setup(const int& max_eval, const Calculus_Field_Univariate_Function<T> f, const T lower, const T upper)
+	void setup(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& lower, const T& upper)
 	{
 		// Checks.
 		//Math_Utils::check_not_null(f);
 		Univariate_Solver_Utils.verify_interval(lower.get_real(), upper.get_real());
 
 		// Reset.
-		min = lower;
-		max = upper;
-		function = f;
-		evaluations = evaluations.with_maximal_count(max_eval);
-		iterations.reset();
+		my_min = lower;
+		my_max = upper;
+		my_function = f;
+		my_evaluations = evaluations.with_maximal_count(max_eval);
+		my_iterations.reset();
 	}
 
 	/**
@@ -214,22 +210,21 @@ protected:
 	 */
 	virtual T do_integrate()
 	{
-		Math_Illegal_State_Exception;
 	}
 
 public:
 
 	/** Default absolute accuracy. */
-	static const double DEFAULT_ABSOLUTE_ACCURACY = 1.0e-15;
+	static constexpr double DEFAULT_ABSOLUTE_ACCURACY{ 1.0e-15 };
 
 	/** Default relative accuracy. */
-	static const double DEFAULT_RELATIVE_ACCURACY = 1.0e-6;
+	static constexpr double DEFAULT_RELATIVE_ACCURACY{ 1.0e-6 };
 
 	/** Default minimal iteration count. */
-	static const int DEFAULT_MIN_ITERATIONS_COUNT = 3;
+	static constexpr int DEFAULT_MIN_ITERATIONS_COUNT{ 3 };
 
 	/** Default maximal iteration count. */
-	static const int DEFAULT_MAX_ITERATIONS_COUNT = std::numeric_limits<int>::max();
+	static constexpr int DEFAULT_MAX_ITERATIONS_COUNT{ std::numeric_limits<int>::max() };
 
 	/** Get the field to which function argument and value belong.
 	 * @return field to which function argument and value belong
@@ -243,47 +238,47 @@ public:
 	//override
 	double get_relative_accuracy() const
 	{
-		return relative_accuracy;
+		return my_relative_accuracy;
 	}
 
 	/** {@inherit_doc} */
 	//override
 	double get_absolute_accuracy() const
 	{
-		return absolute_accuracy;
+		return my_absolute_accuracy;
 	}
 
 	/** {@inherit_doc} */
 	//override
 	int get_minimal_iteration_count() const
 	{
-		return minimal_iteration_count;
+		return my_minimal_iteration_count;
 	}
 
 	/** {@inherit_doc} */
 	//override
 	int get_maximal_iteration_count()
 	{
-		return iterations.get_maximal_count();
+		return my_iterations.get_maximal_count();
 	}
 
 	/** {@inherit_doc} */
 	//override
 	int get_evaluations() const
 	{
-		return evaluations.get_count();
+		return my_evaluations.get_count();
 	}
 
 	/** {@inherit_doc} */
 	//override
 	int get_iterations()
 	{
-		return iterations.get_count();
+		return my_iterations.get_count();
 	}
 
 	/** {@inherit_doc} */
 	//override
-	T integrate(const int& max_eval, const Calculus_Field_Univariate_Function<T> f, const T lower, const T upper)
+	T integrate(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& lower, const T& upper)
 	{
 		// Initialization.
 		setup(max_eval, f, lower, upper);

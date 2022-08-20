@@ -30,5 +30,5 @@ enum Transform_Type
 	/** The type to be specified for forward transforms. */
 	FORWARD,
 	/** The type to be specified for inverse transforms. */
-	INVERSE;
-}
+	INVERSE
+};

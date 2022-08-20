@@ -30,28 +30,30 @@
   /**
    * Base class with default implementations for common methods.
    */
-virtual class Base_Random_Generator : Random_Generator
+virtual class Base_Random_Generator : public Random_Generator
 {
+private:
 	/** Next gaussian. */
-	private double next_gaussian = std::numeric_limits<double>::quiet_NaN();
+	double my_next_gaussian = std::numeric_limits<double>::quiet_NaN();
 
+public:
 	/** {@inherit_doc} */
 	//override
-	public void set_seed(const int& seed)
+	void set_seed(const int& seed)
 	{
 		set_seed(new std::vector<int>{ seed });
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public void set_seed(long seed)
+	void set_seed(const long& seed)
 	{
 		set_seed(new std::vector<int>{ static_cast<int>((seed >> > 32), static_cast<int>((seed & 0xffffffffL) });
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public int next_int(const int& n) Illegal_Argument_Exception
+	int next_int(const int& n)
 	{
 		if (n <= 0)
 		{
@@ -75,7 +77,7 @@ virtual class Base_Random_Generator : Random_Generator
 
 	/** {@inherit_doc} */
 	//override
-	public long next_long(long n)
+	long next_long(const long& n)
 	{
 		if (n <= 0)
 		{
@@ -95,10 +97,10 @@ virtual class Base_Random_Generator : Random_Generator
 
 	/** {@inherit_doc} */
 	//override
-	public double next_gaussian()
+	double next_gaussian()
 	{
 		const double random;
-		if (std::isnan(next_gaussian))
+		if (std::isnan(my_next_gaussian))
 		{
 			// generate a pair of gaussian numbers
 			const double x = next_double();
@@ -107,31 +109,32 @@ virtual class Base_Random_Generator : Random_Generator
 			const double r = std::sqrt(-2 * std::log(y));
 			const Sin_Cos sc_alpha = Sin_Cos(alpha);
 			random = r * sc_alpha.cos();
-			next_gaussian = r * sc_alpha.sin();
+			my_next_gaussian = r * sc_alpha.sin();
 		}
 		else
 		{
 			// use the second element of the pair already generated
-			random = next_gaussian;
-			next_gaussian = std::numeric_limits<double>::quiet_NaN();
+			random = my_next_gaussian;
+			my_next_gaussian = std::numeric_limits<double>::quiet_NaN();
 		}
 
 		return random;
 	}
 
+	/** {@inherit_doc} */
+	//override
+	std::string to_string() const
+	{
+		return get_class().get_name();
+	}
+
+protected:
 	/**
 	 * Clears the cache used by the default implementation of
 	 * {@link #next_gaussian}.
 	 */
-	protected void clear_cache()
+	void clear_cache()
 	{
-		next_gaussian = std::numeric_limits<double>::quiet_NaN();
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public std::string to_string() const
-	{
-		return get_class().get_name();
+		my_next_gaussian = std::numeric_limits<double>::quiet_NaN();
 	}
 }

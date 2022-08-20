@@ -30,6 +30,8 @@
   //import org.hipparchus.util.Incrementor;
   //import org.hipparchus.util.Math_Utils;
 #include "UnivariateIntegrator.h"
+#include "../solvers/UnivariateSolver.h"
+#include "../../util/Incrementor.hpp"
 
   /**
    * Provide a default implementation for several generic functions.
@@ -37,42 +39,46 @@
    */
 class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 {
+public:
 	/** Default absolute accuracy. */
-	public static const double DEFAULT_ABSOLUTE_ACCURACY = 1.0e-15;
+	static constexpr double DEFAULT_ABSOLUTE_ACCURACY{ 1.0e-15 };
 
 	/** Default relative accuracy. */
-	public static const double DEFAULT_RELATIVE_ACCURACY = 1.0e-6;
+	static constexpr double DEFAULT_RELATIVE_ACCURACY{ 1.0e-6 };
 
 	/** Default minimal iteration count. */
-	public static const int DEFAULT_MIN_ITERATIONS_COUNT = 3;
+	static constexpr int DEFAULT_MIN_ITERATIONS_COUNT{ 3 };
 
 	/** Default maximal iteration count. */
-	public static const int DEFAULT_MAX_ITERATIONS_COUNT = std::numeric_limits<int>::max();
+	static constexpr int DEFAULT_MAX_ITERATIONS_COUNT{ std::numeric_limits<int>::max() };
 
+protected:
 	/** The iteration count. */
-	protected const Incrementor iterations;
+	const Incrementor iterations;
 
+private:
 	/** Maximum absolute error. */
-	private const double& absolute_accuracy;
+	const double my_absolute_accuracy;
 
 	/** Maximum relative error. */
-	private const double relative_accuracy;
+	const double my_relative_accuracy;
 
 	/** minimum number of iterations */
-	private const int minimal_iteration_count;
+	const int my_minimal_iteration_count;
 
 	/** The functions evaluation count. */
-	private Incrementor evaluations;
+	Incrementor my_evaluations;
 
 	/** Function to integrate. */
-	private Univariate_Function function;
+	Univariate_Function my_function;
 
 	/** Lower bound for the interval. */
-	private double min;
+	double my_min;
 
 	/** Upper bound for the interval. */
-	private double max;
+	double my_max;
 
+protected:
 	/**
 	 * Construct an integrator with given accuracies and iteration counts.
 	 * <p>
@@ -106,26 +112,25 @@ class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 	 * @exception  if maximal number of iterations
 	 * is lesser than or equal to the minimal number of iterations
 	 */
-	protected Base_Abstract_Univariate_Integrator(const double& relative_accuracy, const double& absolute_accuracy, const int minimal_iteration_count, const int maximal_iteration_count)
+	Base_Abstract_Univariate_Integrator(const double& relative_accuracy, const double& absolute_accuracy, const int minimal_iteration_count, const int maximal_iteration_count)
+		:
+		my_relative_accuracy{ relative_accuracy },
+		my_absolute_accuracy{ absolute_accuracy },
+		my_minimal_iteration_count{ minimal_iteration_count },
+		my_iterations{ Incrementor(maximal_iteration_count) },
+		my_evaluations{ Incrementor() }
 	{
-		// accuracy settings
-		this.relative_accuracy = relative_accuracy;
-		this.absolute_accuracy = absolute_accuracy;
-
 		// iterations count settings
 		if (minimal_iteration_count <= 0)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, minimal_iteration_count, 0);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, minimal_iteration_count, 0);
 		}
 		if (maximal_iteration_count <= minimal_iteration_count)
 		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, maximal_iteration_count, minimal_iteration_count);
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, maximal_iteration_count, minimal_iteration_count);
 		}
-		this.minimal_iteration_count = minimal_iteration_count;
-		this.iterations = Incrementor(maximal_iteration_count);
-
-		// prepare evaluations counter, but do not set it yet
-		evaluations = Incrementor();
 	}
 
 	/**
@@ -133,9 +138,9 @@ class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 	 * @param relative_accuracy relative accuracy of the result
 	 * @param absolute_accuracy absolute accuracy of the result
 	 */
-	protected Base_Abstract_Univariate_Integrator(const double& relative_accuracy, const double& absolute_accuracy)
+	Base_Abstract_Univariate_Integrator(const double& relative_accuracy, const double& absolute_accuracy)
 	{
-		this(relative_accuracy, absolute_accuracy, DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
+		Base_Abstract_Univariate_Integrator(relative_accuracy, absolute_accuracy, DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
 	}
 
 	/**
@@ -147,66 +152,24 @@ class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 	 * @exception  if maximal number of iterations
 	 * is lesser than or equal to the minimal number of iterations
 	 */
-	protected Base_Abstract_Univariate_Integrator(const int minimal_iteration_count, const int maximal_iteration_count)
+	Base_Abstract_Univariate_Integrator(const int& minimal_iteration_count, const int& maximal_iteration_count)
 	{
-		this(DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY, minimal_iteration_count, maximal_iteration_count);
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public double get_relative_accuracy()
-	{
-		return relative_accuracy;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public double get_absolute_accuracy()
-	{
-		return absolute_accuracy;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public int get_minimal_iteration_count()
-	{
-		return minimal_iteration_count;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public int get_maximal_iteration_count()
-	{
-		return iterations.get_maximal_count();
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public int get_evaluations()
-	{
-		return evaluations.get_count();
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public int get_iterations()
-	{
-		return iterations.get_count();
+		Base_Abstract_Univariate_Integrator(DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY, minimal_iteration_count, maximal_iteration_count);
 	}
 
 	/**
 	 * @return the lower bound.
 	 */
-	protected double get_min()
+	double get_min() const
 	{
-		return min;
+		return my_min;
 	}
 	/**
 	 * @return the upper bound.
 	 */
-	protected double get_max()
+	double get_max() const
 	{
-		return max;
+		return my_max;
 	}
 
 	/**
@@ -217,11 +180,10 @@ class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 	 * @Math_Illegal_State_Exception if the maximal number of function
 	 * evaluations is exceeded.
 	 */
-	protected double compute_objective_value(const double point)
-		Math_Illegal_State_Exception
+	double compute_objective_value(const double& point)
 	{
-		evaluations.increment();
-		return function.value(point);
+		my_evaluations.increment();
+		return my_function.value(point);
 	}
 
 	/**
@@ -236,29 +198,18 @@ class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 	 * @ if {@code f} is {@code NULL}.
 	 * @ if {@code min >= max}.
 	 */
-	protected void setup(const int max_eval, const Univariate_Function& f, const double lower, const double upper)
+	void setup(const int max_eval, const Univariate_Function& f, const double& lower, const double& upper)
 	{
 		// Checks.
 		//Math_Utils::check_not_null(f);
-		Univariate_Solver_Utils.verify_interval(lower, upper);
+		Univariate_Solver_Utils::verify_interval(lower, upper);
 
 		// Reset.
-		min = lower;
-		max = upper;
-		function = f;
-		evaluations = evaluations.with_maximal_count(max_eval);
-		iterations.reset();
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public double integrate(const int max_eval, const Univariate_Function& f, const double lower, const double upper)
-	{
-		// Initialization.
-		setup(max_eval, f, lower, upper);
-
-		// Perform computation.
-		return do_integrate();
+		my_min = lower;
+		my_max = upper;
+		my_function = f;
+		my_evaluations = my_evaluations.with_maximal_count(max_eval);
+		my_iterations.reset();
 	}
 
 	/**
@@ -271,5 +222,59 @@ class Base_Abstract_Univariate_Integrator : public Univariate_Integrator
 	 * @Math_Illegal_State_Exception if the maximum iteration count is exceeded
 	 * or the integrator detects convergence problems otherwise
 	 */
-	protected virtual double do_integrate()
+	virtual double do_integrate();
+
+public:
+	/** {@inherit_doc} */
+	//override
+	double get_relative_accuracy() const
+	{
+		return my_relative_accuracy;
+	}
+
+	/** {@inherit_doc} */
+	//override
+	double get_absolute_accuracy() const
+	{
+		return my_absolute_accuracy;
+	}
+
+	/** {@inherit_doc} */
+	//override
+	int get_minimal_iteration_count() const
+	{
+		return my_minimal_iteration_count;
+	}
+
+	/** {@inherit_doc} */
+	//override
+	int get_maximal_iteration_count()
+	{
+		return iterations.get_maximal_count();
+	}
+
+	/** {@inherit_doc} */
+	//override
+	int get_evaluations()
+	{
+		return my_evaluations.get_count();
+	}
+
+	/** {@inherit_doc} */
+	//override
+	int get_iterations()
+	{
+		return my_iterations.get_count();
+	}
+
+	/** {@inherit_doc} */
+	//override
+	double integrate(const int& max_eval, const Univariate_Function& f, const double& lower, const double& upper)
+	{
+		// Initialization.
+		setup(max_eval, f, lower, upper);
+
+		// Perform computation.
+		return do_integrate();
+	}
 };
