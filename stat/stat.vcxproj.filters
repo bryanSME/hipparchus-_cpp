@@ -267,5 +267,8 @@
     <ClInclude Include="package-info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="descriptive\moment\Direction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

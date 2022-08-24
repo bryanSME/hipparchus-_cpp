@@ -35,6 +35,8 @@
 #include <vector>
 #include "RealVector.h"
 #include "RealVectorFormat.h"
+#include "RealVectorPreservingVisitor.h"
+
 
 /**
  * This class : the {@link Real_Vector} interface with a double array.
@@ -43,7 +45,7 @@ class Array_Real_Vector : public Real_Vector
 {
 private:
 	/** Default format. */
-	static const Real_Vector_Format DEFAULT_FORMAT = Real_Vector_Format.get_real_vector__format();
+	static const Real_Vector_Format DEFAULT_FORMAT = Real_Vector_Format::get_real_vector_format();
 
 	/** Entries of the vector. */
 	std::vector<double> my_data;
@@ -72,7 +74,7 @@ protected:
 	 //override
 	void check_vector_dimensions(const int& n)
 	{
-		if (data.size() != n)
+		if (my_data.size() != n)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, my_data.size(), n);
@@ -102,7 +104,7 @@ public:
 	 * @param size Size of the vector
 	 * @param preset All entries will be set with this value.
 	 */
-	Array_Real_Vector(const int& size, const double& preset) : my_data{ std::vector<double>(size, preset); } {};
+	Array_Real_Vector(const int& size, const double& preset) : my_data{ std::vector<double>(size, preset) } {};
 
 	/**
 	 * Construct a vector from an array, copying the input array.
@@ -126,7 +128,9 @@ public:
 	 */
 	Array_Real_Vector(const std::vector<double>& d, const bool copy_array)
 	{
-		my_data = copy_array ? d.clone() : d;
+		my_data = copy_array
+			? d.clone()
+			: d;
 	}
 
 	/**
@@ -139,7 +143,7 @@ public:
 	 * @ if the size of {@code d} is less
 	 * than {@code pos + size}.
 	 */
-	Array_Real_Vector(std::vector<double> d, int pos, int size)
+	Array_Real_Vector(const std::vector<double>& d, const int& pos, const int& size)
 	{
 		if (d == NULL)
 		{
@@ -177,7 +181,7 @@ public:
 			throw std::exception("not implemented");
 			// throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, pos + size, d.size());
 		}
-		my_data = std::vector<double>(size];
+		my_data = std::vector<double>(size);
 		for (int i = pos; i < pos + size; i++)
 		{
 			my_data[i - pos] = d[i].double_value();
@@ -207,7 +211,7 @@ public:
 	 */
 	Array_Real_Vector(const Array_Real_Vector& v)
 	{
-		this(v, true);
+		Array_Real_Vector(v, true);
 	}
 
 	/**
@@ -231,7 +235,7 @@ public:
 	 */
 	Array_Real_Vector(const Array_Real_Vector& v1, const Array_Real_Vector& v2)
 	{
-		my_data = std::vector<double>(v1.data.size() + v2.data.size()];
+		my_data = std::vector<double>(v1.data.size() + v2.data.size());
 		System.arraycopy(v1.data, 0, my_data, 0, v1.data.size());
 		System.arraycopy(v2.data, 0, my_data, v1.data.size(), v2.data.size());
 	}
@@ -245,7 +249,7 @@ public:
 	{
 		const int l1 = v1.data.size();
 		const int l2 = v2.get_dimension();
-		my_data = std::vector<double>(l1 + l2];
+		my_data = std::vector<double>(l1 + l2);
 		System.arraycopy(v1.data, 0, my_data, 0, l1);
 		for (int i{}; i < l2; ++i)
 		{
@@ -258,11 +262,11 @@ public:
 	 * @param v1 First vector (will be put in front of the vector).
 	 * @param v2 Second vector (will be put at back of the vector).
 	 */
-	Array_Real_Vector(Real_Vector v1, Array_Real_Vector v2)
+	Array_Real_Vector(const Real_Vector& v1, const Array_Real_Vector& v2)
 	{
 		const int l1 = v1.get_dimension();
 		const int l2 = v2.data.size();
-		my_data = std::vector<double>(l1 + l2];
+		my_data = std::vector<double>(l1 + l2);
 		for (int i{}; i < l1; ++i)
 		{
 			my_data[i] = v1.get_entry(i);
@@ -275,11 +279,11 @@ public:
 	 * @param v1 First vector (will be put in front of the vector).
 	 * @param v2 Second vector (will be put at back of the vector).
 	 */
-	Array_Real_Vector(const Array_Real_Vector& v1, std::vector<double> v2)
+	Array_Real_Vector(const Array_Real_Vector& v1, const std::vector<double>& v2)
 	{
 		const int l1 = v1.get_dimension();
 		const int l2 = v2.size();
-		my_data = std::vector<double>(l1 + l2];
+		my_data = std::vector<double>(l1 + l2);
 		System.arraycopy(v1.data, 0, my_data, 0, l1);
 		System.arraycopy(v2, 0, my_data, l1, l2);
 	}
@@ -289,11 +293,11 @@ public:
 	 * @param v1 First vector (will be put in front of the vector).
 	 * @param v2 Second vector (will be put at back of the vector).
 	 */
-	Array_Real_Vector(std::vector<double> v1, Array_Real_Vector v2)
+	Array_Real_Vector(const std::vector<double>& v1, const Array_Real_Vector& v2)
 	{
 		const int l1 = v1.size();
 		const int l2 = v2.get_dimension();
-		my_data = std::vector<double>(l1 + l2];
+		my_data = std::vector<double>(l1 + l2);
 		System.arraycopy(v1, 0, my_data, 0, l1);
 		System.arraycopy(v2.data, 0, my_data, l1, l2);
 	}
@@ -303,11 +307,11 @@ public:
 	 * @param v1 first vector (will be put in front of the vector)
 	 * @param v2 second vector (will be put at back of the vector)
 	 */
-	Array_Real_Vector(std::vector<double> v1, std::vector<double> v2)
+	Array_Real_Vector(const std::vector<double>& v1, const std::vector<double>& v2)
 	{
 		const int l1 = v1.size();
 		const int l2 = v2.size();
-		my_data = std::vector<double>(l1 + l2];
+		my_data = std::vector<double>(l1 + l2);
 		System.arraycopy(v1, 0, my_data, 0, l1);
 		System.arraycopy(v2, 0, my_data, l1, l2);
 	}
@@ -316,7 +320,7 @@ public:
 	//override
 	Array_Real_Vector copy()
 	{
-		return Array_Real_Vector(this, true);
+		return Array_Real_Vector(*this, true);
 	}
 
 	/** {@inherit_doc} */
@@ -325,11 +329,11 @@ public:
 	{
 		if (v instanceof Array_Real_Vector)
 		{
-			const std::vector<double>& v_data = ((Array_Real_Vector)v).data;
-			const int dim = v_data.size();
+			const auto v_data = static_cast<Array_Real_Vector>(v).data;
+			const auto dim = v_data.size();
 			check_vector_dimensions(dim);
 			Array_Real_Vector result = Array_Real_Vector(dim);
-			std::vector<double> result_data = result.data;
+			auto result_data = result.data;
 			for (int i{}; i < dim; i++)
 			{
 				result_data[i] = my_data[i] + v_data[i];
@@ -354,7 +358,7 @@ public:
 	{
 		if (v instanceof Array_Real_Vector)
 		{
-			const std::vector<double>& v_data = ((Array_Real_Vector)v).data;
+			const auto v_data = static_cast<Array_Real_Vector>(v).data;
 			const int dim = v_data.size();
 			check_vector_dimensions(dim);
 			Array_Real_Vector result = Array_Real_Vector(dim);
@@ -367,7 +371,7 @@ public:
 		}
 
 		check_vector_dimensions(v);
-		std::vector<double> out = my_data.clone();
+		auto out = my_data.clone();
 		Iterator<Entry> it = v.iterator();
 		while (it.has_next())
 		{
@@ -379,20 +383,20 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	Array_Real_Vector map(Univariate_Function function)
+	Array_Real_Vector map(const Univariate_Function& function)
 	{
 		return copy().map_to_self(function);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	Array_Real_Vector map_to_self(Univariate_Function function)
+	Array_Real_Vector map_to_self(const Univariate_Function& function)
 	{
 		for (int i{}; i < my_data.size(); i++)
 		{
 			my_data[i] = function.value(data[i]);
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
@@ -403,7 +407,7 @@ public:
 		{
 			my_data[i] += d;
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
@@ -414,7 +418,7 @@ public:
 		{
 			my_data[i] -= d;
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
@@ -425,7 +429,7 @@ public:
 		{
 			my_data[i] *= d;
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
@@ -436,7 +440,7 @@ public:
 		{
 			my_data[i] /= d;
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
@@ -681,7 +685,8 @@ public:
 		}
 		catch (Index_Out_Of_Bounds_Exception e)
 		{
-			throw (e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
+			throw std::exception("not implemented");
+			//throw (e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
 		}
 	}
 
@@ -698,10 +703,10 @@ public:
 	{
 		if (v instanceof Array_Real_Vector)
 		{
-			return Array_Real_Vector(this, (Array_Real_Vector)v);
+			return Array_Real_Vector(*this, (Array_Real_Vector)v);
 		}
 
-		return Array_Real_Vector(this, v);
+		return Array_Real_Vector(*this, v);
 	}
 
 	/**
@@ -710,16 +715,16 @@ public:
 	 * @param v Vector to append to this one.
 	 * @return a vector.
 	 */
-	Array_Real_Vector append(Array_Real_Vector v)
+	Array_Real_Vector append(const Array_Real_Vector& v)
 	{
-		return Array_Real_Vector(this, v);
+		return Array_Real_Vector(*this, v);
 	}
 
 	/** {@inherit_doc} */
 	//override
 	Real_Vector append(double in)
 	{
-		auto out = std::vector<double>(data.size() + 1];
+		auto out = std::vector<double>(data.size() + 1);
 		System.arraycopy(data, 0, out, 0, my_data.size());
 		out[data.size()] = in;
 		return Array_Real_Vector(out, false);
@@ -727,14 +732,14 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	Real_Vector get_sub_vector(const int& index, int n)
+	Real_Vector get_sub_vector(const int& index, const int& n)
 	{
 		if (n < 0)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
 		}
-		Array_Real_Vector out = Array_Real_Vector(n);
+		auto out = Array_Real_Vector(n);
 		try
 		{
 			System.arraycopy(data, index, out.data, 0, n);
@@ -771,7 +776,8 @@ public:
 		}
 		catch (Index_Out_Of_Bounds_Exception e)
 		{
-			throw (e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, my_data.size() - 1);
+			throw std::exception("not implemented");
+			//throw (e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, my_data.size() - 1);
 		}
 	}
 
@@ -839,7 +845,7 @@ public:
 	//override
 	std::string to_string() const
 	{
-		return DEFAULT_FORMAT.format(this);
+		return DEFAULT_FORMAT.format(*this);
 	}
 
 	/**
@@ -875,7 +881,7 @@ public:
 			return false;
 		}
 
-		for (double v : my_data)
+		for (const auto& v : my_data)
 		{
 			if (std::isinf(v))
 			{
@@ -888,9 +894,9 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	bool equals(Object other)
+	bool equals(const Object& other)
 	{
-		if (this == other)
+		if (*this == other)
 		{
 			return true;
 		}
@@ -908,7 +914,7 @@ public:
 
 		if (rhs.is_nan())
 		{
-			return this.is_nan();
+			return is_nan();
 		}
 
 		for (int i{}; i < my_data.size(); ++i)
@@ -925,7 +931,7 @@ public:
 	 * {@inherit_doc} All {@code NaN} values have the same hash code.
 	 */
 	 //override
-	int hash_code()
+	int hash_code() const
 	{
 		if (is_nan())
 		{
@@ -936,20 +942,20 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	Array_Real_Vector combine(const double& a, double b, Real_Vector y)
+	Array_Real_Vector combine(const double& a, const double& b, const Real_Vector& y)
 	{
 		return copy().combine_to_self(a, b, y);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	Array_Real_Vector combine_to_self(const double& a, double b, Real_Vector y)
+	Array_Real_Vector combine_to_self(const double& a, const double& b, const Real_Vector& y)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*y) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*y) != nullptr)
 		{
 			const std::vector<double> y_data = ((Array_Real_Vector)y).data;
 			check_vector_dimensions(y_data.size());
-			for (int i{}; i < this.data.size(); i++)
+			for (int i{}; i < *this.data.size(); i++)
 			{
 				my_data[i] = a * my_data[i] + b * y_data[i];
 			}
@@ -957,17 +963,17 @@ public:
 		else
 		{
 			check_vector_dimensions(y);
-			for (int i{}; i < this.data.size(); i++)
+			for (int i{}; i < *this.data.size(); i++)
 			{
 				my_data[i] = a * my_data[i] + b * y.get_entry(i);
 			}
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	double walk_in_default_order(const Real_Vector_Preserving_Visitor visitor)
+	double walk_in_default_order(const Real_Vector_Preserving_Visitor& visitor)
 	{
 		visitor.start(data.size(), 0, my_data.size() - 1);
 		for (int i{}; i < my_data.size(); i++)
@@ -979,11 +985,11 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	double walk_in_default_order(const Real_Vector_Preserving_Visitor visitor, const int start, const int end)
+	double walk_in_default_order(const Real_Vector_Preserving_Visitor& visitor, const int& start, const int& end)
 	{
 		check_indices(start, end);
 		visitor.start(data.size(), start, end);
-		for (int i = start; i <= end; i++)
+		for (int i{ start }; i <= end; i++)
 		{
 			visitor.visit(i, my_data[i]);
 		}
@@ -996,7 +1002,7 @@ public:
 	 * In this implementation, the optimized order is the default order.
 	 */
 	 //override
-	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor visitor)
+	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor& visitor)
 	{
 		return walk_in_default_order(visitor);
 	}
@@ -1007,14 +1013,14 @@ public:
 	 * In this implementation, the optimized order is the default order.
 	 */
 	 //override
-	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor visitor, const int start, const int end)
+	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor& visitor, const int& start, const int& end)
 	{
 		return walk_in_default_order(visitor, start, end);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	double walk_in_default_order(const Real_Vector_Changing_Visitor visitor)
+	double walk_in_default_order(const Real_Vector_Changing_Visitor& visitor)
 	{
 		visitor.start(data.size(), 0, my_data.size() - 1);
 		for (int i{}; i < my_data.size(); i++)
@@ -1026,7 +1032,7 @@ public:
 
 	/** {@inherit_doc} */
 	//override
-	double walk_in_default_order(const Real_Vector_Changing_Visitor& visitor, const int start, const int end)
+	double walk_in_default_order(const Real_Vector_Changing_Visitor& visitor, const int& start, const int& end)
 	{
 		check_indices(start, end);
 		visitor.start(data.size(), start, end);
@@ -1043,7 +1049,7 @@ public:
 	 * In this implementation, the optimized order is the default order.
 	 */
 	 //override
-	double walk_in_optimized_order(const Real_Vector_Changing_Visitor visitor)
+	double walk_in_optimized_order(const Real_Vector_Changing_Visitor& visitor)
 	{
 		return walk_in_default_order(visitor);
 	}
@@ -1054,7 +1060,7 @@ public:
 	 * In this implementation, the optimized order is the default order.
 	 */
 	 //override
-	double walk_in_optimized_order(const Real_Vector_Changing_Visitor& visitor, const int start, const int end)
+	double walk_in_optimized_order(const Real_Vector_Changing_Visitor& visitor, const int& start, const int& end)
 	{
 		return walk_in_default_order(visitor, start, end);
 	}

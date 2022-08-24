@@ -20,6 +20,9 @@
   * It has been modified by the Hipparchus project
   */
   //package org.hipparchus.distribution.continuous;
+#include "GammaDistribution.h"
+#include "AbstractRealDistribution.h"
+#include "ChiSquaredDistribution.h"
 
   /**
    * Implementation of the chi-squared distribution.
@@ -27,21 +30,21 @@
    * @see <a href="http://en.wikipedia.org/wiki/Chi-squared_distribution">Chi-squared distribution (Wikipedia)</a>
    * @see <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">Chi-squared Distribution (MathWorld)</a>
    */
-class Chi_Squared_Distribution extends Abstract_Real_Distribution
+class Chi_Squared_Distribution : public Abstract_Real_Distribution
 {
-	/** Serializable version identifier */
-	20160320L;
+private:
 	/** Internal Gamma distribution. */
-	private const Gamma_Distribution gamma;
+	const Gamma_Distribution my_gamma;
 
+public:
 	/**
 	 * Create a Chi-Squared distribution with the given degrees of freedom.
 	 *
 	 * @param degrees_of_freedom Degrees of freedom.
 	 */
-	public Chi_Squared_Distribution(double degrees_of_freedom)
+	Chi_Squared_Distribution(const double& degrees_of_freedom)
 	{
-		this(degrees_of_freedom, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
+		Chi_Squared_Distribution(degrees_of_freedom, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
 	}
 
 	/**
@@ -53,11 +56,11 @@ class Chi_Squared_Distribution extends Abstract_Real_Distribution
 	 * cumulative probability estimates (defaults to
 	 * {@link #DEFAULT_SOLVER_ABSOLUTE_ACCURACY}).
 	 */
-	public Chi_Squared_Distribution(double degrees_of_freedom, double inverse_cum_accuracy)
+	Chi_Squared_Distribution(const double& degrees_of_freedom, const double& inverse_cum_accuracy)
 	{
-		super(inverse_cum_accuracy);
+		Abstract_Real_Distribution(inverse_cum_accuracy);
 
-		gamma = Gamma_Distribution(degrees_of_freedom / 2, 2);
+		my_gamma = Gamma_Distribution(degrees_of_freedom / 2, 2);
 	}
 
 	/**
@@ -65,30 +68,30 @@ class Chi_Squared_Distribution extends Abstract_Real_Distribution
 	 *
 	 * @return the degrees of freedom.
 	 */
-	public double get_degrees_of_freedom()
+	double get_degrees_of_freedom()
 	{
-		return gamma.get_shape() * 2.0;
+		return my_gamma.get_shape() * 2.0;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double density(double x)
+	double density(const double& x)
 	{
-		return gamma.density(x);
+		return my_gamma.density(x);
 	}
 
 	/** {@inherit_doc} **/
 	//override
-	public double log_density(double x)
+	double log_density(double x)
 	{
-		return gamma.log_density(x);
+		return my_gamma.log_density(x);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double cumulative_probability(const double& x)
+	double cumulative_probability(const double& x)
 	{
-		return gamma.cumulative_probability(x);
+		return my_gamma.cumulative_probability(x);
 	}
 
 	/**
@@ -97,7 +100,7 @@ class Chi_Squared_Distribution extends Abstract_Real_Distribution
 	 * For {@code k} degrees of freedom, the mean is {@code k}.
 	 */
 	 //override
-	public double get_numerical_mean() const
+	double get_numerical_mean() const
 	{
 		return get_degrees_of_freedom();
 	}
@@ -108,7 +111,7 @@ class Chi_Squared_Distribution extends Abstract_Real_Distribution
 	 * @return {@code 2 * k}, where {@code k} is the number of degrees of freedom.
 	 */
 	 //override
-	public double get_numerical_variance() const
+	double get_numerical_variance() const
 	{
 		return 2 * get_degrees_of_freedom();
 	}
@@ -122,7 +125,7 @@ class Chi_Squared_Distribution extends Abstract_Real_Distribution
 	 * @return zero.
 	 */
 	 //override
-	public double get_support_lower_bound() const
+	double get_support_lower_bound() const
 	{
 		return 0;
 	}
@@ -136,7 +139,7 @@ class Chi_Squared_Distribution extends Abstract_Real_Distribution
 	 * @return {@code INFINITY}.
 	 */
 	 //override
-	public double get_support_upper_bound() const
+	double get_support_upper_bound() const
 	{
 		return INFINITY;
 	}
@@ -149,8 +152,8 @@ class Chi_Squared_Distribution extends Abstract_Real_Distribution
 	 * @return {@code true}
 	 */
 	 //override
-	public bool is_support_connected() const
+	bool is_support_connected() const
 	{
 		return true;
 	}
-}
+};

@@ -32,6 +32,7 @@
   //import org.hipparchus.util.Math_Arrays;
   //import org.hipparchus.util.Math_Utils;
   //import org.hipparchus.util.std::pair;
+#include <vector>
 #include "AbstractRealDistribution.h"
 #include "../EnumeratedDistribution.hpp"
 #include "../../util/MathArrays.h"
@@ -46,7 +47,7 @@
  * Duplicate values are allowed. Probabilities of duplicate values are
  * combined when computing cumulative probabilities and statistics.
  */
-class Enumerated_Real_Distribution : Abstract_Real_Distribution
+class Enumerated_Real_Distribution : public Abstract_Real_Distribution
 {
 private:
 	/**
@@ -85,9 +86,9 @@ public:
 	 */
 	Enumerated_Real_Distribution(const std::vector<double>& data)
 	{
-		super();
+		Abstract_Real_Distribution();
 		auto data_map = std::unordered_map<double, int>(data.size());
-		for (double value : data)
+		for (const auto& value : data)
 		{
 			int count = data_map.at(value);
 			if (count == NULL)
@@ -122,9 +123,9 @@ public:
 	 * @ if any of the probabilities are NaN.
 	 * @ if any of the probabilities are infinite.
 	 */
-	Enumerated_Real_Distribution(const std::vector<double> singletons, const std::vector<double> probabilities)
+	Enumerated_Real_Distribution(const std::vector<double>& singletons, const std::vector<double>& probabilities)
 	{
-		super();
+		Abstract_Real_Distribution();
 		my_inner_distribution = Enumerated_Distribution<double>(create_distribution(singletons, probabilities));
 	}
 

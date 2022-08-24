@@ -52,28 +52,30 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class FieldQR_Decomposition
 {
+private:
 	/**
 	 * A packed TRANSPOSED representation of the QR decomposition.
 	 * <p>The elements BELOW the diagonal are the elements of the UPPER triangular
 	 * matrix R, and the rows ABOVE the diagonal are the Householder reflector vectors
 	 * from which an explicit form of Q can be recomputed if desired.</p>
 	 */
-	private std::vector<std::vector<T>> qrt;
+	std::vector<std::vector<T>> qrt;
 	/** The diagonal elements of R. */
-	private std::vector<T> r_diag;
+	std::vector<T> r_diag;
 	/** Cached value of Q. */
-	private Field_Matrix<T> cached_q;
+	Field_Matrix<T> cached_q;
 	/** Cached value of QT. */
-	private Field_Matrix<T> cached_q_t;
+	Field_Matrix<T> cached_q_t;
 	/** Cached value of R. */
-	private Field_Matrix<T> cached_r;
+	Field_Matrix<T> cached_r;
 	/** Cached value of H. */
-	private Field_Matrix<T> cached_h;
+	Field_Matrix<T> cached_h;
 	/** Singularity threshold. */
-	private const T threshold;
+	const T threshold;
 	/** checker for zero. */
-	private const Predicate<T> zero_checker;
+	const Predicate<T> zero_checker;
 
+public:
 	/**
 	 * Calculates the QR-decomposition of the given matrix.
 	 * The singularity threshold defaults to zero.
@@ -82,9 +84,9 @@ class FieldQR_Decomposition
 	 *
 	 * @see #FieldQR_Decomposition(Field_Matrix, Calculus_Field_Element)
 	 */
-	public FieldQR_Decomposition(Field_Matrix<T> matrix)
+	FieldQR_Decomposition(Field_Matrix<T> matrix)
 	{
-		this(matrix, matrix.get_field().get_zero());
+		FieldQR_Decomposition(matrix, matrix.get_field().get_zero());
 	}
 
 	/**
@@ -93,9 +95,9 @@ class FieldQR_Decomposition
 	 * @param matrix The matrix to decompose.
 	 * @param threshold Singularity threshold.
 	 */
-	public FieldQR_Decomposition(Field_Matrix<T> matrix, T threshold)
+	FieldQR_Decomposition(Field_Matrix<T> matrix, T threshold)
 	{
-		this(matrix, threshold, e->e.is_zero());
+		FieldQR_Decomposition(matrix, threshold, e->e.is_zero());
 	}
 
 	/**
@@ -105,7 +107,7 @@ class FieldQR_Decomposition
 	 * @param threshold Singularity threshold.
 	 * @param zero_checker checker for zero
 	 */
-	public FieldQR_Decomposition(Field_Matrix<T> matrix, T threshold, Predicate<T> zero_checker)
+	FieldQR_Decomposition(Field_Matrix<T> matrix, T threshold, Predicate<T> zero_checker)
 	{
 		this.threshold = threshold;
 		this.zero_checker = zero_checker;
@@ -122,10 +124,150 @@ class FieldQR_Decomposition
 		decompose(qrt);
 	}
 
+	/**
+	 * Returns the matrix R of the decomposition.
+	 * <p>R is an upper-triangular matrix</p>
+	 * @return the R matrix
+	 */
+	Field_Matrix<T> get_r()
+	{
+		if (cached_r == NULL)
+		{
+			// R is supposed to be m x n
+			const int n = qrt.size();
+			const int m = qrt[0].size();
+			std::vector<std::vector<T>> ra = Math_Arrays::build_array(threshold.get_field(), m, n);
+			// copy the diagonal from r_diag and the upper triangle of qr
+			for (int row = std::min(m, n) - 1; row >= 0; row--)
+			{
+				ra[row][row] = r_diag[row];
+				for (int col = row + 1; col < n; col++)
+				{
+					ra[row][col] = qrt[col][row];
+				}
+			}
+			cached_r = Matrix_Utils::create_field_matrix(ra);
+		}
+
+		// return the cached matrix
+		return cached_r;
+	}
+
+	/**
+	 * Returns the matrix Q of the decomposition.
+	 * <p>Q is an orthogonal matrix</p>
+	 * @return the Q matrix
+	 */
+	Field_Matrix<T> get_q()
+	{
+		if (my_cached_q == NULL)
+		{
+			my_cached_q = get_q_t().transpose();
+		}
+		return my_cached_q;
+	}
+
+	/**
+	 * Returns the transpose of the matrix Q of the decomposition.
+	 * <p>Q is an orthogonal matrix</p>
+	 * @return the transpose of the Q matrix, Q<sup>T</sup>
+	 */
+	Field_Matrix<T> get_q_t()
+	{
+		if (cached_q_t == NULL)
+		{
+			// QT is supposed to be m x m
+			const int n = qrt.size();
+			const int m = qrt[0].size();
+			std::vector<std::vector<T>> qta = Math_Arrays::build_array(threshold.get_field(), m, m);
+
+			/*
+			 * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then
+			 * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in
+			 * succession to the result
+			 */
+			for (const int minor{ m - 1 }; minor >= std::min(m, n); minor--)
+			{
+				qta[minor][minor] = threshold.get_field().get_one();
+			}
+
+			for (const int minor = std::min(m, n) - 1; minor >= 0; minor--)
+			{
+				const auto qrt_minor = qrt[minor];
+				qta[minor][minor] = threshold.get_field().get_one();
+				if (!qrt_minor[minor].is_zero())
+				{
+					for (int col{ minor }; col < m; col++)
+					{
+						T alpha = threshold.get_field().get_zero();
+						for (int row{ minor }; row < m; row++)
+						{
+							alpha = alpha.subtract(qta[col][row].multiply(qrt_minor[row]));
+						}
+						alpha = alpha.divide(r_diag[minor].multiply(qrt_minor[minor]));
+
+						for (int row{ minor }; row < m; row++)
+						{
+							qta[col][row] = qta[col][row].add(alpha.negate().multiply(qrt_minor[row]));
+						}
+					}
+				}
+			}
+			cached_q_t = Matrix_Utils::create_field_matrix(qta);
+		}
+
+		// return the cached matrix
+		return cached_q_t;
+	}
+
+	/**
+	 * Returns the Householder reflector vectors.
+	 * <p>H is a lower trapezoidal matrix whose columns represent
+	 * each successive Householder reflector vector. This matrix is used
+	 * to compute Q.</p>
+	 * @return a matrix containing the Householder reflector vectors
+	 */
+	Field_Matrix<T> get_h()
+	{
+		if (cached_h == NULL)
+		{
+			const int n = qrt.size();
+			const int m = qrt[0].size();
+			std::vector<std::vector<T>> ha = Math_Arrays::build_array(threshold.get_field(), m, n);
+			for (int i{}; i < m; ++i)
+			{
+				for (int j{}; j < std::min(i + 1, n); ++j)
+				{
+					ha[i][j] = qrt[j][i].divide(r_diag[j].negate());
+				}
+			}
+			cached_h = Matrix_Utils::create_field_matrix(ha);
+		}
+
+		// return the cached matrix
+		return cached_h;
+	}
+
+	/**
+	 * Get a solver for finding the A &times; X = B solution in least square sense.
+	 * <p>
+	 * Least Square sense means a solver can be computed for an overdetermined system, * (i.e. a system with more equations than unknowns, which corresponds to a tall A
+	 * matrix with more rows than columns). In any case, if the matrix is singular
+	 * within the tolerance set at {@link #FieldQR_Decomposition(Field_Matrix, * Calculus_Field_Element) construction}, an error will be triggered when
+	 * the {@link Decomposition_Solver#solve(Real_Vector) solve} method will be called.
+	 * </p>
+	 * @return a solver
+	 */
+	FieldDecomposition_Solver<T> get_solver()
+	{
+		return Field_Solver();
+	}
+
+protected:
 	/** Decompose matrix.
 	 * @param matrix transposed matrix
 	 */
-	protected void decompose(std::vector<std::vector<T>> matrix)
+	void decompose(std::vector<std::vector<T>> matrix)
 	{
 		for (const int& minor = 0; minor < std::min(matrix.size(), matrix[0].size()); minor++)
 		{
@@ -137,7 +279,7 @@ class FieldQR_Decomposition
 	 * @param minor minor index
 	 * @param matrix transposed matrix
 	 */
-	protected void perform_householder_reflection(const int& minor, std::vector<std::vector<T>> matrix)
+	void perform_householder_reflection(const int& minor, std::vector<std::vector<T>> matrix)
 	{
 		const std::vector<T> qrt_minor = matrix[minor];
 		const T zero = threshold.get_field().get_zero();
@@ -201,159 +343,21 @@ class FieldQR_Decomposition
 	}
 
 	/**
-	 * Returns the matrix R of the decomposition.
-	 * <p>R is an upper-triangular matrix</p>
-	 * @return the R matrix
-	 */
-	public Field_Matrix<T> get_r()
-	{
-		if (cached_r == NULL)
-		{
-			// R is supposed to be m x n
-			const int n = qrt.size();
-			const int m = qrt[0].size();
-			std::vector<std::vector<T>> ra = Math_Arrays::build_array(threshold.get_field(), m, n);
-			// copy the diagonal from r_diag and the upper triangle of qr
-			for (int row = std::min(m, n) - 1; row >= 0; row--)
-			{
-				ra[row][row] = r_diag[row];
-				for (int col = row + 1; col < n; col++)
-				{
-					ra[row][col] = qrt[col][row];
-				}
-			}
-			cached_r = Matrix_Utils::create_field_matrix(ra);
-		}
-
-		// return the cached matrix
-		return cached_r;
-	}
-
-	/**
-	 * Returns the matrix Q of the decomposition.
-	 * <p>Q is an orthogonal matrix</p>
-	 * @return the Q matrix
-	 */
-	public Field_Matrix<T> get_q()
-	{
-		if (cached_q == NULL)
-		{
-			cached_q = get_q_t().transpose();
-		}
-		return cached_q;
-	}
-
-	/**
-	 * Returns the transpose of the matrix Q of the decomposition.
-	 * <p>Q is an orthogonal matrix</p>
-	 * @return the transpose of the Q matrix, Q<sup>T</sup>
-	 */
-	public Field_Matrix<T> get_q_t()
-	{
-		if (cached_q_t == NULL)
-		{
-			// QT is supposed to be m x m
-			const int n = qrt.size();
-			const int m = qrt[0].size();
-			std::vector<std::vector<T>> qta = Math_Arrays::build_array(threshold.get_field(), m, m);
-
-			/*
-			 * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then
-			 * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in
-			 * succession to the result
-			 */
-			for (const int& minor = m - 1; minor >= std::min(m, n); minor--)
-			{
-				qta[minor][minor] = threshold.get_field().get_one();
-			}
-
-			for (const int& minor = std::min(m, n) - 1; minor >= 0; minor--)
-			{
-				const std::vector<T> qrt_minor = qrt[minor];
-				qta[minor][minor] = threshold.get_field().get_one();
-				if (!qrt_minor[minor].is_zero())
-				{
-					for (int col = minor; col < m; col++)
-					{
-						T alpha = threshold.get_field().get_zero();
-						for (int row = minor; row < m; row++)
-						{
-							alpha = alpha.subtract(qta[col][row].multiply(qrt_minor[row]));
-						}
-						alpha = alpha.divide(r_diag[minor].multiply(qrt_minor[minor]));
-
-						for (int row = minor; row < m; row++)
-						{
-							qta[col][row] = qta[col][row].add(alpha.negate().multiply(qrt_minor[row]));
-						}
-					}
-				}
-			}
-			cached_q_t = Matrix_Utils::create_field_matrix(qta);
-		}
-
-		// return the cached matrix
-		return cached_q_t;
-	}
-
-	/**
-	 * Returns the Householder reflector vectors.
-	 * <p>H is a lower trapezoidal matrix whose columns represent
-	 * each successive Householder reflector vector. This matrix is used
-	 * to compute Q.</p>
-	 * @return a matrix containing the Householder reflector vectors
-	 */
-	public Field_Matrix<T> get_h()
-	{
-		if (cached_h == NULL)
-		{
-			const int n = qrt.size();
-			const int m = qrt[0].size();
-			std::vector<std::vector<T>> ha = Math_Arrays::build_array(threshold.get_field(), m, n);
-			for (int i{}; i < m; ++i)
-			{
-				for (int j{}; j < std::min(i + 1, n); ++j)
-				{
-					ha[i][j] = qrt[j][i].divide(r_diag[j].negate());
-				}
-			}
-			cached_h = Matrix_Utils::create_field_matrix(ha);
-		}
-
-		// return the cached matrix
-		return cached_h;
-	}
-
-	/**
-	 * Get a solver for finding the A &times; X = B solution in least square sense.
-	 * <p>
-	 * Least Square sense means a solver can be computed for an overdetermined system, * (i.e. a system with more equations than unknowns, which corresponds to a tall A
-	 * matrix with more rows than columns). In any case, if the matrix is singular
-	 * within the tolerance set at {@link #FieldQR_Decomposition(Field_Matrix, * Calculus_Field_Element) construction}, an error will be triggered when
-	 * the {@link Decomposition_Solver#solve(Real_Vector) solve} method will be called.
-	 * </p>
-	 * @return a solver
-	 */
-	public FieldDecomposition_Solver<T> get_solver()
-	{
-		return Field_Solver();
-	}
-
-	/**
 	 * Specialized solver.
 	 */
-	private class Field_Solver : FieldDecomposition_Solver<T>
+	class Field_Solver : FieldDecomposition_Solver<T>
 	{
+	public:
 		/** {@inherit_doc} */
 		//override
-		public bool is_non_singular()
+		bool is_non_singular()
 		{
 			return !check_singular(r_diag, threshold, false);
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public Field_Vector<T> solve(Field_Vector<T> b)
+		Field_Vector<T> solve(Field_Vector<T>& b)
 		{
 			const int n = qrt.size();
 			const int m = qrt[0].size();
@@ -368,11 +372,11 @@ class FieldQR_Decomposition
 			const std::vector<T> y = b.to_array();
 
 			// apply Householder transforms to solve Q.y = b
-			for (const int& minor = 0; minor < std::min(m, n); minor++)
+			for (const int minor{}; minor < std::min(m, n); minor++)
 			{
 				const std::vector<T> qrt_minor = qrt[minor];
 				T dot_product = threshold.get_field().get_zero();
-				for (int row = minor; row < m; row++)
+				for (int row{ minor }; row < m; row++)
 				{
 					dot_product = dot_product.add(y[row].multiply(qrt_minor[row]));
 				}
@@ -385,7 +389,7 @@ class FieldQR_Decomposition
 			}
 
 			// solve triangular system R.x = y
-			for (int row = r_diag.size() - 1; row >= 0; --row)
+			for (int row{ r_diag.size() - 1 }; row >= 0; --row)
 			{
 				y[row] = y[row].divide(r_diag[row]);
 				const T y_row = y[row];
@@ -397,12 +401,12 @@ class FieldQR_Decomposition
 				}
 			}
 
-			return ArrayField_Vector<T>(x, false);
+			return Array_Field_Vector<T>(x, false);
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public Field_Matrix<T> solve(Field_Matrix<T> b)
+		Field_Matrix<T> solve(Field_Matrix<T> b)
 		{
 			const int n = qrt.size();
 			const int m = qrt[0].size();
@@ -465,9 +469,9 @@ class FieldQR_Decomposition
 				// solve triangular system R.x = y
 				for (int j = r_diag.size() - 1; j >= 0; --j)
 				{
-					const int      j_block = j / block_size;
-					const int      j_start = j_block * block_size;
-					const T   factor = r_diag[j].reciprocal();
+					const int j_block = j / block_size;
+					const int j_start = j_block * block_size;
+					const T factor = r_diag[j].reciprocal();
 					const std::vector<T> yJ = y[j];
 					const std::vector<T> x_block = x_blocks[j_block * c_blocks + k_block];
 					int index = (j - j_start) * k_width;
@@ -498,10 +502,26 @@ class FieldQR_Decomposition
 		 * @ if the decomposed matrix is singular.
 		 */
 		 //override
-		public Field_Matrix<T> get_inverse()
+		Field_Matrix<T> get_inverse()
 		{
 			return solve(Matrix_Utils::create_field_identity_matrix(threshold.get_field(), qrt[0].size()));
 		}
+
+		/** {@inherit_doc} */
+		//override
+		int get_row_dimension() const
+		{
+			return qrt[0].size();
+		}
+
+		/** {@inherit_doc} */
+		//override
+		int get_column_dimension() const
+		{
+			return qrt.size();
+		}
+
+	private:
 
 		/**
 		 * Check singularity.
@@ -515,7 +535,7 @@ class FieldQR_Decomposition
 		 * @ if the matrix is singular and
 		 * {@code raise} is {@code true}.
 		 */
-		private bool check_singular(std::vector<T> diag, T min, bool raise)
+		bool check_singular(const std::vector<T>& diag, const T& min, bool raise)
 		{
 			const int len = diag.size();
 			for (int i{}; i < len; i++)
@@ -533,19 +553,5 @@ class FieldQR_Decomposition
 			}
 			return false;
 		}
-
-		/** {@inherit_doc} */
-		//override
-		public int get_row_dimension()
-		{
-			return qrt[0].size();
-		}
-
-		/** {@inherit_doc} */
-		//override
-		public int get_column_dimension()
-		{
-			return qrt.size();
-		}
 	}
-}
+};

@@ -70,4 +70,4 @@ public:
 	{
 		return my_ns;
 	}
-}
+};

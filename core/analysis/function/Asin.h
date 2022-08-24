@@ -46,4 +46,4 @@ public:
 	{
 		return x.asin();
 	}
-}
+};

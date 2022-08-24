@@ -146,43 +146,43 @@ public:
 	 */
 	static std::vector<double> check_and_normalize(const std::vector<double>& weights)
 	{
-		if (weights == NULL || weights.size() == 0)
+		if (weights.empty())
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
 		}
 		const int len = weights.size();
 		double sum_wt{};
-		bool pos_wt = false;
+		bool pos_wt{};
 		for (int i{}; i < len; i++)
 		{
-			if (weights[i] < 0)
+			if (weights.at(i) < 0)
 			{
 				throw std::exception("not implemented");
 				//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, weights[i], 0);
 			}
-			if (weights[i] > 0)
+			if (weights.at(i) > 0)
 			{
 				pos_wt = true;
 			}
-			if (std::isnan(weights[i]))
+			if (std::isnan(weights.at(i)))
 			{
 				throw std::exception("not implemented");
 				//throw (hipparchus::exception::Localized_Core_Formats_Type::NAN_ELEMENT_AT_INDEX, i);
 			}
-			if (std::isinf(weights[i]))
+			if (std::isinf(weights.at(i)))
 			{
 				throw std::exception("not implemented");
 				//throw (hipparchus::exception::Localized_Core_Formats_Type::INFINITE_ARRAY_ELEMENT, weights[i], i);
 			}
-			sum_wt += weights[i];
+			sum_wt += weights.at(i);
 		}
 		if (!pos_wt)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::WEIGHT_AT_LEAST_ONE_NON_ZERO);
 		}
-		std::vector<double> norm_wt;
+		std::vector<double> norm_wt{};
 		if (Precision::equals(sum_wt, 1, 10)) // allow small error (10 ulps)
 		{
 			norm_wt = weights;
@@ -192,7 +192,7 @@ public:
 			norm_wt = std::vector<double>(len);
 			for (int i{}; i < len; i++)
 			{
-				norm_wt[i] = weights[i] / sum_wt;
+				norm_wt.at(i) = weights.at(i) / sum_wt;
 			}
 		}
 		return norm_wt;

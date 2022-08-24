@@ -28,6 +28,8 @@
   //import java.util.Array_list;
   //import java.util.List;
   //import java.util.Locale;
+#include <string>
+#include <vector>
 
   //import org.hipparchus.exception.Localized_Core_Formats;
   //import org.hipparchus.exception.Math_Illegal_State_Exception;
@@ -47,44 +49,46 @@
    */
 class Real_Vector_Format
 {
+private:
 	/** The default prefix: "{". */
-	private static const std::string DEFAULT_PREFIX = "{";
+	static constexpr char DEFAULT_PREFIX = '{';
 	/** The default suffix: "}". */
-	private static const std::string DEFAULT_SUFFIX = "}";
+	static constexpr char DEFAULT_SUFFIX = "}";
 	/** The default separator: ", ". */
-	private static const std::string DEFAULT_SEPARATOR = "; ";
+	static constexpr char DEFAULT_SEPARATOR = "; ";
 	/** Prefix. */
-	private const std::string prefix;
+	const std::string my_prefix;
 	/** Suffix. */
-	private const std::string suffix;
+	const std::string my_suffix;
 	/** Separator. */
-	private const std::string separator;
+	const std::string my_separator;
 	/** Trimmed prefix. */
-	private const std::string trimmed_prefix;
+	const std::string my_trimmed_prefix;
 	/** Trimmed suffix. */
-	private const std::string trimmed_suffix;
+	const std::string my_trimmed_suffix;
 	/** Trimmed separator. */
-	private const std::string trimmed_separator;
+	const std::string my_trimmed_separator;
 	/** The format used for components. */
-	private const Number_Format format;
+	const Number_Format my_format;
 
+public:
 	/**
 	 * Create an instance with default settings.
 	 * <p>The instance uses the default prefix, suffix and separator:
 	 * "{", "}", and "; " and the default number format for components.</p>
 	 */
-	public Real_Vector_Format()
+	Real_Vector_Format()
 	{
-		this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, Composite_Format.get_default_number_format());
+		Real_Vector_Format(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, Composite_Format::get_default_number_format());
 	}
 
 	/**
 	 * Create an instance with a custom number format for components.
 	 * @param format the custom format for components.
 	 */
-	public Real_Vector_Format(const Number_Format format)
+	Real_Vector_Format(const Number_Format& format)
 	{
-		this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, format);
+		Real_Vector_Format(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, format);
 	}
 
 	/**
@@ -93,9 +97,9 @@ class Real_Vector_Format
 	 * @param suffix suffix to use instead of the default "}"
 	 * @param separator separator to use instead of the default "; "
 	 */
-	public Real_Vector_Format(const std::string prefix, const std::string suffix, const std::string separator)
+	Real_Vector_Format(const std::string& prefix, const std::string& suffix, const std::string& separator)
 	{
-		this(prefix, suffix, separator, Composite_Format.get_default_number_format());
+		Real_Vector_Format(prefix, suffix, separator, Composite_Format::get_default_number_format());
 	}
 
 	/**
@@ -106,15 +110,16 @@ class Real_Vector_Format
 	 * @param separator separator to use instead of the default "; "
 	 * @param format the custom format for components.
 	 */
-	public Real_Vector_Format(const std::string prefix, const std::string suffix, const std::string separator, const Number_Format format)
+	Real_Vector_Format(const std::string& prefix, const std::string& suffix, const std::string& separator, const Number_Format& format)
+		:
+		my_prefix{ prefix },
+		my_suffix{ suffix },
+		my_separator{ separator },
+		my_trimmed_prefix{ prefix.trim() },
+		my_trimmed_suffix{ suffix.trim() },
+		my_trimmed_separator{ separator.trim() },
+		my_format{ format }
 	{
-		this.prefix = prefix;
-		this.suffix = suffix;
-		this.separator = separator;
-		trimmed_prefix = prefix.trim();
-		trimmed_suffix = suffix.trim();
-		trimmed_separator = separator.trim();
-		this.format = format;
 	}
 
 	/**
@@ -122,45 +127,45 @@ class Real_Vector_Format
 	 * <p>This is the same set as the {@link Number_Format} set.</p>
 	 * @return available real vector format locales.
 	 */
-	public static Locale[] get_available_locales()
+	static std::vector<Locale> get_available_locales()
 	{
-		return Number_Format.get_available_locales();
+		return Number_Format::get_available_locales();
 	}
 
 	/**
 	 * Get the format prefix.
 	 * @return format prefix.
 	 */
-	public std::string get_prefix()
+	std::string get_prefix() const
 	{
-		return prefix;
+		return my_prefix;
 	}
 
 	/**
 	 * Get the format suffix.
 	 * @return format suffix.
 	 */
-	public std::string get_suffix()
+	std::string get_suffix() const
 	{
-		return suffix;
+		return my_suffix;
 	}
 
 	/**
 	 * Get the format separator between components.
 	 * @return format separator.
 	 */
-	public std::string get_separator()
+	std::string get_separator() const
 	{
-		return separator;
+		return my_separator;
 	}
 
 	/**
 	 * Get the components format.
 	 * @return components format.
 	 */
-	public Number_Format get_format()
+	Number_Format get_format() const
 	{
-		return format;
+		return my_format;
 	}
 
 	/**
@@ -168,9 +173,9 @@ class Real_Vector_Format
 	 * @return the default real vector format.
 	 * @since 1.4
 	 */
-	public static Real_Vector_Format get_real_vector__format()
+	static Real_Vector_Format get_real_vector_format()
 	{
-		return get_real_vector__format(Locale.get_default());
+		return get_real_vector_format(Locale.get_default());
 	}
 
 	/**
@@ -179,9 +184,9 @@ class Real_Vector_Format
 	 * @return the real vector format specific to the given locale.
 	 * @since 1.4
 	 */
-	public static Real_Vector_Format get_real_vector__format(const Locale& locale)
+	static Real_Vector_Format get_real_vector_format(const Locale& locale)
 	{
-		return Real_Vector_Format(Composite_Format.get_default_number_format(locale));
+		return Real_Vector_Format(Composite_Format::get_default_number_format(locale));
 	}
 
 	/**
@@ -190,7 +195,7 @@ class Real_Vector_Format
 	 * @param v Real_Vector object to format.
 	 * @return a formatted vector.
 	 */
-	public std::string format(Real_Vector v)
+	std::string format(const Real_Vector& v)
 	{
 		return format(v, String_Buffer(), Field_Position(0)).to_string();
 	}
@@ -203,7 +208,7 @@ class Real_Vector_Format
 	 *            offsets of the alignment field
 	 * @return the value passed in as to_append_to.
 	 */
-	public std::stringstreamformat(Real_Vector vector, std::stringstreamto_append_to, Field_Position pos)
+	std::stringstream format(const Real_Vector& vector, std::stringstream& to_append_to, const Field_Position& pos)
 	{
 		pos.set_begin_index(0);
 		pos.set_end_index(0);
@@ -235,13 +240,14 @@ class Real_Vector_Format
 	 * @Math_Illegal_State_Exception if the beginning of the specified string
 	 * cannot be parsed.
 	 */
-	public Array_Real_Vector parse(std::string source)
+	Array_Real_Vector parse(const std::string& source)
 	{
-		const Parse_Position parse_position = Parse_Position(0);
+		const auto parse_position = Parse_Position(0);
 		const Array_Real_Vector result = parse(source, parse_position);
 		if (parse_position.get_index() == 0)
 		{
-			throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CANNOT_PARSE_AS_TYPE, source, parse_position.get_error_index(), Array_Real_Vector.class);
+			throw std::exception("not implemented");
+			//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CANNOT_PARSE_AS_TYPE, source, parse_position.get_error_index(), Array_Real_Vector.class);
 		}
 		return result;
 	}
@@ -253,7 +259,7 @@ class Real_Vector_Format
 	 * @param pos input/ouput parsing parameter.
 	 * @return the parsed {@link Real_Vector} object.
 	 */
-	public Array_Real_Vector parse(std::string source, Parse_Position pos)
+	Array_Real_Vector parse(const std::string& source, const Parse_Position& pos)
 	{
 		int initial_index = pos.get_index();
 
@@ -266,7 +272,7 @@ class Real_Vector_Format
 
 		// parse components
 		List<Number> components = Array_list<>();
-		for (bool loop = true; loop;)
+		for (bool loop{ true }; loop;)
 		{
 			if (!components.is_empty())
 			{
@@ -296,18 +302,18 @@ class Real_Vector_Format
 		}
 
 		// parse suffix
-		Composite_Format.parse_and_ignore_whitespace(source, pos);
+		Composite_Format::parse_and_ignore_whitespace(source, pos);
 		if (!Composite_Format.parse_fixed_string(source, trimmed_suffix, pos))
 		{
 			return NULL;
 		}
 
 		// build vector
-		std::vector<double> data = std::vector<double>(components.size()];
+		auto data = std::vector<double>(components.size());
 		for (int i{}; i < data.size(); ++i)
 		{
 			data[i] = components.get(i).double_value();
 		}
 		return Array_Real_Vector(data, false);
 	}
-}
+};

@@ -73,7 +73,7 @@
     <ClInclude Include="linear\DefaultIterativeLinearSolverEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linear\ArrayFieldVector.h">
+    <ClInclude Include="linear\ArrayFieldVector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="analysis\differentiation\Derivative.h">
@@ -340,7 +340,7 @@
     <ClInclude Include="complex\FieldComplexField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linear\AbstractFieldMatrix.h">
+    <ClInclude Include="linear\AbstractFieldMatrix.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="analysis\differentiation\FDSFactory.h">
@@ -466,7 +466,7 @@
     <ClInclude Include="analysis\solvers\BracketedRealFieldUnivariateSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linear\FieldQRDecomposition.h">
+    <ClInclude Include="linear\FieldQRDecomposition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="special\elliptic\jacobi\FieldCopolarC.h">

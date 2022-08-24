@@ -57,30 +57,32 @@
 template<typename T, typename std::enable_if<std::is_base_of<Field_Element<T>, T>::value>::type* = nullptr>
 class FieldLU_Decomposition
 {
+private:
 	/** Field to which the elements belong. */
-	private const Field<T> field;
+	const Field<T> my_field;
 
 	/** Entries of LU decomposition. */
-	private std::vector<std::vector<T>> lu;
+	std::vector<std::vector<T>> my_lu;
 
 	/** Pivot permutation associated with LU decomposition. */
-	private std::vector<int> pivot;
+	std::vector<int> my_pivot;
 
 	/** Parity of the permutation associated with the LU decomposition. */
-	private bool even;
+	bool my_even;
 
 	/** Singularity indicator. */
-	private bool singular;
+	bool my_singular;
 
 	/** Cached value of L. */
-	private Field_Matrix<T> cached_l;
+	Field_Matrix<T> my_cached_l;
 
 	/** Cached value of U. */
-	private Field_Matrix<T> cached_u;
+	Field_Matrix<T> my_cached_u;
 
 	/** Cached value of P. */
-	private Field_Matrix<T> cached_p;
+	Field_Matrix<T> my_cached_p;
 
+public:
 	/**
 	 * Calculates the LU-decomposition of the given matrix.
 	 * <p>
@@ -91,9 +93,9 @@ class FieldLU_Decomposition
 	 * @see #FieldLU_Decomposition(Field_Matrix, Predicate)
 	 * @see #FieldLU_Decomposition(Field_Matrix, Predicate, bool)
 	 */
-	public FieldLU_Decomposition(Field_Matrix<T> matrix)
+	FieldLU_Decomposition(const Field_Matrix<T>& matrix)
 	{
-		this(matrix, e->e.is_zero());
+		FieldLU_Decomposition(matrix, my_e->e.is_zero());
 	}
 
 	/**
@@ -106,9 +108,9 @@ class FieldLU_Decomposition
 	 * @ if matrix is not square
 	 * @see #FieldLU_Decomposition(Field_Matrix, Predicate, bool)
 	 */
-	public FieldLU_Decomposition(Field_Matrix<T> matrix, const Predicate<T> zero_checker)
+	FieldLU_Decomposition(const Field_Matrix<T>& matrix, const Predicate<T>& zero_checker)
 	{
-		this(matrix, zero_checker, true);
+		FieldLU_Decomposition(matrix, zero_checker, true);
 	}
 
 	/**
@@ -118,7 +120,7 @@ class FieldLU_Decomposition
 	 * @param numeric_permutation_choice if <code>true</code> choose permutation index with numeric calculations, otherwise choose with <code>zero_checker</code>
 	 * @ if matrix is not square
 	 */
-	public FieldLU_Decomposition(Field_Matrix<T> matrix, const Predicate<T> zero_checker, bool numeric_permutation_choice)
+	FieldLU_Decomposition(const Field_Matrix<T>& matrix, const Predicate<T>& zero_checker, bool numeric_permutation_choice)
 	{
 		if (!matrix.is_square())
 		{
@@ -243,7 +245,7 @@ class FieldLU_Decomposition
 	 * <p>L is a lower-triangular matrix</p>
 	 * @return the L matrix (or NULL if decomposed matrix is singular)
 	 */
-	public Field_Matrix<T> get_l()
+	Field_Matrix<T> get_l()
 	{
 		if ((cached_l == NULL) && !singular)
 		{
@@ -267,7 +269,7 @@ class FieldLU_Decomposition
 	 * <p>U is an upper-triangular matrix</p>
 	 * @return the U matrix (or NULL if decomposed matrix is singular)
 	 */
-	public Field_Matrix<T> get_u()
+	Field_Matrix<T> get_u()
 	{
 		if ((cached_u == NULL) && !singular)
 		{
@@ -276,7 +278,7 @@ class FieldLU_Decomposition
 			for (int i{}; i < m; ++i)
 			{
 				const std::vector<T> lu_i = lu[i];
-				for (int j = i; j < m; ++j)
+				for (int j{ i }; j < m; ++j)
 				{
 					cached_u.set_entry(i, j, lu_i[j]);
 				}
@@ -294,7 +296,7 @@ class FieldLU_Decomposition
 	 * @return the P rows permutation matrix (or NULL if decomposed matrix is singular)
 	 * @see #get_pivot()
 	 */
-	public Field_Matrix<T> get_p()
+	Field_Matrix<T> get_p()
 	{
 		if ((cached_p == NULL) && !singular)
 		{
@@ -313,60 +315,60 @@ class FieldLU_Decomposition
 	 * @return the pivot permutation vector
 	 * @see #get_p()
 	 */
-	public std::vector<int> get_pivot()
+	std::vector<int> get_pivot() const
 	{
-		return pivot.clone();
+		return my_pivot;
 	}
 
 	/**
 	 * Return the determinant of the matrix.
 	 * @return determinant of the matrix
 	 */
-	public T get_determinant()
+	T get_determinant()
 	{
-		if (singular)
+		if (my_singular)
 		{
-			return field.get_zero();
+			return my_field.get_zero();
 		}
-		else
+		const int m = pivot.size();
+		T determinant = my_even
+			? my_field.get_one()
+			: my_field.get_zero().subtract(my_field.get_one());
+		for (int i{}; i < m; i++)
 		{
-			const int m = pivot.size();
-			T determinant = even ? field.get_one() : field.get_zero().subtract(field.get_one());
-			for (int i{}; i < m; i++)
-			{
-				determinant = determinant.multiply(lu[i][i]);
-			}
-			return determinant;
+			determinant = determinant.multiply(lu[i][i]);
 		}
+		return determinant;
 	}
 
 	/**
 	 * Get a solver for finding the A &times; X = B solution in exact linear sense.
 	 * @return a solver
 	 */
-	public FieldDecomposition_Solver<T> get_solver()
+	FieldDecomposition_Solver<T> get_solver()
 	{
 		return Solver();
 	}
 
 	/** Specialized solver.
 	 */
-	private class Solver : FieldDecomposition_Solver<T>
+	class Solver : public FieldDecomposition_Solver<T>
 	{
+	public:
 		/** {@inherit_doc} */
 		//override
-		public bool is_non_singular()
+		bool is_non_singular()
 		{
 			return !singular;
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public Field_Vector<T> solve(Field_Vector<T> b)
+		Field_Vector<T> solve(Field_Vector<T> b)
 		{
-			if (b instanceof ArrayField_Vector)
+			if (b instanceof Array_Field_Vector)
 			{
-				return solve((ArrayField_Vector<T>) b);
+				return solve((Array_Field_Vector<T>) b);
 			}
 			else
 			{
@@ -410,7 +412,7 @@ class FieldLU_Decomposition
 					}
 				}
 
-				return ArrayField_Vector<T>(field, bp, false);
+				return Array_Field_Vector<T>(field, bp, false);
 			}
 		}
 
@@ -421,7 +423,7 @@ class FieldLU_Decomposition
 		 * @ if the matrices dimensions do not match.
 		 * @ if the decomposed matrix is singular.
 		 */
-		public ArrayField_Vector<T> solve(ArrayField_Vector<T> b)
+		Array_Field_Vector<T> solve(const Array_Field_Vector<T>& b)
 		{
 			const int m = pivot.size();
 			const int length = b.get_dimension();
@@ -446,7 +448,7 @@ class FieldLU_Decomposition
 			// Solve LY = b
 			for (int col{}; col < m; col++)
 			{
-				const T& bp_col = bp[col];
+				const T bp_col = bp[col];
 				for (int i = col + 1; i < m; i++)
 				{
 					bp[i] = bp[i].subtract(bp_col.multiply(lu[i][col]));
@@ -454,22 +456,22 @@ class FieldLU_Decomposition
 			}
 
 			// Solve UX = Y
-			for (int col = m - 1; col >= 0; col--)
+			for (int col{ m - 1 }; col >= 0; col--)
 			{
 				bp[col] = bp[col].divide(lu[col][col]);
-				const T& bp_col = bp[col];
+				const T bp_col = bp[col];
 				for (int i{}; i < col; i++)
 				{
 					bp[i] = bp[i].subtract(bp_col.multiply(lu[i][col]));
 				}
 			}
 
-			return ArrayField_Vector<T>(bp, false);
+			return Array_Field_Vector<T>(bp, false);
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public Field_Matrix<T> solve(Field_Matrix<T> b)
+		Field_Matrix<T> solve(Field_Matrix<T> b)
 		{
 			const int m = pivot.size();
 			if (b.get_row_dimension() != m)
@@ -483,10 +485,10 @@ class FieldLU_Decomposition
 				//throw (hipparchus::exception::Localized_Core_Formats_Type::SINGULAR_MATRIX);
 			}
 
-			const int& n_col_b = b.get_column_dimension();
+			const int n_col_b = b.get_column_dimension();
 
 			// Apply permutations to b
-			const std::vector<std::vector<T>> bp = Math_Arrays::build_array(field, m, n_col_b);
+			const auto bp = Math_Arrays::build_array(field, m, n_col_b);
 			for (int row{}; row < m; row++)
 			{
 				const std::vector<T> bp_row = bp[row];
@@ -537,23 +539,23 @@ class FieldLU_Decomposition
 
 		/** {@inherit_doc} */
 		//override
-		public Field_Matrix<T> get_inverse()
+		Field_Matrix<T> get_inverse()
 		{
 			return solve(Matrix_Utils::create_field_identity_matrix(field, pivot.size()));
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public int get_row_dimension()
+		int get_row_dimension() const
 		{
-			return lu.size();
+			return my_lu.size();
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public int get_column_dimension()
+		int get_column_dimension() const
 		{
-			return lu[0].size();
+			return my_lu[0].size();
 		}
 	}
-}
+};

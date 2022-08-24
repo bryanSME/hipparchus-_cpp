@@ -32,22 +32,22 @@
    * @see <a href="http://en.wikipedia.org/wiki/Cauchy_distribution">Cauchy distribution (Wikipedia)</a>
    * @see <a href="http://mathworld.wolfram.com/Cauchy_Distribution.html">Cauchy Distribution (MathWorld)</a>
    */
-class Cauchy_Distribution extends Abstract_Real_Distribution
+class Cauchy_Distribution : public Abstract_Real_Distribution
 {
-	/** Serializable version identifier */
-	20160320L;
+private:
 	/** The median of this distribution. */
-	private const double median;
+	const double my_median;
 	/** The scale of this distribution. */
-	private const double scale;
+	const double my_scale;
 
+public:
 	/**
 	 * Creates a Cauchy distribution with the median equal to zero and scale
 	 * equal to one.
 	 */
-	public Cauchy_Distribution()
+	Cauchy_Distribution()
 	{
-		this(0, 1);
+		Cauchy_Distribution(0, 1);
 	}
 
 	/**
@@ -57,24 +57,23 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 * @param scale Scale parameter for this distribution
 	 * @ if {@code scale <= 0}
 	 */
-	public Cauchy_Distribution(double median, double scale)
-
+	Cauchy_Distribution(const double& median, const double& scale)
+		:
+		my_scale{ scale },
+		my_median{ median }
 	{
 		if (scale <= 0)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::SCALE, scale);
 		}
-
-		this.scale = scale;
-		this.median = median;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double cumulative_probability(const double& x)
+	double cumulative_probability(const double& x)
 	{
-		return 0.5 + (std::atan((x - median) / scale) / std::numbers::pi);
+		return 0.5 + (std::atan((x - my_median) / my_scale) / std::numbers::pi);
 	}
 
 	/**
@@ -82,9 +81,9 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 *
 	 * @return the median for this distribution.
 	 */
-	public double get_median()
+	double get_median() const
 	{
-		return median;
+		return my_median;
 	}
 
 	/**
@@ -92,17 +91,17 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 *
 	 * @return the scale parameter for this distribution.
 	 */
-	public double get_scale()
+	double get_scale() const
 	{
-		return scale;
+		return my_scale;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double density(double x)
+	double density(const double& x)
 	{
-		const double dev = x - median;
-		return (1 / std::numbers::pi) * (scale / (dev * dev + scale * scale));
+		const double dev = x - my_median;
+		return (1 / std::numbers::pi) * (my_scale / (dev * dev + my_scale * my_scale));
 	}
 
 	/**
@@ -112,24 +111,19 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 * and {@code INFINITY} when {@code p == 1}.
 	 */
 	 //override
-	public double inverse_cumulative_probability(const double& p)
+	double inverse_cumulative_probability(const double& p)
 	{
 		Math_Utils::check_range_inclusive(p, 0, 1);
 
-		double ret;
 		if (p == 0)
 		{
-			ret = -INFINITY;
+			return -INFINITY;
 		}
-		else  if (p == 1)
+		if (p == 1)
 		{
-			ret = INFINITY;
+			return INFINITY;
 		}
-		else
-		{
-			ret = median + scale * std::tan(std::numbers::pi * (p - .5));
-		}
-		return ret;
+		return my_median + my_scale * std::tan(std::numbers::pi * (p - .5));
 	}
 
 	/**
@@ -140,7 +134,7 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 * @return mean (alwaysNAN)
 	 */
 	 //override
-	public double get_numerical_mean() const
+	double get_numerical_mean() const
 	{
 		return std::numeric_limits<double>::quiet_NaN();
 	}
@@ -153,7 +147,7 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 * @return variance (alwaysNAN)
 	 */
 	 //override
-	public double get_numerical_variance() const
+	double get_numerical_variance() const
 	{
 		return std::numeric_limits<double>::quiet_NaN();
 	}
@@ -167,7 +161,7 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 * @return lower bound of the support (always -INFINITY)
 	 */
 	 //override
-	public double get_support_lower_bound() const
+	double get_support_lower_bound() const
 	{
 		return -INFINITY;
 	}
@@ -181,7 +175,7 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 * @return upper bound of the support (always INFINITY)
 	 */
 	 //override
-	public double get_support_upper_bound() const
+	double get_support_upper_bound() const
 	{
 		return INFINITY;
 	}
@@ -194,8 +188,8 @@ class Cauchy_Distribution extends Abstract_Real_Distribution
 	 * @return {@code true}
 	 */
 	 //override
-	public bool is_support_connected() const
+	bool is_support_connected() const
 	{
 		return true;
 	}
-}
+};

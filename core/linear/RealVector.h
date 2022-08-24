@@ -34,8 +34,11 @@
   //import org.hipparchus.exception.;
   //import org.hipparchus.exception.Math_Runtime_Exception;
   //import org.hipparchus.util.FastMath;
+#include <algorithm>
 #include <cmath>
 #include <vector>
+#include "../analysis/UnivariateFunction.h"
+#include "../analysis/FunctionUtils.h"
 
 /**
  * Class defining a real-valued vector with basic algebraic operations.
@@ -111,7 +114,7 @@ protected:
 	 * @ if {@code start} of {@code end} are not valid
 	 * @ if {@code end < start}
 	 */
-	void check_indices(const int start, const int end)
+	void check_indices(const int& start, const int& end)
 	{
 		const int dim = get_dimension();
 		if ((start < 0) || (start >= dim))
@@ -292,9 +295,9 @@ public:
 	{
 		if (d != 0)
 		{
-			return map_to_self(Function_Utils.fix2nd_argument(new Add(), d));
+			return map_to_self(Function_Utils::fix2nd_argument(Add(), d));
 		}
-		return this;
+		return *this;
 	}
 
 	/**
@@ -340,10 +343,10 @@ public:
 		const double norm = get_norm();
 		const double v_norm = v.get_norm();
 
-		if (norm == 0 ||
-			v_norm == 0)
+		if (norm == 0 || v_norm == 0)
 		{
-			throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+			throw std::exception("not implemented");
+			//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
 		}
 		return dot_product(v) / (norm * v_norm);
 	}
@@ -431,7 +434,7 @@ public:
 	 */
 	double get_l1_norm()
 	{
-		double norm = 0;
+		double norm{};
 		Iterator<Entry> it = iterator();
 		while (it.has_next())
 		{
@@ -453,7 +456,7 @@ public:
 	 */
 	double get_l_inf_norm()
 	{
-		double norm = 0;
+		double norm{};
 		Iterator<Entry> it = iterator();
 		while (it.has_next())
 		{
@@ -475,7 +478,6 @@ public:
 	 * {@code this} vector.
 	 */
 	double get_l1_distance(const Real_Vector& v)
-
 	{
 		check_vector_dimensions(v);
 		double d{};
@@ -524,7 +526,7 @@ public:
 	 */
 	int get_min_index()
 	{
-		int min_index = -1;
+		int min_index{ -1 };
 		double min_value = INFINITY;
 		Iterator<Entry> iterator = iterator();
 		while (iterator.has_next())
@@ -548,7 +550,9 @@ public:
 	double get_min_value()
 	{
 		const int min_index = get_min_index();
-		return min_index < 0 ? NAN : get_entry(min_index);
+		return min_index < 0
+			? NAN
+			: get_entry(min_index);
 	}
 
 	/**
@@ -559,7 +563,7 @@ public:
 	 */
 	int get_max_index()
 	{
-		int max_index = -1;
+		int max_index{ -1 };
 		double max_value = -INFINITY;
 		Iterator<Entry> iterator = iterator();
 		while (iterator.has_next())
@@ -583,7 +587,9 @@ public:
 	double get_max_value()
 	{
 		const int max_index = get_max_index();
-		return max_index < 0 ? NAN : get_entry(max_index);
+		return max_index < 0
+			? NAN
+			: get_entry(max_index);
 	}
 
 	/**
@@ -605,9 +611,9 @@ public:
 	 * @param d Multiplication factor.
 	 * @return {@code this}.
 	 */
-	Real_Vector map_multiply_to_self(double d)
+	Real_Vector map_multiply_to_self(const double& d)
 	{
-		return map_to_self(Function_Utils.fix2nd_argument(new Multiply(), d));
+		return map_to_self(Function_Utils.fix2nd_argument(Multiply(), d));
 	}
 
 	/**
@@ -617,7 +623,7 @@ public:
 	 * @param d Value to be subtracted.
 	 * @return {@code this} - {@code d}.
 	 */
-	Real_Vector map_subtract(double d)
+	Real_Vector map_subtract(const double& d)
 	{
 		return copy().map_subtract_to_self(d);
 	}
@@ -629,7 +635,7 @@ public:
 	 * @param d Value to be subtracted.
 	 * @return {@code this}.
 	 */
-	Real_Vector map_subtract_to_self(double d)
+	Real_Vector map_subtract_to_self(const double& d)
 	{
 		return map_add_to_self(-d);
 	}
@@ -641,7 +647,7 @@ public:
 	 * @param d Value to divide by.
 	 * @return {@code this} / {@code d}.
 	 */
-	Real_Vector map_divide(double d)
+	Real_Vector map_divide(const double& d)
 	{
 		return copy().map_divide_to_self(d);
 	}
@@ -653,7 +659,7 @@ public:
 	 * @param d Value to divide by.
 	 * @return {@code this}.
 	 */
-	Real_Vector map_divide_to_self(double d)
+	Real_Vector map_divide_to_self(const double& d)
 	{
 		return map_to_self(Function_Utils.fix2nd_argument(new Divide(), d));
 	}
@@ -666,7 +672,7 @@ public:
 	 */
 	Real_Matrix outer_product(const Real_Vector& v)
 	{
-		const int m = this.get_dimension();
+		const int m = get_dimension();
 		const int n = v.get_dimension();
 		const Real_Matrix product;
 		if (dynamic_cast<const SparseReal_Vector*>(*v) != nullptr || dynamic_cast<const SparseReal_Vector*>(*this) != nullptr)
@@ -687,34 +693,34 @@ public:
 		return product;
 	}
 
-	/**
-	 * Find the orthogonal projection of this vector onto another vector.
-	 *
-	 * @param v vector onto which instance must be projected.
-	 * @return projection of the instance onto {@code v}.
-	 * @ if {@code v} is not the same size as
-	 * {@code this} vector.
-	 * @Math_Runtime_Exception if {@code this} or {@code v} is the NULL
-	 * vector
-	 */
-	Real_Vector projection(const Real_Vector v)
-		, Math_Runtime_Exception
-	{
-	const double norm2 = v.dot_product(v);
-	if (norm2 == 0.0)
-	{
-		throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
-	}
-	return v.map_multiply(dot_product(v) / norm2);
-	}
-
+		/**
+		 * Find the orthogonal projection of this vector onto another vector.
+		 *
+		 * @param v vector onto which instance must be projected.
+		 * @return projection of the instance onto {@code v}.
+		 * @ if {@code v} is not the same size as
+		 * {@code this} vector.
+		 * @Math_Runtime_Exception if {@code this} or {@code v} is the NULL
+		 * vector
+		 */
+		Real_Vector projection(const Real_Vector& v)
+		{
+			const double norm2 = v.dot_product(v);
+			if (norm2 == 0.0)
+			{
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+			}
+			return v.map_multiply(dot_product(v) / norm2);
+		}
+	
 		/**
 		 * Set all elements to a single value.
 		 *
 		 * @param value Single value to set for all elements.
 		 */
-		void set(double value)
-	{
+		void set(const double& value)
+		{
 		Iterator<Entry> it = iterator();
 		while (it.has_next())
 		{
@@ -733,7 +739,7 @@ public:
 	std::vector<double> to_array()
 	{
 		int dim = get_dimension();
-		auto values = std::vector<double>(dim];
+		auto values = std::vector<double>(dim);
 		for (int i{}; i < dim; i++)
 		{
 			values[i] = get_entry(i);
@@ -748,12 +754,13 @@ public:
 	 * @return a unit vector pointing in direction of this vector.
 	 * @Math_Runtime_Exception if the norm is zero.
 	 */
-	Real_Vector unit_vector() Math_Runtime_Exception
+	Real_Vector unit_vector()
 	{
 		const double norm = get_norm();
 		if (norm == 0)
 		{
-			throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+			throw std::exception("not implemented");
+			//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
 		}
 		return map_divide(norm);
 	}
@@ -764,12 +771,13 @@ public:
 	 *
 	 * @Math_Runtime_Exception if the norm is zero.
 	 */
-	void unitize() Math_Runtime_Exception
+	void unitize()
 	{
 		const double norm = get_norm();
 		if (norm == 0)
 		{
-			throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+			throw std::exception("not implemented");
+			//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
 		}
 		map_divide_to_self(get_norm());
 	}
@@ -806,32 +814,31 @@ public:
 		const int dim = get_dimension();
 		return Iterator<Entry>()
 		{
+		private:
 			/** Current index. */
-			private int i;
+			int my_i;
 
 			/** Current entry. */
-			private Entry e = Entry();
+			Entry my_e = Entry();
 
+		public:
 			/** {@inherit_doc} */
 			//override
-			public bool has_next()
+			bool has_next() const
 			{
-				return i < dim;
+				return my_i < dim;
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Entry next()
+			Entry next()
 			{
-				if (i < dim)
+				if (my_i < dim)
 				{
-					e.set_index(i++);
-					return e;
+					my_e.set_index(i++);
+					return my_e;
 				}
-				else
-				{
-					throw No_Such_Element_Exception();
-				}
+				throw No_Such_Element_Exception();
 			}
 
 			/**
@@ -840,9 +847,10 @@ public:
 			 * @Math_Runtime_Exception in all circumstances.
 			 */
 			 //override
-			public void remove() Math_Runtime_Exception
+			void remove()
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 		};
 	}
@@ -857,7 +865,7 @@ public:
 	 * @param function Function to apply to each entry.
 	 * @return a vector.
 	 */
-	Real_Vector map(Univariate_Function function)
+	Real_Vector map(const Univariate_Function& function)
 	{
 		return copy().map_to_self(function);
 	}
@@ -876,7 +884,7 @@ public:
 	 * @param function Function to apply to each entry.
 	 * @return a reference to this vector.
 	 */
-	Real_Vector map_to_self(Univariate_Function function)
+	Real_Vector map_to_self(const Univariate_Function& function)
 	{
 		Iterator<Entry> it = iterator();
 		while (it.has_next())
@@ -884,7 +892,7 @@ public:
 			const Entry e = it.next();
 			e.set_value(function.value(e.get_value()));
 		}
-		return this;
+		return *this;
 	}
 
 	/**
@@ -900,7 +908,7 @@ public:
 	 * @ if {@code y} is not the same size as
 	 * {@code this} vector.
 	 */
-	public Real_Vector combine(const double& a, double b, Real_Vector y)
+	public Real_Vector combine(const double& a, const double& b, const Real_Vector& y)
 	{
 		return copy().combine_to_self(a, b, y);
 	}
@@ -917,7 +925,7 @@ public:
 	 * @ if {@code y} is not the same size as
 	 * {@code this} vector.
 	 */
-	Real_Vector combine_to_self(const double& a, double b, Real_Vector y)
+	Real_Vector combine_to_self(const double& a, const double& b, const Real_Vector& y)
 	{
 		check_vector_dimensions(y);
 		for (int i{}; i < get_dimension(); i++)
@@ -926,7 +934,7 @@ public:
 			const double yi = y.get_entry(i);
 			set_entry(i, a * xi + b * yi);
 		}
-		return this;
+		return *this;
 	}
 
 	/**
@@ -938,7 +946,7 @@ public:
 	 * @return the value returned by {@link Real_Vector_Preserving_Visitor#end()}
 	 * at the end of the walk
 	 */
-	double walk_in_default_order(const Real_Vector_Preserving_Visitor visitor)
+	double walk_in_default_order(const Real_Vector_Preserving_Visitor& visitor)
 	{
 		const int dim = get_dimension();
 		visitor.start(dim, 0, dim - 1);
@@ -961,12 +969,11 @@ public:
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	double walk_in_default_order(const Real_Vector_Preserving_Visitor visitor, const int start, const int end)
-
+	double walk_in_default_order(const Real_Vector_Preserving_Visitor& visitor, const int& start, const int& end)
 	{
 		check_indices(start, end);
 		visitor.start(get_dimension(), start, end);
-		for (int i = start; i <= end; i++)
+		for (int i{ start }; i <= end; i++)
 		{
 			visitor.visit(i, get_entry(i));
 		}
@@ -984,7 +991,7 @@ public:
 	 * @return the value returned by {@link Real_Vector_Preserving_Visitor#end()}
 	 * at the end of the walk
 	 */
-	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor visitor)
+	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor& visitor)
 	{
 		return walk_in_default_order(visitor);
 	}
@@ -1003,8 +1010,7 @@ public:
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor visitor, const int start, const int end)
-
+	double walk_in_optimized_order(const Real_Vector_Preserving_Visitor& visitor, const int& start, const int& end)
 	{
 		return walk_in_default_order(visitor, start, end);
 	}
@@ -1018,9 +1024,9 @@ public:
 	 * @return the value returned by {@link Real_Vector_Changing_Visitor#end()}
 	 * at the end of the walk
 	 */
-	double walk_in_default_order(const Real_Vector_Changing_Visitor visitor)
+	double walk_in_default_order(const Real_Vector_Changing_Visitor& visitor)
 	{
-		const int dim = get_dimension();
+		const int dim{ get_dimension() };
 		visitor.start(dim, 0, dim - 1);
 		for (int i{}; i < dim; i++)
 		{
@@ -1041,12 +1047,11 @@ public:
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	double walk_in_default_order(const Real_Vector_Changing_Visitor& visitor, const int start, const int end)
-
+	double walk_in_default_order(const Real_Vector_Changing_Visitor& visitor, const int& start, const int& end)
 	{
 		check_indices(start, end);
 		visitor.start(get_dimension(), start, end);
-		for (int i = start; i <= end; i++)
+		for (int i{ start }; i <= end; i++)
 		{
 			set_entry(i, visitor.visit(i, get_entry(i)));
 		}
@@ -1064,7 +1069,7 @@ public:
 	 * @return the value returned by {@link Real_Vector_Changing_Visitor#end()}
 	 * at the end of the walk
 	 */
-	double walk_in_optimized_order(const Real_Vector_Changing_Visitor visitor)
+	double walk_in_optimized_order(const Real_Vector_Changing_Visitor& visitor)
 	{
 		return walk_in_default_order(visitor);
 	}
@@ -1083,8 +1088,7 @@ public:
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	public double walk_in_optimized_order(const Real_Vector_Changing_Visitor& visitor, const int start, const int end)
-
+	public double walk_in_optimized_order(const Real_Vector_Changing_Visitor& visitor, const int& start, const int& end)
 	{
 		return walk_in_default_order(visitor, start, end);
 	}
@@ -1092,11 +1096,13 @@ public:
 	/** An entry in the vector. */
 	class Entry
 	{
+	private:
 		/** Index of this entry. */
-		private int index;
+		int my_index;
 
+	public:
 		/** Simple constructor. */
-		public Entry()
+		Entry()
 		{
 			set_index(0);
 		}
@@ -1106,7 +1112,7 @@ public:
 		 *
 		 * @return the value of the entry.
 		 */
-		public double get_value()
+		double get_value()
 		{
 			return get_entry(get_index());
 		}
@@ -1116,7 +1122,7 @@ public:
 		 *
 		 * @param value New value for the entry.
 		 */
-		public void set_value(double value)
+		void set_value(const double& value)
 		{
 			set_entry(get_index(), value);
 		}
@@ -1126,9 +1132,9 @@ public:
 		 *
 		 * @return the index of the entry.
 		 */
-		public int get_index()
+		int get_index() const
 		{
-			return index;
+			return my_index;
 		}
 
 		/**
@@ -1136,11 +1142,11 @@ public:
 		 *
 		 * @param index New index for the entry.
 		 */
-		public void set_index(const int& index)
+		void set_index(const int& index)
 		{
-			this.index = index;
+			my_index = index;
 		}
-	}
+	};
 
 	/**
 	 * <p>
@@ -1165,10 +1171,10 @@ public:
 	 * overridden.
 	 */
 	 //override
-	public bool equals(Object other)
-		Math_Runtime_Exception
+	public bool equals(const Object& other)
 	{
-		throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+		throw std::exception("not implemented");
+		//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 	}
 
 	/**
@@ -1180,9 +1186,10 @@ public:
 	 * overridden.
 	 */
 	 //override
-	public int hash_code() Math_Runtime_Exception
+	public int hash_code()
 	{
-		throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+		throw std::exception("not implemented");
+		//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 	}
 
 	/**
@@ -1200,15 +1207,17 @@ public:
 	 */
 	protected class SparseEntry_iterator : Iterator<Entry>
 	{
+	private:
 		/** Dimension of the vector. */
-		private const int dim;
+		const int dim;
 		/** Last entry returned by {@link #next()}. */
-		private Entry current;
+		Entry current;
 		/** Next entry for {@link #next()} to return. */
-		private Entry next;
+		Entry next;
 
+	protected:
 		/** Simple constructor. */
-		protected SparseEntry_iterator()
+		SparseEntry_iterator()
 		{
 			dim = get_dimension();
 			current = Entry();
@@ -1224,7 +1233,7 @@ public:
 		 *
 		 * @param e entry to advance.
 		 */
-		protected void advance(Entry e)
+		void advance(const Entry& e)
 		{
 			if (e == NULL)
 			{
@@ -1240,21 +1249,23 @@ public:
 			}
 		}
 
+	public:
 		/** {@inherit_doc} */
 		//override
-		public bool has_next()
+		bool has_next() const
 		{
 			return next.get_index() >= 0;
 		}
 
 		/** {@inherit_doc} */
 		//override
-		public Entry next()
+		Entry next()
 		{
 			int index = next.get_index();
 			if (index < 0)
 			{
-				throw No_Such_Element_Exception();
+				throw std::exception("not implemented");
+				//throw No_Such_Element_Exception();
 			}
 			current.set_index(index);
 			advance(next);
@@ -1267,11 +1278,12 @@ public:
 		 * @Math_Runtime_Exception in all circumstances.
 		 */
 		 //override
-		public void remove() Math_Runtime_Exception
+		void remove()
 		{
-			throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+			throw std::exception("not implemented");
+			//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 		}
-	}
+	};
 
 	/**
 	 * Returns an unmodifiable view of the specified vector.
@@ -1291,7 +1303,7 @@ public:
 	 * @param v Vector for which an unmodifiable view is to be returned.
 	 * @return an unmodifiable view of {@code v}.
 	 */
-	public static Real_Vector unmodifiable_real__vector(const Real_Vector v)
+	public static Real_Vector unmodifiable_real__vector(const Real_Vector& v)
 	{
 		/**
 		 * This anonymous class is an implementation of {@link Real_Vector}
@@ -1311,9 +1323,9 @@ public:
 			 */
 			 //override
 			public Real_Vector map_to_self(Univariate_Function function)
-				Math_Runtime_Exception
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
@@ -1357,7 +1369,8 @@ public:
 					 //override
 					public void remove() Math_Runtime_Exception
 					{
-						throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+						throw std::exception("not implemented");
+						//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 					}
 				};
 			}
@@ -1396,9 +1409,9 @@ public:
 					 */
 					 //override
 					public void remove()
-						Math_Runtime_Exception
 					{
-						throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+						throw std::exception("not implemented");
+						//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 					}
 				};
 			}
@@ -1412,23 +1425,21 @@ public:
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector add(Real_Vector w)
-
+			public Real_Vector add(const Real_Vector& w)
 			{
 				return v.add(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector subtract(Real_Vector w)
-
+			public Real_Vector subtract(const Real_Vector& w)
 			{
 				return v.subtract(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector map_add(double d)
+			public Real_Vector map_add(const double& d)
 			{
 				return v.map_add(d);
 			}
@@ -1440,15 +1451,15 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public Real_Vector map_add_to_self(double d)
-				Math_Runtime_Exception
+			public Real_Vector map_add_to_self(const double& d)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector map_subtract(double d)
+			public Real_Vector map_subtract(const double& d)
 			{
 				return v.map_subtract(d);
 			}
@@ -1460,15 +1471,15 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public Real_Vector map_subtract_to_self(double d)
-				Math_Runtime_Exception
+			public Real_Vector map_subtract_to_self(const double& d)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector map_multiply(double d)
+			public Real_Vector map_multiply(const double& d)
 			{
 				return v.map_multiply(d);
 			}
@@ -1480,15 +1491,15 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public Real_Vector map_multiply_to_self(double d)
-				Math_Runtime_Exception
+			public Real_Vector map_multiply_to_self(const double& d)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector map_divide(double d)
+			public Real_Vector map_divide(const double& d)
 			{
 				return v.map_divide(d);
 			}
@@ -1500,47 +1511,43 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public Real_Vector map_divide_to_self(double d)
-				Math_Runtime_Exception
+			public Real_Vector map_divide_to_self(const double& d)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector ebe_multiply(Real_Vector w)
-
+			public Real_Vector ebe_multiply(const Real_Vector& w)
 			{
 				return v.ebe_multiply(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector ebe_divide(Real_Vector w)
-
+			public Real_Vector ebe_divide(const Real_Vector& w)
 			{
 				return v.ebe_divide(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public double dot_product(Real_Vector w)
-
+			public double dot_product(const Real_Vector& w)
 			{
 				return v.dot_product(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public double cosine(Real_Vector w)
-				, Math_Runtime_Exception
+			public double cosine(const Real_Vector& w)
 			{
-			return v.cosine(w);
+				return v.cosine(w);
 			}
 
-				/** {@inherit_doc} */
-				//override
-				public double get_norm()
+			/** {@inherit_doc} */
+			//override
+			public double get_norm()
 			{
 				return v.get_norm();
 			}
@@ -1561,31 +1568,28 @@ public:
 
 			/** {@inherit_doc} */
 			//override
-			public double get_distance(Real_Vector w)
-
+			public double get_distance(const Real_Vector& w)
 			{
 				return v.get_distance(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public double get_l1_distance(Real_Vector w)
-
+			public double get_l1_distance(const Real_Vector& w)
 			{
 				return v.get_l1_distance(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public double get_l_inf_distance(Real_Vector w)
-
+			public double get_l_inf_distance(const Real_Vector& w)
 			{
 				return v.get_l_inf_distance(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector unit_vector() Math_Runtime_Exception
+			public Real_Vector unit_vector()
 			{
 				return v.unit_vector();
 			}
@@ -1597,14 +1601,15 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public void unitize() Math_Runtime_Exception
+			public void unitize()
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Matrix outer_product(Real_Vector w)
+			public Real_Matrix outer_product(const Real_Vector& w)
 			{
 				return v.outer_product(w);
 			}
@@ -1623,10 +1628,10 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public void set_entry(const int& index, double value)
-				Math_Runtime_Exception
+			public void set_entry(const int& index, const double& value)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/**
@@ -1636,10 +1641,10 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public void add_to_entry(const int& index, double value)
-				Math_Runtime_Exception
+			public void add_to_entry(const int& index, const double& value)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
@@ -1651,22 +1656,21 @@ public:
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector append(Real_Vector w)
+			public Real_Vector append(const Real_Vector& w)
 			{
 				return v.append(w);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector append(double d)
+			public Real_Vector append(const double& d)
 			{
 				return v.append(d);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector get_sub_vector(const int& index, int n)
-
+			public Real_Vector get_sub_vector(const int& index, const int& n)
 			{
 				return v.get_sub_vector(index, n);
 			}
@@ -1678,10 +1682,10 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public void set_sub_vector(const int& index, Real_Vector w)
-				Math_Runtime_Exception
+			public void set_sub_vector(const int& index, const Real_Vector& w)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/**
@@ -1691,10 +1695,10 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public void set(double value)
-				Math_Runtime_Exception
+			public void set(cosnt double& value)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** {@inherit_doc} */
@@ -1708,19 +1712,19 @@ public:
 			//override
 			public bool is_nan()
 			{
-				return v.is_nan();
+				return std::is_nan(v);
 			}
 
 			/** {@inherit_doc} */
 			//override
 			public bool is_infinite()
 			{
-				return v.std::isinfinite();
+				return std::isinfinite(v);
 			}
 
 			/** {@inherit_doc} */
 			//override
-			public Real_Vector combine(const double& a, double b, Real_Vector y)
+			public Real_Vector combine(const double& a, const double& b, const Real_Vector& y)
 
 			{
 				return v.combine(a, b, y);
@@ -1733,18 +1737,19 @@ public:
 			 * circumstances.
 			 */
 			 //override
-			public Real_Vector combine_to_self(const double& a, double b, Real_Vector y)
-				Math_Runtime_Exception
+			public Real_Vector combine_to_self(const double& a, double b, const Real_Vector& y)
 			{
-				throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 			}
 
 			/** An entry in the vector. */
-			class Unmodifiable_Entry extends Entry
+			class Unmodifiable_Entry : public Entry
 			{
+			public:
 				/** {@inherit_doc} */
 				//override
-				public double get_value()
+				double get_value()
 				{
 					return v.get_entry(get_index());
 				}
@@ -1756,12 +1761,12 @@ public:
 				 * circumstances.
 				 */
 				 //override
-				public void set_value(double value)
-					Math_Runtime_Exception
+				void set_value(const double& value)
 				{
-					throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+					throw std::exception("not implemented");
+					//throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
 				}
-			}
+			};
 		};
 	}
 };

@@ -22,6 +22,7 @@
   //package org.hipparchus.special;
 
   //import org.hipparchus.util.FastMath;
+#include <cmath>
 
   /**
    * This is a utility class that provides computation methods related to the
@@ -30,6 +31,7 @@
    */
 class Erf
 {
+private:
 	/**
 	 * The number {@code X_CRIT} is used by {@link #erf(double, double)} internally.
 	 * This number solves {@code erf(x)=0.5} within 1ulp.
@@ -40,13 +42,14 @@ class Erf
 	 * {@code erfc(X_CRIT) = 0.5}, and<br/>
 	 * {@code erfc(Math.next_up(X_CRIT) < 0.5}
 	 */
-	private static const double X_CRIT = 0.4769362762044697;
+	static constexpr double X_CRIT{ 0.4769362762044697 };
 
 	/**
 	 * Default constructor.  Prohibit instantiation.
 	 */
-	private Erf() {}
+	Erf() {}
 
+public:
 	/**
 	 * Returns the error function.
 	 *
@@ -66,14 +69,17 @@ class Erf
 	 * if the algorithm fails to converge.
 	 * @see Gamma#regularized_gamma_p(double, double, double, int)
 	 */
-	public static double erf(double x)
+	static double erf(const double& x)
 	{
 		if (std::abs(x) > 40)
 		{
-			return x > 0 ? 1 : -1;
+			return x > 0
+				? 1 
+				: -1;
 		}
-		const double ret = Gamma::regularized_gamma_p(0.5, x * x, 1.0e-15, 10000);
-		return x < 0 ? -ret : ret;
+		return x < 0
+			? -Gamma::regularized_gamma_p(0.5, x * x, 1.0e-15, 10000)
+			:  Gamma::regularized_gamma_p(0.5, x * x, 1.0e-15, 10000);
 	}
 
 	/**
@@ -97,14 +103,17 @@ class Erf
 	 * if the algorithm fails to converge.
 	 * @see Gamma#regularized_gamma_q(double, double, double, int)
 	 */
-	public static double erfc(double x)
+	static double erfc(const double& x)
 	{
 		if (std::abs(x) > 40)
 		{
-			return x > 0 ? 0 : 2;
+			return x > 0
+				? 0
+				: 2;
 		}
-		const double ret = Gamma::regularized_gamma_q(0.5, x * x, 1.0e-15, 10000);
-		return x < 0 ? 2 - ret : ret;
+		return x < 0
+			? 2 - Gamma::regularized_gamma_q(0.5, x * x, 1.0e-15, 10000)
+			:     Gamma::regularized_gamma_q(0.5, x * x, 1.0e-15, 10000);
 	}
 
 	/**
@@ -117,7 +126,7 @@ class Erf
 	 * @param x2 the second value
 	 * @return erf(x2) - erf(x1)
 	 */
-	public static double erf(double x1, double x2)
+	static double erf(const double& x1, const double& x2)
 	{
 		if (x1 > x2)
 		{
@@ -125,13 +134,13 @@ class Erf
 		}
 
 		return
-			x1 < -X_CRIT ?
-			x2 < 0.0 ?
-			erfc(-x2) - erfc(-x1) :
-			erf(x2) - erf(x1) :
-			x2 > X_CRIT && x1 > 0.0 ?
-			erfc(x1) - erfc(x2) :
-			erf(x2) - erf(x1);
+			x1 < -X_CRIT
+				? x2 < 0.0 
+				? erfc(-x2) - erfc(-x1)
+				: erf(x2) - erf(x1)
+				: x2 > X_CRIT && x1 > 0.0
+					? erfc(x1) - erfc(x2)
+					: erf(x2) - erf(x1);
 	}
 
 	/**
@@ -145,7 +154,7 @@ class Erf
 	 * @param x the value
 	 * @return t such that x = erf(t)
 	 */
-	public static double erf_inv(const double& x)
+	static double erf_inv(const double& x)
 	{
 		// beware that the logarithm argument must be
 		// commputed as (1.0 - x) * (1.0 + x), // it must NOT be simplified as 1.0 - x * x as this
@@ -245,8 +254,8 @@ class Erf
 	 * @param x the value
 	 * @return t such that x = erfc(t)
 	 */
-	public static double erfc_inv(const double& x)
+	static double erfc_inv(const double& x)
 	{
 		return erf_inv(1 - x);
 	}
-}
+};

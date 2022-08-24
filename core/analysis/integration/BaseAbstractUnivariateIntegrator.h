@@ -54,7 +54,7 @@ public:
 
 protected:
 	/** The iteration count. */
-	const Incrementor iterations;
+	const Incrementor<> my_iterations;
 
 private:
 	/** Maximum absolute error. */
@@ -67,7 +67,7 @@ private:
 	const int my_minimal_iteration_count;
 
 	/** The functions evaluation count. */
-	Incrementor my_evaluations;
+	Incrementor<> my_evaluations;
 
 	/** Function to integrate. */
 	Univariate_Function my_function;

@@ -139,7 +139,7 @@ class DS_Compiler
 {
 private:
 	/** Array of all compilers created so far. */
-	static Atomic_Reference<DS_Compiler[][]> compilers = Atomic_Reference<>(null);
+	static Atomic_Reference<std::vector<std::vector<DS_Compiler>>> compilers;
 
 	/** Number of free parameters. */
 	const int parameters;
@@ -148,19 +148,19 @@ private:
 	const int order;
 
 	/** Number of partial derivatives (including the single 0 order derivative element). */
-	const std::vector<std::vector<int>> sizes;
+	const std::vector<std::vector<int>> my_sizes;
 
 	/** Indirection array for partial derivatives. */
-	const std::vector<std::vector<int>> derivatives_indirection;
+	const std::vector<std::vector<int>> my_derivatives_indirection;
 
 	/** Indirection array of the lower derivative elements. */
-	const std::vector<int> lower_indirection;
+	const std::vector<int> my_lower_indirection;
 
 	/** Indirection arrays for multiplication. */
-	const std::vector<std::vector<int>>[] mult_indirection;
+	const std::vector<std::vector<int>>[] my_mult_indirection;
 
 	/** Indirection arrays for function composition. */
-	const std::vector<std::vector<int>>[] comp_indirection;
+	const std::vector<std::vector<int>>[] my_comp_indirection;
 
 	/** Private constructor, reserved for the factory method {@link #get_compiler(int, int)}.
 	 * @param parameters number of free parameters
@@ -169,73 +169,15 @@ private:
 	 * @param derivative_compiler compiler for the derivative part
 	 * @ if order is too large
 	 */
-	DS_Compiler(const int parameters, const int order, const DS_Compiler value_compiler, const DS_Compiler derivative_compiler)
+	DS_Compiler(const int& parameters, const int& order, const DS_Compiler& value_compiler, const DS_Compiler& derivative_compiler)
 	{
-		this.parameters = parameters;
-		this.order = order;
-		this.sizes = compile_sizes(parameters, order, value_compiler);
-		this.derivatives_indirection =
-			compile_derivatives_indirection(parameters, order, value_compiler, derivative_compiler);
-		this.lower_indirection =
-			compile_lower_indirection(parameters, order, value_compiler, derivative_compiler);
-		this.mult_indirection =
-			compile_multiplication_indirection(parameters, order, value_compiler, derivative_compiler, lower_indirection);
-		this.comp_indirection =
-			compile_composition_indirection(parameters, order, value_compiler, derivative_compiler, sizes, derivatives_indirection);
-	}
-
-public:
-	/** Get the compiler for number of free parameters and order.
-	 * @param parameters number of free parameters
-	 * @param order derivation order
-	 * @return cached rules set
-	 * @ if order is too large
-	 */
-	static DS_Compiler get_compiler(const int& parameters, int order)
-
-	{
-		// get the cached compilers
-		const DS_Compiler[][] cache = compilers.get();
-		if (cache != NULL && cache.size() > parameters &&
-			cache[parameters].size() > order && cache[parameters][order] != NULL)
-		{
-			// the compiler has already been created
-			return cache[parameters][order];
-		}
-
-		// we need to create more compilers
-		const int max_parameters = std::max(parameters, cache == NULL ? 0 : cache.size());
-		const int max_order = std::max(order, cache == NULL ? 0 : cache[0].size());
-		const DS_Compiler[][] new_cache = DS_Compiler[max_parameters + 1][max_order + 1];
-
-		if (cache != NULL)
-		{
-			// preserve the already created compilers
-			for (int i{}; i < cache.size(); ++i)
-			{
-				System.arraycopy(cache[i], 0, new_cache[i], 0, cache[i].size());
-			}
-		}
-
-		// create the array in increasing diagonal order
-		for (const int& diag = 0; diag <= parameters + order; ++diag)
-		{
-			for (const int& o = std::max(0, diag - parameters); o <= std::min(order, diag); ++o)
-			{
-				const int p = diag - o;
-				if (new_cache[p][o] == NULL)
-				{
-					const DS_Compiler value_compiler = (p == 0) ? NULL : new_cache[p - 1][o];
-					const DS_Compiler derivative_compiler = (o == 0) ? NULL : new_cache[p][o - 1];
-					new_cache[p][o] = DS_Compiler(p, o, value_compiler, derivative_compiler);
-				}
-			}
-		}
-
-		// atomically reset the cached compilers array
-		compilers.compare_and_set(cache, new_cache);
-
-		return new_cache[parameters][order];
+		my_parameters = parameters;
+		my_order = order;
+		my_sizes = compile_sizes(parameters, order, value_compiler);
+		my_derivatives_indirection = compile_derivatives_indirection(parameters, order, value_compiler, derivative_compiler);
+		my_lower_indirection = compile_lower_indirection(parameters, order, value_compiler, derivative_compiler);
+		my_mult_indirection = compile_multiplication_indirection(parameters, order, value_compiler, derivative_compiler, lower_indirection);
+		my_comp_indirection = compile_composition_indirection(parameters, order, value_compiler, derivative_compiler, sizes, derivatives_indirection);
 	}
 
 	/** Compile the sizes array.
@@ -244,9 +186,9 @@ public:
 	 * @param value_compiler compiler for the value part
 	 * @return sizes array
 	 */
-	private static std::vector<std::vector<int>> compile_sizes(const int parameters, const int order, const DS_Compiler value_compiler)
+	static std::vector<std::vector<int>> compile_sizes(const int& parameters, const int& order, const DS_Compiler& value_compiler)
 	{
-		const std::vector<std::vector<int>> sizes = int[parameters + 1][order + 1];
+		auto sizes = std::vector < std::vector<int>(parameters + 1, std::vector<int>(order + 1));
 		if (parameters == 0)
 		{
 			Arrays.fill(sizes[0], 1);
@@ -271,16 +213,16 @@ public:
 	 * @param derivative_compiler compiler for the derivative part
 	 * @return derivatives indirection array
 	 */
-	private static std::vector<std::vector<int>> compile_derivatives_indirection(const int parameters, const int order, const DS_Compiler value_compiler, const DS_Compiler derivative_compiler)
+	static std::vector<std::vector<int>> compile_derivatives_indirection(const int& parameters, const int& order, const DS_Compiler& value_compiler, const DS_Compiler& derivative_compiler)
 	{
 		if (parameters == 0 || order == 0)
 		{
-			return int[1][parameters];
+			return std::vector < std::vector<int>(1, std::vector<int>(parameters));
 		}
 
 		const int v_size = value_compiler.derivatives_indirection.size();
 		const int d_size = derivative_compiler.derivatives_indirection.size();
-		const std::vector<std::vector<int>> derivatives_indirection = int[v_size + d_size][parameters];
+		auto derivatives_indirection = std::vector < std::vector<int>(v_size + d_size, std::vector<int>(parameters));
 
 		// set up the indices for the value part
 		for (int i{}; i < v_size; ++i)
@@ -313,7 +255,7 @@ public:
 	 * @param derivative_compiler compiler for the derivative part
 	 * @return lower derivatives indirection array
 	 */
-	private static std::vector<int> compile_lower_indirection(const int parameters, const int order, const DS_Compiler value_compiler, const DS_Compiler derivative_compiler)
+	static std::vector<int> compile_lower_indirection(const int& parameters, const int& order, const DS_Compiler& value_compiler, const DS_Compiler& derivative_compiler)
 	{
 		if (parameters == 0 || order <= 1)
 		{
@@ -346,7 +288,7 @@ public:
 	 * @param lower_indirection lower derivatives indirection array
 	 * @return multiplication indirection array
 	 */
-	private static std::vector<std::vector<int>>[] compile_multiplication_indirection(const int parameters, const int order, const DS_Compiler value_compiler, const DS_Compiler derivative_compiler, const std::vector<int> lower_indirection)
+	static std::vector<std::vector<int>> compile_multiplication_indirection(const int& parameters, const int& order, const DS_Compiler& value_compiler, const DS_Compiler& derivative_compiler, const std::vector<int> lower_indirection)
 	{
 		if (parameters == 0 || order == 0)
 		{
@@ -363,7 +305,7 @@ public:
 		for (int i{}; i < d_size; ++i)
 		{
 			const std::vector<std::vector<int>> d_row = derivative_compiler.mult_indirection[i];
-			List<std::vector<int>> row = Array_list<>(d_row.size() * 2);
+			auto row = std::vector<int>(d_row.size() * 2);
 			for (int j{}; j < d_row.size(); ++j)
 			{
 				row.add(new std::vector<int>{ d_row[j][0], lower_indirection[d_row[j][1]], v_size + d_row[j][2] });
@@ -374,10 +316,10 @@ public:
 			const List<std::vector<int>> combined = Array_list<>(row.size());
 			for (int j{}; j < row.size(); ++j)
 			{
-				const std::vector<int> term_j = row.get(j);
+				auto term_j = row.get(j);
 				if (term_j[0] > 0)
 				{
-					for (int k = j + 1; k < row.size(); ++k)
+					for (int k{ j + 1 }; k < row.size(); ++k)
 					{
 						const std::vector<int> term_k = row.get(k);
 						if (term_j[1] == term_k[1] && term_j[2] == term_k[2])
@@ -413,8 +355,7 @@ public:
 	 * @return multiplication indirection array
 	 * @ if order is too large
 	 */
-	private static std::vector<std::vector<int>>[] compile_composition_indirection(const int parameters, const int order, const DS_Compiler value_compiler, const DS_Compiler derivative_compiler, const std::vector<std::vector<int>> sizes, const std::vector<std::vector<int>> derivatives_indirection)
-
+	static std::vector<std::vector<int>>[] compile_composition_indirection(const int& parameters, const int& order, const DS_Compiler& value_compiler, const DS_Compiler& derivative_compiler, const std::vector<std::vector<int>>& sizes, const std::vector<std::vector<int>>& derivatives_indirection)
 	{
 		if (parameters == 0 || order == 0)
 		{
@@ -423,7 +364,7 @@ public:
 
 		const int v_size = value_compiler.comp_indirection.size();
 		const int d_size = derivative_compiler.comp_indirection.size();
-		const std::vector<std::vector<int>>[] comp_indirection = int[v_size + d_size][][];
+		auto comp_indirection = std::vector < std::vector < std::vector<int>(v_size + d_size);
 
 		// the composition rules from the value part can be reused as is
 		System.arraycopy(value_compiler.comp_indirection, 0, comp_indirection, 0, v_size);
@@ -434,19 +375,19 @@ public:
 		// underlying one did not handle
 		for (int i{}; i < d_size; ++i)
 		{
-			List<std::vector<int>> row = Array_list<>();
-			for (std::vector<int> term : derivative_compiler.comp_indirection[i])
+			auto row = std::vector<int>();
+			for (const auto& term : derivative_compiler.comp_indirection[i])
 			{
 				// handle term p * f_k(g(x)) * g_l1(x) * g_l2(x) * ... * g_lp(x)
 
 				// derive the first factor in the term: f_k with respect to parameter
-				std::vector<int> derived_term_f = int[term.size() + 1];
+				auto derived_term_f = std::vector<int>(term.size() + 1);
 				derived_term_f[0] = term[0];     // p
 				derived_term_f[1] = term[1] + 1; // f_(k+1)
 				std::vector<int> orders = int[parameters];
 				orders[parameters - 1] = 1;
 				derived_term_f[term.size()] = get_partial_derivative_index(parameters, order, sizes, orders);  // g_1
-				for (int j = 2; j < term.size(); ++j)
+				for (int j{ 2 }; j < term.size(); ++j)
 				{
 					// convert the indices as the mapping for the current order
 					// is different from the mapping with one less order
@@ -456,9 +397,9 @@ public:
 				row.add(derived_term_f);
 
 				// derive the various g_l
-				for (const int& l = 2; l < term.size(); ++l)
+				for (const int l{ 2 }; l < term.size(); ++l)
 				{
-					std::vector<int> derived_term_g = int[term.size()];
+					auto derived_term_g = std::vector<int>(term.size());
 					derived_term_g[0] = term[0];
 					derived_term_g[1] = term[1];
 					for (int j = 2; j < term.size(); ++j)
@@ -480,17 +421,17 @@ public:
 			}
 
 			// combine terms with similar derivation orders
-			const List<std::vector<int>> combined = Array_list<>(row.size());
+			const auto combined = std::vector<int>(row.size());
 			for (int j{}; j < row.size(); ++j)
 			{
-				const std::vector<int> term_j = row.get(j);
+				const auto term_j = row.get(j);
 				if (term_j[0] > 0)
 				{
 					for (int k = j + 1; k < row.size(); ++k)
 					{
-						const std::vector<int> term_k = row.get(k);
+						const auto term_k = row.get(k);
 						bool equals = term_j.size() == term_k.size();
-						for (const int& l = 1; equals && l < term_j.size(); ++l)
+						for (int l{ 1 }; equals && l < term_j.size(); ++l)
 						{
 							equals &= term_j[l] == term_k[l];
 						}
@@ -512,46 +453,6 @@ public:
 		return comp_indirection;
 	}
 
-	/** Get the index of a partial derivative in the array.
-	 * <p>
-	 * If all orders are set to 0, then the 0<sup>th</sup> order derivative
-	 * is returned, which is the value of the function.
-	 * </p>
-	 * <p>The indices of derivatives are between 0 and {@link #get_size() get_size()} - 1.
-	 * Their specific order is fixed for a given compiler, but otherwise not
-	 * publicly specified. There are however some simple cases which have guaranteed
-	 * indices:
-	 * </p>
-	 * <ul>
-	 *   <li>the index of 0<sup>th</sup> order derivative is always 0</li>
-	 *   <li>if there is only 1 {@link #get_free_parameters() free parameter}, then the
-	 *   derivatives are sorted in increasing derivation order (i.e. f at index 0, df/dp
-	 *   at index 1, d<sup>2</sup>f/dp<sup>2</sup> at index 2 ...
-	 *   d<sup>k</sup>f/dp<sup>k</sup> at index k),</li>
-	 *   <li>if the {@link #get_order() derivation order} is 1, then the derivatives
-	 *   are sorted in increasing free parameter order (i.e. f at index 0, df/dx<sub>1</sub>
-	 *   at index 1, df/dx<sub>2</sub> at index 2 ... df/dx<sub>k</sub> at index k),</li>
-	 *   <li>all other cases are not publicly specified</li>
-	 * </ul>
-	 * <p>
-	 * This method is the inverse of method {@link #get_partial_derivative_ordersstatic_cast<int>(}
-	 * </p>
-	 * @param orders derivation orders with respect to each parameter
-	 * @return index of the partial derivative
-	 * @exception  if the numbers of parameters does not
-	 * match the instance
-	 * @exception  if sum of derivation orders is larger
-	 * than the instance limits
-	 * @see #get_partial_derivative_ordersstatic_cast<int>(
-	 */
-	public int get_partial_derivative_index(const int ... orders)
-
-	{
-		// safety check
-		Math_Utils::check_dimension(orders.size(), get_free_parameters());
-		return get_partial_derivative_index(parameters, order, sizes, orders);
-	}
-
 	/** Get the index of a partial derivative in an array.
 	 * @param parameters number of free parameters
 	 * @param order derivation order
@@ -562,15 +463,14 @@ public:
 	 * @exception  if sum of derivation orders is larger
 	 * than the instance limits
 	 */
-	private static int get_partial_derivative_index(const int parameters, const int order, const std::vector<std::vector<int>> sizes, const int ... orders)
-
+	static int get_partial_derivative_index(const int& parameters, const int& order, const std::vector<std::vector<int>>& sizes, const int& ... orders)
 	{
 		// the value is obtained by diving into the recursive Dan Kalman's structure
 		// this is theorem 2 of his paper, with recursion replaced by iteration
-		int index = 0;
-		int m = order;
-		int orders_sum = 0;
-		for (int i = parameters - 1; i >= 0; --i)
+		int index{};
+		int m{ order };
+		int orders_sum{};
+		for (int i{ parameters - 1 }; i >= 0; --i)
 		{
 			// derivative order for current free parameter
 			int derivative_order = orders[i];
@@ -607,12 +507,106 @@ public:
 	 * in destination derivative structure
 	 * @ if order is too large
 	 */
-	private static int convert_index(const int index, const int src_p, const std::vector<std::vector<int>> src_derivatives_indirection, const int dest_p, const int dest_o, const std::vector<std::vector<int>> dest_sizes)
-
+	static int convert_index(const int& index, const int& src_p, const std::vector<std::vector<int>>& src_derivatives_indirection, const int& dest_p, const int& dest_o, const std::vector<std::vector<int>>& dest_sizes)
 	{
-		std::vector<int> orders = int[dest_p];
+		auto orders = std::vector<int>(dest_p);
 		System.arraycopy(src_derivatives_indirection[index], 0, orders, 0, std::min(src_p, dest_p));
 		return get_partial_derivative_index(dest_p, dest_o, dest_sizes, orders);
+	}
+
+public:
+	/** Get the compiler for number of free parameters and order.
+	 * @param parameters number of free parameters
+	 * @param order derivation order
+	 * @return cached rules set
+	 * @ if order is too large
+	 */
+	static DS_Compiler get_compiler(const int& parameters, const int& order)
+	{
+		// get the cached compilers
+		const auto cache = compilers.get();
+		if (cache != NULL && cache.size() > parameters && cache[parameters].size() > order && cache[parameters][order] != NULL)
+		{
+			// the compiler has already been created
+			return cache[parameters][order];
+		}
+
+		// we need to create more compilers
+		const int max_parameters = std::max(parameters, cache == NULL ? 0 : cache.size());
+		const int max_order = std::max(order, cache == NULL ? 0 : cache[0].size());
+		const auto new_cache = std::vector<std::vector<DS_Compiler>(max_parameters + 1, std::vector<DS_Compiler>(max_order + 1));
+
+		if (cache != NULL)
+		{
+			// preserve the already created compilers
+			for (int i{}; i < cache.size(); ++i)
+			{
+				System.arraycopy(cache[i], 0, new_cache[i], 0, cache[i].size());
+			}
+		}
+
+		// create the array in increasing diagonal order
+		for (const int& diag{}; diag <= parameters + order; ++diag)
+		{
+			for (const int& o = std::max(0, diag - parameters); o <= std::min(order, diag); ++o)
+			{
+				const int p = diag - o;
+				if (new_cache[p][o] == NULL)
+				{
+					const DS_Compiler value_compiler = p == 0
+						? NULL
+						: new_cache[p - 1][o];
+					const DS_Compiler derivative_compiler = o == 0
+						? NULL
+						: new_cache[p][o - 1];
+					new_cache[p][o] = DS_Compiler(p, o, value_compiler, derivative_compiler);
+				}
+			}
+		}
+
+		// atomically reset the cached compilers array
+		compilers.compare_and_set(cache, new_cache);
+
+		return new_cache[parameters][order];
+	}
+
+	/** Get the index of a partial derivative in the array.
+	 * <p>
+	 * If all orders are set to 0, then the 0<sup>th</sup> order derivative
+	 * is returned, which is the value of the function.
+	 * </p>
+	 * <p>The indices of derivatives are between 0 and {@link #get_size() get_size()} - 1.
+	 * Their specific order is fixed for a given compiler, but otherwise not
+	 * publicly specified. There are however some simple cases which have guaranteed
+	 * indices:
+	 * </p>
+	 * <ul>
+	 *   <li>the index of 0<sup>th</sup> order derivative is always 0</li>
+	 *   <li>if there is only 1 {@link #get_free_parameters() free parameter}, then the
+	 *   derivatives are sorted in increasing derivation order (i.e. f at index 0, df/dp
+	 *   at index 1, d<sup>2</sup>f/dp<sup>2</sup> at index 2 ...
+	 *   d<sup>k</sup>f/dp<sup>k</sup> at index k),</li>
+	 *   <li>if the {@link #get_order() derivation order} is 1, then the derivatives
+	 *   are sorted in increasing free parameter order (i.e. f at index 0, df/dx<sub>1</sub>
+	 *   at index 1, df/dx<sub>2</sub> at index 2 ... df/dx<sub>k</sub> at index k),</li>
+	 *   <li>all other cases are not publicly specified</li>
+	 * </ul>
+	 * <p>
+	 * This method is the inverse of method {@link #get_partial_derivative_ordersstatic_cast<int>(}
+	 * </p>
+	 * @param orders derivation orders with respect to each parameter
+	 * @return index of the partial derivative
+	 * @exception  if the numbers of parameters does not
+	 * match the instance
+	 * @exception  if sum of derivation orders is larger
+	 * than the instance limits
+	 * @see #get_partial_derivative_ordersstatic_cast<int>(
+	 */
+	int get_partial_derivative_index(const int& ... orders)
+	{
+		// safety check
+		Math_Utils::check_dimension(orders.size(), get_free_parameters());
+		return get_partial_derivative_index(parameters, order, sizes, orders);
 	}
 
 	/** Get the derivation orders for a specific index in the array.
@@ -623,25 +617,25 @@ public:
 	 * @return orders derivation orders with respect to each parameter
 	 * @see #get_partial_derivative_index(int...)
 	 */
-	public std::vector<int> get_partial_derivative_orders(const int index)
+	std::vector<int> get_partial_derivative_orders(const int& index)
 	{
-		return derivatives_indirection[index].clone();
+		return derivatives_indirection[index];
 	}
 
 	/** Get the number of free parameters.
 	 * @return number of free parameters
 	 */
-	public int get_free_parameters()
+	int get_free_parameters() const
 	{
-		return parameters;
+		return my_parameters;
 	}
 
 	/** Get the derivation order.
 	 * @return derivation order
 	 */
-	public int get_order()
+	int get_order() const
 	{
-		return order;
+		return my_order;
 	}
 
 	/** Get the array size required for holding partial derivatives data.
@@ -651,7 +645,7 @@ public:
 	 * </p>
 	 * @return array size required for holding partial derivatives data
 	 */
-	public int get_size()
+	int get_size() const
 	{
 		return sizes[parameters][order];
 	}
@@ -668,12 +662,11 @@ public:
 	 * one of the input arrays)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void linear_combination(const double& a1, const std::vector<double> c1, const int offset1, const double& a2, const std::vector<double> c2, const int offset2, const std::vector<double> result, const int result_offset)
+	void linear_combination(const double& a1, const std::vector<double>& c1, const int& offset1, const double& a2, const std::vector<double>& c2, const int& offset2, const std::vector<double>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
-			result[result_offset + i] =
-				Math_Arrays::linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i]);
+			result[result_offset + i] = Math_Arrays::linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i]);
 		}
 	}
 
@@ -691,12 +684,11 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void linear_combination(const T a1, const std::vector<T> c1, const int offset1, const T a2, const std::vector<T> c2, const int offset2, const std::vector<T> result, const int result_offset)
+	void linear_combination(const T& a1, const std::vector<T>& c1, const int& offset1, const T& a2, const std::vector<T>& c2, const int& offset2, std::vector<T>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
-			result[result_offset + i] =
-				a1.linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i]);
+			result[result_offset + i] = a1.linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i]);
 		}
 	}
 
@@ -714,12 +706,11 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void linear_combination(const double& a1, const std::vector<T> c1, const int offset1, const double& a2, const std::vector<T> c2, const int offset2, const std::vector<T> result, const int result_offset)
+	void linear_combination(const double& a1, const std::vector<T>& c1, const int& offset1, const double& a2, const std::vector<T>& c2, const int& offset2, std::vector<T>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
-			result[result_offset + i] =
-				c1[offset1].linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i]);
+			result[result_offset + i] = c1[offset1].linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i]);
 		}
 	}
 
@@ -738,38 +729,11 @@ public:
 	 * one of the input arrays)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void linear_combination(const double& a1, const std::vector<double> c1, const int offset1, const double& a2, const std::vector<double> c2, const int offset2, const double& a3, const std::vector<double> c3, const int offset3, const std::vector<double> result, const int result_offset)
+	void linear_combination(const double& a1, const std::vector<double>& c1, const int& offset1, const double& a2, const std::vector<double>& c2, const int& offset2, const double& a3, const std::vector<double> c3, const int& offset3, std::vector<double>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
-			result[result_offset + i] =
-				Math_Arrays::linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i]);
-		}
-	}
-
-	/** Compute linear combination.
-	 * The derivative structure built will be a1 * ds1 + a2 * ds2 + a3 * ds3 + a4 * ds4
-	 * @param a1 first scale factor
-	 * @param c1 first base (unscaled) component
-	 * @param offset1 offset of first operand in its array
-	 * @param a2 second scale factor
-	 * @param c2 second base (unscaled) component
-	 * @param offset2 offset of second operand in its array
-	 * @param a3 third scale factor
-	 * @param c3 third base (unscaled) component
-	 * @param offset3 offset of third operand in its array
-	 * @param result array where result must be stored (it may be
-	 * one of the input arrays)
-	 * @param result_offset offset of the result in its array
-	 * @param <T> the type of the function parameters and value
-	 */
-	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void linear_combination(const T a1, const std::vector<T> c1, const int offset1, const T a2, const std::vector<T> c2, const int offset2, const T a3, const std::vector<T> c3, const int offset3, const std::vector<T> result, const int result_offset)
-	{
-		for (int i{}; i < get_size(); ++i)
-		{
-			result[result_offset + i] =
-				a1.linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i]);
+			result[result_offset + i] = Math_Arrays::linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i]);
 		}
 	}
 
@@ -790,12 +754,36 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void linear_combination(const double& a1, const std::vector<T> c1, const int offset1, const double& a2, const std::vector<T> c2, const int offset2, const double& a3, const std::vector<T> c3, const int offset3, const std::vector<T> result, const int result_offset)
+	void linear_combination(const T& a1, const std::vector<T>& c1, const int& offset1, const T& a2, const std::vector<T>& c2, const int& offset2, const T& a3, const std::vector<T>& c3, const int& offset3, std::vector<T>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
-			result[result_offset + i] =
-				c1[offset1].linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i]);
+			result[result_offset + i] = a1.linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i]);
+		}
+	}
+
+	/** Compute linear combination.
+	 * The derivative structure built will be a1 * ds1 + a2 * ds2 + a3 * ds3 + a4 * ds4
+	 * @param a1 first scale factor
+	 * @param c1 first base (unscaled) component
+	 * @param offset1 offset of first operand in its array
+	 * @param a2 second scale factor
+	 * @param c2 second base (unscaled) component
+	 * @param offset2 offset of second operand in its array
+	 * @param a3 third scale factor
+	 * @param c3 third base (unscaled) component
+	 * @param offset3 offset of third operand in its array
+	 * @param result array where result must be stored (it may be
+	 * one of the input arrays)
+	 * @param result_offset offset of the result in its array
+	 * @param <T> the type of the function parameters and value
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	void linear_combination(const double& a1, const std::vector<T>& c1, const int& offset1, const double& a2, const std::vector<T>& c2, const int& offset2, const double& a3, const std::vector<T>& c3, const int& offset3, std::vector<T>& result, const int& result_offset)
+	{
+		for (int i{}; i < get_size(); ++i)
+		{
+			result[result_offset + i] = c1[offset1].linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i]);
 		}
 	}
 
@@ -817,12 +805,11 @@ public:
 	 * one of the input arrays)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void linear_combination(const double& a1, const std::vector<double> c1, const int offset1, const double& a2, const std::vector<double> c2, const int offset2, const double& a3, const std::vector<double> c3, const int offset3, const double& a4, const std::vector<double> c4, const int offset4, const std::vector<double> result, const int result_offset)
+	void linear_combination(const double& a1, const std::vector<double>& c1, const int& offset1, const double& a2, const std::vector<double>& c2, const int& offset2, const double& a3, const std::vector<double>& c3, const int& offset3, const double& a4, const std::vector<double> c4, const int& offset4, std::vector<double>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
-			result[result_offset + i] =
-				Math_Arrays::linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i], a4, c4[offset4 + i]);
+			result[result_offset + i] = Math_Arrays::linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i], a4, c4[offset4 + i]);
 		}
 	}
 
@@ -846,7 +833,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void linear_combination(const T a1, const std::vector<T> c1, const int offset1, const T a2, const std::vector<T> c2, const int offset2, const T a3, const std::vector<T> c3, const int offset3, const T a4, const std::vector<T> c4, const int offset4, const std::vector<T> result, const int result_offset)
+	void linear_combination(const T& a1, const std::vector<T>& c1, const int& offset1, const T& a2, const std::vector<T>& c2, const int& offset2, const T& a3, const std::vector<T>& c3, const int& offset3, const T& a4, const std::vector<T>& c4, const int& offset4, std::vector<T>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
@@ -875,12 +862,11 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void linear_combination(const double& a1, const std::vector<T> c1, const int offset1, const double& a2, const std::vector<T> c2, const int offset2, const double& a3, const std::vector<T> c3, const int offset3, const double& a4, const std::vector<T> c4, const int offset4, const std::vector<T> result, const int result_offset)
+	void linear_combination(const double& a1, const std::vector<T>& c1, const int& offset1, const double& a2, const std::vector<T>& c2, const int& offset2, const double& a3, const std::vector<T>& c3, const int& offset3, const double& a4, const std::vector<T>& c4, const int& offset4, std::vector<T>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
-			result[result_offset + i] =
-				c1[offset1].linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i], a4, c4[offset4 + i]);
+			result[result_offset + i] = c1[offset1].linear_combination(a1, c1[offset1 + i], a2, c2[offset2 + i], a3, c3[offset3 + i], a4, c4[offset4 + i]);
 		}
 	}
 
@@ -893,7 +879,7 @@ public:
 	 * one of the input arrays)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void add(const std::vector<double> lhs, const int lhs_offset, const std::vector<double> rhs, const int rhs_offset, const std::vector<double> result, const int result_offset)
+	void add(const std::vector<double>& lhs, const int& lhs_offset, const std::vector<double>& rhs, const int& rhs_offset, std::vector<double>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
@@ -912,7 +898,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void add(const std::vector<T> lhs, const int lhs_offset, const std::vector<T> rhs, const int rhs_offset, const std::vector<T> result, const int result_offset)
+	void add(const std::vector<T>& lhs, const int& lhs_offset, const std::vector<T>& rhs, const int& rhs_offset, std::vector<T>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
@@ -929,7 +915,7 @@ public:
 	 * one of the input arrays)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void subtract(const std::vector<double> lhs, const int lhs_offset, const std::vector<double> rhs, const int rhs_offset, const std::vector<double> result, const int result_offset)
+	void subtract(const std::vector<double>& lhs, const int& lhs_offset, const std::vector<double>& rhs, const int& rhs_offset, std::vector<double>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
@@ -948,7 +934,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void subtract(const std::vector<T> lhs, const int lhs_offset, const std::vector<T> rhs, const int rhs_offset, const std::vector<T> result, const int result_offset)
+	void subtract(const std::vector<T>& lhs, const int& lhs_offset, const std::vector<T>& rhs, const int& rhs_offset, std::vector<T>& result, const int& result_offset)
 	{
 		for (int i{}; i < get_size(); ++i)
 		{
@@ -966,12 +952,12 @@ public:
 	  * the input arrays)
 	  * @param result_offset offset of the result in its array
 	  */
-	public void multiply(const std::vector<double> lhs, const int lhs_offset, const std::vector<double> rhs, const int rhs_offset, const std::vector<double> result, const int result_offset)
+	void multiply(const std::vector<double>& lhs, const int& lhs_offset, const std::vector<double>& rhs, const int& rhs_offset, std::vector<double>& result, const int& result_offset)
 	{
 		for (int i{}; i < mult_indirection.size(); ++i)
 		{
 			const std::vector<std::vector<int>> mapping_i = mult_indirection[i];
-			double r = 0;
+			double r{};
 			for (int j{}; j < mapping_i.size(); ++j)
 			{
 				r += mapping_i[j][0] *
@@ -994,12 +980,12 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void multiply(const std::vector<T> lhs, const int lhs_offset, const std::vector<T> rhs, const int rhs_offset, const std::vector<T> result, const int result_offset)
+	void multiply(const std::vector<T>& lhs, const int& lhs_offset, const std::vector<T>& rhs, const int& rhs_offset, std::vector<T>& result, const int& result_offset)
 	{
 		T zero = lhs[lhs_offset].get_field().get_zero();
 		for (int i{}; i < mult_indirection.size(); ++i)
 		{
-			const std::vector<std::vector<int>> mapping_i = mult_indirection[i];
+			const auto mapping_i = mult_indirection[i];
 			T r = zero;
 			for (int j{}; j < mapping_i.size(); ++j)
 			{
@@ -1021,9 +1007,9 @@ public:
 	 * the input arrays)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void divide(const std::vector<double> lhs, const int lhs_offset, const std::vector<double> rhs, const int rhs_offset, const std::vector<double> result, const int result_offset)
+	void divide(const std::vector<double>& lhs, const int& lhs_offset, const std::vector<double>& rhs, const int& rhs_offset, std::vector<double>& result, const int& result_offset)
 	{
-		const std::vector<double> reciprocal = std::vector<double>(get_size()];
+		const auto reciprocal = std::vector<double>(get_size()];
 		pow(rhs, lhs_offset, -1, reciprocal, 0);
 		multiply(lhs, lhs_offset, reciprocal, 0, result, result_offset);
 	}
@@ -1040,7 +1026,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void divide(const std::vector<T> lhs, const int lhs_offset, const std::vector<T> rhs, const int rhs_offset, const std::vector<T> result, const int result_offset)
+	void divide(const std::vector<T>& lhs, const int& lhs_offset, const std::vector<T>& rhs, const int& rhs_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const std::vector<T> reciprocal = Math_Arrays::build_array(lhs[lhs_offset].get_field(), get_size());
 		pow(rhs, lhs_offset, -1, reciprocal, 0);
@@ -1056,7 +1042,7 @@ public:
 	 * one of the input arrays)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void remainder(const std::vector<double> lhs, const int lhs_offset, const std::vector<double> rhs, const int rhs_offset, const std::vector<double> result, const int result_offset)
+	void remainder(const std::vector<double>& lhs, const int& lhs_offset, const std::vector<double>& rhs, const int& rhs_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// compute k such that lhs % rhs = lhs - k rhs
 		const double rem = std::remainder(lhs[lhs_offset], rhs[rhs_offset]);
@@ -1083,10 +1069,10 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void remainder(const std::vector<T> lhs, const int lhs_offset, const std::vector<T> rhs, const int rhs_offset, const std::vector<T> result, const int result_offset)
+	void remainder(const std::vector<T>& lhs, const int& lhs_offset, const std::vector<T>& rhs, const int& rhs_offset, std::vector<T>& result, const int& result_offset)
 	{
 		// compute k such that lhs % rhs = lhs - k rhs
-		const T      rem = lhs[lhs_offset].remainder(rhs[rhs_offset]);
+		const T rem = lhs[lhs_offset].remainder(rhs[rhs_offset]);
 		const double k = std::rint((lhs[lhs_offset].get_real() - rem.get_real()) / rhs[rhs_offset].get_real());
 
 		// set up value
@@ -1108,11 +1094,11 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void pow(const double& a, const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void pow(const double& a, const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
 		// [a^x, ln(a) a^x, ln(a)^2 a^x,, ln(a)^3 a^x, ... ]
-		const std::vector<double> function = std::vector<double>(1 + order];
+		auto function = std::vector<double>(1 + order);
 		if (a == 0)
 		{
 			if (operand[operand_offset] == 0)
@@ -1155,13 +1141,13 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void pow(const double& a, const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void pow(const double& a, const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const T zero = operand[operand_offset].get_field().get_zero();
 
 		// create the function value and derivatives
 		// [a^x, ln(a) a^x, ln(a)^2 a^x,, ln(a)^3 a^x, ... ]
-		const std::vector<T> function = Math_Arrays::build_array(operand[operand_offset].get_field(), 1 + order);
+		const auto function = Math_Arrays::build_array(operand[operand_offset].get_field(), 1 + order);
 		if (a == 0)
 		{
 			if (operand[operand_offset].get_real() == 0)
@@ -1202,7 +1188,7 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void pow(const std::vector<double> operand, const int operand_offset, const double p, const std::vector<double> result, const int result_offset)
+	void pow(const std::vector<double>& operand, const int& operand_offset, const double p, std::vector<double>& result, const int& result_offset)
 	{
 		if (p == 0)
 		{
@@ -1221,7 +1207,7 @@ public:
 
 		// create the function value and derivatives
 		// [x^p, px^(p-1), p(p-1)x^(p-2), ... ]
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		double xk = std::pow(operand[operand_offset], p - order);
 		for (int i = order; i > 0; --i)
 		{
@@ -1251,7 +1237,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void pow(const std::vector<T> operand, const int operand_offset, const double p, const std::vector<T> result, const int result_offset)
+	void pow(const std::vector<T>& operand, const int& operand_offset, const double p, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1300,7 +1286,7 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void pow(const std::vector<double> operand, const int operand_offset, const int& n, const std::vector<double> result, const int result_offset)
+	void pow(const std::vector<double>& operand, const int& operand_offset, const int& n, std::vector<double>& result, const int& result_offset)
 	{
 		if (n == 0)
 		{
@@ -1312,7 +1298,7 @@ public:
 
 		// create the power function value and derivatives
 		// [x^n, nx^(n-1), n(n-1)x^(n-2), ... ]
-		std::vector<double> function = std::vector<double>(1 + order];
+		auto function = std::vector<double>(1 + order);
 
 		if (n > 0)
 		{
@@ -1360,7 +1346,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void pow(const std::vector<T> operand, const int operand_offset, const int& n, const std::vector<T> result, const int result_offset)
+	void pow(const std::vector<T>& operand, const int& operand_offset, const int& n, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1421,7 +1407,7 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void pow(const std::vector<double> x, const int x_offset, const std::vector<double> y, const int y_offset, const std::vector<double> result, const int result_offset)
+	void pow(const std::vector<double> x, const int& x_offset, const std::vector<double>& y, const int& y_offset, std::vector<double>& result, const int& result_offset)
 	{
 		const std::vector<double> log_x = std::vector<double>(get_size()];
 		log(x, x_offset, log_x, 0);
@@ -1442,7 +1428,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void pow(const std::vector<T> x, const int x_offset, const std::vector<T> y, const int y_offset, const std::vector<T> result, const int result_offset)
+	void pow(const std::vector<T> x, const int& x_offset, const std::vector<T>& y, const int& y_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const std::vector<T> log_x = Math_Arrays::build_array(x[x_offset].get_field(), get_size());
 		log(x, x_offset, log_x, 0);
@@ -1460,11 +1446,11 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void root_n(const std::vector<double> operand, const int operand_offset, const int& n, const std::vector<double> result, const int result_offset)
+	void root_n(const std::vector<double>& operand, const int& operand_offset, const int& n, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
 		// [x^(1/n), (1/n)x^((1/n)-1), (1-n)/n^2x^((1/n)-2), ... ]
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		double xk;
 		if (n == 2)
 		{
@@ -1504,7 +1490,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void root_n(const std::vector<T> operand, const int operand_offset, const int& n, const std::vector<T> result, const int result_offset)
+	void root_n(const std::vector<T>& operand, const int& operand_offset, const int& n, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1547,10 +1533,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void exp(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void exp(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		Arrays.fill(function, std::exp(operand[operand_offset]));
 
 		// apply function composition
@@ -1567,7 +1553,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void exp(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void exp(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1587,10 +1573,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void expm1(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void expm1(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		function[0] = std::expm1(operand[operand_offset]);
 		Arrays.fill(function, 1, 1 + order, std::exp(operand[operand_offset]));
 
@@ -1608,7 +1594,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void expm1(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void expm1(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1629,10 +1615,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void log(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void log(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		function[0] = std::log(operand[operand_offset]);
 		if (order > 0)
 		{
@@ -1659,7 +1645,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void log(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void log(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1688,10 +1674,10 @@ public:
 	 * shifted logarithm the result array <em>cannot</em> be the input array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void log1p(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void log1p(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		auto function = std::vector<double>(1 + order);
 		function[0] = std::log1p(operand[operand_offset]);
 		if (order > 0)
 		{
@@ -1717,7 +1703,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void log1p(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void log1p(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1746,10 +1732,10 @@ public:
 	 * base 10 logarithm the result array <em>cannot</em> be the input array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void log10(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void log10(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		function[0] = std::log10(operand[operand_offset]);
 		if (order > 0)
 		{
@@ -1775,7 +1761,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void log10(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void log10(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1805,10 +1791,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void cos(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void cos(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		const Sin_Cos sin_cos = Sin_Cos(operand[operand_offset]);
 		function[0] = sin_cos.cos();
 		if (order > 0)
@@ -1834,7 +1820,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void cos(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void cos(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1871,10 +1857,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void sin(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void sin(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		const Sin_Cos sin_cos = Sin_Cos(operand[operand_offset]);
 		function[0] = sin_cos.sin();
 		if (order > 0)
@@ -1900,7 +1886,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void sin(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void sin(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -1942,11 +1928,11 @@ public:
 	 * @param cos_offset offset of the result in its array
 	 * @since 1.4
 	 */
-	public void sin_cos(const std::vector<double> operand, const int operand_offset, const std::vector<double> sin, const int sin_offset, const std::vector<double> cos, const int cos_offset)
+	void sin_cos(const std::vector<double>& operand, const int& operand_offset, const std::vector<double> sin, const int& sin_offset, const std::vector<double> cos, const int& cos_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function_sin = std::vector<double>(1 + order];
-		std::vector<double> function_cos = std::vector<double>(1 + order];
+		std::vector<double> function_sin = std::vector<double>(1 + order);
+		std::vector<double> function_cos = std::vector<double>(1 + order);
 		const Sin_Cos sin_cos = Sin_Cos(operand[operand_offset]);
 		function_sin[0] = sin_cos.sin();
 		function_cos[0] = sin_cos.cos();
@@ -1981,7 +1967,7 @@ public:
 	 * @since 1.4
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void sin_cos(const std::vector<T> operand, const int operand_offset, const std::vector<T> sin, const int sin_offset, const std::vector<T> cos, const int cos_offset)
+	void sin_cos(const std::vector<T>& operand, const int& operand_offset, const std::vector<T> sin, const int& sin_offset, const std::vector<T> cos, const int& cos_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2022,10 +2008,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void tan(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void tan(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		const std::vector<double> function = std::vector<double>(1 + order];
+		const auto function = std::vector<double>(1 + order);
 		const double t = std::tan(operand[operand_offset]);
 		function[0] = t;
 
@@ -2038,13 +2024,13 @@ public:
 			// the general recurrence relation for P_n is:
 			// P_n(x) = (1+t^2) P_(n-1)'(t)
 			// as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
-			const std::vector<double> p = std::vector<double>(order + 2];
+			auto p = std::vector<double>(order + 2];
 			p[1] = 1;
 			const double t2 = t * t;
 			for (const int n{ 1 }; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(t)
-				double v = 0;
+				double v{};
 				p[n + 1] = n * p[n];
 				for (int k = n + 1; k >= 0; k -= 2)
 				{
@@ -2081,7 +2067,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void tan(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void tan(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2140,10 +2126,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void acos(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void acos(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		const double x = operand[operand_offset];
 		function[0] = std::acos(x);
 		if (order > 0)
@@ -2155,16 +2141,16 @@ public:
 			// the general recurrence relation for P_n is:
 			// P_n(x) = (1-x^2) P_(n-1)'(x) + (2n-3) x P_(n-1)(x)
 			// as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
-			const std::vector<double> p = std::vector<double>(order];
+			auto p = std::vector<double>(order);
 			p[0] = -1;
 			const double x2 = x * x;
 			const double f = 1.0 / (1 - x2);
 			double coeff = std::sqrt(f);
 			function[1] = coeff * p[0];
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
-				double v = 0;
+				double v{};
 				p[n - 1] = (n - 1) * p[n - 2];
 				for (int k{ n - 1 }; k >= 0; k -= 2)
 				{
@@ -2202,7 +2188,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void acos(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void acos(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2225,7 +2211,7 @@ public:
 			const T f = x2.subtract(1).negate().reciprocal();
 			T coeff = f.sqrt();
 			function[1] = coeff.multiply(p[0]);
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
 				T v = field.get_zero();
@@ -2264,10 +2250,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void asin(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void asin(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		auto function = std::vector<double>(1 + order);
 		const double x = operand[operand_offset];
 		function[0] = std::asin(x);
 		if (order > 0)
@@ -2279,16 +2265,16 @@ public:
 			// the general recurrence relation for P_n is:
 			// P_n(x) = (1-x^2) P_(n-1)'(x) + (2n-3) x P_(n-1)(x)
 			// as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
-			const std::vector<double> p = std::vector<double>(order];
+			auto p = std::vector<double>(order);
 			p[0] = 1;
 			const double x2 = x * x;
 			const double f = 1.0 / (1 - x2);
 			double coeff = std::sqrt(f);
 			function[1] = coeff * p[0];
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
-				double v = 0;
+				double v{};
 				p[n - 1] = (n - 1) * p[n - 2];
 				for (int k{ n - 1 }; k >= 0; k -= 2)
 				{
@@ -2326,7 +2312,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void asin(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void asin(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2349,7 +2335,7 @@ public:
 			const T f = x2.subtract(1).negate().reciprocal();
 			T coeff = f.sqrt();
 			function[1] = coeff.multiply(p[0]);
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
 				T v = field.get_zero();
@@ -2388,10 +2374,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void atan(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void atan(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		const double x = operand[operand_offset];
 		function[0] = std::atan(x);
 		if (order > 0)
@@ -2403,16 +2389,16 @@ public:
 			// the general recurrence relation for Q_n is:
 			// Q_n(x) = (1+x^2) Q_(n-1)'(x) - 2(n-1) x Q_(n-1)(x)
 			// as per polynomial parity, we can store coefficients of both Q_(n-1) and Q_n in the same array
-			const std::vector<double> q = std::vector<double>(order];
+			auto q = std::vector<double>(order);
 			q[0] = 1;
 			const double x2 = x * x;
 			const double f = 1.0 / (1 + x2);
 			double coeff = f;
 			function[1] = coeff * q[0];
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial Q_n(x)
-				double v = 0;
+				double v{};
 				q[n - 1] = -n * q[n - 2];
 				for (int k{ n - 1 }; k >= 0; k -= 2)
 				{
@@ -2450,7 +2436,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void atan(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void atan(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2473,7 +2459,7 @@ public:
 			const T f = x2.add(1).reciprocal();
 			T coeff = f;
 			function[1] = coeff.multiply(q[0]);
-			for (const int n = 2; n <= order; ++n)
+			for (const int n{ 2 }; n <= order; ++n)
 			{
 				// update and evaluate polynomial Q_n(x)
 				T v = field.get_zero();
@@ -2514,12 +2500,12 @@ public:
 	 * be the input array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void atan2(const std::vector<double> y, const int y_offset, const std::vector<double> x, const int x_offset, const std::vector<double> result, const int result_offset)
+	void atan2(const std::vector<double>& y, const int& y_offset, const std::vector<double>& x, const int& x_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// compute r = sqrt(x^2+y^2)
-		std::vector<double> tmp1 = std::vector<double>(get_size()];
+		auto tmp1 = std::vector<double>(get_size());
 		multiply(x, x_offset, x, x_offset, tmp1, 0);      // x^2
-		std::vector<double> tmp2 = std::vector<double>(get_size()];
+		auto tmp2 = std::vector<double>(get_size());
 		multiply(y, y_offset, y, y_offset, tmp2, 0);      // y^2
 		add(tmp1, 0, tmp2, 0, tmp2, 0);                 // x^2 + y^2
 		root_n(tmp2, 0, 2, tmp1, 0);                     // r = sqrt(x^2 + y^2)
@@ -2541,8 +2527,7 @@ public:
 			subtract(tmp1, 0, x, x_offset, tmp2, 0);     // r - x
 			divide(y, y_offset, tmp2, 0, tmp1, 0);       // y /(r - x)
 			atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))
-			result[result_offset] =
-				((tmp2[0] <= 0) ? -std::numbers::pi : std::numbers::pi) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))
+			result[result_offset] = ((tmp2[0] <= 0) ? -std::numbers::pi : std::numbers::pi) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))
 			for (int i{ 1 }; i < tmp2.size(); ++i)
 			{
 				result[result_offset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))
@@ -2565,7 +2550,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void atan2(const std::vector<T> y, const int y_offset, const std::vector<T> x, const int x_offset, const std::vector<T> result, const int result_offset)
+	void atan2(const std::vector<T>& y, const int& y_offset, const std::vector<T>& x, const int& x_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = y[y_offset].get_field();
 
@@ -2614,10 +2599,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void cosh(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void cosh(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		auto function = std::vector<double>(1 + order);
 		function[0] = std::cosh(operand[operand_offset]);
 		if (order > 0)
 		{
@@ -2642,7 +2627,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void cosh(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void cosh(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2670,10 +2655,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void sinh(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void sinh(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		auto function = std::vector<double>(1 + order);
 		function[0] = std::sinh(operand[operand_offset]);
 		if (order > 0)
 		{
@@ -2698,7 +2683,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void sinh(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void sinh(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2730,12 +2715,12 @@ public:
 	 * @param cosh_offset offset of the result in its array
 	 * @since 2.0
 	 */
-	public void sinh_cosh(const std::vector<double> operand, const int operand_offset, const std::vector<double> sinh, const int sinh_offset, const std::vector<double> cosh, const int cosh_offset)
+	void sinh_cosh(const std::vector<double>& operand, const int& operand_offset, const std::vector<double>& sinh, const int& sinh_offset, const std::vector<double> cosh, const int& cosh_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function_sinh = std::vector<double>(1 + order];
-		std::vector<double> function_cosh = std::vector<double>(1 + order];
-		const Sinh_Cosh sinh_cosh = std::sinh_cosh(operand[operand_offset]);
+		auto function_sinh = std::vector<double>(1 + order);
+		auto function_cosh = std::vector<double>(1 + order);
+		const auto sinh_cosh = std::sinh_cosh(operand[operand_offset]);
 		function_sinh[0] = sinh_cosh.sinh();
 		function_cosh[0] = sinh_cosh.cosh();
 		if (order > 0)
@@ -2769,7 +2754,7 @@ public:
 	 * @since 1.4
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void sinh_cosh(const std::vector<T> operand, const int operand_offset, const std::vector<T> sinh, const int sinh_offset, const std::vector<T> cosh, const int cosh_offset)
+	void sinh_cosh(const std::vector<T>& operand, const int& operand_offset, const std::vector<T>& sinh, const int& sinh_offset, const std::vector<T> cosh, const int& cosh_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2798,10 +2783,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void tanh(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void tanh(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		const std::vector<double> function = std::vector<double>(1 + order];
+		const auto function = std::vector<double>(1 + order);
 		const double t = std::tanh(operand[operand_offset]);
 		function[0] = t;
 
@@ -2814,13 +2799,13 @@ public:
 			// the general recurrence relation for P_n is:
 			// P_n(x) = (1-t^2) P_(n-1)'(t)
 			// as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
-			const std::vector<double> p = std::vector<double>(order + 2];
+			auto p = std::vector<double>(order + 2);
 			p[1] = 1;
-			const double t2 = t * t;
+			const double t2{ t * t };
 			for (const int n{ 1 }; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(t)
-				double v = 0;
+				double v{};
 				p[n + 1] = -n * p[n];
 				for (int k = n + 1; k >= 0; k -= 2)
 				{
@@ -2857,7 +2842,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void tanh(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void tanh(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -2916,10 +2901,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void acosh(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void acosh(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		const double x = operand[operand_offset];
 		function[0] = std::acosh(x);
 		if (order > 0)
@@ -2931,16 +2916,16 @@ public:
 			// the general recurrence relation for P_n is:
 			// P_n(x) = (x^2-1) P_(n-1)'(x) - (2n-3) x P_(n-1)(x)
 			// as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
-			const std::vector<double> p = std::vector<double>(order];
+			auto p = std::vector<double>(order);
 			p[0] = 1;
 			const double x2 = x * x;
 			const double f = 1.0 / (x2 - 1);
 			double coeff = std::sqrt(f);
 			function[1] = coeff * p[0];
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
-				double v = 0;
+				double v{};
 				p[n - 1] = (1 - n) * p[n - 2];
 				for (int k{ n - 1 }; k >= 0; k -= 2)
 				{
@@ -2978,7 +2963,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void acosh(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void acosh(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -3001,7 +2986,7 @@ public:
 			const T f = x2.subtract(1).reciprocal();
 			T coeff = f.sqrt();
 			function[1] = coeff.multiply(p[0]);
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
 				T v = field.get_zero();
@@ -3040,10 +3025,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void asinh(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void asinh(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		const double x = operand[operand_offset];
 		function[0] = std::asinh(x);
 		if (order > 0)
@@ -3055,16 +3040,16 @@ public:
 			// the general recurrence relation for P_n is:
 			// P_n(x) = (x^2+1) P_(n-1)'(x) - (2n-3) x P_(n-1)(x)
 			// as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
-			const std::vector<double> p = std::vector<double>(order];
+			auto p = std::vector<double>(order);
 			p[0] = 1;
 			const double x2 = x * x;
 			const double f = 1.0 / (1 + x2);
 			double coeff = std::sqrt(f);
 			function[1] = coeff * p[0];
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
-				double v = 0;
+				double v{};
 				p[n - 1] = (1 - n) * p[n - 2];
 				for (int k{ n - 1 }; k >= 0; k -= 2)
 				{
@@ -3102,7 +3087,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void asinh(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void asinh(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -3125,7 +3110,7 @@ public:
 			const T f = x2.add(1).reciprocal();
 			T coeff = f.sqrt();
 			function[1] = coeff.multiply(p[0]);
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial P_n(x)
 				T v = field.get_zero();
@@ -3164,10 +3149,10 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void atanh(const std::vector<double> operand, const int operand_offset, const std::vector<double> result, const int result_offset)
+	void atanh(const std::vector<double>& operand, const int& operand_offset, std::vector<double>& result, const int& result_offset)
 	{
 		// create the function value and derivatives
-		std::vector<double> function = std::vector<double>(1 + order];
+		std::vector<double> function = std::vector<double>(1 + order);
 		const double x = operand[operand_offset];
 		function[0] = std::atanh(x);
 		if (order > 0)
@@ -3179,16 +3164,16 @@ public:
 			// the general recurrence relation for Q_n is:
 			// Q_n(x) = (1-x^2) Q_(n-1)'(x) + 2(n-1) x Q_(n-1)(x)
 			// as per polynomial parity, we can store coefficients of both Q_(n-1) and Q_n in the same array
-			const std::vector<double> q = std::vector<double>(order];
+			const std::vector<double> q = std::vector<double>(order);
 			q[0] = 1;
 			const double x2 = x * x;
 			const double f = 1.0 / (1 - x2);
 			double coeff = f;
 			function[1] = coeff * q[0];
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial Q_n(x)
-				double v = 0;
+				double v{};
 				q[n - 1] = n * q[n - 2];
 				for (int k{ n - 1 }; k >= 0; k -= 2)
 				{
@@ -3226,7 +3211,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void atanh(const std::vector<T> operand, const int operand_offset, const std::vector<T> result, const int result_offset)
+	void atanh(const std::vector<T>& operand, const int& operand_offset, std::vector<T>& result, const int& result_offset)
 	{
 		const Field<T> field = operand[operand_offset].get_field();
 
@@ -3249,7 +3234,7 @@ public:
 			const T f = x2.subtract(1).negate().reciprocal();
 			T coeff = f;
 			function[1] = coeff.multiply(q[0]);
-			for (const int n = 2; n <= order; ++n)
+			for (const int& n = 2; n <= order; ++n)
 			{
 				// update and evaluate polynomial Q_n(x)
 				T v = field.get_zero();
@@ -3290,12 +3275,12 @@ public:
 	 * array)
 	 * @param result_offset offset of the result in its array
 	 */
-	public void compose(const std::vector<double> operand, const int operand_offset, const std::vector<double>& f, const std::vector<double> result, const int result_offset)
+	void compose(const std::vector<double>& operand, const int& operand_offset, const std::vector<double>& f, std::vector<double>& result, const int& result_offset)
 	{
 		for (int i{}; i < comp_indirection.size(); ++i)
 		{
 			const std::vector<std::vector<int>> mapping_i = comp_indirection[i];
-			double r = 0;
+			double r{};
 			for (int j{}; j < mapping_i.size(); ++j)
 			{
 				const std::vector<int> mapping_i_j = mapping_i[j];
@@ -3322,7 +3307,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void compose(const std::vector<T> operand, const int operand_offset, const std::vector<T> f, const std::vector<T> result, const int result_offset)
+	void compose(const std::vector<T>& operand, const int& operand_offset, const std::vector<T> f, std::vector<T>& result, const int& result_offset)
 	{
 		const T zero = f[0].get_field().get_zero();
 		for (int i{}; i < comp_indirection.size(); ++i)
@@ -3355,7 +3340,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  void compose(const std::vector<T> operand, const int operand_offset, const std::vector<double>& f, const std::vector<T> result, const int result_offset)
+	void compose(const std::vector<T>& operand, const int& operand_offset, const std::vector<double>& f, std::vector<T>& result, const int& result_offset)
 	{
 		const T zero = operand[operand_offset].get_field().get_zero();
 		for (int i{}; i < comp_indirection.size(); ++i)
@@ -3383,7 +3368,7 @@ public:
 	 * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
 	 * @Math_Runtime_Exception if factorials becomes too large
 	 */
-	public double taylor(const std::vector<double> ds, const int ds_offset, const double ... delta)
+	double taylor(const std::vector<double> ds, const int& ds_offset, const double ... delta)
 		Math_Runtime_Exception
 	{
 		double value = 0;
@@ -3414,7 +3399,7 @@ public:
 	 */
 	 //@Safe_Varargs
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public const  T taylor(const std::vector<T> ds, const int ds_offset, const T ... delta)
+	const  T taylor(const std::vector<T> ds, const int& ds_offset, const T ... delta)
 		Math_Runtime_Exception
 	{
 		const Field<T> field = ds[ds_offset].get_field();
@@ -3445,7 +3430,7 @@ public:
 	 * @param <T> the type of the function parameters and value
 	 */
 	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  T taylor(const std::vector<T> ds, const int ds_offset, const double ... delta)
+	T taylor(const std::vector<T> ds, const int& ds_offset, const double ... delta)
 		Math_Runtime_Exception
 	{
 		const Field<T> field = ds[ds_offset].get_field();
@@ -3471,10 +3456,9 @@ public:
 	 * @param compiler other compiler to check against instance
 	 * @exception  if number of free parameters or orders are inconsistent
 	 */
-	public void check_compatibility(const DS_Compiler compiler)
-
+	void check_compatibility(const DS_Compiler compiler)
 	{
 		Math_Utils::check_dimension(parameters, compiler.parameters);
 		Math_Utils::check_dimension(order, compiler.order);
 	}
-}
+};

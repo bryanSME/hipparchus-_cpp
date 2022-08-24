@@ -578,7 +578,7 @@ public:
 	//override
 	public Field_Vector<T> get_row_vector(const int& row)
 	{
-		return ArrayField_Vector<T>(field, get_row(row), false);
+		return Array_Field_Vector<T>(field, get_row(row), false);
 	}
 
 	/** {@inherit_doc} */
@@ -604,7 +604,7 @@ public:
 	public Field_Vector<T> get_column_vector(const int column)
 
 	{
-		return ArrayField_Vector<T>(field, get_column(column), false);
+		return Array_Field_Vector<T>(field, get_column(column), false);
 	}
 
 	/** {@inherit_doc} */
@@ -789,9 +789,9 @@ public:
 	//override
 	public Field_Vector<T> operate(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return ArrayField_Vector<T>(field, operate(((ArrayField_Vector<T>) v).get_data_ref()), false);
+			return Array_Field_Vector<T>(field, operate(((Array_Field_Vector<T>) v).get_data_ref()), false);
 		}
 		const int n_rows = get_row_dimension();
 		const int n_cols = get_column_dimension();
@@ -812,7 +812,7 @@ public:
 			out[row] = sum;
 		}
 
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
@@ -845,9 +845,9 @@ public:
 	//override
 	public Field_Vector<T> pre_multiply(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return ArrayField_Vector<T>(field, pre_multiply(((ArrayField_Vector<T>) v).get_data_ref()), false);
+			return Array_Field_Vector<T>(field, pre_multiply(((Array_Field_Vector<T>) v).get_data_ref()), false);
 		}
 
 		const int n_rows = get_row_dimension();
@@ -869,7 +869,7 @@ public:
 			out[col] = sum;
 		}
 
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */

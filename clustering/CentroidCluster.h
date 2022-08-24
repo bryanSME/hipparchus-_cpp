@@ -44,7 +44,7 @@ public:
 	 */
 	Centroid_Cluster(const Clusterable& center)
 	{
-		super();
+		Cluster<T>();
 		my_center = center;
 	}
 

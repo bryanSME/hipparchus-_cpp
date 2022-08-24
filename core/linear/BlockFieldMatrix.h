@@ -1379,7 +1379,7 @@ private:
 			out_index += j_width;
 		}
 
-		return ArrayField_Vector<T>(get_field(), out_data, false);
+		return Array_Field_Vector<T>(get_field(), out_data, false);
 	}
 
 	/** {@inherit_doc} */
@@ -1387,9 +1387,9 @@ private:
 	void set_row_vector(const int& row, const Field_Vector<T> vector)
 
 	{
-		if (vector instanceof ArrayField_Vector)
+		if (vector instanceof Array_Field_Vector)
 		{
-			set_row(row, ((ArrayField_Vector<T>) vector).get_data_ref());
+			set_row(row, ((Array_Field_Vector<T>) vector).get_data_ref());
 		}
 		else
 		{
@@ -1420,7 +1420,7 @@ private:
 			}
 		}
 
-		return ArrayField_Vector<T>(get_field(), out_data, false);
+		return Array_Field_Vector<T>(get_field(), out_data, false);
 	}
 
 	/** {@inherit_doc} */
@@ -1428,9 +1428,9 @@ private:
 	void set_column_vector(const int& column, const Field_Vector<T> vector)
 
 	{
-		if (vector instanceof ArrayField_Vector)
+		if (vector instanceof Array_Field_Vector)
 		{
-			set_column(column, ((ArrayField_Vector<T>) vector).get_data_ref());
+			set_column(column, ((Array_Field_Vector<T>) vector).get_data_ref());
 		}
 		else
 		{

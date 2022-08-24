@@ -36,15 +36,17 @@
    */
 class Continued_Fraction
 {
+private:
 	/** Maximum allowed numerical error. */
-	private static const double DEFAULT_EPSILON = 10e-9;
+	static constexpr double DEFAULT_EPSILON{ 10e-9 };
 
+protected:
 	/**
 	 * Default constructor.
 	 */
-	protected Continued_Fraction()
+	Continued_Fraction()
 	{
-		super();
+		//super();
 	}
 
 	/**
@@ -54,7 +56,7 @@ class Continued_Fraction
 	 * @param x the evaluation point.
 	 * @return the n-th a coefficient.
 	 */
-	protected virtual double get_a(const int& n, double x);
+	virtual double get_a(const int& n, const double& x);
 
 	/**
 	 * Access the n-th b coefficient of the continued fraction.  sin_ce b can be
@@ -63,15 +65,16 @@ class Continued_Fraction
 	 * @param x the evaluation point.
 	 * @return the n-th b coefficient.
 	 */
-	protected virtual double get_b(const int& n, double x);
+	virtual double get_b(const int& n, double x);
 
+public:
 	/**
 	 * Evaluates the continued fraction at the value x.
 	 * @param x the evaluation point.
 	 * @return the value of the continued fraction evaluated at x.
 	 * @Math_Illegal_State_Exception if the algorithm fails to converge.
 	 */
-	public double evaluate(double x) Math_Illegal_State_Exception
+	double evaluate(double x)
 	{
 		return evaluate(x, DEFAULT_EPSILON, std::numeric_limits<int>::max());
 	}
@@ -83,7 +86,7 @@ class Continued_Fraction
 	 * @return the value of the continued fraction evaluated at x.
 	 * @Math_Illegal_State_Exception if the algorithm fails to converge.
 	 */
-	public double evaluate(const double& x, double epsilon) Math_Illegal_State_Exception
+	double evaluate(const double& x, double epsilon) Math_Illegal_State_Exception
 	{
 		return evaluate(x, epsilon, std::numeric_limits<int>::max());
 	}
@@ -96,8 +99,7 @@ class Continued_Fraction
 	 * @Math_Illegal_State_Exception if the algorithm fails to converge.
 	 * @Math_Illegal_State_Exception if maximal number of iterations is reached
 	 */
-	public double evaluate(const double& x, int max_iterations)
-		Math_Illegal_State_Exception
+	double evaluate(const double& x, int max_iterations)
 	{
 		return evaluate(x, DEFAULT_EPSILON, max_iterations);
 	}
@@ -125,10 +127,9 @@ class Continued_Fraction
 	 * @Math_Illegal_State_Exception if the algorithm fails to converge.
 	 * @Math_Illegal_State_Exception if maximal number of iterations is reached
 	 */
-	public double evaluate(const double& x, double epsilon, int max_iterations)
-		Math_Illegal_State_Exception
+	double evaluate(const double& x, double epsilon, int max_iterations)
 	{
-		const double small = 1e-50;
+		const double small{ 1e-50 };
 		double h_prev = get_a(0, x);
 
 		// use the value of small as epsilon criteria for zero checks
@@ -137,14 +138,14 @@ class Continued_Fraction
 			h_prev = small;
 		}
 
-		int n = 1;
-		double d_prev = 0.0;
+		int n{ 1 };
+		double d_prev{};
 		double c_prev = h_prev;
 		double hN = h_prev;
 
 		while (n < max_iterations)
 		{
-			const double& a = get_a(n, x);
+			const double a = get_a(n, x);
 			const double b = get_b(n, x);
 
 			double dN = a + b * d_prev;
@@ -164,11 +165,13 @@ class Continued_Fraction
 
 			if (std::isinf(hN))
 			{
-				throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CONTINUED_FRACTION_INFINITY_DIVERGENCE, x);
+				throw std::exception("not implemented");
+				//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CONTINUED_FRACTION_INFINITY_DIVERGENCE, x);
 			}
 			if (std::isnan(hN))
 			{
-				throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CONTINUED_FRACTION_NAN_DIVERGENCE, x);
+				throw std::exception("not implemented");
+				//throw Math_Illegal_State_Exception(hipparchus::exception::Localized_Core_Formats_Type::CONTINUED_FRACTION_NAN_DIVERGENCE, x);
 			}
 
 			if (std::abs(delta_n - 1.0) < epsilon)
@@ -189,4 +192,4 @@ class Continued_Fraction
 
 		return hN;
 	}
-}
+};

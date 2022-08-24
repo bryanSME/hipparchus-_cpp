@@ -32,34 +32,111 @@
   //import org.hipparchus.exception.;
   //import org.hipparchus.util.Math_Arrays;
   //import org.hipparchus.util.Math_Utils;
+#include <type_traits>
+#include <exception>
+#include <vector>
+#include "../FieldElement.h"
+#include "../Field.h"
 
   /**
    * This class : the {@link Field_Vector} interface with a {@link Field_Element} array.
    * @param <T> the type of the field elements
    */
-class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
+template<typename T, typename std::enable_if<std::is_base_of<Field_Element<T>, T>::value>::type* = nullptr>
+class Array_Field_Vector : public Field_Vector<T>
 {
-	7648186910365927050L;
-
+private:
 	/** Entries of the vector. */
-	private std::vector<T> data;
+	std::vector<T> my_data;
 
 	/** Field to which the elements belong. */
-	private const Field<T> field;
+	const Field<T> my_field;
 
+	/**
+	 * Check if an index is valid.
+	 *
+	 * @param index Index to check.
+	 * @exception  if the index is not valid.
+	 */
+	void check_index(const int& index)
+	{
+		if (index < 0 || index >= get_dimension())
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
+		}
+	}
+
+	/**
+	 * Checks that the indices of a subvector are valid.
+	 *
+	 * @param start the index of the first entry of the subvector
+	 * @param end the index of the last entry of the subvector (inclusive)
+	 * @ if {@code start} of {@code end} are not valid
+	 * @ if {@code end < start}
+	 */
+	void check_indices(const int& start, const int& end)
+	{
+		const int dim = get_dimension();
+		if ((start < 0) || (start >= dim))
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
+		}
+		if ((end < 0) || (end >= dim))
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
+		}
+		if (end < start)
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
+		}
+	}
+
+protected:
+	/**
+	 * Check if instance and specified vectors have the same dimension.
+	 * @param v vector to compare instance with
+	 * @exception  if the vectors do not
+	 * have the same dimensions
+	 */
+	void check_vector_dimensions(const Field_Vector<T>& v)
+	{
+		check_vector_dimensions(v.get_bimension());
+	}
+
+	/**
+	 * Check if instance dimension is equal to some expected value.
+	 *
+	 * @param n Expected dimension.
+	 * @ if the dimension is not equal to the
+	 * size of {@code this} vector.
+	 */
+	void check_vector_dimensions(const int& n)
+	{
+		if (data.size() != n)
+		{
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, data.size(), n);
+		}
+	}
+
+public:
 	/**
 	 * Build a 0-length vector.
 	 * Zero-length vectors may be used to initialize construction of vectors
 	 * by data gathering. We start with zero-length and use either the {@link
-	 * #ArrayField_Vector(Field_Vector, Field_Vector)} constructor
+	 * #Array_Field_Vector(Field_Vector, Field_Vector)} constructor
 	 * or one of the {@code append} methods ({@link #add(Field_Vector)} or
-	 * {@link #append(ArrayField_Vector)}) to gather data into this vector.
+	 * {@link #append(Array_Field_Vector)}) to gather data into this vector.
 	 *
 	 * @param field field to which the elements belong
 	 */
-	public ArrayField_Vector(const Field<T> field)
+	Array_Field_Vector(const Field<T>& field)
 	{
-		this(field, 0);
+		Array_Field_Vector(field, 0);
 	}
 
 	/**
@@ -68,10 +145,11 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @param field Field to which the elements belong.
 	 * @param size Size of the vector.
 	 */
-	public ArrayField_Vector(Field<T> field, int size)
+	Array_Field_Vector(const Field<T>& field, const int& size)
+		:
+		my_field{ field },
+		my_data{ Math_Arrays::build_array(field, size) }
 	{
-		this.field = field;
-		this.data = Math_Arrays::build_array(field, size);
 	}
 
 	/**
@@ -80,9 +158,9 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @param size Size of the vector.
 	 * @param preset All entries will be set with this value.
 	 */
-	public ArrayField_Vector(const int& size, T preset)
+	Array_Field_Vector(const int& size, const T& preset)
 	{
-		this(preset.get_field(), size);
+		Array_Field_Vector(preset.get_field(), size);
 		Arrays.fill(data, preset);
 	}
 
@@ -91,25 +169,25 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * This constructor needs a non-empty {@code d} array to retrieve
 	 * the field from its first element. This implies it cannot build
 	 * 0 length vectors. To build vectors from any size, one should
-	 * use the {@link #ArrayField_Vector(Field, Field_Element[])} constructor.
+	 * use the {@link #Array_Field_Vector(Field, Field_Element[])} constructor.
 	 *
 	 * @param d Array.
 	 * @ if {@code d} is {@code NULL}.
 	 * @ if {@code d} is empty.
-	 * @see #ArrayField_Vector(Field, Field_Element[])
+	 * @see #Array_Field_Vector(Field, Field_Element[])
 	 */
-	public ArrayField_Vector(std::vector<T> d)
-
+	Array_Field_Vector(const std::vector<T>& d)
 	{
 		//Math_Utils::check_not_null(d);
 		try
 		{
-			field = d[0].get_field();
-			data = d.clone();
+			my_field = d[0].get_field();
+			my_data = d.clone();
 		}
 		catch (Array_indexOutOfboundsException e)
 		{
-			throw (e, hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
+			throw std::exception("not implemented");
+			//throw (e, hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
 		}
 	}
 
@@ -119,38 +197,37 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @param field Field to which the elements belong.
 	 * @param d Array.
 	 * @ if {@code d} is {@code NULL}.
-	 * @see #ArrayField_Vector(Field_Element[])
+	 * @see #Array_Field_Vector(Field_Element[])
 	 */
-	public ArrayField_Vector(Field<T> field, std::vector<T> d)
-
+	Array_Field_Vector(const Field<T>& field, const std::vector<T>& d)
+		:
+		my_field{ field },
+		my_data{ d }
 	{
 		//Math_Utils::check_not_null(d);
-		this.field = field;
-		data = d.clone();
 	}
 
 	/**
-	 * Create a ArrayField_Vector using the input array as the underlying
+	 * Create a Array_Field_Vector using the input array as the underlying
 	 * data array.
 	 * If an array is built specially in order to be embedded in a
-	 * ArrayField_Vector and not used directly, the {@code copy_array} may be
+	 * Array_Field_Vector and not used directly, the {@code copy_array} may be
 	 * set to {@code false}. This will prevent the copying and improve
 	 * performance as no array will be built and no data will be copied.
 	 * This constructor needs a non-empty {@code d} array to retrieve
 	 * the field from its first element. This implies it cannot build
 	 * 0 length vectors. To build vectors from any size, one should
-	 * use the {@link #ArrayField_Vector(Field, Field_Element[], bool)}
+	 * use the {@link #Array_Field_Vector(Field, Field_Element[], bool)}
 	 * constructor.
 	 *
 	 * @param d Data for the vector.
 	 * @param copy_array If {@code true}, the input array will be copied, * otherwise it will be referenced.
 	 * @ if {@code d} is {@code NULL}.
 	 * @ if {@code d} is empty.
-	 * @see #ArrayField_Vector(Field_Element[])
-	 * @see #ArrayField_Vector(Field, Field_Element[], bool)
+	 * @see #Array_Field_Vector(Field_Element[])
+	 * @see #Array_Field_Vector(Field, Field_Element[], bool)
 	 */
-	public ArrayField_Vector(std::vector<T> d, bool copy_array)
-
+	Array_Field_Vector(const std::vector<T>& d, bool copy_array)
 	{
 		//Math_Utils::check_not_null(d);
 		if (d.size() == 0)
@@ -158,15 +235,17 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
 		}
-		field = d[0].get_field();
-		data = copy_array ? d.clone() : d;
+		my_field = d[0].get_field();
+		my_data = copy_array
+			? d.clone() 
+			: d;
 	}
 
 	/**
-	 * Create a ArrayField_Vector using the input array as the underlying
+	 * Create a Array_Field_Vector using the input array as the underlying
 	 * data array.
 	 * If an array is built specially in order to be embedded in a
-	 * ArrayField_Vector and not used directly, the {@code copy_array} may be
+	 * Array_Field_Vector and not used directly, the {@code copy_array} may be
 	 * set to {@code false}. This will prevent the copying and improve
 	 * performance as no array will be built and no data will be copied.
 	 *
@@ -174,14 +253,15 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @param d Data for the vector.
 	 * @param copy_array If {@code true}, the input array will be copied, * otherwise it will be referenced.
 	 * @ if {@code d} is {@code NULL}.
-	 * @see #ArrayField_Vector(Field_Element[], bool)
+	 * @see #Array_Field_Vector(Field_Element[], bool)
 	 */
-	public ArrayField_Vector(Field<T> field, std::vector<T> d, bool copy_array)
-
+	Array_Field_Vector(const Field<T>& field, const std::vector<T>& d, bool copy_array)
 	{
 		//Math_Utils::check_not_null(d);
-		this.field = field;
-		data = copy_array ? d.clone() : d;
+		my_field = field;
+		data = copy_array
+			? d.clone()
+			: d;
 	}
 
 	/**
@@ -194,7 +274,7 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if the size of {@code d} is less
 	 * than {@code pos + size}.
 	 */
-	public ArrayField_Vector(std::vector<T> d, int pos, int size)
+	Array_Field_Vector(const std::vector<T>& d, int pos, int size)
 
 	{
 		//Math_Utils::check_not_null(d);
@@ -219,7 +299,7 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if the size of {@code d} is less
 	 * than {@code pos + size}.
 	 */
-	public ArrayField_Vector(Field<T> field, std::vector<T> d, int pos, int size)
+	Array_Field_Vector(Field<T> field, const std::vector<T>& d, int pos, int size)
 	{
 		//Math_Utils::check_not_null(d);
 		if (d.size() < pos + size)
@@ -238,7 +318,7 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @param v Vector to copy.
 	 * @ if {@code v} is {@code NULL}.
 	 */
-	public ArrayField_Vector(Field_Vector<T> v)
+	Array_Field_Vector(const Field_Vector<T>& v)
 
 	{
 		//Math_Utils::check_not_null(v);
@@ -256,12 +336,12 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @param v Vector to copy.
 	 * @ if {@code v} is {@code NULL}.
 	 */
-	public ArrayField_Vector(ArrayField_Vector<T> v)
-
+	Array_Field_Vector(const Array_Field_Vector<T>& v)
+		:
+		my_field{ v.get_field() },
+		my_data{ v.data.clone() }
 	{
 		//Math_Utils::check_not_null(v);
-		field = v.get_field();
-		data = v.data.clone();
 	}
 
 	/**
@@ -272,7 +352,7 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * a shallow copy
 	 * @ if {@code v} is {@code NULL}.
 	 */
-	public ArrayField_Vector(ArrayField_Vector<T> v, bool deep)
+	Array_Field_Vector(Array_Field_Vector<T> v, bool deep)
 
 	{
 		//Math_Utils::check_not_null(v);
@@ -288,16 +368,16 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v1} or {@code v2} is
 	 * {@code NULL}.
 	 */
-	public ArrayField_Vector(Field_Vector<T> v1, Field_Vector<T> v2)
+	Array_Field_Vector(Field_Vector<T> v1, Field_Vector<T> v2)
 
 	{
 		//Math_Utils::check_not_null(v1);
 		//Math_Utils::check_not_null(v2);
 		field = v1.get_field();
 		const std::vector<T> v1_data =
-			(v1 instanceof ArrayField_Vector) ? ((ArrayField_Vector<T>) v1).data : v1.to_array();
+			(v1 instanceof Array_Field_Vector) ? ((Array_Field_Vector<T>) v1).data : v1.to_array();
 		const std::vector<T> v2_data =
-			(v2 instanceof ArrayField_Vector) ? ((ArrayField_Vector<T>) v2).data : v2.to_array();
+			(v2 instanceof Array_Field_Vector) ? ((Array_Field_Vector<T>) v2).data : v2.to_array();
 		data = Math_Arrays::build_array(field, v1_data.size() + v2_data.size());
 		System.arraycopy(v1_data, 0, data, 0, v1_data.size());
 		System.arraycopy(v2_data, 0, data, v1_data.size(), v2_data.size());
@@ -311,14 +391,14 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v1} or {@code v2} is
 	 * {@code NULL}.
 	 */
-	public ArrayField_Vector(Field_Vector<T> v1, std::vector<T> v2)
+	Array_Field_Vector(Field_Vector<T> v1, std::vector<T> v2)
 
 	{
 		//Math_Utils::check_not_null(v1);
 		//Math_Utils::check_not_null(v2);
 		field = v1.get_field();
 		const std::vector<T> v1_data =
-			(v1 instanceof ArrayField_Vector) ? ((ArrayField_Vector<T>) v1).data : v1.to_array();
+			(v1 instanceof Array_Field_Vector) ? ((Array_Field_Vector<T>) v1).data : v1.to_array();
 		data = Math_Arrays::build_array(field, v1_data.size() + v2.size());
 		System.arraycopy(v1_data, 0, data, 0, v1_data.size());
 		System.arraycopy(v2, 0, data, v1_data.size(), v2.size());
@@ -332,14 +412,14 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v1} or {@code v2} is
 	 * {@code NULL}.
 	 */
-	public ArrayField_Vector(std::vector<T> v1, Field_Vector<T> v2)
+	Array_Field_Vector(std::vector<T> v1, Field_Vector<T> v2)
 
 	{
 		//Math_Utils::check_not_null(v1);
 		//Math_Utils::check_not_null(v2);
 		field = v2.get_field();
 		const std::vector<T> v2_data =
-			(v2 instanceof ArrayField_Vector) ? ((ArrayField_Vector<T>) v2).data : v2.to_array();
+			(v2 instanceof Array_Field_Vector) ? ((Array_Field_Vector<T>) v2).data : v2.to_array();
 		data = Math_Arrays::build_array(field, v1.size() + v2_data.size());
 		System.arraycopy(v1, 0, data, 0, v1.size());
 		System.arraycopy(v2_data, 0, data, v1.size(), v2_data.size());
@@ -350,7 +430,7 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * This constructor needs at least one non-empty array to retrieve
 	 * the field from its first element. This implies it cannot build
 	 * 0 length vectors. To build vectors from any size, one should
-	 * use the {@link #ArrayField_Vector(Field, Field_Element[], Field_Element[])}
+	 * use the {@link #Array_Field_Vector(Field, Field_Element[], Field_Element[])}
 	 * constructor.
 	 *
 	 * @param v1 First vector (will be put in front of the vector).
@@ -358,9 +438,9 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v1} or {@code v2} is
 	 * {@code NULL}.
 	 * @ if both arrays are empty.
-	 * @see #ArrayField_Vector(Field, Field_Element[], Field_Element[])
+	 * @see #Array_Field_Vector(Field, Field_Element[], Field_Element[])
 	 */
-	public ArrayField_Vector(std::vector<T> v1, std::vector<T> v2)
+	Array_Field_Vector(std::vector<T> v1, std::vector<T> v2)
 
 	{
 		//Math_Utils::check_not_null(v1);
@@ -385,9 +465,9 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v1} or {@code v2} is
 	 * {@code NULL}.
 	 * @ if both arrays are empty.
-	 * @see #ArrayField_Vector(Field_Element[], Field_Element[])
+	 * @see #Array_Field_Vector(Field_Element[], Field_Element[])
 	 */
-	public ArrayField_Vector(Field<T> field, std::vector<T> v1, std::vector<T> v2)
+	Array_Field_Vector(Field<T> field, std::vector<T> v1, std::vector<T> v2)
 
 	{
 		//Math_Utils::check_not_null(v1);
@@ -405,25 +485,25 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 
 	/** {@inherit_doc} */
 	//override
-	public Field<T> get_field()
+	Field<T> get_field()
 	{
 		return field;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> copy()
+	Field_Vector<T> copy()
 	{
-		return ArrayField_Vector<T>(this, true);
+		return Array_Field_Vector<T>(this, true);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> add(const Field_Vector<T>& v)
+	Field_Vector<T> add(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return add((ArrayField_Vector<T>) v);
+			return add((Array_Field_Vector<T>) v);
 		}
 		check_vector_dimensions(v);
 		auto out = Math_Arrays::build_array(field, data.size());
@@ -431,7 +511,7 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 		{
 			out[i] = data[i].add(v.get_entry(i));
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/**
@@ -441,33 +521,33 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v} is not the same size as
 	 * {@code this}
 	 */
-	public ArrayField_Vector<T> add(ArrayField_Vector<T> v)
+	Array_Field_Vector<T> add(const Array_Field_Vector<T>& v)
 
 	{
 		check_vector_dimensions(v.data.size());
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].add(v.data[i]);
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> subtract(Field_Vector<T> v)
+	Field_Vector<T> subtract(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return subtract((ArrayField_Vector<T>) v);
+			return subtract((Array_Field_Vector<T>) v);
 		}
 		check_vector_dimensions(v);
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].subtract(v.get_entry(i));
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/**
@@ -477,119 +557,119 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v} is not the same size as
 	 * {@code this}
 	 */
-	public ArrayField_Vector<T> subtract(ArrayField_Vector<T> v)
+	Array_Field_Vector<T> subtract(const Array_Field_Vector<T>& v)
 
 	{
 		check_vector_dimensions(v.data.size());
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].subtract(v.data[i]);
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_add(T d)
+	Field_Vector<T> map_add(const T& d)
 	{
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].add(d);
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_add_to_self(T d)
+	Field_Vector<T> map_add_to_self(const T& d)
 	{
 		for (int i{}; i < data.size(); i++)
 		{
 			data[i] = data[i].add(d);
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_subtract(T d)
+	Field_Vector<T> map_subtract(const T& d)
 	{
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].subtract(d);
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_subtract_to_self(T d)
+	Field_Vector<T> map_subtract_to_self(const T& d)
 	{
 		for (int i{}; i < data.size(); i++)
 		{
 			data[i] = data[i].subtract(d);
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_multiply(T d)
+	Field_Vector<T> map_multiply(const T& d)
 	{
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].multiply(d);
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_multiply_to_self(T d)
+	Field_Vector<T> map_multiply_to_self(const T& d)
 	{
 		for (int i{}; i < data.size(); i++)
 		{
 			data[i] = data[i].multiply(d);
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_divide(T d)
-		, Math_Runtime_Exception
+	Field_Vector<T> map_divide(const T& d)
+		
 	{
 		//Math_Utils::check_not_null(d);
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].divide(d);
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 		/** {@inherit_doc} */
 		//override
-		public Field_Vector<T> map_divide_to_self(T d)
-		, Math_Runtime_Exception
+		Field_Vector<T> map_divide_to_self(const T& d)
+		
 	{
 		//Math_Utils::check_not_null(d);
 		for (int i{}; i < data.size(); i++)
 		{
 			data[i] = data[i].divide(d);
 		}
-		return this;
+		return *this;
 	}
 
 		/** {@inherit_doc} */
 		//override
-		public Field_Vector<T> map_inv() Math_Runtime_Exception
+		Field_Vector<T> map_inv()
 	{
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		const T one = field.get_one();
 		for (int i{}; i < data.size(); i++)
 		{
@@ -599,15 +679,16 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 			}
 			catch (const Math_Runtime_Exception e)
 			{
-				throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
 			}
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> map_inv_to_self() Math_Runtime_Exception
+	Field_Vector<T> map_inv_to_self()
 	{
 		const T one = field.get_one();
 		for (int i{}; i < data.size(); i++)
@@ -618,27 +699,28 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 			}
 			catch (const Math_Runtime_Exception e)
 			{
-				throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
 			}
 		}
-		return this;
+		return *this;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> ebe_multiply(Field_Vector<T> v)
+	Field_Vector<T> ebe_multiply(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return ebe_multiply((ArrayField_Vector<T>) v);
+			return ebe_multiply((Array_Field_Vector<T>) v);
 		}
 		check_vector_dimensions(v);
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].multiply(v.get_entry(i));
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/**
@@ -648,28 +730,28 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * @ if {@code v} is not the same size as
 	 * {@code this}
 	 */
-	public ArrayField_Vector<T> ebe_multiply(ArrayField_Vector<T> v)
+	Array_Field_Vector<T> ebe_multiply(const Array_Field_Vector<T>& v)
 
 	{
 		check_vector_dimensions(v.data.size());
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			out[i] = data[i].multiply(v.data[i]);
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> ebe_divide(Field_Vector<T> v)
+	Field_Vector<T> ebe_divide(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return ebe_divide((ArrayField_Vector<T>) v);
+			return ebe_divide((Array_Field_Vector<T>) v);
 		}
 		check_vector_dimensions(v);
-		std::vector<T> out = Math_Arrays::build_array(field, data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
 		for (int i{}; i < data.size(); i++)
 		{
 			try
@@ -678,10 +760,11 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 			}
 			catch (const Math_Runtime_Exception e)
 			{
-				throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
+				throw std::exception("not implemented");
+				//throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
 			}
 		}
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/**
@@ -692,42 +775,42 @@ class ArrayField_Vector<T extends Field_Element<T>> : Field_Vector<T>
 	 * {@code this}
 	 * @Math_Runtime_Exception if one entry of {@code v} is zero.
 	 */
-	public ArrayField_Vector<T> ebe_divide(ArrayField_Vector<T> v)
-		, Math_Runtime_Exception
+	Array_Field_Vector<T> ebe_divide(const Array_Field_Vector<T>& v)
 	{
-	check_vector_dimensions(v.data.size());
-	std::vector<T> out = Math_Arrays::build_array(field, data.size());
-	for (int i{}; i < data.size(); i++)
-	{
-		try
+		check_vector_dimensions(v.data.size());
+		auto out = Math_Arrays::build_array(field, data.size());
+		for (int i{}; i < data.size(); i++)
 		{
-			out[i] = data[i].divide(v.data[i]);
-		}
-catch (const Math_Runtime_Exception e)
+			try
 			{
-				throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
+				out[i] = data[i].divide(v.data[i]);
+			}
+			catch (const Math_Runtime_Exception e)
+			{
+				throw std::exception("not implemented");
+					//throw Math_Runtime_Exception(e, hipparchus::exception::Localized_Core_Formats_Type::INDEX, i);
 			}
 		}
-		return ArrayField_Vector<T>(field, out, false);
+			return Array_Field_Vector<T>(field, out, false);
 	}
 
-		/**
-		 * Returns a reference to the underlying data array.
-		 * <p>Does not make a fresh copy of the underlying data.</p>
-		 * @return array of entries
-		 */
-		public std::vector<T> get_data_ref()
+	/**
+		* Returns a reference to the underlying data array.
+		* <p>Does not make a fresh copy of the underlying data.</p>
+		* @return array of entries
+		*/
+	std::vector<T> get_data_ref() const
 	{
-		return data; // NOPMD - returning an internal array is intentional and documented here
+		return my_data; // NOPMD - returning an internal array is intentional and documented here
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public T dot_product(Field_Vector<T> v)
+	T dot_product(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return dot_product((ArrayField_Vector<T>) v);
+			return dot_product((Array_Field_Vector<T>) v);
 		}
 		check_vector_dimensions(v);
 		T dot = field.get_zero();
@@ -745,8 +828,7 @@ catch (const Math_Runtime_Exception e)
 	 * @ if {@code v} is not the same size as
 	 * {@code this}
 	 */
-	public T dot_product(ArrayField_Vector<T> v)
-
+	T dot_product(const Array_Field_Vector<T>& v)
 	{
 		check_vector_dimensions(v.data.size());
 		T dot = field.get_zero();
@@ -759,36 +841,34 @@ catch (const Math_Runtime_Exception e)
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> projection(Field_Vector<T> v)
-		, Math_Runtime_Exception
+	Field_Vector<T> projection(const Field_Vector<T>& v)
 	{
-	return v.map_multiply(dot_product(v).divide(v.dot_product(v)));
+		return v.map_multiply(dot_product(v).divide(v.dot_product(v)));
 	}
 
-		/** Find the orthogonal projection of this vector onto another vector.
-		 * @param v vector onto which {@code this} must be projected
-		 * @return projection of {@code this} onto {@code v}
-		 * @ if {@code v} is not the same size as
-		 * {@code this}
-		 * @Math_Runtime_Exception if {@code v} is the NULL vector.
-		 */
-		public ArrayField_Vector<T> projection(ArrayField_Vector<T> v)
-		, Math_Runtime_Exception
+	/** Find the orthogonal projection of this vector onto another vector.
+		* @param v vector onto which {@code this} must be projected
+		* @return projection of {@code this} onto {@code v}
+		* @ if {@code v} is not the same size as
+		* {@code this}
+		* @Math_Runtime_Exception if {@code v} is the NULL vector.
+		*/
+	Array_Field_Vector<T> projection(const Array_Field_Vector<T>& v)
 	{
-	return (ArrayField_Vector<T>) v.map_multiply(dot_product(v).divide(v.dot_product(v)));
+		return (Array_Field_Vector<T>) v.map_multiply(dot_product(v).divide(v.dot_product(v)));
 	}
 
-		/** {@inherit_doc} */
-		//override
-		public Field_Matrix<T> outer_product(Field_Vector<T> v)
+	/** {@inherit_doc} */
+	//override
+	Field_Matrix<T> outer_product(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return outer_product((ArrayField_Vector<T>) v);
+			return outer_product((Array_Field_Vector<T>) v);
 		}
 		const int m = data.size();
 		const int n = v.get_dimension();
-		const Field_Matrix<T> out = Array2DRowField_Matrix<>(field, m, n);
+		auto out = Array2DRowField_Matrix<>(field, m, n);
 		for (int i{}; i < m; i++)
 		{
 			for (int j{}; j < n; j++)
@@ -804,11 +884,11 @@ catch (const Math_Runtime_Exception e)
 	 * @param v vector with which outer product should be computed
 	 * @return the matrix outer product between instance and v
 	 */
-	public Field_Matrix<T> outer_product(ArrayField_Vector<T> v)
+	Field_Matrix<T> outer_product(const Array_Field_Vector<T>& v)
 	{
-		const int m = data.size();
+		const int m = my_data.size();
 		const int n = v.data.size();
-		const Field_Matrix<T> out = Array2DRowField_Matrix<>(field, m, n);
+		auto out = Array2DRowField_Matrix<>(field, m, n);
 		for (int i{}; i < m; i++)
 		{
 			for (int j{}; j < n; j++)
@@ -821,27 +901,27 @@ catch (const Math_Runtime_Exception e)
 
 	/** {@inherit_doc} */
 	//override
-	public T get_entry(const int& index)
+	T get_entry(const int& index) const
 	{
-		return data[index];
+		return my_data[index];
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public int get_dimension()
+	int get_dimension() const
 	{
-		return data.size();
+		return my_data.size();
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> append(const Field_Vector<T>& v)
+	Field_Vector<T> append(const Field_Vector<T>& v)
 	{
-		if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+		if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 		{
-			return append((ArrayField_Vector<T>) v);
+			return append((Array_Field_Vector<T>) v);
 		}
-		return ArrayField_Vector<T>(this, ArrayField_Vector<T>(v));
+		return Array_Field_Vector<T>(*this, Array_Field_Vector<T>(v));
 	}
 
 	/**
@@ -849,31 +929,31 @@ catch (const Math_Runtime_Exception e)
 	 * @param v vector to append to this one.
 	 * @return a vector
 	 */
-	public ArrayField_Vector<T> append(const ArrayField_Vector<T>& v)
+	Array_Field_Vector<T> append(const Array_Field_Vector<T>& v)
 	{
-		return ArrayField_Vector<T>(*this, v);
+		return Array_Field_Vector<T>(*this, v);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> append(T in)
+	Field_Vector<T> append(T in)
 	{
-		const std::vector<T> out = Math_Arrays::build_array(field, data.size() + 1);
+		auto out = Math_Arrays::build_array(field, data.size() + 1);
 		System.arraycopy(data, 0, out, 0, data.size());
 		out[data.size()] = in;
-		return ArrayField_Vector<T>(field, out, false);
+		return Array_Field_Vector<T>(field, out, false);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Field_Vector<T> get_sub_vector(const int& index, int n)
+	Field_Vector<T> get_sub_vector(const int& index, const int& n)
 	{
 		if (n < 0)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
 		}
-		ArrayField_Vector<T> out = ArrayField_Vector<>(field, n);
+		auto out = Array_Field_Vector<>(field, n);
 		try
 		{
 			System.arraycopy(data, index, out.data, 0, n);
@@ -888,7 +968,7 @@ catch (const Math_Runtime_Exception e)
 
 	/** {@inherit_doc} */
 	//override
-	public void set_entry(const int& index, T value)
+	void set_entry(const int& index, const T& value)
 	{
 		try
 		{
@@ -902,13 +982,13 @@ catch (const Math_Runtime_Exception e)
 
 	/** {@inherit_doc} */
 	//override
-	public void set_sub_vector(const int& index, Field_Vector<T> v)
+	void set_sub_vector(const int& index, const Field_Vector<T>& v)
 	{
 		try
 		{
-			if (dynamic_cast<const ArrayField_Vector*>(*v) != nullptr)
+			if (dynamic_cast<const Array_Field_Vector*>(*v) != nullptr)
 			{
-				set(index, (ArrayField_Vector<T>) v);
+				set(index, (Array_Field_Vector<T>) v);
 			}
 			else
 			{
@@ -932,7 +1012,7 @@ catch (const Math_Runtime_Exception e)
 	 * @param v vector containing the values to set.
 	 * @ if the index is invalid.
 	 */
-	public void set(const int& index, ArrayField_Vector<T> v)
+	void set(const int& index, const Array_Field_Vector<T>& v)
 	{
 		try
 		{
@@ -947,44 +1027,16 @@ catch (const Math_Runtime_Exception e)
 
 	/** {@inherit_doc} */
 	//override
-	public void set(T value)
+	void set(const T& value)
 	{
-		Arrays.fill(data, value);
+		Arrays.fill(my_data, value);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public std::vector<T> to_array()
+	std::vector<T> to_array()
 	{
-		return data.clone();
-	}
-
-	/**
-	 * Check if instance and specified vectors have the same dimension.
-	 * @param v vector to compare instance with
-	 * @exception  if the vectors do not
-	 * have the same dimensions
-	 */
-	protected void check_vector_dimensions(Field_Vector<T> v)
-
-	{
-		check_vector_dimensions(v.get_bimension());
-	}
-
-	/**
-	 * Check if instance dimension is equal to some expected value.
-	 *
-	 * @param n Expected dimension.
-	 * @ if the dimension is not equal to the
-	 * size of {@code this} vector.
-	 */
-	protected void check_vector_dimensions(const int& n)
-	{
-		if (data.size() != n)
-		{
-			throw std::exception("not implemented");
-			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, data.size(), n);
-		}
+		return my_data.clone();
 	}
 
 	/**
@@ -996,7 +1048,7 @@ catch (const Math_Runtime_Exception e)
 	 * @return the value returned by {@link Field_VectorPreservingVisitor#end()}
 	 * at the end of the walk
 	 */
-	public T walk_in_default_order(const Field_VectorPreservingVisitor<T> visitor)
+	T walk_in_default_order(const Field_VectorPreservingVisitor<T>& visitor)
 	{
 		const int dim = get_dimension();
 		visitor.start(dim, 0, dim - 1);
@@ -1019,12 +1071,11 @@ catch (const Math_Runtime_Exception e)
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	public T walk_in_default_order(const Field_VectorPreservingVisitor<T> visitor, const int start, const int end)
-
+	T walk_in_default_order(const Field_VectorPreservingVisitor<T>& visitor, const int& start, const int& end)
 	{
 		check_indices(start, end);
 		visitor.start(get_dimension(), start, end);
-		for (int i = start; i <= end; i++)
+		for (int i{ start }; i <= end; i++)
 		{
 			visitor.visit(i, get_entry(i));
 		}
@@ -1042,7 +1093,7 @@ catch (const Math_Runtime_Exception e)
 	 * @return the value returned by {@link Field_VectorPreservingVisitor#end()}
 	 * at the end of the walk
 	 */
-	public T walk_in_optimized_order(const Field_VectorPreservingVisitor<T> visitor)
+	T walk_in_optimized_order(const Field_VectorPreservingVisitor<T>& visitor)
 	{
 		return walk_in_default_order(visitor);
 	}
@@ -1061,8 +1112,7 @@ catch (const Math_Runtime_Exception e)
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	public T walk_in_optimized_order(const Field_VectorPreservingVisitor<T> visitor, const int start, const int end)
-
+	T walk_in_optimized_order(const Field_VectorPreservingVisitor<T>& visitor, const int& start, const int& end)
 	{
 		return walk_in_default_order(visitor, start, end);
 	}
@@ -1076,7 +1126,7 @@ catch (const Math_Runtime_Exception e)
 	 * @return the value returned by {@link Field_VectorChangingVisitor#end()}
 	 * at the end of the walk
 	 */
-	public T walk_in_default_order(const Field_VectorChangingVisitor<T> visitor)
+	T walk_in_default_order(const Field_VectorChangingVisitor<T>& visitor)
 	{
 		const int dim = get_dimension();
 		visitor.start(dim, 0, dim - 1);
@@ -1099,8 +1149,7 @@ catch (const Math_Runtime_Exception e)
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	public T walk_in_default_order(const Field_VectorChangingVisitor<T> visitor, const int start, const int end)
-
+	T walk_in_default_order(const Field_VectorChangingVisitor<T>& visitor, const int& start, const int& end)
 	{
 		check_indices(start, end);
 		visitor.start(get_dimension(), start, end);
@@ -1122,7 +1171,7 @@ catch (const Math_Runtime_Exception e)
 	 * @return the value returned by {@link Field_VectorChangingVisitor#end()}
 	 * at the end of the walk
 	 */
-	public T walk_in_optimized_order(const Field_VectorChangingVisitor<T> visitor)
+	T walk_in_optimized_order(const Field_VectorChangingVisitor<T>& visitor)
 	{
 		return walk_in_default_order(visitor);
 	}
@@ -1141,8 +1190,7 @@ catch (const Math_Runtime_Exception e)
 	 * @ if {@code end < start}.
 	 * @ if the indices are not valid.
 	 */
-	public T walk_in_optimized_order(const Field_VectorChangingVisitor<T> visitor, const int start, const int end)
-
+	T walk_in_optimized_order(const Field_VectorChangingVisitor<T>& visitor, const int& start, const int& end)
 	{
 		return walk_in_default_order(visitor, start, end);
 	}
@@ -1150,9 +1198,9 @@ catch (const Math_Runtime_Exception e)
 	 * @since 2.0
 	 */
 	 //override
-	public std::string to_string() const
+	std::string to_string() const
 	{
-		const std::stringBuilder builder = std::stringstream();
+		auto builder = std::stringstream();
 		builder.append('{');
 		for (int i{}; i < data.size(); ++i)
 		{
@@ -1174,9 +1222,9 @@ catch (const Math_Runtime_Exception e)
 	 * otherwise.
 	 */
 	 //override
-	public bool equals(Object other)
+	bool equals(cosnt Object& other)
 	{
-		if (this == other)
+		if (*this == other)
 		{
 			return true;
 		}
@@ -1216,56 +1264,13 @@ catch (const Math_Runtime_Exception e)
 	 * @return a hash code value for this object
 	 */
 	 //override
-	public int hash_code()
+	int hash_code()
 	{
-		int h = 3542;
-		for (const T a : data)
+		int h{ 3542 };
+		for (const T a : my_data)
 		{
 			h ^= a.hash_code();
 		}
 		return h;
 	}
-
-	/**
-	 * Check if an index is valid.
-	 *
-	 * @param index Index to check.
-	 * @exception  if the index is not valid.
-	 */
-	private void check_index(const int index)
-	{
-		if (index < 0 || index >= get_dimension())
-		{
-			throw std::exception("not implemented");
-			//throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, index, 0, get_dimension() - 1);
-		}
-	}
-
-	/**
-	 * Checks that the indices of a subvector are valid.
-	 *
-	 * @param start the index of the first entry of the subvector
-	 * @param end the index of the last entry of the subvector (inclusive)
-	 * @ if {@code start} of {@code end} are not valid
-	 * @ if {@code end < start}
-	 */
-	private void check_indices(const int start, const int end)
-	{
-		const int dim = get_dimension();
-		if ((start < 0) || (start >= dim))
-		{
-			throw std::exception("not implemented");
-			//throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, start, 0, dim - 1);
-		}
-		if ((end < 0) || (end >= dim))
-		{
-			throw std::exception("not implemented");
-			//throw (hipparchus::exception::Localized_Core_Formats_Type::INDEX, end, 0, dim - 1);
-		}
-		if (end < start)
-		{
-			throw std::exception("not implemented");
-			//throw (hipparchus::exception::Localized_Core_Formats_Type::INITIAL_ROW_AFTER_FINAL_ROW, end, start, false);
-		}
-	}
-}
+};

@@ -29,6 +29,10 @@
   //import org.hipparchus.stat.Stat_Utils;
   //import org.hipparchus.stat.descriptive.Abstract_Univariate_Statistic;
   //import org.hipparchus.util.Math_Arrays;
+#include <vector>
+#include "../AbstractUnivariateStatistic.h"
+#include "../../StatUtils.h"
+#include "Direction.h"
 
   /**
    * Computes the semivariance of a set of values with respect to a given cutoff value.
@@ -56,41 +60,40 @@
    * more of these threads invoke property setters, external synchronization must
    * be provided to ensure correct results.
    */
-class Semi_Variance extends Abstract_Univariate_Statistic
+class Semi_Variance : public Abstract_Univariate_Statistic
 {
+private:
+	/**
+	 * Determines whether or not bias correction is applied when computing the
+	 * value of the statistic.  True means that bias is corrected.
+	 */
+	const bool my_bias_corrected;
+
+	/**
+	 * Determines whether to calculate downside or upside Semi_Variance.
+	 */
+	const Direction my_variance_direction;
+
+public:
 	/**
 	 * The UPSIDE Direction is used to specify that the observations above the
 	 * cutoff point will be used to calculate Semi_Variance.
 	 */
-	public static const Direction UPSIDE_VARIANCE = Direction.UPSIDE;
+	static const Direction UPSIDE_VARIANCE = Direction::UPSIDE;
 
 	/**
 	 * The DOWNSIDE Direction is used to specify that the observations below
 	 * the cutoff point will be used to calculate Semi_Variance
 	 */
-	public static const Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
-
-	/** Serializable version identifier */
-	20150412L;
-
-	/**
-	 * Determines whether or not bias correction is applied when computing the
-	 * value of the statistic.  True means that bias is corrected.
-	 */
-	private const bool bias_corrected;
-
-	/**
-	 * Determines whether to calculate downside or upside Semi_Variance.
-	 */
-	private const Direction variance_direction;
+	static const Direction DOWNSIDE_VARIANCE = Direction::DOWNSIDE;
 
 	/**
 	 * Constructs a Semi_Variance with default (true) <code>bias_corrected</code>
 	 * property and default (Downside) <code>variance_direction</code> property.
 	 */
-	public Semi_Variance()
+	Semi_Variance()
 	{
-		this(true, Direction.DOWNSIDE);
+		Semi_Variance(true, Direction::DOWNSIDE);
 	}
 
 	/**
@@ -101,9 +104,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * bias will be corrected and is equivalent to using the argumentless
 	 * constructor
 	 */
-	public Semi_Variance(const bool bias_corrected)
+	Semi_Variance(const bool bias_corrected)
 	{
-		this(bias_corrected, Direction.DOWNSIDE);
+		Semi_Variance(bias_corrected, Direction::DOWNSIDE);
 	}
 
 	/**
@@ -113,9 +116,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @param direction  setting for the direction of the Semi_Variance
 	 * to calculate
 	 */
-	public Semi_Variance(const Direction direction)
+	Semi_Variance(const Direction& direction)
 	{
-		this(true, direction);
+		Semi_Variance(true, direction);
 	}
 
 	/**
@@ -129,10 +132,11 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @param direction  setting for the direction of the Semi_Variance
 	 * to calculate
 	 */
-	public Semi_Variance(const bool corrected, const Direction direction)
+	Semi_Variance(const bool corrected, const Direction& direction)
+		:
+		my_bias_corrected{ corrected },
+		my_variance_direction{ direction }
 	{
-		this.bias_corrected = corrected;
-		this.variance_direction = direction;
 	}
 
 	/**
@@ -142,18 +146,19 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @param original the {@code Semi_Variance} instance to copy
 	 * @  if original is NULL
 	 */
-	public Semi_Variance(const Semi_Variance original)
+	Semi_Variance(const Semi_Variance& original)
+		:
+		my_bias_corrected{ original.get_bias_corrected() },
+		my_variance_direction{ original.get_variance_direction() }
 	{
-		super(original);
-		this.bias_corrected = original.bias_corrected;
-		this.variance_direction = original.variance_direction;
+		Abstract_Univariate_Statistic(original);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Semi_Variance copy()
+	Semi_Variance copy()
 	{
-		return Semi_Variance(this);
+		return Semi_Variance(*this);
 	}
 
 	/**
@@ -170,11 +175,10 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @ if the parameters are not valid
 	 */
 	 //override
-	public double evaluate(const std::vector<double>& values, const int start, const int length)
-
+	double evaluate(const std::vector<double>& values, const int& start, const int& length)
 	{
-		double m = Stat_Utils.mean(values, start, length);
-		return evaluate(values, m, variance_direction, bias_corrected, start, length);
+		const auto m = Stat_Utils::mean(values, start, length);
+		return evaluate(values, m, my_variance_direction, my_bias_corrected, start, length);
 	}
 
 	/**
@@ -185,11 +189,10 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @return the Semi_Variance
 	 * @ if values is NULL
 	 */
-	public double evaluate(const std::vector<double>& values, Direction direction)
-
+	double evaluate(const std::vector<double>& values, const Direction& direction)
 	{
-		double m = Stat_Utils.mean(values);
-		return evaluate(values, m, direction, bias_corrected, 0, values.size());
+		const auto m = Stat_Utils.mean(values);
+		return evaluate(values, m, direction, my_bias_corrected, 0, values.size());
 	}
 
 	/**
@@ -202,10 +205,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @return the Semi_Variance
 	 * @ if values is NULL
 	 */
-	public double evaluate(const std::vector<double>& values, const double cutoff)
-
+	double evaluate(const std::vector<double>& values, const double& cutoff)
 	{
-		return evaluate(values, cutoff, variance_direction, bias_corrected, 0, values.size());
+		return evaluate(values, cutoff, my_variance_direction, my_bias_corrected, 0, values.size());
 	}
 
 	/**
@@ -220,10 +222,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @return the Semi_Variance
 	 * @ if values is NULL
 	 */
-	public double evaluate(const std::vector<double>& values, const double cutoff, const Direction direction)
-
+	double evaluate(const std::vector<double>& values, const double& cutoff, const Direction& direction)
 	{
-		return evaluate(values, cutoff, direction, bias_corrected, 0, values.size());
+		return evaluate(values, cutoff, direction, my_bias_corrected, 0, values.size());
 	}
 
 	/**
@@ -241,43 +242,31 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @return the Semi_Variance
 	 * @ if the parameters are not valid
 	 */
-	public double evaluate(const std::vector<double>& values, const double cutoff, const Direction direction, const bool corrected, const int start, const int length)
-
+	double evaluate(const std::vector<double>& values, const double cutoff, const Direction& direction, const bool corrected, const int& start, const int& length)
 	{
 		Math_Arrays::verify_values(values, start, length);
 		if (values.size() == 0)
 		{
 			return std::numeric_limits<double>::quiet_NaN();
 		}
-		else
+		if (values.size() == 1)
 		{
-			if (values.size() == 1)
+			return 0.0;
+		}
+		double sumsq{};
+		const int end = start + length;
+		for (int i{ start }; i < end; i++)
+		{
+			if (direction.consider_observation(values[i], cutoff))
 			{
-				return 0.0;
-			}
-			else
-			{
-				double sumsq = 0.0;
-				const int end = start + length;
-				for (int i = start; i < end; i++)
-				{
-					if (direction.consider_observation(values[i], cutoff))
-					{
-						const double dev = values[i] - cutoff;
-						sumsq += dev * dev;
-					}
-				}
-
-				if (corrected)
-				{
-					return sumsq / (length - 1.0);
-				}
-				else
-				{
-					return sumsq / length;
-				}
+				const double dev{ values[i] - cutoff };
+				sumsq += dev * dev;
 			}
 		}
+
+		return corrected
+			? sumsq / (length - 1.0)
+			: sumsq / length;
 	}
 
 	/**
@@ -285,9 +274,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 *
 	 * @return the value of bias_corrected.
 	 */
-	public bool is_bias_corrected()
+	bool is_bias_corrected() const
 	{
-		return bias_corrected;
+		return my_bias_corrected;
 	}
 
 	/**
@@ -296,9 +285,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @param is_bias_corrected bias_corrected property value
 	 * @return a copy of this instance with the given bias correction setting
 	 */
-	public Semi_Variance with_bias_corrected(bool is_bias_corrected)
+	Semi_Variance with_bias_corrected(const bool is_bias_corrected)
 	{
-		return Semi_Variance(is_bias_corrected, this.variance_direction);
+		return Semi_Variance(is_bias_corrected, my_variance_direction);
 	}
 
 	/**
@@ -306,9 +295,9 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 *
 	 * @return the variance_direction
 	 */
-	public Direction get_variance_direction()
+	Direction get_variance_direction() const
 	{
-		return variance_direction;
+		return my_variance_direction;
 	}
 
 	/**
@@ -317,52 +306,8 @@ class Semi_Variance extends Abstract_Univariate_Statistic
 	 * @param direction the direction of the semivariance
 	 * @return a copy of this instance with the given direction setting
 	 */
-	public Semi_Variance with_variance_direction(Direction direction)
+	Semi_Variance with_variance_direction(const Direction& direction)
 	{
-		return Semi_Variance(this.bias_corrected, direction);
+		return Semi_Variance(my_bias_corrected, direction);
 	}
-
-	/**
-	 * The direction of the semivariance - either upside or downside. The direction
-	 * is represented by bool, with true corresponding to UPSIDE semivariance.
-	 */
-	enum Direction
-	{
-		/**
-		 * The UPSIDE Direction is used to specify that the observations above the
-		 * cutoff point will be used to calculate Semi_Variance
-		 */
-		UPSIDE(true),
-		/**
-		 * The DOWNSIDE Direction is used to specify that the observations below
-		 * the cutoff point will be used to calculate Semi_Variance
-		 */
-		 DOWNSIDE(false);
-
-	/**
-	 * bool value  UPSIDE <-> true
-	 */
-	private bool direction;
-
-	/**
-	 * Create a Direction with the given value.
-	 *
-	 * @param b bool value representing the Direction. True corresponds to UPSIDE.
-	 */
-	Direction(bool b)
-	{
-		direction = b;
-	}
-
-	/** Check if observation should be considered.
-	 * @param value observation value
-	 * @param cutoff cutoff point
-	 * @return true if observation should be considered.
-	 * @since 1.4
-	 */
-	bool consider_observation(const double& value, const double cutoff)
-	{
-		return value > cutoff == direction;
-	}
-	}
-}
+};

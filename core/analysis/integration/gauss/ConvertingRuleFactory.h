@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- //package org.hipparchus.analysis.integration.gauss;
 
  //import org.hipparchus.Calculus_Field_Element;
- //import org.hipparchus.Field_Element;
- //import org.hipparchus.exception.;
  //import org.hipparchus.util.Pair;
+#include <type_traits>
+#include "../../../FieldElement.h"
+
 
  /**
   * Factory converting {@link Calculus_Field_Element field-based} {@link FieldRule_Factory} into {@link Rule_Factory}.
@@ -27,23 +27,28 @@
   * the quadrature rules.
   * @since 2.0
   */
-class ConvertingRule_Factory<T extends Field_Element<T>> extends AbstractRule_Factory
+template<typename T, typename std::enable_if<std::is_base_of<Field_Element<T>, T>::value>::type* = nullptr>
+class ConvertingRule_Factory : public AbstractRule_Factory
 {
+private:
 	/** Underlying field-based factory. */
-	private const FieldRule_Factory<T> field_factory;
+	const FieldRule_Factory<T> field_factory;
 
+public:
 	/** Simple constructor.
 	 * @param field_factory field-based factory to convert
 	 */
-	public ConvertingRule_Factory(const FieldRule_Factory<T> field_factory)
+	ConvertingRule_Factory(const FieldRule_Factory<T>& field_factory)
+		:
+		my_field_factory{ field_factory }
 	{
-		this.field_factory = field_factory;
+
 	}
 
+protected:
 	/** {@inherit_doc} */
 	//override
-	protected Pair<std::vector<double>, std::vector<double>> compute_rule(const int& number_of_points)
-
+	Pair<std::vector<double>, std::vector<double>> compute_rule(const int& number_of_points)
 	{
 		// get the field-based rule
 		Pair<std::vector<T>, std::vector<T>> rule = field_factory.get_rule(number_of_points);
@@ -64,4 +69,4 @@ class ConvertingRule_Factory<T extends Field_Element<T>> extends AbstractRule_Fa
 
 		return Pair<>(pD, wD);
 	}
-}
+};

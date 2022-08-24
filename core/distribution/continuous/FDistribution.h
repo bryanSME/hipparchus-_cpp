@@ -96,7 +96,7 @@ public:
 		my_denominator_degrees_of_freedom{ denominator_degrees_of_freedom },
 		my_numerical_variance{ calculate_numerical_variance() }
 	{
-		super(inverse_cum_accuracy);
+		Abstract_Real_Distribution(inverse_cum_accuracy);
 
 		if (numerator_degrees_of_freedom <= 0)
 		{

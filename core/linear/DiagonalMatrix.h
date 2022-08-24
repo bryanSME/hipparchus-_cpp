@@ -77,7 +77,7 @@ public:
 	 *
 	 * @param d Data for the matrix.
 	 */
-	Diagonal_Matrix(const std::vector<double> d)
+	Diagonal_Matrix(const std::vector<double>& d)
 	{
 		Diagonal_Matrix(d, true);
 	}
@@ -109,7 +109,7 @@ public:
 	 * @ if the requested dimensions are not equal.
 	 */
 	 //override
-	Real_Matrix create_matrix(const int& row_dimension, const int column_dimension)
+	Real_Matrix create_matrix(const int& row_dimension, const int& column_dimension)
 	{
 		/*if (row_dimension != column_dimension)
 		{
@@ -135,7 +135,7 @@ public:
 	 * @ if {@code m} is not the same
 	 * size as {@code this}.
 	 */
-	Diagonal_Matrix add(const Diagonal_Matrix m)
+	Diagonal_Matrix add(const Diagonal_Matrix& m)
 
 	{
 		// Safety check.
@@ -159,7 +159,7 @@ public:
 	 * @ if {@code m} is not the same
 	 * size as {@code this}.
 	 */
-	Diagonal_Matrix subtract(const Diagonal_Matrix m)
+	Diagonal_Matrix subtract(const Diagonal_Matrix& m)
 	{
 		//Matrix_Utils::check_subtraction_compatible(this, m);
 
@@ -181,7 +181,7 @@ public:
 	 * @ if
 	 * {@code column_dimension(this) != row_dimension(m)}
 	 */
-	Diagonal_Matrix multiply(const Diagonal_Matrix m)
+	Diagonal_Matrix multiply(const Diagonal_Matrix& m)
 
 	{
 		Matrix_Utils::check_multiplication_compatible(this, m);
@@ -226,7 +226,7 @@ public:
 	 * {@code column_dimension(this) != column_dimension(m)}
 	 * @since 1.3
 	 */
-	Diagonal_Matrix multiply_transposed(const Diagonal_Matrix m)
+	Diagonal_Matrix multiply_transposed(const Diagonal_Matrix& m)
 	{
 		// transposition is no-op for diagonal matrices
 		return multiply(m);
@@ -263,7 +263,7 @@ public:
 	 * {@code column_dimension(this) != column_dimension(m)}
 	 * @since 1.3
 	 */
-	Diagonal_Matrix transpose_multiply(const Diagonal_Matrix m)
+	Diagonal_Matrix transpose_multiply(const Diagonal_Matrix& m)
 	{
 		// transposition is no-op for diagonal matrices
 		return multiply(m);

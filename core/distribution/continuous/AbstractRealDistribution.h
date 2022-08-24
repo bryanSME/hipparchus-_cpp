@@ -50,7 +50,7 @@ private:
 
 protected:
 	/** Default absolute accuracy for inverse cumulative computation. */
-	static constexpr double DEFAULT_SOLVER_ABSOLUTE_ACCURACY = 1e-9;
+	static constexpr double DEFAULT_SOLVER_ABSOLUTE_ACCURACY{ 1e-9 };
 
 	/**
 	 * @param solver_absolute_accuracy the absolute accuracy to use when
@@ -152,8 +152,7 @@ public:
 
 		const double mu = get_numerical_mean();
 		const double sig = std::sqrt(get_numerical_variance());
-		const bool chebyshev_applies;
-		chebyshev_applies = !(std::isinf(mu) || std::isnan(mu) ||
+		bool chebyshev_applies = !(std::isinf(mu) || std::isnan(mu) ||
 			std::isinf(sig) || std::isnan(sig));
 
 		if (lower_bound == -INFINITY)

@@ -36,12 +36,9 @@
    * The actual code of Neville's evaluation is in Polynomial_Function_Lagrange_Form, * this class provides an easy-to-use interface to it.</p>
    *
    */
-class Divided_Difference_Interpolator
-	: Univariate_Interpolator
+class Divided_Difference_Interpolator : public Univariate_Interpolator
 {
-	/** serializable version identifier */
-	107049519551235069L;
-
+public:
 	/**
 	 * Compute an interpolating function for the dataset.
 	 *
@@ -54,8 +51,7 @@ class Divided_Difference_Interpolator
 	 * strictly increasing order.
 	 */
 	 //override
-	public Polynomial_FunctionNewtonForm interpolate(const std::vector<double>& x, const std::vector<double>& y)
-
+	Polynomial_FunctionNewtonForm interpolate(const std::vector<double>& x, const std::vector<double>& y)
 	{
 		/**
 		 * a[] and c[] are defined in the general formula of Newton form:
@@ -72,13 +68,14 @@ class Divided_Difference_Interpolator
 		 * <p>
 		 * Note x[], y[], a[] have the same length but c[]'s size is one less.</p>
 		 */
-		const std::vector<double> c = std::vector<double>(x.size() - 1];
+		const auto c = std::vector<double>(x.size() - 1);
 		System.arraycopy(x, 0, c, 0, c.size());
 
-		const std::vector<double> a = compute_divided_difference(x, y);
+		const auto a = compute_divided_difference(x, y);
 		return Polynomial_FunctionNewtonForm(a, c);
 	}
 
+protected:
 	/**
 	 * Return a copy of the divided difference array.
 	 * <p>
@@ -98,15 +95,14 @@ class Divided_Difference_Interpolator
 	 * @
 	 * if {@code x} is not sorted in strictly increasing order.
 	 */
-	protected static std::vector<double> compute_divided_difference(const std::vector<double>& x, const std::vector<double>& y)
-
+	static std::vector<double> compute_divided_difference(const std::vector<double>& x, const std::vector<double>& y)
 	{
 		Polynomial_Function_Lagrange_Form.verify_interpolation_array(x, y, true);
 
 		const std::vector<double> divdiff = y.clone(); // initialization
 
 		const int n = x.size();
-		const std::vector<double> a = double[n];
+		auto a = std::vector<double>(n);
 		a[0] = divdiff[0];
 		for (int i{ 1 }; i < n; i++)
 		{
@@ -120,4 +116,4 @@ class Divided_Difference_Interpolator
 
 		return a;
 	}
-}
+};

@@ -64,17 +64,20 @@
    * automatically.
    */
 class CorrelatedRandom_Vector_Generator
-	: Random_Vector_Generator
+	: 
+	public Random_Vector_Generator
 {
+private:
 	/** Mean vector. */
-	private const std::vector<double> mean;
+	std::vector<double> my_mean;
 	/** Underlying generator. */
-	private const Normalized_Random_Generator generator;
+	Normalized_Random_Generator my_generator;
 	/** Storage for the normalized vector. */
-	private const std::vector<double> normalized;
+	std::vector<double> my_normalized;
 	/** Root of the covariance matrix. */
-	private const Real_Matrix root;
+	Real_Matrix my_root;
 
+public:
 	/**
 	 * Builds a correlated random vector generator from its mean
 	 * vector and covariance matrix.
@@ -90,7 +93,7 @@ class CorrelatedRandom_Vector_Generator
 	 * @ if the mean and covariance
 	 * arrays dimensions do not match.
 	 */
-	public CorrelatedRandom_Vector_Generator(std::vector<double> mean, Real_Matrix covariance, double small, Normalized_Random_Generator generator)
+	CorrelatedRandom_Vector_Generator(const std::vector<double>& mean, const Real_Matrix& covariance, const double& small, const Normalized_Random_Generator& generator)
 	{
 		int order = covariance.get_row_dimension();
 		if (mean.size() != order)
@@ -98,14 +101,13 @@ class CorrelatedRandom_Vector_Generator
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, mean.size(), order);
 		}
-		this.mean = mean.clone();
+		my_mean = mean.clone();
 
-		const RectangularCholesky_Decomposition decomposition =
-			RectangularCholesky_Decomposition(covariance, small);
-		root = decomposition.get_root_matrix();
+		const auto decomposition = RectangularCholesky_Decomposition(covariance, small);
+		my_root = decomposition.get_root_matrix();
 
-		this.generator = generator;
-		normalized = std::vector<double>(decomposition.get_rank()];
+		my_generator = generator;
+		my_normalized = std::vector<double>(decomposition.get_rank());
 	}
 
 	/**
@@ -120,7 +122,7 @@ class CorrelatedRandom_Vector_Generator
 	 * @org.hipparchus.exception.
 	 * if the covariance matrix is not strictly positive definite.
 	 */
-	public CorrelatedRandom_Vector_Generator(Real_Matrix covariance, double small, Normalized_Random_Generator generator)
+	CorrelatedRandom_Vector_Generator(const Real_Matrix& covariance, const double& small, const Normalized_Random_Generator& generator)
 	{
 		int order = covariance.get_row_dimension();
 		mean = std::vector<double>(order];
@@ -129,20 +131,19 @@ class CorrelatedRandom_Vector_Generator
 			mean[i] = 0;
 		}
 
-		const RectangularCholesky_Decomposition decomposition =
-			RectangularCholesky_Decomposition(covariance, small);
-		root = decomposition.get_root_matrix();
+		const auto decomposition = RectangularCholesky_Decomposition(covariance, small);
+		my_root = decomposition.get_root_matrix();
 
-		this.generator = generator;
-		normalized = std::vector<double>(decomposition.get_rank()];
+		my_generator = generator;
+		my_normalized = std::vector<double>(decomposition.get_rank());
 	}
 
 	/** Get the underlying normalized components generator.
 	 * @return underlying uncorrelated components generator
 	 */
-	public Normalized_Random_Generator get_generator()
+	Normalized_Random_Generator get_generator() const
 	{
-		return generator;
+		return my_generator;
 	}
 
 	/** Get the rank of the covariance matrix.
@@ -151,9 +152,9 @@ class CorrelatedRandom_Vector_Generator
 	 * @return rank of the square matrix.
 	 * @see #get_root_matrix()
 	 */
-	public int get_rank()
+	int get_rank() const
 	{
-		return normalized.size();
+		return my_normalized.size();
 	}
 
 	/** Get the root of the covariance matrix.
@@ -162,9 +163,9 @@ class CorrelatedRandom_Vector_Generator
 	 * @return root of the square matrix
 	 * @see #get_rank()
 	 */
-	public Real_Matrix get_root_matrix()
+	Real_Matrix get_root_matrix() const
 	{
-		return root;
+		return my_root;
 	}
 
 	/** Generate a correlated random vector.
@@ -172,25 +173,25 @@ class CorrelatedRandom_Vector_Generator
 	 * is created at each call, the caller can do what it wants with it.
 	 */
 	 //override
-	public std::vector<double> next_vector()
+	std::vector<double> next_vector()
 	{
 		// generate uncorrelated vector
 		for (int i{}; i < normalized.size(); ++i)
 		{
-			normalized[i] = generator.next_normalized_double();
+			my_normalized[i] = my_generator.next_normalized_double();
 		}
 
 		// compute correlated vector
-		std::vector<double> correlated = std::vector<double>(mean.size()];
+		auto correlated = std::vector<double>(mean.size());
 		for (int i{}; i < correlated.size(); ++i)
 		{
 			correlated[i] = mean[i];
-			for (int j{}; j < root.get_column_dimension(); ++j)
+			for (int j{}; j < my_root.get_column_dimension(); ++j)
 			{
-				correlated[i] += root.get_entry(i, j) * normalized[j];
+				correlated[i] += my_root.get_entry(i, j) * normalized[j];
 			}
 		}
 
 		return correlated;
 	}
-}
+};

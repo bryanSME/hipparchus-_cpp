@@ -30,6 +30,7 @@
     <ClInclude Include="descriptive\AbstractUnivariateStatistic.h" />
     <ClInclude Include="descriptive\AggregatableStatistic.hpp" />
     <ClInclude Include="descriptive\DescriptiveStatistics.h" />
+    <ClInclude Include="descriptive\moment\Direction.h" />
     <ClInclude Include="descriptive\moment\FirstMoment.h" />
     <ClInclude Include="descriptive\moment\FourthMoment.h" />
     <ClInclude Include="descriptive\moment\GeometricMean.h" />

@@ -53,27 +53,63 @@
 template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
 class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univariate_Solver<T>
 {
+private:
 	/** Maximal aging triggering an attempt to balance the bracketing interval. */
-	private static const int MAXIMAL_AGING = 2;
+	static constexpr int MAXIMAL_AGING{ 2 };
 
 	/** Field to which the elements belong. */
-	private const Field<T> field;
+	const Field<T> my_field;
 
 	/** Maximal order. */
-	private const int maximal_order;
+	const int my_maximal_order;
 
 	/** Function value accuracy. */
-	private const T function_value_accuracy;
+	const T my_function_value_accuracy;
 
 	/** Absolute accuracy. */
-	private const T absolute_accuracy;
+	const T my_absolute_accuracy;
 
 	/** Relative accuracy. */
-	private const T relative_accuracy;
+	const T my_relative_accuracy;
 
 	/** Evaluations counter. */
-	private Incrementor evaluations;
+	Incrementor my_evaluations;
 
+	/** Guess an x value by n<sup>th</sup> order inverse polynomial interpolation.
+	 * <p>
+	 * The x value is guessed by evaluating polynomial Q(y) at y = target_y, where Q
+	 * is built such that for all considered points (x<sub>i</sub>, y<sub>i</sub>), * Q(y<sub>i</sub>) = x<sub>i</sub>.
+	 * </p>
+	 * @param target_y target value for y
+	 * @param x reference points abscissas for interpolation, * note that this array <em>is</em> modified during computation
+	 * @param y reference points ordinates for interpolation
+	 * @param start start index of the points to consider (inclusive)
+	 * @param end end index of the points to consider (exclusive)
+	 * @return guessed root (will be a NaN if two points share the same y)
+	 */
+	T guess_x(const T& target_y, const std::vector<T>& x, const std::vector<T>& y, const int& start, const int& end)
+	{
+		// compute Q Newton coefficients by divided differences
+		for (int i{ start }; i < end - 1; ++i)
+		{
+			const int delta = i + 1 - start;
+			for (int j = end - 1; j > i; --j)
+			{
+				x[j] = x[j].subtract(x[j - 1]).divide(y[j].subtract(y[j - delta]));
+			}
+		}
+
+		// evaluate Q(target_y)
+		T x0 = field.get_zero();
+		for (int j{ end - 1 }; j >= start; --j)
+		{
+			x0 = x[j].add(x0.multiply(target_y.subtract(y[j])));
+		}
+
+		return x0;
+	}
+
+public:
 	/**
 	 * Construct a solver.
 	 *
@@ -83,28 +119,28 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @param maximal_order maximal order.
 	 * @exception  if maximal order is lower than 2
 	 */
-	public FieldBracketing_Nth_Order_Brent_Solver(const T relative_accuracy, const T absolute_accuracy, const T function_value_accuracy, const int maximal_order)
-
+	FieldBracketing_Nth_Order_Brent_Solver(const T& relative_accuracy, const T& absolute_accuracy, const T& function_value_accuracy, const int& maximal_order)
+		:
+		my_field{ relative_accuracy.get_field() },
+		my_maximal_order{ maximal_order },
+		my_absolute_accuracy{ absolute_accuracy },
+		my_relative_accuracy{ relative_accuracy },
+		my_function_value_accuracy{ function_value_accuracy },
+		my_evaluations{ Incrementor() }
 	{
 		if (maximal_order < 2)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, maximal_order, 2);
 		}
-		this.field = relative_accuracy.get_field();
-		this.maximal_order = maximal_order;
-		this.absolute_accuracy = absolute_accuracy;
-		this.relative_accuracy = relative_accuracy;
-		this.function_value_accuracy = function_value_accuracy;
-		this.evaluations = Incrementor();
 	}
 
 	/** Get the maximal order.
 	 * @return maximal order
 	 */
-	public int get_maximal_order()
+	int get_maximal_order() const
 	{
-		return maximal_order;
+		return my_maximal_order;
 	}
 
 	/**
@@ -113,9 +149,9 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @return the maximal number of function evaluations.
 	 */
 	 //override
-	public int get_max_evaluations()
+	int get_max_evaluations()
 	{
-		return evaluations.get_maximal_count();
+		return my_evaluations.get_maximal_count();
 	}
 
 	/**
@@ -127,9 +163,9 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @return the number of evaluations of the objective function.
 	 */
 	 //override
-	public int get_evaluations()
+	int get_evaluations()
 	{
-		return evaluations.get_count();
+		return my_evaluations.get_count();
 	}
 
 	/**
@@ -137,9 +173,9 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @return absolute accuracy
 	 */
 	 //override
-	public T get_absolute_accuracy()
+	T get_absolute_accuracy() const
 	{
-		return absolute_accuracy;
+		return my_absolute_accuracy;
 	}
 
 	/**
@@ -147,9 +183,9 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @return relative accuracy
 	 */
 	 //override
-	public T get_relative_accuracy()
+	T get_relative_accuracy()
 	{
-		return relative_accuracy;
+		return my_relative_accuracy;
 	}
 
 	/**
@@ -157,9 +193,9 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @return function accuracy
 	 */
 	 //override
-	public T get_function_value_accuracy()
+	T get_function_value_accuracy() const
 	{
-		return function_value_accuracy;
+		return my_function_value_accuracy;
 	}
 
 	/**
@@ -179,8 +215,7 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @exception  if root cannot be bracketed
 	 */
 	 //override
-	public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const Allowed_Solution allowed_solution)
-
+	T solve(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& min, const T& max, const Allowed_Solution& allowed_solution)
 	{
 		return solve(max_eval, f, min, max, min.add(max).divide(2), allowed_solution);
 	}
@@ -203,8 +238,7 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 	 * @exception  if root cannot be bracketed
 	 */
 	 //override
-	public T solve(const int max_eval, const Calculus_Field_Univariate_Function<T> f, const T min, const T max, const T start_value, const Allowed_Solution allowed_solution)
-
+	T solve(const int& max_eval, const Calculus_Field_Univariate_Function<T>& f, const T& min, const T& max, const T& start_value, const Allowed_Solution& allowed_solution)
 	{
 		// find interval containing root
 		return solve_interval(max_eval, f, min, max, start_value).get_side(allowed_solution);
@@ -212,26 +246,25 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 
 	/** {@inherit_doc} */
 	//override
-	public Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T> f, T min, T max, T start_value)
-
+	Interval<T> solve_interval(const int& max_eval, Calculus_Field_Univariate_Function<T>& f, const T& min, const T& max, const T& start_value)
 	{
 		// Checks.
 		//Math_Utils::check_not_null(f);
 
 		// Reset.
-		evaluations = evaluations.with_maximal_count(max_eval);
+		my_evaluations = my_evaluations.with_maximal_count(max_eval);
 		T zero = field.get_zero();
 		T nan = zero.add(Double.NaN);
 
 		// prepare arrays with the first points
-		const std::vector<T> x = Math_Arrays::build_array(field, maximal_order + 1);
-		const std::vector<T> y = Math_Arrays::build_array(field, maximal_order + 1);
+		const auto x = Math_Arrays::build_array(field, maximal_order + 1);
+		const auto y = Math_Arrays::build_array(field, maximal_order + 1);
 		x[0] = min;
 		x[1] = start_value;
 		x[2] = max;
 
 		// evaluate initial guess
-		evaluations.increment();
+		my_evaluations.increment();
 		y[1] = f.value(x[1]);
 		if (y[1].get_real() == 0.0)
 		{
@@ -240,7 +273,7 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 		}
 
 		// evaluate first endpoint
-		evaluations.increment();
+		my_evaluations.increment();
 		y[0] = f.value(x[0]);
 		if (y[0].get_real() == 0.0)
 		{
@@ -288,12 +321,12 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 		T y_a = y[sign_change_index - 1];
 		T abs_x_a = x_a.abs();
 		T abs_ya = y_a.abs();
-		int aging_a = 0;
+		int aging_a{};
 		T x_b = x[sign_change_index];
 		T yB = y[sign_change_index];
 		T abs_x_b = x_b.abs();
 		T abs_y_b = yB.abs();
-		int aging_b = 0;
+		int aging_b{};
 
 		// search loop
 		while (true)
@@ -329,7 +362,7 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 			}
 
 			// make a few attempts to guess a root, T next_x;
-			int start = 0;
+			int start{};
 			int end = nb_points;
 			do
 			{
@@ -432,39 +465,5 @@ class FieldBracketing_Nth_Order_Brent_Solver : public Bracketed_Real_Field_Univa
 				sign_change_index++;
 			}
 		}
-	}
-
-	/** Guess an x value by n<sup>th</sup> order inverse polynomial interpolation.
-	 * <p>
-	 * The x value is guessed by evaluating polynomial Q(y) at y = target_y, where Q
-	 * is built such that for all considered points (x<sub>i</sub>, y<sub>i</sub>), * Q(y<sub>i</sub>) = x<sub>i</sub>.
-	 * </p>
-	 * @param target_y target value for y
-	 * @param x reference points abscissas for interpolation, * note that this array <em>is</em> modified during computation
-	 * @param y reference points ordinates for interpolation
-	 * @param start start index of the points to consider (inclusive)
-	 * @param end end index of the points to consider (exclusive)
-	 * @return guessed root (will be a NaN if two points share the same y)
-	 */
-	private T guess_x(const T target_y, const std::vector<T> x, const std::vector<T> y, const int start, const int end)
-	{
-		// compute Q Newton coefficients by divided differences
-		for (int i = start; i < end - 1; ++i)
-		{
-			const int delta = i + 1 - start;
-			for (int j = end - 1; j > i; --j)
-			{
-				x[j] = x[j].subtract(x[j - 1]).divide(y[j].subtract(y[j - delta]));
-			}
-		}
-
-		// evaluate Q(target_y)
-		T x0 = field.get_zero();
-		for (int j = end - 1; j >= start; --j)
-		{
-			x0 = x[j].add(x0.multiply(target_y.subtract(y[j])));
-		}
-
-		return x0;
 	}
 };
