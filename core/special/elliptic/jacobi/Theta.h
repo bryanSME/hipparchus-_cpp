@@ -28,61 +28,63 @@
   */
 class Theta
 {
+private:
 	/** Value of the θ₁(z|τ) function. */
-	private const std::complex<double> theta1;
+	const std::complex<double> my_theta1;
 
 	/** Value of the θ₂(z|τ) function. */
-	private const std::complex<double> theta2;
+	const std::complex<double> my_theta2;
 
 	/** Value of the θ₃(z|τ) function. */
-	private const std::complex<double> theta3;
+	const std::complex<double> my_theta3;
 
 	/** Value of the θ₄(z|τ) function. */
-	private const std::complex<double> theta4;
+	const std::complex<double> my_theta4;
 
+public:
 	/** Simple constructor.
 	 * @param theta1 value of the θ₁(z|τ) function
 	 * @param theta2 value of the θ₂(z|τ) function
 	 * @param theta3 value of the θ₃(z|τ) function
 	 * @param theta4 value of the θ₄(z|τ) function
 	 */
-	Theta(const std::complex<double> theta1, const std::complex<double> theta2, const std::complex<double> theta3, const std::complex<double> theta4)
-	{
-		this.theta1 = theta1;
-		this.theta2 = theta2;
-		this.theta3 = theta3;
-		this.theta4 = theta4;
-	}
+	Theta(const std::complex<double>& theta1, const std::complex<double>& theta2, const std::complex<double>& theta3, const std::complex<double>& theta4)
+		:
+		my_theta1{ theta1 },
+		my_theta2{ theta2 },
+		my_theta3{ theta3 },
+		my_theta4{ theta4 }
+	{}
 
 	/** Get the value of the θ₁(z|τ) function.
 	 * @return θ₁(z|τ)
 	 */
-	public std::complex<double> theta1()
+	std::complex<double> theta1() const
 	{
-		return theta1;
+		return my_theta1;
 	}
 
 	/** Get the value of the θ₂(z|τ) function.
 	 * @return θ₂(z|τ)
 	 */
-	public std::complex<double> theta2()
+	std::complex<double> theta2() const
 	{
-		return theta2;
+		return my_theta2;
 	}
 
 	/** Get the value of the θ₃(z|τ) function.
 	 * @return θ₃(z|τ)
 	 */
-	public std::complex<double> theta3()
+	std::complex<double> theta3() const
 	{
-		return theta3;
+		return my_theta3;
 	}
 
 	/** Get the value of the θ₄(z|τ) function.
 	 * @return θ₄(z|τ)
 	 */
-	public std::complex<double> theta4()
+	std::complex<double> theta4() const
 	{
-		return theta4;
+		return my_theta4;
 	}
-}
+};

@@ -74,7 +74,7 @@ protected:
 		:
 		my_allowed{ Allowed_Solution::ANY_SIDE }, my_method{ method }
 	{
-		super(relative_accuracy, absolute_accuracy);
+		Abstract_Univariate_Solver(relative_accuracy, absolute_accuracy);
 	}
 
 	/**
@@ -90,7 +90,7 @@ protected:
 		my_allowed{ Allowed_Solution::ANY_SIDE },
 		my_method{ method }
 	{
-		super(relative_accuracy, absolute_accuracy, function_value_accuracy);
+		Abstract_Univariate_Solver(relative_accuracy, absolute_accuracy, function_value_accuracy);
 	}
 
 	/**
@@ -137,7 +137,7 @@ protected:
 
 		// Get accuracies.
 		const double ftol = get_function_value_accuracy();
-		const double& atol = get_absolute_accuracy();
+		const double atol = get_absolute_accuracy();
 		const double rtol = get_relative_accuracy();
 
 		// Keep track of inverted intervals, meaning that the left bound is
@@ -199,11 +199,11 @@ protected:
 			// If the current interval is within the given accuracies, we
 			// are satisfied with the current approximation.
 			if (std::abs(x1 - x0) < std::max(rtol * std::abs(x1), atol) ||
-				(std::abs(f1) < ftol && (allowed == Allowed_Solution::ANY_SIDE ||
-					(inverted && allowed == Allowed_Solution::LEFT_SIDE) ||
-					(!inverted && allowed == Allowed_Solution::RIGHT_SIDE) ||
-					(f1 <= 0.0 && allowed == Allowed_Solution::BELOW_SIDE) ||
-					(f1 >= 0.0 && allowed == Allowed_Solution::ABOVE_SIDE))))
+				(std::abs(f1) < ftol && (my_allowed == Allowed_Solution::ANY_SIDE ||
+					(inverted && my_allowed == Allowed_Solution::LEFT_SIDE) ||
+					(!inverted && my_allowed == Allowed_Solution::RIGHT_SIDE) ||
+					(f1 <= 0.0 && my_allowed == Allowed_Solution::BELOW_SIDE) ||
+					(f1 >= 0.0 && my_allowed == Allowed_Solution::ABOVE_SIDE))))
 			{
 				if (inverted)
 				{
@@ -240,7 +240,7 @@ public:
 		my_allowed{ Allowed_Solution::ANY_SIDE }, 
 		my_method{ method }
 	{
-		super(absolute_accuracy);
+		Abstract_Univariate_Solver(absolute_accuracy);
 	}
 
 	/** {@inherit_doc} */
@@ -255,7 +255,7 @@ public:
 	double solve(const int& max_eval, const Univariate_Function& f, const double& min, const double& max, const double& start_value, const Allowed_Solution& allowed_solution)
 	{
 		my_allowed = allowed_solution;
-		return super.solve(max_eval, f, min, max, start_value);
+		return Bracketed_Univariate_Solver<Univariate_Function>::solve(max_eval, f, min, max, start_value);
 	}
 
 	/** {@inherit_doc} */

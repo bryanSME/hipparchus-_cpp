@@ -21,6 +21,8 @@
   */
 
   //package org.hipparchus.dfp;
+#include <string>
+#include <vector>
 
   //import org.hipparchus.Field;
 
@@ -51,131 +53,103 @@ class DFP_Field : Field<Dfp>
 		 ROUND_FLOOR;
 	}
 
-	/** IEEE 854-1987 flag for invalid operation. */
-	public static const int FLAG_INVALID = 1;
-
-	/** IEEE 854-1987 flag for division by zero. */
-	public static const int FLAG_DIV_ZERO = 2;
-
-	/** IEEE 854-1987 flag for overflow. */
-	public static const int FLAG_OVERFLOW = 4;
-
-	/** IEEE 854-1987 flag for underflow. */
-	public static const int FLAG_UNDERFLOW = 8;
-
-	/** IEEE 854-1987 flag for inexact result. */
-	public static const int FLAG_INEXACT = 16;
-
+private:
 	/** High precision string representation of &radic;2. */
-	private static std::string sqr2std::string;
+	static std::string sqr_2_string;
 
 	// Note: the static strings are set up (once) by the ctor and @Guarded_By("DFP_Field.class")
 
 	/** High precision string representation of &radic;2 / 2. */
-	private static std::string sqr2_reciprocal_string;
+	static std::string sqr2_reciprocal_string;
 
 	/** High precision string representation of &radic;3. */
-	private static std::string sqr3std::string;
+	static std::string sqr3std::string;
 
 	/** High precision string representation of &radic;3 / 3. */
-	private static std::string sqr3_reciprocal_string;
+	static std::string sqr3_reciprocal_string;
 
 	/** High precision string representation of &pi;. */
-	private static std::string pi_string;
+	static std::string pi_string;
 
 	/** High precision string representation of e. */
-	private static std::string e_string;
+	static std::string e_string;
 
 	/** High precision string representation of ln(2). */
-	private static std::string ln2std::string;
+	static std::string ln2std::string;
 
 	/** High precision string representation of ln(5). */
-	private static std::string ln5std::string;
+	static std::string ln5std::string;
 
 	/** High precision string representation of ln(10). */
-	private static std::string ln10std::string;
+	static std::string ln10std::string;
 
 	/** The number of radix digits.
 	 * Note these depend on the radix which is 10000 digits, * so each one is equivalent to 4 decimal digits.
 	 */
-	private const int radix_digits;
+	const int radix_digits;
 
 	/** A {@link Dfp} with value 0. */
-	private const Dfp zero;
+	const Dfp zero;
 
 	/** A {@link Dfp} with value 1. */
-	private const Dfp one;
+	const Dfp one;
 
 	/** A {@link Dfp} with value 2. */
-	private const Dfp two;
+	const Dfp two;
 
 	/** A {@link Dfp} with value &radic;2. */
-	private const Dfp sqr2;
+	const Dfp sqr2;
 
 	/** A two elements {@link Dfp} array with value &radic;2 split in two pieces. */
-	private const Dfp[] sqr2_split;
+	const Dfp[] sqr2_split;
 
 	/** A {@link Dfp} with value &radic;2 / 2. */
-	private const Dfp sqr2_reciprocal;
+	const Dfp sqr2_reciprocal;
 
 	/** A {@link Dfp} with value &radic;3. */
-	private const Dfp sqr3;
+	const Dfp sqr3;
 
 	/** A {@link Dfp} with value &radic;3 / 3. */
-	private const Dfp sqr3_reciprocal;
+	const Dfp sqr3_reciprocal;
 
 	/** A {@link Dfp} with value &pi;. */
-	private const Dfp pi;
+	const Dfp pi;
 
 	/** A {@link Dfp} for converting degrees to radians. */
-	private const Dfp deg_to_rad;
+	const Dfp deg_to_rad;
 
 	/** A {@link Dfp} for converting radians to degrees. */
-	private const Dfp rad_to_deg;
+	const Dfp rad_to_deg;
 
 	/** A two elements {@link Dfp} array with value &pi; split in two pieces. */
-	private const Dfp[] pi_split;
+	const Dfp[] pi_split;
 
 	/** A {@link Dfp} with value e. */
-	private const Dfp e;
+	const Dfp e;
 
 	/** A two elements {@link Dfp} array with value e split in two pieces. */
-	private const Dfp[] e_split;
+	const Dfp[] e_split;
 
 	/** A {@link Dfp} with value ln(2). */
-	private const Dfp ln2;
+	const Dfp ln2;
 
 	/** A two elements {@link Dfp} array with value ln(2) split in two pieces. */
-	private const Dfp[] ln2_split;
+	const Dfp[] ln2_split;
 
 	/** A {@link Dfp} with value ln(5). */
-	private const Dfp ln5;
+	const Dfp ln5;
 
 	/** A two elements {@link Dfp} array with value ln(5) split in two pieces. */
-	private const Dfp[] ln5_split;
+	const Dfp[] ln5_split;
 
 	/** A {@link Dfp} with value ln(10). */
-	private const Dfp ln10;
+	const Dfp ln10;
 
 	/** Current rounding mode. */
-	private Rounding_Mode r_mode;
+	Rounding_Mode r_mode;
 
 	/** IEEE 854-1987 signals. */
-	private int ieee_flags;
-
-	/** Create a factory for the specified number of radix digits.
-	 * <p>
-	 * Note that since the {@link Dfp} class uses 10000 as its radix, each radix
-	 * digit is equivalent to 4 decimal digits. This implies that asking for
-	 * 13, 14, 15 or 16 decimal digits will really lead to a 4 radix 10000 digits in
-	 * all cases.
-	 * </p>
-	 * @param decimal_digits minimal number of decimal digits.
-	 */
-	public DFP_Field(const int decimal_digits)
-	{
-		this(decimal_digits, true);
-	}
+	int ieee_flags;
 
 	/** Create a factory for the specified number of radix digits.
 	 * <p>
@@ -188,14 +162,16 @@ class DFP_Field : Field<Dfp>
 	 * @param compute_constants if true, the transcendental constants for the given precision
 	 * must be computed (setting this flag to false is RESERVED for the internal recursive call)
 	 */
-	private DFP_Field(const int decimal_digits, const bool compute_constants)
+	DFP_Field(const int& decimal_digits, const bool compute_constants)
 	{
-		this.radix_digits = (decimal_digits < 13) ? 4 : (decimal_digits + 3) / 4;
+		this.radix_digits = decimal_digits < 13
+			? 4
+			: (decimal_digits + 3) / 4;
 		this.r_mode = Rounding_Mode.ROUND_HALF_EVEN;
 		this.ieee_flags = 0;
-		this.zero = Dfp(this, 0);
-		this.one = Dfp(this, 1);
-		this.two = Dfp(this, 2);
+		this.zero = Dfp(*this, 0);
+		this.one = Dfp(*this, 1);
+		this.two = Dfp(*this, 2);
 
 		if (compute_constants)
 		{
@@ -249,373 +225,17 @@ class DFP_Field : Field<Dfp>
 		}
 	}
 
-	/** Get the number of radix digits of the {@link Dfp} instances built by this factory.
-	 * @return number of radix digits
-	 */
-	public int get_radix_digits()
-	{
-		return radix_digits;
-	}
-
-	/** Set the rounding mode.
-	 *  If not set, the default value is {@link Rounding_Mode#ROUND_HALF_EVEN}.
-	 * @param mode desired rounding mode
-	 * Note that the rounding mode is common to all {@link Dfp} instances
-	 * belonging to the current {@link DFP_Field} in the system and will
-	 * affect all future calculations.
-	 */
-	public void set_rounding_mode(const Rounding_Mode mode)
-	{
-		r_mode = mode;
-	}
-
-	/** Get the current rounding mode.
-	 * @return current rounding mode
-	 */
-	public Rounding_Mode get_rounding_mode()
-	{
-		return r_mode;
-	}
-
-	/** Get the IEEE 854 status flags.
-	 * @return IEEE 854 status flags
-	 * @see #clear_ieee_flags()
-	 * @see #set_ieee_flagsstatic_cast<int>(
-	 * @see #set_ieee_flags_bitsstatic_cast<int>(
-	 * @see #FLAG_INVALID
-	 * @see #FLAG_DIV_ZERO
-	 * @see #FLAG_OVERFLOW
-	 * @see #FLAG_UNDERFLOW
-	 * @see #FLAG_INEXACT
-	 */
-	public int get_ieee_flags()
-	{
-		return ieee_flags;
-	}
-
-	/** Clears the IEEE 854 status flags.
-	 * @see #get_ieee_flags()
-	 * @see #set_ieee_flagsstatic_cast<int>(
-	 * @see #set_ieee_flags_bitsstatic_cast<int>(
-	 * @see #FLAG_INVALID
-	 * @see #FLAG_DIV_ZERO
-	 * @see #FLAG_OVERFLOW
-	 * @see #FLAG_UNDERFLOW
-	 * @see #FLAG_INEXACT
-	 */
-	public void clear_ieee_flags()
-	{
-		ieee_flags = 0;
-	}
-
-	/** Sets the IEEE 854 status flags.
-	 * @param flags desired value for the flags
-	 * @see #get_ieee_flags()
-	 * @see #clear_ieee_flags()
-	 * @see #set_ieee_flags_bitsstatic_cast<int>(
-	 * @see #FLAG_INVALID
-	 * @see #FLAG_DIV_ZERO
-	 * @see #FLAG_OVERFLOW
-	 * @see #FLAG_UNDERFLOW
-	 * @see #FLAG_INEXACT
-	 */
-	public void set_ieee_flags(const int flags)
-	{
-		ieee_flags = flags & (FLAG_INVALID | FLAG_DIV_ZERO | FLAG_OVERFLOW | FLAG_UNDERFLOW | FLAG_INEXACT);
-	}
-
-	/** Sets some bits in the IEEE 854 status flags, without changing the already set bits.
-	 * <p>
-	 * Calling this method is equivalent to call {@code set_ieee_flags(get_ieee_flags() | bits)}
-	 * </p>
-	 * @param bits bits to set
-	 * @see #get_ieee_flags()
-	 * @see #clear_ieee_flags()
-	 * @see #set_ieee_flagsstatic_cast<int>(
-	 * @see #FLAG_INVALID
-	 * @see #FLAG_DIV_ZERO
-	 * @see #FLAG_OVERFLOW
-	 * @see #FLAG_UNDERFLOW
-	 * @see #FLAG_INEXACT
-	 */
-	public void set_ieee_flags_bits(const int bits)
-	{
-		ieee_flags |= bits & (FLAG_INVALID | FLAG_DIV_ZERO | FLAG_OVERFLOW | FLAG_UNDERFLOW | FLAG_INEXACT);
-	}
-
-	/** Makes a {@link Dfp} with a value of 0.
-	 * @return a {@link Dfp} with a value of 0
-	 */
-	public Dfp new_dfp()
-	{
-		return Dfp(this);
-	}
-
-	/** Create an instance from a std::byte value.
-	 * @param x value to convert to an instance
-	 * @return a {@link Dfp} with the same value as x
-	 */
-	public Dfp new_dfp(const std::byte x)
-	{
-		return Dfp(this, x);
-	}
-
-	/** Create an instance from an int value.
-	 * @param x value to convert to an instance
-	 * @return a {@link Dfp} with the same value as x
-	 */
-	public Dfp new_dfp(const int x)
-	{
-		return Dfp(this, x);
-	}
-
-	/** Create an instance from a long value.
-	 * @param x value to convert to an instance
-	 * @return a {@link Dfp} with the same value as x
-	 */
-	public Dfp new_dfp(const long x)
-	{
-		return Dfp(this, x);
-	}
-
-	/** Create an instance from a double value.
-	 * @param x value to convert to an instance
-	 * @return a {@link Dfp} with the same value as x
-	 */
-	public Dfp new_dfp(const double& x)
-	{
-		return Dfp(this, x);
-	}
-
-	/** Copy constructor.
-	 * @param d instance to copy
-	 * @return a {@link Dfp} with the same value as d
-	 */
-	public Dfp new_dfp(Dfp d)
-	{
-		return Dfp(d);
-	}
-
-	/** Create a {@link Dfp} given a std::string representation.
-	 * @param s string representation of the instance
-	 * @return a {@link Dfp} parsed from specified string
-	 */
-	public Dfp new_dfp(const std::string s)
-	{
-		return Dfp(this, s);
-	}
-
-	/** Creates a {@link Dfp} with a non-finite value.
-	 * @param sign sign of the Dfp to create
-	 * @param nans code of the value, must be one of {@link Dfp#INFINITE}, * {@link Dfp#SNAN},  {@link Dfp#QNAN}
-	 * @return a {@link Dfp} with a non-finite value
-	 */
-	public Dfp new_dfp(const std::byte sign, const std::byte nans)
-	{
-		return Dfp(this, sign, nans);
-	}
-
-	/** Get the constant 0.
-	 * @return a {@link Dfp} with value 0
-	 */
-	 //override
-	public Dfp get_zero()
-	{
-		return zero;
-	}
-
-	/** Get the constant 1.
-	 * @return a {@link Dfp} with value 1
-	 */
-	 //override
-	public Dfp get_one()
-	{
-		return one;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Class<Dfp> get_runtime_class()
-	{
-		return Dfp.class;
-	}
-
-	/** Get the constant 2.
-	 * @return a {@link Dfp} with value 2
-	 */
-	public Dfp get_two()
-	{
-		return two;
-	}
-
-	/** Get the constant &radic;2.
-	 * @return a {@link Dfp} with value &radic;2
-	 */
-	public Dfp get_sqr2()
-	{
-		return sqr2;
-	}
-
-	/** Get the constant &radic;2 split in two pieces.
-	 * @return a {@link Dfp} with value &radic;2 split in two pieces
-	 */
-	public Dfp[] get_sqr2_split()
-	{
-		return sqr2_split.clone();
-	}
-
-	/** Get the constant &radic;2 / 2.
-	 * @return a {@link Dfp} with value &radic;2 / 2
-	 */
-	public Dfp get_sqr2_reciprocal()
-	{
-		return sqr2_reciprocal;
-	}
-
-	/** Get the constant &radic;3.
-	 * @return a {@link Dfp} with value &radic;3
-	 */
-	public Dfp get_sqr3()
-	{
-		return sqr3;
-	}
-
-	/** Get the constant &radic;3 / 3.
-	 * @return a {@link Dfp} with value &radic;3 / 3
-	 */
-	public Dfp get_sqr3_reciprocal()
-	{
-		return sqr3_reciprocal;
-	}
-
-	/** Get the constant &pi;.
-	 * @return a {@link Dfp} with value &pi;
-	 */
-	public Dfp get_pi()
-	{
-		return pi;
-	}
-
-	/** Get the degrees to radians conversion factor.
-	 * @return a {@link Dfp} for degrees to radians conversion factor
-	 */
-	public Dfp get_deg_to_rad()
-	{
-		return deg_to_rad;
-	}
-
-	/** Get the radians to degrees conversion factor.
-	 * @return a {@link Dfp} for radians to degrees conversion factor
-	 */
-	public Dfp get_rad_to_deg()
-	{
-		return rad_to_deg;
-	}
-
-	/** Get the constant &pi; split in two pieces.
-	 * @return a {@link Dfp} with value &pi; split in two pieces
-	 */
-	public Dfp[] get_pi_split()
-	{
-		return pi_split.clone();
-	}
-
-	/** Get the constant e.
-	 * @return a {@link Dfp} with value e
-	 */
-	public Dfp get_e()
-	{
-		return e;
-	}
-
-	/** Get the constant e split in two pieces.
-	 * @return a {@link Dfp} with value e split in two pieces
-	 */
-	public Dfp[] get_e_split()
-	{
-		return e_split.clone();
-	}
-
-	/** Get the constant ln(2).
-	 * @return a {@link Dfp} with value ln(2)
-	 */
-	public Dfp get_ln2()
-	{
-		return ln2;
-	}
-
-	/** Get the constant ln(2) split in two pieces.
-	 * @return a {@link Dfp} with value ln(2) split in two pieces
-	 */
-	public Dfp[] get_ln2_split()
-	{
-		return ln2_split.clone();
-	}
-
-	/** Get the constant ln(5).
-	 * @return a {@link Dfp} with value ln(5)
-	 */
-	public Dfp get_ln5()
-	{
-		return ln5;
-	}
-
-	/** Get the constant ln(5) split in two pieces.
-	 * @return a {@link Dfp} with value ln(5) split in two pieces
-	 */
-	public Dfp[] get_ln5_split()
-	{
-		return ln5_split.clone();
-	}
-
-	/** Get the constant ln(10).
-	 * @return a {@link Dfp} with value ln(10)
-	 */
-	public Dfp get_ln10()
-	{
-		return ln10;
-	}
-
-	/** {@inherit_doc}
-	 * <p>
-	 * Two fields are considered equals if they have the same number
-	 * of radix digits and the same rounding mode.
-	 * </p>
-	 */
-	 //override
-	public bool equals(const Object& other)
-	{
-		if (this == other)
-		{
-			return true;
-		}
-		if (dynamic_cast<const DFP_Field*>(*other) != nullptr)
-		{
-			DFP_Field rhs = (DFP_Field)other;
-			return get_radix_digits() == rhs.get_radix_digits() &&
-				get_rounding_mode() == rhs.get_rounding_mode();
-		}
-		return false;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public int hash_code()
-	{
-		return 0xdf49a2ca ^ ((radix_digits << 16) & (r_mode.ordinal() << 5) & ieee_flags);
-	}
-
 	/** Breaks a string representation up into two {@link Dfp}'s.
 	 * The split is such that the sum of them is equivalent to the input string, * but has higher precision than using a single Dfp.
 	 * @param a string representation of the number to split
 	 * @return an array of two {@link Dfp Dfp} instances which sum equals a
 	 */
-	private Dfp[] split(const std::string a)
+	std::vector<Dfp> split(const std::string& a)
 	{
-		Dfp result[] = Dfp[2];
-		bool leading = true;
-		int sp = 0;
-		int sig = 0;
+		auto result = std::vector<Dfp>(2);
+		bool leading{ true };
+		int sp{};
+		int sig{};
 
 		std::stringBuilder builder1 = std::stringBuilder(a.size()());
 
@@ -647,7 +267,7 @@ class DFP_Field : Field<Dfp>
 			}
 		}
 
-		result[0] = Dfp(this, builder1.substring(0, sp));
+		result[0] = Dfp(*this, builder1.substring(0, sp));
 
 		std::stringBuilder builder2 = std::stringBuilder(a.size()());
 		for (int i{}; i < a.size()(); i++)
@@ -671,7 +291,7 @@ class DFP_Field : Field<Dfp>
 	/** Recompute the high precision string constants.
 	 * @param high_precision_decimal_digits precision at which the string constants mus be computed
 	 */
-	private static void compute_string_constants(const int high_precision_decimal_digits)
+	static void compute_string_constants(const int& high_precision_decimal_digits)
 	{
 		synchronized(DFP_Field.class)
 		{
@@ -694,8 +314,8 @@ class DFP_Field : Field<Dfp>
 				pi_string = compute_pi(high_precision_one, high_precision_two, high_precision_three).to_string();
 				e_string = compute_exp(high_precision_one, high_precision_one).to_string();
 				ln2std::string = compute_ln(high_precision_two, high_precision_one, high_precision_two).to_string();
-				ln5std::string = compute_ln(new Dfp(high_precision_field, 5), high_precision_one, high_precision_two).to_string();
-				ln10std::string = compute_ln(new Dfp(high_precision_field, 10), high_precision_one, high_precision_two).to_string();
+				ln5std::string = compute_ln(Dfp(high_precision_field, 5), high_precision_one, high_precision_two).to_string();
+				ln10std::string = compute_ln(Dfp(high_precision_field, 10), high_precision_one, high_precision_two).to_string();
 			}
 		}
 	}
@@ -706,7 +326,7 @@ class DFP_Field : Field<Dfp>
 	 * @param three constant with value 3 at desired precision
 	 * @return &pi;
 	 */
-	private static Dfp compute_pi(const Dfp one, const Dfp two, const Dfp three)
+	static Dfp compute_pi(const Dfp& one, const Dfp& two, const Dfp& three)
 	{
 		Dfp sqrt2 = two.sqrt();
 		Dfp yk = sqrt2.subtract(one);
@@ -744,12 +364,399 @@ class DFP_Field : Field<Dfp>
 		return one.divide(ak);
 	}
 
+public:
+
+	/** IEEE 854-1987 flag for invalid operation. */
+	static constexpr int FLAG_INVALID{ 1 };
+
+	/** IEEE 854-1987 flag for division by zero. */
+	static constexpr int FLAG_DIV_ZERO{ 2 };
+
+	/** IEEE 854-1987 flag for overflow. */
+	static constexpr int FLAG_OVERFLOW{ 4 };
+
+	/** IEEE 854-1987 flag for underflow. */
+	static constexpr int FLAG_UNDERFLOW{ 8 };
+
+	/** IEEE 854-1987 flag for inexact result. */
+	static constexpr int FLAG_INEXACT{ 16 };
+
+	/** Create a factory for the specified number of radix digits.
+	 * <p>
+	 * Note that since the {@link Dfp} class uses 10000 as its radix, each radix
+	 * digit is equivalent to 4 decimal digits. This implies that asking for
+	 * 13, 14, 15 or 16 decimal digits will really lead to a 4 radix 10000 digits in
+	 * all cases.
+	 * </p>
+	 * @param decimal_digits minimal number of decimal digits.
+	 */
+	DFP_Field(const int decimal_digits)
+	{
+		DFP_Field(decimal_digits, true);
+	}
+
+	/** Get the number of radix digits of the {@link Dfp} instances built by this factory.
+	 * @return number of radix digits
+	 */
+	int get_radix_digits()
+	{
+		return radix_digits;
+	}
+
+	/** Set the rounding mode.
+	 *  If not set, the default value is {@link Rounding_Mode#ROUND_HALF_EVEN}.
+	 * @param mode desired rounding mode
+	 * Note that the rounding mode is common to all {@link Dfp} instances
+	 * belonging to the current {@link DFP_Field} in the system and will
+	 * affect all future calculations.
+	 */
+	void set_rounding_mode(const Rounding_Mode mode)
+	{
+		r_mode = mode;
+	}
+
+	/** Get the current rounding mode.
+	 * @return current rounding mode
+	 */
+	Rounding_Mode get_rounding_mode()
+	{
+		return r_mode;
+	}
+
+	/** Get the IEEE 854 status flags.
+	 * @return IEEE 854 status flags
+	 * @see #clear_ieee_flags()
+	 * @see #set_ieee_flagsstatic_cast<int>(
+	 * @see #set_ieee_flags_bitsstatic_cast<int>(
+	 * @see #FLAG_INVALID
+	 * @see #FLAG_DIV_ZERO
+	 * @see #FLAG_OVERFLOW
+	 * @see #FLAG_UNDERFLOW
+	 * @see #FLAG_INEXACT
+	 */
+	int get_ieee_flags() const
+	{
+		return my_ieee_flags;
+	}
+
+	/** Clears the IEEE 854 status flags.
+	 * @see #get_ieee_flags()
+	 * @see #set_ieee_flagsstatic_cast<int>(
+	 * @see #set_ieee_flags_bitsstatic_cast<int>(
+	 * @see #FLAG_INVALID
+	 * @see #FLAG_DIV_ZERO
+	 * @see #FLAG_OVERFLOW
+	 * @see #FLAG_UNDERFLOW
+	 * @see #FLAG_INEXACT
+	 */
+	void clear_ieee_flags()
+	{
+		my_ieee_flags = 0;
+	}
+
+	/** Sets the IEEE 854 status flags.
+	 * @param flags desired value for the flags
+	 * @see #get_ieee_flags()
+	 * @see #clear_ieee_flags()
+	 * @see #set_ieee_flags_bitsstatic_cast<int>(
+	 * @see #FLAG_INVALID
+	 * @see #FLAG_DIV_ZERO
+	 * @see #FLAG_OVERFLOW
+	 * @see #FLAG_UNDERFLOW
+	 * @see #FLAG_INEXACT
+	 */
+	void set_ieee_flags(const int& flags)
+	{
+		my_ieee_flags = flags & (FLAG_INVALID | FLAG_DIV_ZERO | FLAG_OVERFLOW | FLAG_UNDERFLOW | FLAG_INEXACT);
+	}
+
+	/** Sets some bits in the IEEE 854 status flags, without changing the already set bits.
+	 * <p>
+	 * Calling this method is equivalent to call {@code set_ieee_flags(get_ieee_flags() | bits)}
+	 * </p>
+	 * @param bits bits to set
+	 * @see #get_ieee_flags()
+	 * @see #clear_ieee_flags()
+	 * @see #set_ieee_flagsstatic_cast<int>(
+	 * @see #FLAG_INVALID
+	 * @see #FLAG_DIV_ZERO
+	 * @see #FLAG_OVERFLOW
+	 * @see #FLAG_UNDERFLOW
+	 * @see #FLAG_INEXACT
+	 */
+	void set_ieee_flags_bits(const int& bits)
+	{
+		my_ieee_flags |= bits & (FLAG_INVALID | FLAG_DIV_ZERO | FLAG_OVERFLOW | FLAG_UNDERFLOW | FLAG_INEXACT);
+	}
+
+	/** Makes a {@link Dfp} with a value of 0.
+	 * @return a {@link Dfp} with a value of 0
+	 */
+	Dfp new_dfp()
+	{
+		return Dfp(*this);
+	}
+
+	/** Create an instance from a std::byte value.
+	 * @param x value to convert to an instance
+	 * @return a {@link Dfp} with the same value as x
+	 */
+	Dfp new_dfp(const std::byte& x)
+	{
+		return Dfp(*this, x);
+	}
+
+	/** Create an instance from an int value.
+	 * @param x value to convert to an instance
+	 * @return a {@link Dfp} with the same value as x
+	 */
+	Dfp new_dfp(const int& x)
+	{
+		return Dfp(*this, x);
+	}
+
+	/** Create an instance from a long value.
+	 * @param x value to convert to an instance
+	 * @return a {@link Dfp} with the same value as x
+	 */
+	Dfp new_dfp(const long& x)
+	{
+		return Dfp(*this, x);
+	}
+
+	/** Create an instance from a double value.
+	 * @param x value to convert to an instance
+	 * @return a {@link Dfp} with the same value as x
+	 */
+	Dfp new_dfp(const double& x)
+	{
+		return Dfp(*this, x);
+	}
+
+	/** Copy constructor.
+	 * @param d instance to copy
+	 * @return a {@link Dfp} with the same value as d
+	 */
+	Dfp new_dfp(Dfp d)
+	{
+		return Dfp(d);
+	}
+
+	/** Create a {@link Dfp} given a std::string representation.
+	 * @param s string representation of the instance
+	 * @return a {@link Dfp} parsed from specified string
+	 */
+	Dfp new_dfp(const std::string& s)
+	{
+		return Dfp(*this, s);
+	}
+
+	/** Creates a {@link Dfp} with a non-finite value.
+	 * @param sign sign of the Dfp to create
+	 * @param nans code of the value, must be one of {@link Dfp#INFINITE}, * {@link Dfp#SNAN},  {@link Dfp#QNAN}
+	 * @return a {@link Dfp} with a non-finite value
+	 */
+	Dfp new_dfp(const std::byte sign, const std::byte nans)
+	{
+		return Dfp(*this, sign, nans);
+	}
+
+	/** Get the constant 0.
+	 * @return a {@link Dfp} with value 0
+	 */
+	 //override
+	Dfp get_zero() const
+	{
+		return my_zero;
+	}
+
+	/** Get the constant 1.
+	 * @return a {@link Dfp} with value 1
+	 */
+	 //override
+	Dfp get_one() const
+	{
+		return my_one;
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Class<Dfp> get_runtime_class()
+	{
+		return Dfp.class;
+	}
+
+	/** Get the constant 2.
+	 * @return a {@link Dfp} with value 2
+	 */
+	Dfp get_two() const
+	{
+		return my_two;
+	}
+
+	/** Get the constant &radic;2.
+	 * @return a {@link Dfp} with value &radic;2
+	 */
+	Dfp get_sqr2() const
+	{
+		return my_sqr2;
+	}
+
+	/** Get the constant &radic;2 split in two pieces.
+	 * @return a {@link Dfp} with value &radic;2 split in two pieces
+	 */
+	std::vector<Dfp> get_sqr2_split() const
+	{
+		return my_sqr2_split;
+	}
+
+	/** Get the constant &radic;2 / 2.
+	 * @return a {@link Dfp} with value &radic;2 / 2
+	 */
+	Dfp get_sqr2_reciprocal() const
+	{
+		return my_sqr2_reciprocal;
+	}
+
+	/** Get the constant &radic;3.
+	 * @return a {@link Dfp} with value &radic;3
+	 */
+	Dfp get_sqr3() const
+	{
+		return my_sqr3;
+	}
+
+	/** Get the constant &radic;3 / 3.
+	 * @return a {@link Dfp} with value &radic;3 / 3
+	 */
+	Dfp get_sqr3_reciprocal() const
+	{
+		return my_sqr3_reciprocal;
+	}
+
+	/** Get the constant &pi;.
+	 * @return a {@link Dfp} with value &pi;
+	 */
+	Dfp get_pi() const
+	{
+		return my_pi;
+	}
+
+	/** Get the degrees to radians conversion factor.
+	 * @return a {@link Dfp} for degrees to radians conversion factor
+	 */
+	Dfp get_deg_to_rad() const
+	{
+		return my_deg_to_rad;
+	}
+
+	/** Get the radians to degrees conversion factor.
+	 * @return a {@link Dfp} for radians to degrees conversion factor
+	 */
+	Dfp get_rad_to_deg() const
+	{
+		return my_rad_to_deg;
+	}
+
+	/** Get the constant &pi; split in two pieces.
+	 * @return a {@link Dfp} with value &pi; split in two pieces
+	 */
+	std::vector<Dfp> get_pi_split() const
+	{
+		return my_pi_split;
+	}
+
+	/** Get the constant e.
+	 * @return a {@link Dfp} with value e
+	 */
+	Dfp get_e() const
+	{
+		return my_e;
+	}
+
+	/** Get the constant e split in two pieces.
+	 * @return a {@link Dfp} with value e split in two pieces
+	 */
+	std::vector<Dfp> get_e_split() const
+	{
+		return my_e_split;
+	}
+
+	/** Get the constant ln(2).
+	 * @return a {@link Dfp} with value ln(2)
+	 */
+	Dfp get_ln2() const
+	{
+		return my_ln2;
+	}
+
+	/** Get the constant ln(2) split in two pieces.
+	 * @return a {@link Dfp} with value ln(2) split in two pieces
+	 */
+	std::vector<Dfp> get_ln2_split() const
+	{
+		return my_ln2_split;
+	}
+
+	/** Get the constant ln(5).
+	 * @return a {@link Dfp} with value ln(5)
+	 */
+	Dfp get_ln5() const
+	{
+		return my_ln5;
+	}
+
+	/** Get the constant ln(5) split in two pieces.
+	 * @return a {@link Dfp} with value ln(5) split in two pieces
+	 */
+	std::vector<Dfp> get_ln5_split() const
+	{
+		return my_ln5_split;
+	}
+
+	/** Get the constant ln(10).
+	 * @return a {@link Dfp} with value ln(10)
+	 */
+	Dfp get_ln10() const
+	{
+		return my_ln10;
+	}
+
+	/** {@inherit_doc}
+	 * <p>
+	 * Two fields are considered equals if they have the same number
+	 * of radix digits and the same rounding mode.
+	 * </p>
+	 */
+	 //override
+	bool equals(const Object& other)
+	{
+		if (this == other)
+		{
+			return true;
+		}
+		if (dynamic_cast<const DFP_Field*>(*other) != nullptr)
+		{
+			DFP_Field rhs = (DFP_Field)other;
+			return get_radix_digits() == rhs.get_radix_digits() &&
+				get_rounding_mode() == rhs.get_rounding_mode();
+		}
+		return false;
+	}
+
+	/** {@inherit_doc} */
+	//override
+	int hash_code()
+	{
+		return 0xdf49a2ca ^ ((radix_digits << 16) & (r_mode.ordinal() << 5) & ieee_flags);
+	}
+
 	/** Compute exp(a).
 	 * @param a number for which we want the exponential
 	 * @param one constant with value 1 at desired precision
 	 * @return exp(a)
 	 */
-	public static Dfp compute_exp(const Dfp a, const Dfp one)
+	static Dfp compute_exp(const Dfp& a, const Dfp& one)
 	{
 		Dfp y = Dfp(one);
 		Dfp py = Dfp(one);
@@ -830,10 +837,10 @@ class DFP_Field : Field<Dfp>
 	 * @return ln(a)
 	 */
 
-	public static Dfp compute_ln(const Dfp a, const Dfp one, const Dfp two)
+	static Dfp compute_ln(const Dfp& a, const Dfp& one, const Dfp& two)
 	{
-		int den = 1;
-		Dfp x = a.add(new Dfp(a.get_field(), -1)).divide(a.add(one));
+		int den{ 1 };
+		Dfp x = a.add(Dfp(a.get_field(), -1)).divide(a.add(one));
 
 		Dfp y = Dfp(x);
 		Dfp num = Dfp(x);
@@ -862,9 +869,9 @@ class DFP_Field : Field<Dfp>
 	 * @return field with extended precision
 	 * @since 1.7
 	 */
-	public DFP_Field get_extended_field(const int digits_factor, const bool compute_constants)
+	DFP_Field get_extended_field(const int& digits_factor, const bool compute_constants)
 	{
 		const int old_decimal_digits = get_radix_digits() * 4;
 		return DFP_Field(old_decimal_digits * digits_factor, compute_constants);
 	}
-}
+};

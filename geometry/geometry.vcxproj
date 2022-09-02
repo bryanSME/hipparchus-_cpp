@@ -100,11 +100,15 @@
     <ClInclude Include="Space.h" />
     <ClInclude Include="spherical\oned\Arc.h" />
     <ClInclude Include="spherical\oned\ArcsSet.h" />
+    <ClInclude Include="spherical\oned\Inconsistent_State_At_2_Pi_Wrapping.h" />
     <ClInclude Include="spherical\oned\LimitAngle.h" />
     <ClInclude Include="spherical\oned\package-info.h" />
     <ClInclude Include="spherical\oned\S1Point.h" />
     <ClInclude Include="spherical\oned\Sphere1D.h" />
+    <ClInclude Include="spherical\oned\Split.h" />
     <ClInclude Include="spherical\oned\SubLimitAngle.h" />
+    <ClInclude Include="spherical\oned\Sub_Arcs_Iterator.h" />
+    <ClInclude Include="spherical\oned\Sub_Intervals_Iterator.h" />
     <ClInclude Include="spherical\twod\Circle.h" />
     <ClInclude Include="spherical\twod\Edge.h" />
     <ClInclude Include="spherical\twod\EdgesWithNodeInfoBuilder.h" />

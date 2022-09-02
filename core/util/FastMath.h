@@ -3568,7 +3568,7 @@ private:
 	 * @param x number from which absolute value is requested
 	 * @return abs(x)
 	 */
-	public static int abs(const int x)
+	public static int abs(const int& x)
 	{
 		const int i = x >> > 31;
 		return (x ^ (~i + 1)) + i;
@@ -3579,7 +3579,7 @@ private:
 	 * @param x number from which absolute value is requested
 	 * @return abs(x)
 	 */
-	public static long abs(const long x)
+	public static long abs(const long& x)
 	{
 		const long l = x >> > 63;
 		// l is one if x negative zero else
@@ -3594,7 +3594,7 @@ private:
 	 * @param x number from which absolute value is requested
 	 * @return abs(x), or an exception for {@code std::numeric_limits<int>::min()}
 	 */
-	public static int absExact(const int x)
+	public static int absExact(const int& x)
 	{
 		if (x == std::numeric_limits<int>::min())
 		{
@@ -3609,7 +3609,7 @@ private:
 	 * @return abs(x), or an exception for {@code long.MIN_VALUE}
 	 * @since 2.0
 	 */
-	public static long absExact(const long x)
+	public static long absExact(const long& x)
 	{
 		if (x == long.MIN_VALUE)
 		{
@@ -3645,7 +3645,7 @@ private:
 	 * @return -x, or an exception for {@code std::numeric_limits<int>::min()}
 	 * @since 2.0
 	 */
-	public static int negateExact(const int x)
+	public static int negateExact(const int& x)
 	{
 		if (x == std::numeric_limits<int>::min())
 		{
@@ -3660,7 +3660,7 @@ private:
 	 * @return -x, or an exception for {@code long.MIN_VALUE}
 	 * @since 2.0
 	 */
-	public static long negateExact(const long x)
+	public static long negateExact(const long& x)
 	{
 		if (x == long.MIN_VALUE)
 		{

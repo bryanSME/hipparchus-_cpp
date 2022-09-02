@@ -24,6 +24,9 @@
   //import org.hipparchus.analysis.Trivariate_Function;
   //import org.hipparchus.exception.;
 
+#include <vector>
+#include "../TrivariateFunction.h"
+
   /**
    * Interface representing a trivariate real interpolating function where the
    * sample points must be specified on a regular grid.
@@ -49,6 +52,5 @@ class Trivariate_Grid_Interpolator
 	 * @ if the number of points is too small for
 	 * the order of the interpolation
 	 */
-	Trivariate_Function interpolate(std::vector<double> xval, std::vector<double> yval, std::vector<double> zval, std::vector<std::vector<double>>[] fval)
-		;
-}
+	Trivariate_Function interpolate(std::vector<double>& xval, std::vector<double>& yval, std::vector<double>& zval, std::vector<std::vector<std::vector<double>>>& fval);
+};

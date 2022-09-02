@@ -30,14 +30,13 @@
   /**
    * Implementation of Student's t-distribution.
    */
-class T_Distribution extends Abstract_Real_Distribution
+class T_Distribution : public Abstract_Real_Distribution
 {
-	/** Serializable version identifier */
-	20160320L;
+public:
 	/** The degrees of freedom. */
-	private const double degrees_of_freedom;
+	double my_degrees_of_freedom;
 	/** Static computation factor based on degrees_of_freedom. */
-	private const double factor;
+	double my_factor;
 
 	/**
 	 * Create a t distribution using the given degrees of freedom.
@@ -45,10 +44,9 @@ class T_Distribution extends Abstract_Real_Distribution
 	 * @param degrees_of_freedom Degrees of freedom.
 	 * @ if {@code degrees_of_freedom <= 0}
 	 */
-	public T_Distribution(double degrees_of_freedom)
-
+	T_Distribution(const double& degrees_of_freedom)
 	{
-		this(degrees_of_freedom, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
+		T_Distribution(degrees_of_freedom, DEFAULT_SOLVER_ABSOLUTE_ACCURACY);
 	}
 
 	/**
@@ -61,23 +59,20 @@ class T_Distribution extends Abstract_Real_Distribution
 	 * (defaults to {@link #DEFAULT_SOLVER_ABSOLUTE_ACCURACY}).
 	 * @ if {@code degrees_of_freedom <= 0}
 	 */
-	public T_Distribution(double degrees_of_freedom, double inverse_cum_accuracy)
-
+	T_Distribution(const double& degrees_of_freedom, const double& inverse_cum_accuracy)
 	{
-		super(inverse_cum_accuracy);
+		Abstract_Real_Distribution(inverse_cum_accuracy);
 
 		if (degrees_of_freedom <= 0)
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DEGREES_OF_FREEDOM, degrees_of_freedom);
 		}
-		this.degrees_of_freedom = degrees_of_freedom;
+		my_degrees_of_freedom = degrees_of_freedom;
 
 		const double n = degrees_of_freedom;
 		const double n_plus_1_over2 = (n + 1) / 2;
-		factor = Gamma::log_gamma(n_plus_1_over2) -
-			0.5 * (std::log(std::numbers::pi) + std::log(n)) -
-			Gamma::log_gamma(n / 2);
+		my_factor = Gamma::log_gamma(n_plus_1_over2) - 0.5 * (std::log(std::numbers::pi) + std::log(n)) - Gamma::log_gamma(n / 2);
 	}
 
 	/**
@@ -85,52 +80,41 @@ class T_Distribution extends Abstract_Real_Distribution
 	 *
 	 * @return the degrees of freedom.
 	 */
-	public double get_degrees_of_freedom()
+	double get_degrees_of_freedom() const
 	{
-		return degrees_of_freedom;
+		return my_degrees_of_freedom;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double density(double x)
+	double density(const double& x)
 	{
 		return std::exp(log_density(x));
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double log_density(double x)
+	double log_density(const double& x)
 	{
-		const double n = degrees_of_freedom;
+		const double n = my_degrees_of_freedom;
 		const double n_plus_1_over2 = (n + 1) / 2;
-		return factor - n_plus_1_over2 * std::log(1 + x * x / n);
+		return my_factor - n_plus_1_over2 * std::log(1 + x * x / n);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double cumulative_probability(const double& x)
+	double cumulative_probability(const double& x)
 	{
-		double ret;
 		if (x == 0)
 		{
-			ret = 0.5;
+			return 0.5;
 		}
-		else
+		double t = Beta::regularized_beta(my_degrees_of_freedom / (my_degrees_of_freedom + (x * x)), 0.5 * my_degrees_of_freedom, 0.5);
+		if (x < 0.0)
 		{
-			double t =
-				Beta.regularized_beta(
-					degrees_of_freedom / (degrees_of_freedom + (x * x)), 0.5 * degrees_of_freedom, 0.5);
-			if (x < 0.0)
-			{
-				ret = 0.5 * t;
-			}
-			else
-			{
-				ret = 1.0 - 0.5 * t;
-			}
+			return 0.5 * t;
 		}
-
-		return ret;
+		return 1.0 - 0.5 * t;
 	}
 
 	/**
@@ -143,7 +127,7 @@ class T_Distribution extends Abstract_Real_Distribution
 	 * </ul>
 	 */
 	 //override
-	public double get_numerical_mean() const
+	double get_numerical_mean() const
 	{
 		const double df = get_degrees_of_freedom();
 
@@ -167,7 +151,7 @@ class T_Distribution extends Abstract_Real_Distribution
 	 * </ul>
 	 */
 	 //override
-	public double get_numerical_variance() const
+	double get_numerical_variance() const
 	{
 		const double df = get_degrees_of_freedom();
 
@@ -194,7 +178,7 @@ class T_Distribution extends Abstract_Real_Distribution
 	 * {@code -INFINITY})
 	 */
 	 //override
-	public double get_support_lower_bound() const
+	double get_support_lower_bound() const
 	{
 		return -INFINITY;
 	}
@@ -209,7 +193,7 @@ class T_Distribution extends Abstract_Real_Distribution
 	 * {@code INFINITY})
 	 */
 	 //override
-	public double get_support_upper_bound() const
+	double get_support_upper_bound() const
 	{
 		return INFINITY;
 	}
@@ -222,8 +206,8 @@ class T_Distribution extends Abstract_Real_Distribution
 	 * @return {@code true}
 	 */
 	 //override
-	public bool is_support_connected() const
+	bool is_support_connected() const
 	{
 		return true;
 	}
-}
+};

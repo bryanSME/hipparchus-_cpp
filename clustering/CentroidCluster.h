@@ -21,6 +21,7 @@
   * It has been modified by the Hipparchus project
   */
   //package org.hipparchus.clustering;
+#include <type_traits>
 
   /**
    * A Cluster used by centroid-based clustering algorithms.

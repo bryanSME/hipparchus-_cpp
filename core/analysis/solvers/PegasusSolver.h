@@ -46,7 +46,7 @@ public:
 	/** Construct a solver with default accuracy (1e-6). */
 	Pegasus_Solver()
 	{
-		super(DEFAULT_ABSOLUTE_ACCURACY, Method::PEGASUS);
+		Base_Secant_Solver(DEFAULT_ABSOLUTE_ACCURACY, Method::PEGASUS);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public:
 	 */
 	Pegasus_Solver(const double& absolute_accuracy)
 	{
-		super(absolute_accuracy, Method::PEGASUS);
+		Base_Secant_Solver(absolute_accuracy, Method::PEGASUS);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public:
 	 */
 	Pegasus_Solver(const double& relative_accuracy, const double& absolute_accuracy)
 	{
-		super(relative_accuracy, absolute_accuracy, Method::PEGASUS);
+		Base_Secant_Solver(relative_accuracy, absolute_accuracy, Method::PEGASUS);
 	}
 
 	/**
@@ -79,6 +79,6 @@ public:
 	 */
 	Pegasus_Solver(const double& relative_accuracy, const double& absolute_accuracy, const double function_value_accuracy)
 	{
-		super(relative_accuracy, absolute_accuracy, function_value_accuracy, Method::PEGASUS);
+		Base_Secant_Solver(relative_accuracy, absolute_accuracy, function_value_accuracy, Method::PEGASUS);
 	}
 };

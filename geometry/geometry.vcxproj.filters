@@ -297,5 +297,17 @@
     <ClInclude Include="enclosing\package-info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="spherical\oned\Split.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spherical\oned\Inconsistent_State_At_2_Pi_Wrapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spherical\oned\Sub_Arcs_Iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spherical\oned\Sub_Intervals_Iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

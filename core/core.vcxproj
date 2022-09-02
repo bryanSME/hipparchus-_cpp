@@ -332,8 +332,8 @@
     <ClInclude Include="linear\ComplexEigenDecomposition.h" />
     <ClInclude Include="linear\ConjugateGradient.h" />
     <ClInclude Include="linear\DecompositionSolver.h" />
-    <ClInclude Include="linear\DefaultFieldMatrixChangingVisitor.h" />
-    <ClInclude Include="linear\DefaultFieldMatrixPreservingVisitor.h" />
+    <ClInclude Include="linear\DefaultFieldMatrixChangingVisitor.hpp" />
+    <ClInclude Include="linear\DefaultFieldMatrixPreservingVisitor.hpp" />
     <ClInclude Include="linear\DefaultIterativeLinearSolverEvent.h" />
     <ClInclude Include="linear\DefaultRealMatrixChangingVisitor.h" />
     <ClInclude Include="linear\DefaultRealMatrixPreservingVisitor.h" />
@@ -343,7 +343,7 @@
     <ClInclude Include="linear\FieldDecompositionSolver.h" />
     <ClInclude Include="linear\FieldLUDecomposition.h" />
     <ClInclude Include="linear\FieldMatrix.hpp" />
-    <ClInclude Include="linear\FieldMatrixChangingVisitor.h" />
+    <ClInclude Include="linear\FieldMatrixChangingVisitor.hpp" />
     <ClInclude Include="linear\FieldMatrixPreservingVisitor.h" />
     <ClInclude Include="linear\FieldQRDecomposition.hpp" />
     <ClInclude Include="linear\FieldVector.h" />

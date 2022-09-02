@@ -48,21 +48,75 @@
    */
 class Zipf_Distribution : Abstract_Integer_Distribution
 {
-	/** Number of elements. */
-	private const int& number_of_elements;
-	/** Exponent parameter of the distribution. */
-	private const double exponent;
-	/** Cached values of the nth generalized harmonic. */
-	private const double nth_harmonic;
-	/** Cached numerical mean */
-	private double numerical_mean = std::numeric_limits<double>::quiet_NaN();
-	/** Whether or not the numerical mean has been calculated */
-	private bool numerical_mean_is_calculated;
-	/** Cached numerical variance */
-	private double numerical_variance = std::numeric_limits<double>::quiet_NaN();
-	/** Whether or not the numerical variance has been calculated */
-	private bool numerical_variance_is_calculated;
+protected:
+	/**
+		* Used by {@link #get_numerical_mean()}.
+		*
+		* @return the mean of this distribution
+		*/
+	double calculate_numerical_mean() const
+	{
+		const int N = get_number_of_elements();
+		const double s = get_exponent();
 
+		const double Hs1 = generalized_harmonic(N, s - 1);
+		const double Hs = my_nth_harmonic;
+
+		return Hs1 / Hs;
+	}
+	/**
+	 * Used by {@link #get_numerical_variance()}.
+	 *
+	 * @return the variance of this distribution
+	 */
+	double calculate_numerical_variance()
+	{
+		const int N = get_number_of_elements();
+		const double s = get_exponent();
+
+		const double Hs2 = generalized_harmonic(N, s - 2);
+		const double Hs1 = generalized_harmonic(N, s - 1);
+		const double Hs = nth_harmonic;
+
+		return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
+	}
+
+private:
+	/** Number of elements. */
+	const int number_of_elements;
+	/** Exponent parameter of the distribution. */
+	const double exponent;
+	/** Cached values of the nth generalized harmonic. */
+	const double nth_harmonic;
+	/** Cached numerical mean */
+	double numerical_mean = std::numeric_limits<double>::quiet_NaN();
+	/** Whether or not the numerical mean has been calculated */
+	bool numerical_mean_is_calculated;
+	/** Cached numerical variance */
+	double numerical_variance = std::numeric_limits<double>::quiet_NaN();
+	/** Whether or not the numerical variance has been calculated */
+	bool numerical_variance_is_calculated;
+
+	/**
+	 * Calculates the Nth generalized harmonic number. See
+	 * <a href="http://mathworld.wolfram.com/HarmonicSeries.html">Harmonic
+	 * Series</a>.
+	 *
+	 * @param n Term in the series to calculate (must be larger than 1)
+	 * @param m Exponent (special case {@code m = 1} is the harmonic series).
+	 * @return the n<sup>th</sup> generalized harmonic number.
+	 */
+	double generalized_harmonic(const int& n, const double& m) const
+	{
+		double value{};
+		for (int k{ n }; k > 0; --k)
+		{
+			value += 1.0 / std::pow(k, m);
+		}
+		return value;
+	}
+
+public:
 	/**
 	 * Create a Zipf distribution with the given number of elements and
 	 * exponent.
@@ -72,8 +126,11 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 * @exception  if {@code number_of_elements <= 0}
 	 * or {@code exponent <= 0}.
 	 */
-	public Zipf_Distribution(const int& number_of_elements, const double exponent)
-
+	Zipf_Distribution(const int& number_of_elements, const double& exponent)
+		:
+		my_number_of_elements{ number_of_elements },
+		my_exponent{ exponent }
+		my_nth_harmonic{ generalized_harmonic(number_of_elements, exponent) }
 	{
 		if (number_of_elements <= 0)
 		{
@@ -85,10 +142,6 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::EXPONENT, exponent);
 		}
-
-		this.number_of_elements = number_of_elements;
-		this.exponent = exponent;
-		this.nth_harmonic = generalized_harmonic(number_of_elements, exponent);
 	}
 
 	/**
@@ -96,9 +149,9 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 *
 	 * @return the number of elements
 	 */
-	public int get_number_of_elements()
+	int get_number_of_elements() const
 	{
-		return number_of_elements;
+		return my_number_of_elements;
 	}
 
 	/**
@@ -106,49 +159,49 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 *
 	 * @return the exponent
 	 */
-	public double get_exponent()
+	double get_exponent() const
 	{
-		return exponent;
+		return my_exponent;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double probability(const int x)
+	double probability(const int& x) const
 	{
-		if (x <= 0 || x > number_of_elements)
+		if (x <= 0 || x > my_number_of_elements)
 		{
 			return 0.0;
 		}
 
-		return (1.0 / std::pow(x, exponent)) / nth_harmonic;
+		return (1.0 / std::pow(x, my_exponent)) / my_nth_harmonic;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double log_probability(const int& x)
+	double log_probability(const int& x) const
 	{
-		if (x <= 0 || x > number_of_elements)
+		if (x <= 0 || x > my_number_of_elements)
 		{
 			return -INFINITY;
 		}
 
-		return -std::log(x) * exponent - std::log(nth_harmonic);
+		return -std::log(x) * my_exponent - std::log(my_nth_harmonic);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double cumulative_probability(const int x)
+	double cumulative_probability(const int& x) const
 	{
 		if (x <= 0)
 		{
 			return 0.0;
 		}
-		else if (x >= number_of_elements)
+		if (x >= my_number_of_elements)
 		{
 			return 1.0;
 		}
 
-		return generalized_harmonic(x, exponent) / nth_harmonic;
+		return generalized_harmonic(x, my_exponent) / my_nth_harmonic;
 	}
 
 	/**
@@ -162,30 +215,14 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 * </ul>
 	 */
 	 //override
-	public double get_numerical_mean() const
+	double get_numerical_mean()
 	{
-		if (!numerical_mean_is_calculated)
+		if (!my_numerical_mean_is_calculated)
 		{
-			numerical_mean = calculate_numerical_mean();
-			numerical_mean_is_calculated = true;
+			my_numerical_mean = calculate_numerical_mean();
+			my_numerical_mean_is_calculated = true;
 		}
-		return numerical_mean;
-	}
-
-	/**
-	 * Used by {@link #get_numerical_mean()}.
-	 *
-	 * @return the mean of this distribution
-	 */
-	protected double calculate_numerical_mean()
-	{
-		const int N = get_number_of_elements();
-		const double s = get_exponent();
-
-		const double Hs1 = generalized_harmonic(N, s - 1);
-		const double Hs = nth_harmonic;
-
-		return Hs1 / Hs;
+		return my_numerical_mean;
 	}
 
 	/**
@@ -200,7 +237,7 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 * </ul>
 	 */
 	 //override
-	public double get_numerical_variance() const
+	double get_numerical_variance() const
 	{
 		if (!numerical_variance_is_calculated)
 		{
@@ -211,42 +248,6 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	}
 
 	/**
-	 * Used by {@link #get_numerical_variance()}.
-	 *
-	 * @return the variance of this distribution
-	 */
-	protected double calculate_numerical_variance()
-	{
-		const int N = get_number_of_elements();
-		const double s = get_exponent();
-
-		const double Hs2 = generalized_harmonic(N, s - 2);
-		const double Hs1 = generalized_harmonic(N, s - 1);
-		const double Hs = nth_harmonic;
-
-		return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
-	}
-
-	/**
-	 * Calculates the Nth generalized harmonic number. See
-	 * <a href="http://mathworld.wolfram.com/HarmonicSeries.html">Harmonic
-	 * Series</a>.
-	 *
-	 * @param n Term in the series to calculate (must be larger than 1)
-	 * @param m Exponent (special case {@code m = 1} is the harmonic series).
-	 * @return the n<sup>th</sup> generalized harmonic number.
-	 */
-	private double generalized_harmonic(const int& n, const double m)
-	{
-		double value = 0;
-		for (int k = n; k > 0; --k)
-		{
-			value += 1.0 / std::pow(k, m);
-		}
-		return value;
-	}
-
-	/**
 	 * {@inherit_doc}
 	 *
 	 * The lower bound of the support is always 1 no matter the parameters.
@@ -254,7 +255,7 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 * @return lower bound of the support (always 1)
 	 */
 	 //override
-	public int get_support_lower_bound()
+	int get_support_lower_bound() const
 	{
 		return 1;
 	}
@@ -267,7 +268,7 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 * @return upper bound of the support
 	 */
 	 //override
-	public int get_support_upper_bound()
+	int get_support_upper_bound() const
 	{
 		return get_number_of_elements();
 	}
@@ -280,8 +281,8 @@ class Zipf_Distribution : Abstract_Integer_Distribution
 	 * @return {@code true}
 	 */
 	 //override
-	public bool is_support_connected() const
+	bool is_support_connected() const
 	{
 		return true;
 	}
-}
+};

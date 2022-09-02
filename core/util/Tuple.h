@@ -947,4 +947,4 @@ public:
 			return 0x6672493d ^ my_zero.get_dimension();
 		}
 	}
-}
+};

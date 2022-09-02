@@ -25,6 +25,7 @@
   //import org.hipparchus.exception.;
   //import org.hipparchus.exception.Math_Illegal_State_Exception;
   //import org.hipparchus.util.FastMath;
+#include "BaseAbstractUnivariateIntegrator.h"
 
   /**
    * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
@@ -60,7 +61,7 @@ public:
 	 */
 	Trapezoid_Integrator(const double& relative_accuracy, const double& absolute_accuracy, const int minimal_iteration_count, const int maximal_iteration_count)
 	{
-		super(relative_accuracy, absolute_accuracy, minimal_iteration_count, maximal_iteration_count);
+		Base_Abstract_Univariate_Integrator(relative_accuracy, absolute_accuracy, minimal_iteration_count, maximal_iteration_count);
 		if (maximal_iteration_count > TRAPEZOID_MAX_ITERATIONS_COUNT)
 		{
 			throw std::exception("not implmented");
@@ -82,7 +83,7 @@ public:
 	 */
 	Trapezoid_Integrator(const int minimal_iteration_count, const int maximal_iteration_count)
 	{
-		super(minimal_iteration_count, maximal_iteration_count);
+		Base_Abstract_Univariate_Integrator(minimal_iteration_count, maximal_iteration_count);
 		if (maximal_iteration_count > TRAPEZOID_MAX_ITERATIONS_COUNT)
 		{
 			throw std::exception("not implmented");
@@ -96,7 +97,7 @@ public:
 	 */
 	Trapezoid_Integrator()
 	{
-		super(DEFAULT_MIN_ITERATIONS_COUNT, TRAPEZOID_MAX_ITERATIONS_COUNT);
+		Base_Abstract_Univariate_Integrator(DEFAULT_MIN_ITERATIONS_COUNT, TRAPEZOID_MAX_ITERATIONS_COUNT);
 	}
 
 	/**
@@ -136,8 +137,8 @@ public:
 			x += spacing;
 		}
 		// add the sum to previously calculated result
-		s = 0.5 * (s + sum * spacing);
-		return s;
+		my_s = 0.5 * (my_s + sum * spacing);
+		return my_s;
 	}
 
 protected:
@@ -145,12 +146,12 @@ protected:
 	//override
 	double do_integrate()
 	{
-		double oldt = stage(this, 0);
+		double oldt = stage(*this, 0);
 		iterations.increment();
 		while (true)
 		{
 			const int i = iterations.get_count();
-			const double t = stage(this, i);
+			const double t = stage(*this, i);
 			if (i >= get_minimal_iteration_count())
 			{
 				const double delta = std::abs(t - oldt);

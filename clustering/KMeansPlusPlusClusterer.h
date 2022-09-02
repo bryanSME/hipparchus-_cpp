@@ -42,7 +42,7 @@
    * @param <T> type of the points to cluster
    * @see <a href="http://en.wikipedia.org/wiki/K-means%2B%2B">K-means++ (wikipedia)</a>
    */
-class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
+class K_Means_Plus_Plus_Clusterer<T extends Clusterable> : public Clusterer<T>
 {
 	/** Strategies to use for replacing an empty cluster. */
 	enum Empty_Cluster_Strategy
@@ -57,210 +57,18 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 		ERROR
 	}
 
+private:
 	/** The number of clusters. */
-	private const int& k;
+	const int k;
 
 	/** The maximum number of iterations. */
-	private const int max_iterations;
+	const int max_iterations;
 
 	/** Random generator for choosing initial centers. */
-	private const Random_Generator random;
+	const Random_Generator random;
 
 	/** Selected strategy for empty clusters. */
-	private const Empty_Cluster_Strategy empty_strategy;
-
-	/** Build a clusterer.
-	 * <p>
-	 * The default strategy for handling empty clusters that may appear during
-	 * algorithm iterations is to split the cluster with largest distance variance.
-	 * <p>
-	 * The euclidean distance will be used as default distance measure.
-	 *
-	 * @param k the number of clusters to split the data into
-	 */
-	public K_Means_Plus_Plus_Clusterer(const int& k)
-	{
-		this(k, -1);
-	}
-
-	/** Build a clusterer.
-	 * <p>
-	 * The default strategy for handling empty clusters that may appear during
-	 * algorithm iterations is to split the cluster with largest distance variance.
-	 * <p>
-	 * The euclidean distance will be used as default distance measure.
-	 *
-	 * @param k the number of clusters to split the data into
-	 * @param max_iterations the maximum number of iterations to run the algorithm for.
-	 *   If negative, no maximum will be used.
-	 */
-	public K_Means_Plus_Plus_Clusterer(const int& k, const int max_iterations)
-	{
-		this(k, max_iterations, Euclidean_Distance());
-	}
-
-	/** Build a clusterer.
-	 * <p>
-	 * The default strategy for handling empty clusters that may appear during
-	 * algorithm iterations is to split the cluster with largest distance variance.
-	 *
-	 * @param k the number of clusters to split the data into
-	 * @param max_iterations the maximum number of iterations to run the algorithm for.
-	 *   If negative, no maximum will be used.
-	 * @param measure the distance measure to use
-	 */
-	public K_Means_Plus_Plus_Clusterer(const int& k, const int max_iterations, const Distance_Measure measure)
-	{
-		this(k, max_iterations, measure, JDKRandom_Generator());
-	}
-
-	/** Build a clusterer.
-	 * <p>
-	 * The default strategy for handling empty clusters that may appear during
-	 * algorithm iterations is to split the cluster with largest distance variance.
-	 *
-	 * @param k the number of clusters to split the data into
-	 * @param max_iterations the maximum number of iterations to run the algorithm for.
-	 *   If negative, no maximum will be used.
-	 * @param measure the distance measure to use
-	 * @param random random generator to use for choosing initial centers
-	 */
-	public K_Means_Plus_Plus_Clusterer(const int& k, const int max_iterations, const Distance_Measure measure, const Random_Generator random)
-	{
-		this(k, max_iterations, measure, random, Empty_Cluster_Strategy.LARGEST_VARIANCE);
-	}
-
-	/** Build a clusterer.
-	 *
-	 * @param k the number of clusters to split the data into
-	 * @param max_iterations the maximum number of iterations to run the algorithm for.
-	 *   If negative, no maximum will be used.
-	 * @param measure the distance measure to use
-	 * @param random random generator to use for choosing initial centers
-	 * @param empty_strategy strategy to use for handling empty clusters that
-	 * may appear during algorithm iterations
-	 */
-	public K_Means_Plus_Plus_Clusterer(const int& k, const int max_iterations, const Distance_Measure measure, const Random_Generator random, const Empty_Cluster_Strategy empty_strategy)
-	{
-		super(measure);
-		this.k = k;
-		this.max_iterations = max_iterations;
-		this.random = random;
-		this.empty_strategy = empty_strategy;
-	}
-
-	/**
-	 * Return the number of clusters this instance will use.
-	 * @return the number of clusters
-	 */
-	public int get_k()
-	{
-		return k;
-	}
-
-	/**
-	 * Returns the maximum number of iterations this instance will use.
-	 * @return the maximum number of iterations, or -1 if no maximum is set
-	 */
-	public int get_max_iterations()
-	{
-		return max_iterations;
-	}
-
-	/**
-	 * Returns the random generator this instance will use.
-	 * @return the random generator
-	 */
-	public Random_Generator get_random_generator()
-	{
-		return random;
-	}
-
-	/**
-	 * Returns the {@link Empty_Cluster_Strategy} used by this instance.
-	 * @return the {@link Empty_Cluster_Strategy}
-	 */
-	public Empty_Cluster_Strategy get_empty_cluster_strategy()
-	{
-		return empty_strategy;
-	}
-
-	/**
-	 * Runs the K-means++ clustering algorithm.
-	 *
-	 * @param points the points to cluster
-	 * @return a list of clusters containing the points
-	 * @ if the data points are NULL or the number
-	 *     of clusters is larger than the number of data points
-	 * @Math_Illegal_State_Exception if an empty cluster is encountered and the
-	 * {@link #empty_strategy} is set to {@code ERROR}
-	 */
-	 //override
-	public List<Centroid_Cluster<T>> cluster(const Collection<T> points)
-
-	{
-		// sanity checks
-		//Math_Utils::check_not_null(points);
-
-		// number of clusters has to be smaller or equal the number of data points
-		if (points.size() < k)
-		{
-			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, points.size(), k);
-		}
-
-		// create the initial clusters
-		List<Centroid_Cluster<T>> clusters = choose_initial_centers(points);
-
-		// create an array containing the latest assignment of a point to a cluster
-		// no need to initialize the array, as it will be filled with the first assignment
-		std::vector<int> assignments = int[points.size()];
-		assign_points_to_clusters(clusters, points, assignments);
-
-		// iterate through updating the centers until we're done
-		const int max = (max_iterations < 0) ? std::numeric_limits<int>::max() : max_iterations;
-		for (const int& count = 0; count < max; count++)
-		{
-			bool empty_cluster = false;
-			List<Centroid_Cluster<T>> new_clusters = Array_list<>();
-			for (const Centroid_Cluster<T> cluster : clusters)
-			{
-				const Clusterable new_center;
-				if (cluster.get_points().is_empty())
-				{
-					switch (empty_strategy)
-					{
-					case LARGEST_VARIANCE:
-						new_center = get_point_from_largest_variance_cluster(clusters);
-						break;
-					case LARGEST_POINTS_NUMBER:
-						new_center = get_point_from_largest_number_cluster(clusters);
-						break;
-					case FARTHEST_POINT:
-						new_center = get_farthest_point(clusters);
-						break;
-					default:
-						throw Math_Illegal_State_Exception(LocalizedClusteringFormats.EMPTY_CLUSTER_IN_K_MEANS);
-					}
-					empty_cluster = true;
-				}
-				else
-				{
-					new_center = centroid_of(cluster.get_points(), cluster.get_center().get_point().size());
-				}
-				new_clusters.add(new Centroid_Cluster<T>(new_center));
-			}
-			int changes = assign_points_to_clusters(new_clusters, points, assignments);
-			clusters = new_clusters;
-
-			// if there were no more changes in the point-to-cluster assignment
-			// and there are no empty clusters left, return the current clusters
-			if (changes == 0 && !empty_cluster)
-			{
-				return clusters;
-			}
-		}
-		return clusters;
-	}
+	const Empty_Cluster_Strategy empty_strategy;
 
 	/**
 	 * Adds the given points to the closest {@link Cluster}.
@@ -270,11 +78,11 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 * @param assignments points assignments to clusters
 	 * @return the number of points assigned to different clusters as the iteration before
 	 */
-	private int assign_points_to_clusters(const List<Centroid_Cluster<T>> clusters, const Collection<T> points, const std::vector<int> assignments)
+	int assign_points_to_clusters(const List<Centroid_Cluster<T>>& clusters, const Collection<T>& points, const std::vector<int>& assignments)
 	{
-		int assigned_differently = 0;
-		int point_index = 0;
-		for (const T p : points)
+		int assigned_differently{};
+		int point_index{};
+		for (const T& p : points)
 		{
 			int cluster_index = get_nearest_cluster(clusters, p);
 			if (cluster_index != assignments[point_index])
@@ -296,35 +104,35 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 * @param points the points to choose the initial centers from
 	 * @return the initial centers
 	 */
-	private List<Centroid_Cluster<T>> choose_initial_centers(const Collection<T> points)
+	std::vector<Centroid_Cluster<T>> choose_initial_centers(const Collection<T>& points)
 	{
 		// Convert to list for indexed access. Make it unmodifiable, since removal of items
 		// would screw up the logic of this method.
-		const List<T> point_list = Collections.unmodifiable_list(new Array_list<T>(points));
+		const std::vector<T> point_list = Collections.unmodifiable_list(std::vector<T>(points));
 
 		// The number of points in the list.
-		const int& num_points = point_list.size();
+		const int num_points = point_list.size();
 
 		// Set the corresponding element in this array to indicate when
 		// elements of point_list are no longer available.
-		const bool[] taken = bool[num_points];
+		auto taken = std::vector<bool>(num_points);
 
 		// The resulting list of initial centers.
-		const List<Centroid_Cluster<T>> result_set = Array_list<>();
+		std::vector<Centroid_Cluster<T>> result_set;
 
 		// Choose one center uniformly at random from among the data points.
 		const int first_point_index = random.next_int(num_points);
 
 		const T first_point = point_list.get(first_point_index);
 
-		result_set.add(new Centroid_Cluster<T>(first_point));
+		result_set.add(Centroid_Cluster<T>(first_point));
 
 		// Must mark it as taken
 		taken[first_point_index] = true;
 
 		// To keep track of the minimum distance squared of elements of
 		// point_list to elements of result_set.
-		const std::vector<double> min_dist_squared = std::vector<double>(num_points];
+		auto min_dist_squared = std::vector<double>(num_points);
 
 		// Initialize the elements.  sin_ce the only point in result_set is first_point, // this is very easy.
 		for (int i{}; i < num_points; i++)
@@ -339,7 +147,7 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 		{
 			// Sum up the squared distances for the points in point_list not
 			// already taken.
-			double dist_sq_sum = 0.0;
+			double dist_sq_sum{};
 
 			for (int i{}; i < num_points; i++)
 			{
@@ -358,7 +166,7 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 
 			// Sum through the squared min distances again, stopping when
 			// sum >= r.
-			double sum = 0.0;
+			double sum{};
 			for (int i{}; i < num_points; i++)
 			{
 				if (!taken[i])
@@ -392,7 +200,7 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 			{
 				const T p = point_list.get(next_point_index);
 
-				result_set.add(new Centroid_Cluster<T>(p));
+				result_set.add(Centroid_Cluster<T>(p));
 
 				// Mark it as taken.
 				taken[next_point_index] = true;
@@ -435,10 +243,9 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 * @return a random point from the selected cluster
 	 * @Math_Illegal_State_Exception if clusters are all empty
 	 */
-	private T get_point_from_largest_variance_cluster(const Collection<Centroid_Cluster<T>> clusters)
-		Math_Illegal_State_Exception
+	T get_point_from_largest_variance_cluster(const Collection<Centroid_Cluster<T>>& clusters)
 	{
-		double max_variance = -INFINITY;
+		double max_variance = - std::numeric_limits<double>::infinity();
 		Cluster<T> selected = NULL;
 		for (const Centroid_Cluster<T> cluster : clusters)
 		{
@@ -447,7 +254,7 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 				// compute the distance variance of the current cluster
 				const Clusterable center = cluster.get_center();
 				const Variance stat = Variance();
-				for (const T point : cluster.get_points())
+				for (const T& point : cluster.get_points())
 				{
 					stat.increment(distance(point, center));
 				}
@@ -465,7 +272,8 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 		// did we find at least one non-empty cluster ?
 		if (selected == NULL)
 		{
-			throw Math_Illegal_State_Exception(LocalizedClusteringFormats.EMPTY_CLUSTER_IN_K_MEANS);
+			throw std::exception("not implemented");
+			//throw Math_Illegal_State_Exception(LocalizedClusteringFormats.EMPTY_CLUSTER_IN_K_MEANS);
 		}
 
 		// extract a random point from the cluster
@@ -480,12 +288,11 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 * @return a random point from the selected cluster
 	 * @Math_Illegal_State_Exception if clusters are all empty
 	 */
-	private T get_point_from_largest_number_cluster(const Collection< ? extends Cluster<T>> clusters)
-		Math_Illegal_State_Exception
+	T get_point_from_largest_number_cluster(const Collection< ? extends Cluster<T>> clusters)
 	{
-		int max_number = 0;
+		int max_number{};
 		Cluster<T> selected = NULL;
-		for (const Cluster<T> cluster : clusters)
+		for (const Cluster<T>& cluster : clusters)
 		{
 			// get the number of points of the current cluster
 			const int& number = cluster.get_points().size();
@@ -516,16 +323,16 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 * @return point farthest to its cluster center
 	 * @Math_Illegal_State_Exception if clusters are all empty
 	 */
-	private T get_farthest_point(const Collection<Centroid_Cluster<T>> clusters) Math_Illegal_State_Exception
+	T get_farthest_point(const Collection<Centroid_Cluster<T>>& clusters)
 	{
-		double max_distance = -INFINITY;
+		double max_distance = - std::numeric_limits<double>::infinity();
 		Cluster<T> selected_cluster = NULL;
-		int selected_point = -1;
-		for (const Centroid_Cluster<T> cluster : clusters)
+		int selected_point{ -1 };
+		for (const auto& cluster : clusters)
 		{
 			// get the farthest point
 			const Clusterable center = cluster.get_center();
-			const List<T> points = cluster.get_points();
+			const std::vector<T> points = cluster.get_points();
 			for (int i{}; i < points.size(); ++i)
 			{
 				const double distance = distance(points.get(i), center);
@@ -541,7 +348,8 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 		// did we find at least one non-empty cluster ?
 		if (selected_cluster == NULL)
 		{
-			throw Math_Illegal_State_Exception(LocalizedClusteringFormats.EMPTY_CLUSTER_IN_K_MEANS);
+			throw std::exception("not implemented");
+			//throw Math_Illegal_State_Exception(LocalizedClusteringFormats.EMPTY_CLUSTER_IN_K_MEANS);
 		}
 
 		return selected_cluster.get_points().remove(selected_point);
@@ -554,12 +362,12 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 * @param point the point to find the nearest {@link Cluster} for
 	 * @return the index of the nearest {@link Cluster} to the given point
 	 */
-	private int get_nearest_cluster(const Collection<Centroid_Cluster<T>> clusters, const T point)
+	int get_nearest_cluster(const Collection<Centroid_Cluster<T>>& clusters, const T& point)
 	{
 		double min_distance = Double.MAX_VALUE;
-		int cluster_index = 0;
-		int min_cluster = 0;
-		for (const Centroid_Cluster<T> c : clusters)
+		int cluster_index{};
+		int min_cluster{};
+		for (const auto& c : clusters)
 		{
 			const double distance = distance(point, c.get_center());
 			if (distance < min_distance)
@@ -579,10 +387,10 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 	 * @param dimension the point dimension
 	 * @return the computed centroid for the set of points
 	 */
-	private Clusterable centroid_of(const Collection<T> points, const int& dimension)
+	Clusterable centroid_of(const Collection<T>& points, const int& dimension)
 	{
-		const std::vector<double> centroid = std::vector<double>(dimension];
-		for (const T p : points)
+		auto centroid = std::vector<double>(dimension);
+		for (const T& p : points)
 		{
 			const std::vector<double> point = p.get_point();
 			for (int i{}; i < centroid.size(); i++)
@@ -596,4 +404,199 @@ class K_Means_Plus_Plus_Clusterer<T extends Clusterable> extends Clusterer<T>
 		}
 		return Double_Point(centroid);
 	}
-}
+
+public:
+	/** Build a clusterer.
+	 * <p>
+	 * The default strategy for handling empty clusters that may appear during
+	 * algorithm iterations is to split the cluster with largest distance variance.
+	 * <p>
+	 * The euclidean distance will be used as default distance measure.
+	 *
+	 * @param k the number of clusters to split the data into
+	 */
+	K_Means_Plus_Plus_Clusterer(const int& k)
+	{
+		K_Means_Plus_Plus_Clusterer(k, -1);
+	}
+
+	/** Build a clusterer.
+	 * <p>
+	 * The default strategy for handling empty clusters that may appear during
+	 * algorithm iterations is to split the cluster with largest distance variance.
+	 * <p>
+	 * The euclidean distance will be used as default distance measure.
+	 *
+	 * @param k the number of clusters to split the data into
+	 * @param max_iterations the maximum number of iterations to run the algorithm for.
+	 *   If negative, no maximum will be used.
+	 */
+	K_Means_Plus_Plus_Clusterer(const int& k, const int& max_iterations)
+	{
+		K_Means_Plus_Plus_Clusterer(k, max_iterations, Euclidean_Distance());
+	}
+
+	/** Build a clusterer.
+	 * <p>
+	 * The default strategy for handling empty clusters that may appear during
+	 * algorithm iterations is to split the cluster with largest distance variance.
+	 *
+	 * @param k the number of clusters to split the data into
+	 * @param max_iterations the maximum number of iterations to run the algorithm for.
+	 *   If negative, no maximum will be used.
+	 * @param measure the distance measure to use
+	 */
+	K_Means_Plus_Plus_Clusterer(const int& k, const int& max_iterations, const Distance_Measure& measure)
+	{
+		K_Means_Plus_Plus_Clusterer(k, max_iterations, measure, JDKRandom_Generator());
+	}
+
+	/** Build a clusterer.
+	 * <p>
+	 * The default strategy for handling empty clusters that may appear during
+	 * algorithm iterations is to split the cluster with largest distance variance.
+	 *
+	 * @param k the number of clusters to split the data into
+	 * @param max_iterations the maximum number of iterations to run the algorithm for.
+	 *   If negative, no maximum will be used.
+	 * @param measure the distance measure to use
+	 * @param random random generator to use for choosing initial centers
+	 */
+	K_Means_Plus_Plus_Clusterer(const int& k, const int& max_iterations, const Distance_Measure& measure, const Random_Generator& random)
+	{
+		K_Means_Plus_Plus_Clusterer(k, max_iterations, measure, random, Empty_Cluster_Strategy::LARGEST_VARIANCE);
+	}
+
+	/** Build a clusterer.
+	 *
+	 * @param k the number of clusters to split the data into
+	 * @param max_iterations the maximum number of iterations to run the algorithm for.
+	 *   If negative, no maximum will be used.
+	 * @param measure the distance measure to use
+	 * @param random random generator to use for choosing initial centers
+	 * @param empty_strategy strategy to use for handling empty clusters that
+	 * may appear during algorithm iterations
+	 */
+	K_Means_Plus_Plus_Clusterer(const int& k, const int& max_iterations, const Distance_Measure& measure, const Random_Generator& random, const Empty_Cluster_Strategy& empty_strategy)
+	{
+		super(measure);
+		this.k = k;
+		this.max_iterations = max_iterations;
+		this.random = random;
+		this.empty_strategy = empty_strategy;
+	}
+
+	/**
+	 * Return the number of clusters this instance will use.
+	 * @return the number of clusters
+	 */
+	int get_k() const
+	{
+		return k;
+	}
+
+	/**
+	 * Returns the maximum number of iterations this instance will use.
+	 * @return the maximum number of iterations, or -1 if no maximum is set
+	 */
+	int get_max_iterations() const
+	{
+		return max_iterations;
+	}
+
+	/**
+	 * Returns the random generator this instance will use.
+	 * @return the random generator
+	 */
+	Random_Generator get_random_generator() const
+	{
+		return random;
+	}
+
+	/**
+	 * Returns the {@link Empty_Cluster_Strategy} used by this instance.
+	 * @return the {@link Empty_Cluster_Strategy}
+	 */
+	Empty_Cluster_Strategy get_empty_cluster_strategy() const
+	{
+		return empty_strategy;
+	}
+
+	/**
+	 * Runs the K-means++ clustering algorithm.
+	 *
+	 * @param points the points to cluster
+	 * @return a list of clusters containing the points
+	 * @ if the data points are NULL or the number
+	 *     of clusters is larger than the number of data points
+	 * @Math_Illegal_State_Exception if an empty cluster is encountered and the
+	 * {@link #empty_strategy} is set to {@code ERROR}
+	 */
+	 //override
+	List<Centroid_Cluster<T>> cluster(const Collection<T>& points)
+	{
+		// sanity checks
+		//Math_Utils::check_not_null(points);
+
+		// number of clusters has to be smaller or equal the number of data points
+		if (points.size() < k)
+		{
+			throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL_BOUND_EXCLUDED, points.size(), k);
+		}
+
+		// create the initial clusters
+		List<Centroid_Cluster<T>> clusters = choose_initial_centers(points);
+
+		// create an array containing the latest assignment of a point to a cluster
+		// no need to initialize the array, as it will be filled with the first assignment
+		std::vector<int> assignments = int[points.size()];
+		assign_points_to_clusters(clusters, points, assignments);
+
+		// iterate through updating the centers until we're done
+		const int max = max_iterations < 0
+			? std::numeric_limits<int>::max() 
+			: max_iterations;
+		for (int count{}; count < max; count++)
+		{
+			bool empty_cluster{};
+			List<Centroid_Cluster<T>> new_clusters = Array_list<>();
+			for (const Centroid_Cluster<T> cluster : clusters)
+			{
+				const Clusterable new_center;
+				if (cluster.get_points().is_empty())
+				{
+					switch (empty_strategy)
+					{
+					case LARGEST_VARIANCE:
+						new_center = get_point_from_largest_variance_cluster(clusters);
+						break;
+					case LARGEST_POINTS_NUMBER:
+						new_center = get_point_from_largest_number_cluster(clusters);
+						break;
+					case FARTHEST_POINT:
+						new_center = get_farthest_point(clusters);
+						break;
+					default:
+						throw Math_Illegal_State_Exception(LocalizedClusteringFormats.EMPTY_CLUSTER_IN_K_MEANS);
+					}
+					empty_cluster = true;
+				}
+				else
+				{
+					new_center = centroid_of(cluster.get_points(), cluster.get_center().get_point().size());
+				}
+				new_clusters.add(Centroid_Cluster<T>(new_center));
+			}
+			int changes = assign_points_to_clusters(new_clusters, points, assignments);
+			clusters = new_clusters;
+
+			// if there were no more changes in the point-to-cluster assignment
+			// and there are no empty clusters left, return the current clusters
+			if (changes == 0 && !empty_cluster)
+			{
+				return clusters;
+			}
+		}
+		return clusters;
+	}
+};

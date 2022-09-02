@@ -27,16 +27,16 @@
    */
 class Dfp_Math
 {
+private:
 	/** Name for traps triggered by pow. */
-	private static const std::string POW_TRAP = "pow";
+	static const std::string POW_TRAP{ "pow" };
 
 	/**
 	 * Private Constructor.
 	 */
-	private Dfp_Math()
-	{
-	}
+	Dfp_Math() = default;
 
+protected:
 	/** Breaks a string representation up into two dfp's.
 	 * <p>The two dfp are such that the sum of them is equivalent
 	 * to the input string, but has higher precision than using a
@@ -46,12 +46,12 @@ class Dfp_Math
 	 * @param a string representation to split
 	 * @return an array of two {@link Dfp} which sum is a
 	 */
-	protected static Dfp[] split(const DFP_Field field, const std::string a)
+	static std::vector<Dfp> split(const DFP_Field& field, const std::string& a)
 	{
-		Dfp result[] = Dfp[2];
-		bool leading = true;
-		int sp = 0;
-		int sig = 0;
+		auto result = std::vector<Dfp>(2);
+		bool leading{ true };
+		int sp{};
+		int sig{};
 
 		std::stringBuilder builder1 = std::stringBuilder(a.size()());
 
@@ -108,9 +108,9 @@ class Dfp_Math
 	 * @param a number to split
 	 * @return two elements array containing the split number
 	 */
-	protected static Dfp[] split(const Dfp a)
+	static std::vector<Dfp> split(const Dfp& a)
 	{
-		const Dfp[] result = Dfp[2];
+		auto result = std::vector<Dfp>(2);
 		const Dfp shift = a.multiply(a.power10_k(a.get_radix_digits() / 2));
 		result[0] = a.add(shift).subtract(shift);
 		result[1] = a.subtract(result[0]);
@@ -125,9 +125,9 @@ class Dfp_Math
 	 *  @param b second factor of the multiplication, in split form
 	 *  @return a &times; b, in split form
 	 */
-	protected static Dfp[] split_mult(const Dfp[] a, const Dfp[] b)
+	static std::vector<Dfp> split_mult(const std::vector<Dfp>& a, const std::vector<Dfp>& b)
 	{
-		const Dfp[] result = Dfp[2];
+		auto result = std::vector<Dfp>(2);
 
 		result[1] = a[0].get_zero();
 		result[0] = a[0].multiply(b[0]);
@@ -153,11 +153,11 @@ class Dfp_Math
 	 *  @param b divisor, in split form
 	 *  @return a / b, in split form
 	 */
-	protected static Dfp[] split_div(const Dfp[] a, const Dfp[] b)
+	static std::vector<Dfp> split_div(const std::vector<Dfp>& a, const std::vector<Dfp>& b)
 	{
-		const Dfp[] result;
+		std::vector<Dfp> result;
 
-		result = Dfp[2];
+		result = std::vector<Dfp>(2);
 
 		result[0] = a[0].divide(b[0]);
 		result[1] = a[1].multiply(b[0]).subtract(a[0].multiply(b[1]));
@@ -171,13 +171,13 @@ class Dfp_Math
 	 * @param a power
 	 * @return base<sup>a</sup>
 	 */
-	protected static Dfp split_pow(const Dfp[] base, int a)
+	static Dfp split_pow(const std::vector<Dfp>& base, const int& a)
 	{
-		bool invert = false;
+		bool invert{};
 
-		Dfp[] r = Dfp[2];
+		auto r = std::vector<Dfp>(2);
 
-		Dfp[] result = Dfp[2];
+		auto result = std::vector<Dfp>(2);
 		result[0] = base[0].get_one();
 		result[1] = base[0].get_zero();
 
@@ -229,98 +229,12 @@ class Dfp_Math
 		return result[0];
 	}
 
-	/** Raises base to the power a by successive squaring.
-	 * @param base number to raise
-	 * @param a power
-	 * @return base<sup>a</sup>
-	 */
-	public static Dfp pow(Dfp base, int a)
-
-	{
-		bool invert = false;
-
-		Dfp result = base.get_one();
-
-		if (a == 0)
-		{
-			// Special case
-			return result;
-		}
-
-		if (a < 0)
-		{
-			invert = true;
-			a = -a;
-		}
-
-		// Exponentiate by successive squaring
-		do
-		{
-			Dfp r = Dfp(base);
-			Dfp prevr;
-			int trial = 1;
-			int prevtrial;
-
-			do
-			{
-				prevr = Dfp(r);
-				prevtrial = trial;
-				r = r.multiply(r);
-				trial *= 2;
-			} while (a > trial);
-
-			r = prevr;
-			trial = prevtrial;
-
-			a -= trial;
-			result = result.multiply(r);
-		} while (a >= 1);
-
-		if (invert)
-		{
-			result = base.get_one().divide(result);
-		}
-
-		return base.new_instance(result);
-	}
-
-	/** Computes e to the given power.
-	 * a is broken into two parts, such that a = n+m  where n is an integer.
-	 * We use pow() to compute e<sup>n</sup> and a Taylor series to compute
-	 * e<sup>m</sup>.  We return e*<sup>n</sup> &times; e<sup>m</sup>
-	 * @param a power at which e should be raised
-	 * @return e<sup>a</sup>
-	 */
-	public static Dfp exp(const Dfp a)
-	{
-		const Dfp inta = a.rint();
-		const Dfp fraca = a.subtract(inta);
-
-		const int ia = inta.int_value();
-		if (ia > 2147483646)
-		{
-			// return +Infinity
-			return a.new_instance((byte)1, Dfp.INFINITE);
-		}
-
-		if (ia < -2147483646)
-		{
-			// return 0;
-			return a.new_instance();
-		}
-
-		const Dfp einta = split_pow(a.get_field().get_e_split(), ia);
-		const Dfp efraca = exp_internal(fraca);
-
-		return einta.multiply(efraca);
-	}
-
 	/** Computes e to the given power.
 	 * Where -1 &lt; a &lt; 1.  Use the classic Taylor series.  1 + x**2/2! + x**3/3! + x**4/4!  ...
 	 * @param a power at which e should be raised
 	 * @return e<sup>a</sup>
 	 */
-	protected static Dfp exp_internal(const Dfp a)
+	static Dfp exp_internal(const Dfp& a)
 	{
 		Dfp y = a.get_one();
 		Dfp x = a.get_one();
@@ -340,79 +254,6 @@ class Dfp_Math
 		}
 
 		return y;
-	}
-
-	/** Returns the natural logarithm of a.
-	 * a is first split into three parts such that  a = (10000^h)(2^j)k.
-	 * ln(a) is computed by ln(a) = ln(5)*h + ln(2)*(h+j) + ln(k)
-	 * k is in the range 2/3 &lt; k &lt; 4/3 and is passed on to a series expansion.
-	 * @param a number from which logarithm is requested
-	 * @return log(a)
-	 */
-	public static Dfp log(Dfp a)
-	{
-		int lr;
-		Dfp x;
-		int ix;
-		int p2 = 0;
-
-		// Check the arguments somewhat here
-		if (a.equals(a.get_zero()) || a.less_than(a.get_zero()) || a.is_nan())
-		{
-			// negative, zero or NaN
-			a.get_field().set_ieee_flags_bits(DFP_Field.FLAG_INVALID);
-			return a.dotrap(DFP_Field.FLAG_INVALID, "ln", a, a.new_instance((byte)1, Dfp.QNAN));
-		}
-
-		if (a.classify() == Dfp.INFINITE)
-		{
-			return a;
-		}
-
-		x = Dfp(a);
-		lr = x.log10_k();
-
-		x = x.divide(pow(a.new_instance(10000), lr));  /* This puts x in the range 0-10000 */
-		ix = x.floor().int_value();
-
-		while (ix > 2)
-		{
-			ix >>= 1;
-			p2++;
-		}
-
-		Dfp[] spx = split(x);
-		Dfp[] spy = Dfp[2];
-		spy[0] = pow(a.get_two(), p2);          // use spy[0] temporarily as a divisor
-		spx[0] = spx[0].divide(spy[0]);
-		spx[1] = spx[1].divide(spy[0]);
-
-		spy[0] = a.new_instance("1.33333");    // Use spy[0] for comparison
-		while (spx[0].add(spx[1]).greater_than(spy[0]))
-		{
-			spx[0] = spx[0].divide(2);
-			spx[1] = spx[1].divide(2);
-			p2++;
-		}
-
-		// X is now in the range of 2/3 < x < 4/3
-		Dfp[] spz = log_internal(spx);
-
-		spx[0] = a.new_instance(new std::stringBuilder().append(p2 + 4 * lr).to_string());
-		spx[1] = a.get_zero();
-		spy = split_mult(a.get_field().get_ln2_split(), spx);
-
-		spz[0] = spz[0].add(spy[0]);
-		spz[1] = spz[1].add(spy[1]);
-
-		spx[0] = a.new_instance(new std::stringBuilder().append(4 * lr).to_string());
-		spx[1] = a.get_zero();
-		spy = split_mult(a.get_field().get_ln5_split(), spx);
-
-		spz[0] = spz[0].add(spy[0]);
-		spz[1] = spz[1].add(spy[1]);
-
-		return a.new_instance(spz[0].add(spz[1]));
 	}
 
 	/** Computes the natural log of a number between 0 and 2.
@@ -468,7 +309,7 @@ class Dfp_Math
 	 * @param a number from which logarithm is requested, in split form
 	 * @return log(a)
 	 */
-	protected static Dfp[] log_internal(const Dfp a[])
+	static std::vector<Dfp> log_internal(const std::vector<Dfp>& a)
 	{
 		/* Now we want to compute x = (a-1)/(a+1) but this is prone to
 		 * loss of precision.  So instead, compute x = (a/4 - 1/4) / (a/4 + 1/4)
@@ -497,6 +338,258 @@ class Dfp_Math
 		y = y.multiply(a[0].get_two());
 
 		return split(y);
+	}
+
+	/** Computes sin(a)  Used when 0 &lt; a &lt; pi/4.
+	 * Uses the classic Taylor series.  x - x**3/3! + x**5/5!  ...
+	 * @param a number from which sine is desired, in split form
+	 * @return sin(a)
+	 */
+	static Dfp sin_internal(const std::vector<Dfp>& a)
+	{
+		Dfp c = a[0].add(a[1]);
+		Dfp y = c;
+		c = c.multiply(c);
+		Dfp x = y;
+		Dfp fact = a[0].get_one();
+		Dfp py = Dfp(y);
+
+		for (int i = 3; i < 90; i += 2)
+		{
+			x = x.multiply(c);
+			x = x.negate();
+
+			fact = fact.divide((i - 1) * i);  // 1 over fact
+			y = y.add(x.multiply(fact));
+			if (y.equals(py))
+			{
+				break;
+			}
+			py = Dfp(y);
+		}
+
+		return y;
+	}
+
+	/** Computes cos(a)  Used when 0 &lt; a &lt; pi/4.
+	 * Uses the classic Taylor series for cosine.  1 - x**2/2! + x**4/4!  ...
+	 * @param a number from which cosine is desired, in split form
+	 * @return cos(a)
+	 */
+	static Dfp cos_internal(const std::vector<Dfp>& a)
+	{
+		const Dfp one = a[0].get_one();
+
+		Dfp x = one;
+		Dfp y = one;
+		Dfp c = a[0].add(a[1]);
+		c = c.multiply(c);
+
+		Dfp fact = one;
+		Dfp py = Dfp(y);
+
+		for (int i{ 2 }; i < 90; i += 2)
+		{
+			x = x.multiply(c);
+			x = x.negate();
+
+			fact = fact.divide((i - 1) * i);  // 1 over fact
+
+			y = y.add(x.multiply(fact));
+			if (y.equals(py))
+			{
+				break;
+			}
+			py = Dfp(y);
+		}
+
+		return y;
+	}
+
+	/** computes the arc-tangent of the argument.
+	 * @param a number from which arc-tangent is desired
+	 * @return atan(a)
+	 */
+	static Dfp atan_internal(const Dfp& a)
+	{
+		Dfp y = Dfp(a);
+		Dfp x = Dfp(y);
+		Dfp py = Dfp(y);
+
+		for (int i{ 3 }; i < 90; i += 2)
+		{
+			x = x.multiply(a);
+			x = x.multiply(a);
+			x = x.negate();
+			y = y.add(x.divide(i));
+			if (y.equals(py))
+			{
+				break;
+			}
+			py = Dfp(y);
+		}
+
+		return y;
+	}
+
+public:
+
+	/** Raises base to the power a by successive squaring.
+	 * @param base number to raise
+	 * @param a power
+	 * @return base<sup>a</sup>
+	 */
+	static Dfp pow(const Dfp& base, const int& a)
+	{
+		bool invert{};
+
+		Dfp result = base.get_one();
+
+		if (a == 0)
+		{
+			// Special case
+			return result;
+		}
+
+		if (a < 0)
+		{
+			invert = true;
+			a = -a;
+		}
+
+		// Exponentiate by successive squaring
+		do
+		{
+			Dfp r = Dfp(base);
+			Dfp prevr;
+			int trial{ 1 };
+			int prevtrial;
+
+			do
+			{
+				prevr = Dfp(r);
+				prevtrial = trial;
+				r = r.multiply(r);
+				trial *= 2;
+			} while (a > trial);
+
+			r = prevr;
+			trial = prevtrial;
+
+			a -= trial;
+			result = result.multiply(r);
+		} while (a >= 1);
+
+		if (invert)
+		{
+			result = base.get_one().divide(result);
+		}
+
+		return base.new_instance(result);
+	}
+
+	/** Computes e to the given power.
+	 * a is broken into two parts, such that a = n+m  where n is an integer.
+	 * We use pow() to compute e<sup>n</sup> and a Taylor series to compute
+	 * e<sup>m</sup>.  We return e*<sup>n</sup> &times; e<sup>m</sup>
+	 * @param a power at which e should be raised
+	 * @return e<sup>a</sup>
+	 */
+	static Dfp exp(const Dfp& a)
+	{
+		const Dfp inta = a.rint();
+		const Dfp fraca = a.subtract(inta);
+
+		const int ia = inta.int_value();
+		if (ia > 2147483646)
+		{
+			// return +Infinity
+			return a.new_instance((byte)1, Dfp.INFINITE);
+		}
+
+		if (ia < -2147483646)
+		{
+			// return 0;
+			return a.new_instance();
+		}
+
+		const Dfp einta = split_pow(a.get_field().get_e_split(), ia);
+		const Dfp efraca = exp_internal(fraca);
+
+		return einta.multiply(efraca);
+	}
+
+	/** Returns the natural logarithm of a.
+	 * a is first split into three parts such that  a = (10000^h)(2^j)k.
+	 * ln(a) is computed by ln(a) = ln(5)*h + ln(2)*(h+j) + ln(k)
+	 * k is in the range 2/3 &lt; k &lt; 4/3 and is passed on to a series expansion.
+	 * @param a number from which logarithm is requested
+	 * @return log(a)
+	 */
+	static Dfp log(const Dfp& a)
+	{
+		int lr;
+		Dfp x;
+		int ix;
+		int p2 = 0;
+
+		// Check the arguments somewhat here
+		if (a.equals(a.get_zero()) || a.less_than(a.get_zero()) || a.is_nan())
+		{
+			// negative, zero or NaN
+			a.get_field().set_ieee_flags_bits(DFP_Field.FLAG_INVALID);
+			return a.dotrap(DFP_Field.FLAG_INVALID, "ln", a, a.new_instance((byte)1, Dfp.QNAN));
+		}
+
+		if (a.classify() == Dfp.INFINITE)
+		{
+			return a;
+		}
+
+		x = Dfp(a);
+		lr = x.log10_k();
+
+		x = x.divide(pow(a.new_instance(10000), lr));  /* This puts x in the range 0-10000 */
+		ix = x.floor().int_value();
+
+		while (ix > 2)
+		{
+			ix >>= 1;
+			p2++;
+		}
+
+		std::vector<Dfp> spx = split(x);
+		auto spy = std::vector<Dfp>(2);
+		spy[0] = pow(a.get_two(), p2);          // use spy[0] temporarily as a divisor
+		spx[0] = spx[0].divide(spy[0]);
+		spx[1] = spx[1].divide(spy[0]);
+
+		spy[0] = a.new_instance("1.33333");    // Use spy[0] for comparison
+		while (spx[0].add(spx[1]).greater_than(spy[0]))
+		{
+			spx[0] = spx[0].divide(2);
+			spx[1] = spx[1].divide(2);
+			p2++;
+		}
+
+		// X is now in the range of 2/3 < x < 4/3
+		Dfp[] spz = log_internal(spx);
+
+		spx[0] = a.new_instance(std::stringBuilder().append(p2 + 4 * lr).to_string());
+		spx[1] = a.get_zero();
+		spy = split_mult(a.get_field().get_ln2_split(), spx);
+
+		spz[0] = spz[0].add(spy[0]);
+		spz[1] = spz[1].add(spy[1]);
+
+		spx[0] = a.new_instance(std::stringBuilder().append(4 * lr).to_string());
+		spx[1] = a.get_zero();
+		spy = split_mult(a.get_field().get_ln5_split(), spx);
+
+		spz[0] = spz[0].add(spy[0]);
+		spz[1] = spz[1].add(spy[1]);
+
+		return a.new_instance(spz[0].add(spz[1]));
 	}
 
 	/** Computes x to the y power.<p>
@@ -539,7 +632,7 @@ class Dfp_Math
 	 *  @param y power to which base should be raised
 	 *  @return x<sup>y</sup>
 	 */
-	public static Dfp pow(Dfp x, const Dfp y)
+	static Dfp pow(const Dfp& x, const Dfp& y)
 	{
 		// make sure we don't mix number with different precision
 		if (x.get_field().get_radix_digits() != y.get_field().get_radix_digits())
@@ -671,39 +764,24 @@ class Dfp_Math
 				if (y.classify() == Dfp.FINITE && y.rint().equals(y) && !y.remainder(two).equals(zero))
 				{
 					// If y is odd integer
-					if (y.greater_than(zero))
-					{
-						return x.new_instance(x.new_instance((byte)-1, Dfp.INFINITE));
-					}
-					else
-					{
-						return x.new_instance(zero.negate());
-					}
+					return y.greater_than(zero)
+						? x.new_instance(x.new_instance((byte)-1, Dfp.INFINITE))
+						: x.new_instance(zero.negate());
 				}
 				else
 				{
 					// Y is not odd integer
-					if (y.greater_than(zero))
-					{
-						return x.new_instance(x.new_instance((byte)1, Dfp.INFINITE));
-					}
-					else
-					{
-						return x.new_instance(zero);
-					}
+					return y.greater_than(zero)
+						? x.new_instance(x.new_instance((byte)1, Dfp.INFINITE))
+						: x.new_instance(zero);
 				}
 			}
 			else
 			{
 				// positive infinity
-				if (y.greater_than(zero))
-				{
-					return x;
-				}
-				else
-				{
-					return x.new_instance(zero);
-				}
+				return y.greater_than(zero)
+					? x
+					: x.new_instance(zero);
 			}
 		}
 
@@ -753,77 +831,11 @@ class Dfp_Math
 		return x.new_instance(r);
 	}
 
-	/** Computes sin(a)  Used when 0 &lt; a &lt; pi/4.
-	 * Uses the classic Taylor series.  x - x**3/3! + x**5/5!  ...
-	 * @param a number from which sine is desired, in split form
-	 * @return sin(a)
-	 */
-	protected static Dfp sin_internal(Dfp a[])
-	{
-		Dfp c = a[0].add(a[1]);
-		Dfp y = c;
-		c = c.multiply(c);
-		Dfp x = y;
-		Dfp fact = a[0].get_one();
-		Dfp py = Dfp(y);
-
-		for (int i = 3; i < 90; i += 2)
-		{
-			x = x.multiply(c);
-			x = x.negate();
-
-			fact = fact.divide((i - 1) * i);  // 1 over fact
-			y = y.add(x.multiply(fact));
-			if (y.equals(py))
-			{
-				break;
-			}
-			py = Dfp(y);
-		}
-
-		return y;
-	}
-
-	/** Computes cos(a)  Used when 0 &lt; a &lt; pi/4.
-	 * Uses the classic Taylor series for cosine.  1 - x**2/2! + x**4/4!  ...
-	 * @param a number from which cosine is desired, in split form
-	 * @return cos(a)
-	 */
-	protected static Dfp cos_internal(Dfp a[])
-	{
-		const Dfp one = a[0].get_one();
-
-		Dfp x = one;
-		Dfp y = one;
-		Dfp c = a[0].add(a[1]);
-		c = c.multiply(c);
-
-		Dfp fact = one;
-		Dfp py = Dfp(y);
-
-		for (int i{ 2 }; i < 90; i += 2)
-		{
-			x = x.multiply(c);
-			x = x.negate();
-
-			fact = fact.divide((i - 1) * i);  // 1 over fact
-
-			y = y.add(x.multiply(fact));
-			if (y.equals(py))
-			{
-				break;
-			}
-			py = Dfp(y);
-		}
-
-		return y;
-	}
-
 	/** computes the sine of the argument.
 	 * @param a number from which sine is desired
 	 * @return sin(a)
 	 */
-	public static Dfp sin(const Dfp a)
+	static Dfp sin(const Dfp& a)
 	{
 		const Dfp pi = a.get_field().get_pi();
 		const Dfp zero = a.get_field().get_zero();
@@ -856,8 +868,8 @@ class Dfp_Math
 		}
 		else
 		{
-			const Dfp c[] = Dfp[2];
-			const Dfp[] pi_split = a.get_field().get_pi_split();
+			auto c = std::vector<Dfp>(2);
+			const std::vector<Dfp>& pi_split = a.get_field().get_pi_split();
 			c[0] = pi_split[0].divide(2).subtract(x);
 			c[1] = pi_split[1].divide(2);
 			y = cos_internal(c);
@@ -875,7 +887,7 @@ class Dfp_Math
 	 * @param a number from which cosine is desired
 	 * @return cos(a)
 	 */
-	public static Dfp cos(Dfp a)
+	static Dfp cos(const Dfp& a)
 	{
 		const Dfp pi = a.get_field().get_pi();
 		const Dfp zero = a.get_field().get_zero();
@@ -904,7 +916,7 @@ class Dfp_Math
 		Dfp y;
 		if (x.less_than(pi.divide(4)))
 		{
-			Dfp c[] = Dfp[2];
+			auto c = std::vector<Dfp>(2);
 			c[0] = x;
 			c[1] = zero;
 
@@ -912,8 +924,8 @@ class Dfp_Math
 		}
 		else
 		{
-			const Dfp c[] = Dfp[2];
-			const Dfp[] pi_split = a.get_field().get_pi_split();
+			auto c = std::vector<Dfp>(2);
+			const std::vector<Dfp>& pi_split = a.get_field().get_pi_split();
 			c[0] = pi_split[0].divide(2).subtract(x);
 			c[1] = pi_split[1].divide(2);
 			y = sin_internal(c);
@@ -931,35 +943,9 @@ class Dfp_Math
 	 * @param a number from which tangent is desired
 	 * @return tan(a)
 	 */
-	public static Dfp tan(const Dfp a)
+	static Dfp tan(const Dfp& a)
 	{
 		return sin(a).divide(cos(a));
-	}
-
-	/** computes the arc-tangent of the argument.
-	 * @param a number from which arc-tangent is desired
-	 * @return atan(a)
-	 */
-	protected static Dfp atan_internal(const Dfp a)
-	{
-		Dfp y = Dfp(a);
-		Dfp x = Dfp(y);
-		Dfp py = Dfp(y);
-
-		for (int i = 3; i < 90; i += 2)
-		{
-			x = x.multiply(a);
-			x = x.multiply(a);
-			x = x.negate();
-			y = y.add(x.divide(i));
-			if (y.equals(py))
-			{
-				break;
-			}
-			py = Dfp(y);
-		}
-
-		return y;
 	}
 
 	/** computes the arc tangent of the argument
@@ -974,15 +960,15 @@ class Dfp_Math
 	 * @param a number from which arc-tangent is desired
 	 * @return atan(a)
 	 */
-	public static Dfp atan(const Dfp a)
+	static Dfp atan(const Dfp& a)
 	{
-		const Dfp   zero = a.get_field().get_zero();
-		const Dfp   one = a.get_field().get_one();
-		const Dfp[] sqr2_split = a.get_field().get_sqr2_split();
-		const Dfp[] pi_split = a.get_field().get_pi_split();
-		bool recp = false;
-		bool neg = false;
-		bool sub = false;
+		const Dfp zero = a.get_field().get_zero();
+		const Dfp one = a.get_field().get_one();
+		const std::vector<Dfp>& sqr2_split = a.get_field().get_sqr2_split();
+		const std::vector<Dfp>& pi_split = a.get_field().get_pi_split();
+		bool recp{};
+		bool neg{};
+		bool sub{};
 
 		const Dfp ty = sqr2_split[0].subtract(one).add(sqr2_split[1]);
 
@@ -1001,7 +987,7 @@ class Dfp_Math
 
 		if (x.greater_than(ty))
 		{
-			Dfp sty[] = Dfp[2];
+			auto sty = std::vector<Dfp>(2);
 			sub = true;
 
 			sty[0] = sqr2_split[0].subtract(one);
@@ -1045,7 +1031,7 @@ class Dfp_Math
 	 * @param a number from which arc-sine is desired
 	 * @return asin(a)
 	 */
-	public static Dfp asin(const Dfp a)
+	static Dfp asin(const Dfp& a)
 	{
 		return atan(a.divide(a.get_one().subtract(a.multiply(a)).sqrt()));
 	}
@@ -1054,10 +1040,10 @@ class Dfp_Math
 	 * @param a number from which arc-cosine is desired
 	 * @return acos(a)
 	 */
-	public static Dfp acos(Dfp a)
+	static Dfp acos(const Dfp& a)
 	{
 		Dfp result;
-		bool negative = false;
+		bool negative{};
 
 		if (a.less_than(a.get_zero()))
 		{
@@ -1075,4 +1061,4 @@ class Dfp_Math
 
 		return a.new_instance(result);
 	}
-}
+};

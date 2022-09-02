@@ -39,6 +39,7 @@
   //import org.hipparchus.util.Math_Arrays;
   //import org.hipparchus.util.Math_Utils;
 #include <type_traits>
+#include <cmath>
 #include <vector>
 #include "../core/linear/MatrixUtils.h"
 #include "Clusterable.h"
@@ -113,10 +114,10 @@ private:
 		for (const Centroid_Cluster<T> cluster : clusters)
 		{
 			const Clusterable center = cluster.get_center();
-			int i = 0;
+			int i{};
 			std::vector<double> arr = std::vector<double>(center.get_point().size()];
-			double sum = 0.0;
-			for (const T point : points)
+			double sum{};
+			for (const T& point : points)
 			{
 				const double u = std::pow(membership_matrix[i][j], fuzziness);
 				const std::vector<double> point_arr = point.get_point();
@@ -148,7 +149,7 @@ private:
 			int new_cluster = -1;
 			for (int j{}; j < clusters.size(); j++)
 			{
-				double sum = 0.0;
+				double sum{};
 				const double dist_a = std::abs(distance(point, clusters.get(j).get_center()));
 
 				if (dist_a != 0.0)
@@ -170,7 +171,7 @@ private:
 				{
 					membership = 1.0;
 				}
-				else if (sum == INFINITY)
+				else if (std::isinf(sum)
 				{
 					membership = 0.0;
 				}

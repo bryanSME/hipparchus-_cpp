@@ -39,94 +39,94 @@ enum Dependent_Vectors_Handler
 		//override
 		public int manage_dependent(const int index, const List<Real_Vector> basis)
 		{
-	// generate exception, dependent vectors are forbidden with this settings
-	throw std::exception("not implemented");
-	//throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
-}
+			// generate exception, dependent vectors are forbidden with this settings
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+		}
 
-/** {@inherit_doc} */
-//override
-template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-public  int manage_dependent(const Field<T> field, const int index, const List<Field_Vector<T>> basis)
-{
-	// generate exception, dependent vectors are forbidden with this settings
-	throw std::exception("not implemented");
-	//throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
-}
-},
-/** Replace dependent vectors by vectors with norm 0.
- * <p>
- * This behavior matches the Wolfram language API. It keeps the
- * number of output vectors equal to the number of input vectors.
- * The only two norms output vectors can have are 0 and 1.
- * </p>
- */
+		/** {@inherit_doc} */
+		//override
+		template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+		public  int manage_dependent(const Field<T> field, const int index, const List<Field_Vector<T>> basis)
+		{
+			// generate exception, dependent vectors are forbidden with this settings
+			throw std::exception("not implemented");
+			//throw (hipparchus::exception::Localized_Core_Formats_Type::ZERO_NORM);
+		}
+	},
+	/** Replace dependent vectors by vectors with norm 0.
+	 * <p>
+	 * This behavior matches the Wolfram language API. It keeps the
+	 * number of output vectors equal to the number of input vectors.
+	 * The only two norms output vectors can have are 0 and 1.
+	 * </p>
+	 */
 	ADD_ZERO_VECTOR
-{
-	/** {@inherit_doc} */
-	//override
-	public int manage_dependent(const int index, const List<Real_Vector> basis)
 	{
-	// add a zero vector, preserving output vector size (and dropping its normalization property)
-	basis.set(index, Matrix_Utils::create_real__vector(basis.get(index).get_dimension()));
-	return index + 1;
-}
+		/** {@inherit_doc} */
+		//override
+		public int manage_dependent(const int index, const List<Real_Vector> basis)
+		{
+			// add a zero vector, preserving output vector size (and dropping its normalization property)
+			basis.set(index, Matrix_Utils::create_real__vector(basis.get(index).get_dimension()));
+			return index + 1;
+		}
 
-/** {@inherit_doc} */
-//override
-template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-public  int manage_dependent(const Field<T> field, const int index, const List<Field_Vector<T>> basis)
-{
-	// add a zero vector, preserving output vector size (and dropping its normalization property)
-	basis.set(index, Matrix_Utils::create_field_vector(field, basis.get(index).get_dimension()));
-	return index + 1;
-}
-},
-/** Ignore dependent vectors.
- * <p>
- * This behavior ensures the output vectors form an orthonormal
- * basis, i.e. all vectors are independent and they all have norm 1.
- * The number of output vectors may be smaller than the number of
- * input vectors, this number corresponds to the dimension of the
- * span of the input vectors.
- * </p>
- */
+		/** {@inherit_doc} */
+		//override
+		template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+		public  int manage_dependent(const Field<T> field, const int index, const List<Field_Vector<T>> basis)
+		{
+			// add a zero vector, preserving output vector size (and dropping its normalization property)
+			basis.set(index, Matrix_Utils::create_field_vector(field, basis.get(index).get_dimension()));
+			return index + 1;
+		}
+	},
+	/** Ignore dependent vectors.
+	 * <p>
+	 * This behavior ensures the output vectors form an orthonormal
+	 * basis, i.e. all vectors are independent and they all have norm 1.
+	 * The number of output vectors may be smaller than the number of
+	 * input vectors, this number corresponds to the dimension of the
+	 * span of the input vectors.
+	 * </p>
+	 */
 	REDUCE_BASE_TO_SPAN
-{
-	/** {@inherit_doc} */
-	//override
-	public int manage_dependent(const int index, const List<Real_Vector> basis)
 	{
-	// remove dependent vector
-	basis.remove(index);
-	return index;
-}
-
-/** {@inherit_doc} */
-//override
-template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-	public  int manage_dependent(const Field<T> field, const int index, const List<Field_Vector<T>> basis)
-	{
+		/** {@inherit_doc} */
+		//override
+		public int manage_dependent(const int index, const List<Real_Vector> basis)
+		{
 		// remove dependent vector
 		basis.remove(index);
 		return index;
 	}
+
+	/** {@inherit_doc} */
+	//override
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+		public  int manage_dependent(const Field<T> field, const int index, const List<Field_Vector<T>> basis)
+		{
+			// remove dependent vector
+			basis.remove(index);
+			return index;
+		}
+	};
+
+	/** Manage a dependent vector.
+	 * @param index of the vector in the basis
+	 * @param basis placeholder for basis vectors
+	 * @return next index to manage
+	 */
+	public virtual int manage_dependent(const int& index, List<Real_Vector> basis);
+
+	/** Manage a dependent vector.
+	 * @param <T> type of the vectors components
+	 * @param field field to which the vectors belong
+	 * @param index of the vector in the basis
+	 * @param basis placeholder for basis vectors
+	 * @return next index to manage
+	 */
+	template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
+	public virtual  int manage_dependent(Field<T> field, int index, List<Field_Vector<T>> basis);
 };
-
-/** Manage a dependent vector.
- * @param index of the vector in the basis
- * @param basis placeholder for basis vectors
- * @return next index to manage
- */
-public virtual int manage_dependent(const int& index, List<Real_Vector> basis);
-
-/** Manage a dependent vector.
- * @param <T> type of the vectors components
- * @param field field to which the vectors belong
- * @param index of the vector in the basis
- * @param basis placeholder for basis vectors
- * @return next index to manage
- */
-template<typename T, typename std::enable_if<std::is_base_of<Calculus_Field_Element<T>, T>::value>::type* = nullptr>
-public virtual  int manage_dependent(Field<T> field, int index, List<Field_Vector<T>> basis);
-}

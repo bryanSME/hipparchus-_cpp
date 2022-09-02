@@ -46,13 +46,13 @@ private:
 	 * @param value value to check
 	 * @exception  if value is not zero
 	 */
-	void ensure_zero(const double value)
+	void ensure_zero(const double& value)
 	{
-		/*if (!Precision::equals(0.0, value, 1))
+		if (!Precision::equals(0.0, value, 1))
 		{
 			throw std::exception("not implemented");
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, std::abs(value), 0);
-		}*/
+		}
 	}
 
 public:

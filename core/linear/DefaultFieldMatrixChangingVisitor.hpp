@@ -20,8 +20,7 @@
   * It has been modified by the Hipparchus project
   */
 
-  //package org.hipparchus.linear;
-
+#include <type_traits>
   //import org.hipparchus.Field_Element;
 
   /**
@@ -33,37 +32,39 @@
    *
    * @param <T> the type of the field elements
    */
-class DefaultField_Matrix_Changing_Visitor<T extends Field_Element<T>>
-	: Field_Matrix_Changing_Visitor<T>
+template<typename T, typename std::enable_if<std::is_base_of<Field_Element<T>, T>::value>::type* = nullptr>
+class DefaultField_Matrix_Changing_Visitor
+	: public Field_Matrix_Changing_Visitor<T>
 {
+private:
 	/** Zero element of the field. */
-	private const T zero;
+	const T my_zero;
 
+public:
 	/** Build a instance.
 	 * @param zero additive identity of the field
 	 */
-	public DefaultField_Matrix_Changing_Visitor(const T zero)
-	{
-		this.zero = zero;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column)
+	DefaultField_Matrix_Changing_Visitor(const T& zero) : my_zero{ zero }
 	{
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public T visit(const int& row, const int& column, T value)
+	void start(const int& rows, const int& columns, const int& start_row, const int& end_row, const int& start_column, const int& end_column)
+	{
+	}
+
+	/** {@inherit_doc} */
+	//override
+	T visit(const int& row, const int& column, T value)
 	{
 		return value;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public T end()
+	T end() const
 	{
-		return zero;
+		return my_zero;
 	}
-}
+};

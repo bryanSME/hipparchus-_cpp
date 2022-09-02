@@ -28,7 +28,7 @@
    * @see <a href="http://en.wikipedia.org/wiki/Exponential_distribution">Exponential distribution (Wikipedia)</a>
    * @see <a href="http://mathworld.wolfram.com/Exponential_Distribution.html">Exponential distribution (MathWorld)</a>
    */
-class Exponential_Distribution : Abstract_Real_Distribution
+class Exponential_Distribution : public Abstract_Real_Distribution
 {
 private:
 	/** The mean of this distribution. */
@@ -69,8 +69,8 @@ public:
 	//override
 	double density(const double& x)
 	{
-		const double log_density = log_density(x);
-		return log_density == -INFINITY
+		const double log_density = Abstract_Real_Distribution::log_density(x);
+		return std::isinf(log_density)
 			? 0
 			: std::exp(log_density);
 	}

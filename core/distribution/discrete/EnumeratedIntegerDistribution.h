@@ -73,7 +73,7 @@ private:
 			samples.push_back(std::pair<int, double>(singletons[i], normalized_probabilities[i]));
 		}
 		return samples;
-	}
+	};
 
 public:
 	/**
@@ -87,8 +87,8 @@ public:
 	 * @ if probabilities contains negative, infinite or NaN values or only 0's
 	 */
 	Enumerated_Integer_Distribution(const std::vector<int>& singletons, const std::vector<double>& probabilities)
+		: my_inner_distribution{ Enumerated_Distribution<int>(create_distribution(singletons, probabilities)) }
 	{
-		inner_distribution = Enumerated_Distribution<int>(create_distribution(singletons, probabilities));
 	}
 
 	/**

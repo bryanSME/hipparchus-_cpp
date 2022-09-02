@@ -29,7 +29,7 @@
  * Dummy implementation of the {@link Localizable} interface, without localization.
  *
  */
-class Dummy_Localizable : Localizable
+class Dummy_Localizable : public Localizable
 {
 private:
 

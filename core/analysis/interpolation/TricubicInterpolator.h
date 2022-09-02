@@ -27,21 +27,22 @@
   //import org.hipparchus.util.Math_Utils;
 #include <exception>
 #include <vector>
-#include  "TrivariateGridInterpolator.h"
+#include "../../util/MathArrays.h"
+#include "TrivariateGridInterpolator.h"
+#include "TricubicInterpolatingFunction.h"
 
 /**
  * Generates a tricubic interpolating function.
  *
  */
-class Tricubic_Interpolator
-	: public Trivariate_Grid_Interpolator
+class Tricubic_Interpolator : public Trivariate_Grid_Interpolator
 {
+public:
 	/**
 	 * {@inherit_doc}
 	 */
 	 //override
-	public Tricubic_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<double> zval, const std::vector<std::vector<double>>[] fval)
-
+	Tricubic_Interpolating_Function interpolate(const std::vector<double>& xval, const std::vector<double>& yval, const std::vector<double> zval, const std::vector<std::vector<std::vector<double>>>& fval)
 	{
 		if (xval.size() == 0 || yval.size() == 0 || zval.size() == 0 || fval.size() == 0)
 		{
@@ -54,22 +55,22 @@ class Tricubic_Interpolator
 			//throw (hipparchus::exception::Localized_Core_Formats_Type::DIMENSIONS_MISMATCH, xval.size(), fval.size());
 		}
 
-		Math_Arrays::check_order(xval);
-		Math_Arrays::check_order(yval);
-		Math_Arrays::check_order(zval);
+		//Math_Arrays::check_order(xval);
+		//Math_Arrays::check_order(yval);
+		//Math_Arrays::check_order(zval);
 
 		const int x_len = xval.size();
 		const int y_len = yval.size();
 		const int z_len = zval.size();
 
 		// Approximation to the partial derivatives using finite differences.
-		const std::vector<std::vector<double>>[] dFdX = std::vector<double>(x_len][y_len][z_len];
-		const std::vector<std::vector<double>>[] d_fd_y = std::vector<double>(x_len][y_len][z_len];
-		const std::vector<std::vector<double>>[] d_fd_z = std::vector<double>(x_len][y_len][z_len];
-		const std::vector<std::vector<double>>[] d2FdXdY = std::vector<double>(x_len][y_len][z_len];
-		const std::vector<std::vector<double>>[] d2_fd_xd_z = std::vector<double>(x_len][y_len][z_len];
-		const std::vector<std::vector<double>>[] d2_fd_yd_z = std::vector<double>(x_len][y_len][z_len];
-		const std::vector<std::vector<double>>[] d3_fd_xd_yd_z = std::vector<double>(x_len][y_len][z_len];
+		auto dFdX = std::vector<std::vector<std::vector<double>>>(x_len, std::vector<std::vector<double>>(y_len, std::vector<double>(z_len)));
+		auto d_fd_y = std::vector<std::vector<std::vector<double>>>(x_len, std::vector<std::vector<double>>(y_len, std::vector<double>(z_len)));
+		auto d_fd_z = std::vector<std::vector<std::vector<double>>>(x_len, std::vector<std::vector<double>>(y_len, std::vector<double>(z_len)));
+		auto d2FdXdY = std::vector<std::vector<std::vector<double>>>(x_len, std::vector<std::vector<double>>(y_len, std::vector<double>(z_len)));
+		auto d2_fd_xd_z = std::vector<std::vector<std::vector<double>>>(x_len, std::vector<std::vector<double>>(y_len, std::vector<double>(z_len)));
+		auto d2_fd_yd_z = std::vector<std::vector<std::vector<double>>>(x_len, std::vector<std::vector<double>>(y_len, std::vector<double>(z_len)));
+		auto d3_fd_xd_yd_z = std::vector<std::vector<std::vector<double>>>(x_len, std::vector<std::vector<double>>(y_len, std::vector<double>(z_len)));
 
 		for (int i{ 1 }; i < x_len - 1; i++)
 		{
@@ -134,20 +135,13 @@ class Tricubic_Interpolator
 			//override
 			public bool is_valid_point(const double& x, const double& y, const double& z)
 			{
-				if (x < xval[1] ||
+				return !(x < xval[1] ||
 					x > xval[xval.size() - 2] ||
 					y < yval[1] ||
 					y > yval[yval.size() - 2] ||
 					z < zval[1] ||
-					z > zval[zval.size() - 2])
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
+					z > zval[zval.size() - 2]);
 			}
 		};
 	}
-}
+};

@@ -30,12 +30,12 @@
    * </p>
    *
    */
-class Default_Real_Matrix_Changing_Visitor : Real_Matrix_Changing_Visitor
+class Default_Real_Matrix_Changing_Visitor : public Real_Matrix_Changing_Visitor
 {
 public:
 	/** {@inherit_doc} */
 	//override
-	void start([[maybe_unused]] const int& rows, [[maybe_unused]] int columns, [[maybe_unused]] int start_row, [[maybe_unused]] int end_row, [[maybe_unused]] int start_column, [[maybe_unused]] int end_column)
+	void start([[maybe_unused]] const int& rows, [[maybe_unused]] const int& columns, [[maybe_unused]]const int& start_row, [[maybe_unused]] const int& end_row, [[maybe_unused]] const int& start_column, [[maybe_unused]] const int& end_column)
 	{
 	}
 

@@ -33,7 +33,7 @@
    * @see <a href="http://en.wikipedia.org/wiki/Triangular_distribution">
    * Triangular distribution (Wikipedia)</a>
    */
-class Triangular_Distribution : Abstract_Real_Distribution
+class Triangular_Distribution : public Abstract_Real_Distribution
 {
 private:
 	/** Lower limit of this distribution (inclusive). */
@@ -56,24 +56,22 @@ public:
 	 */
 	Triangular_Distribution(const double& a, const double& c, double b) : my_a{ a }, my_b{ b }, my_c{ c }
 	{
-		super();
+		throw std::exception("not implemented");
+		//Abstract_Real_Distribution();
 
-		if (a >= b)
-		{
-			throw (
-				hipparchus::exception::Localized_Core_Formats_Type::LOWER_BOUND_NOT_BELOW_UPPER_BOUND, a, b, false);
-		}
-		if (c < a)
-		{
-			throw (
-				hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, c, a, true);
-		}
-		if (c > b)
-		{
-			throw (
-				hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, c, b, true);
-		}
-	}
+		//if (a >= b)
+		//{
+		//	throw (hipparchus::exception::Localized_Core_Formats_Type::LOWER_BOUND_NOT_BELOW_UPPER_BOUND, a, b, false);
+		//}
+		//if (c < a)
+		//{
+		//	throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_SMALL, c, a, true);
+		//}
+		//if (c > b)
+		//{
+		//	throw (hipparchus::exception::Localized_Core_Formats_Type::NUMBER_TOO_LARGE, c, b, true);
+		//}
+	};
 
 	/**
 	 * Returns the mode {@code c} of this distribution.
@@ -83,7 +81,7 @@ public:
 	double get_mode() const
 	{
 		return my_c;
-	}
+	};
 
 	/**
 	 * {@inherit_doc}
@@ -98,7 +96,7 @@ public:
 	 * </ul>
 	 */
 	 //override
-	double density(double x)
+	double density(const double& x)
 	{
 		if (x < my_a)
 		{
@@ -106,8 +104,8 @@ public:
 		}
 		if (my_a <= x && x < my_c)
 		{
-			double divident = 2 * (x - a);
-			double divisor = (b - a) * (c - a);
+			double divident = 2 * (x - my_a);
+			double divisor = (my_b - my_a) * (my_c - my_a);
 			return divident / divisor;
 		}
 		if (x == my_c)
@@ -116,12 +114,12 @@ public:
 		}
 		if (my_c < x && x <= my_b)
 		{
-			const double divident = 2 * (b - x);
-			const double divisor = (b - a) * (b - c);
+			const double divident = 2 * (my_b - x);
+			const double divisor = (my_b - my_a) * (my_b - my_c);
 			return divident / divisor;
 		}
 		return 0;
-	}
+	};
 
 	/**
 	 * {@inherit_doc}
@@ -139,28 +137,28 @@ public:
 	 //override
 	double cumulative_probability(const double& x)
 	{
-		if (x < a)
+		if (x < my_a)
 		{
 			return 0;
 		}
-		if (a <= x && x < c)
+		if (my_a <= x && x < my_c)
 		{
-			const double divident = (x - a) * (x - a);
-			const double divisor = (b - a) * (c - a);
+			const double divident = (x - my_a) * (x - my_a);
+			const double divisor = (my_b - my_a) * (my_c - my_a);
 			return divident / divisor;
 		}
-		if (x == c)
+		if (x == my_c)
 		{
-			return (c - a) / (b - a);
+			return (my_c - my_a) / (my_b - my_a);
 		}
-		if (c < x && x <= b)
+		if (my_c < x && x <= my_b)
 		{
-			const double divident = (b - x) * (b - x);
-			const double divisor = (b - a) * (b - c);
+			const double divident = (my_b - x) * (my_b - x);
+			const double divisor = (my_b - my_a) * (my_b - my_c);
 			return 1 - (divident / divisor);
 		}
 		return 1;
-	}
+	};
 
 	/**
 	 * {@inherit_doc}
@@ -170,8 +168,8 @@ public:
 	 //override
 	double get_numerical_mean() const
 	{
-		return (a + b + c) / 3;
-	}
+		return (my_a + my_b + my_c) / 3;
+	};
 
 	/**
 	 * {@inherit_doc}
@@ -181,8 +179,8 @@ public:
 	 //override
 	double get_numerical_variance() const
 	{
-		return (a * a + b * b + c * c - a * b - a * c - b * c) / 18;
-	}
+		return (my_a * my_a + my_b * my_b + my_c * my_c - my_a * my_b - my_a * my_c - my_b * my_c) / 18;
+	};
 
 	/**
 	 * {@inherit_doc}
@@ -239,10 +237,10 @@ public:
 		{
 			return my_b;
 		}
-		if (p < (c - a) / (b - a))
+		if (p < (my_c - my_a) / (my_b - my_a))
 		{
 			return my_a + std::sqrt(p * (my_b - my_a) * (my_c - my_a));
 		}
 		return my_b - std::sqrt((1 - p) * (my_b - my_a) * (my_b - my_c));
 	}
-}
+};

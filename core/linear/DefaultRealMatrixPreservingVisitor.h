@@ -20,7 +20,6 @@
   * It has been modified by the Hipparchus project
   */
 
-  //package org.hipparchus.linear;
 
   /**
    * Default implementation of the {@link Real_Matrix_Preserving_Visitor} interface.
@@ -30,22 +29,23 @@
    * </p>
    *
    */
-class DefaultReal_Matrix_Preserving_Visitor : Real_Matrix_Preserving_Visitor
+class DefaultReal_Matrix_Preserving_Visitor : public Real_Matrix_Preserving_Visitor
 {
+public:
 	/** {@inherit_doc} */
 	//override
-	public void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column)
+	void start([[maybe_unused]] const int& rows, [[maybe_unused]] const int& columns, [[maybe_unused]] const int& start_row, [[maybe_unused]] const int& end_row, [[maybe_unused]] const int& start_column, const int& end_column)
 	{
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public void visit(const int& row, const int& column, double value) {}
+	void visit([[maybe_unused]] const int& row, [[maybe_unused]] const int& column, [[maybe_unused]] const double& value) {}
 
 	/** {@inherit_doc} */
 	//override
-	public double end()
+	double end() const
 	{
 		return 0;
 	}
-}
+};

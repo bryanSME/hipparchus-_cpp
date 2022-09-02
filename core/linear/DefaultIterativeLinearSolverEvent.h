@@ -29,23 +29,23 @@
    * {@link Iterative_Linear_SolverEvent}.
    *
    */
-class Default_iterativeLinearSolverEvent extends Iterative_Linear_SolverEvent
+class Default_iterativeLinearSolverEvent : public Iterative_Linear_SolverEvent
 {
-	/** */
-	20120129L;
+private:
 
 	/** The right-hand side vector. */
-	private const Real_Vector b;
+	const Real_Vector my_b;
 
 	/** The current estimate of the residual. */
-	private const Real_Vector r;
+	const Real_Vector my_r;
 
 	/** The current estimate of the norm of the residual. */
-	private const double rnorm;
+	const double my_rnorm;
 
 	/** The current estimate of the solution. */
-	private const Real_Vector x;
+	const Real_Vector my_x;
 
+public:
 	/**
 	 * Creates a instance of this class. This implementation does
 	 * <em>not</em> deep copy the specified vectors {@code x}, {@code b}, * {@code r}. Therefore the user must make sure that these vectors are
@@ -64,13 +64,14 @@ class Default_iterativeLinearSolverEvent extends Iterative_Linear_SolverEvent
 	 * @param r the current estimate of the residual (can be {@code NULL})
 	 * @param rnorm the norm of the current estimate of the residual
 	 */
-	public Default_iterativeLinearSolverEvent(const Object source, const int iterations, const Real_Vector x, const Real_Vector b, const Real_Vector r, const double rnorm)
+	Default_iterativeLinearSolverEvent(const Object& source, const int& iterations, const Real_Vector& x, const Real_Vector& b, const Real_Vector& r, const double& rnorm)
+		: 
+		my_x{ x },
+		my_b{ b },
+		my_r{ r },
+		my_rnorm{ rnorm }
 	{
-		super(source, iterations);
-		this.x = x;
-		this.b = b;
-		this.r = r;
-		this.rnorm = rnorm;
+		Iterative_Linear_SolverEvent(source, iterations);
 	}
 
 	/**
@@ -91,18 +92,19 @@ class Default_iterativeLinearSolverEvent extends Iterative_Linear_SolverEvent
 	 * @param b the right-hand side vector
 	 * @param rnorm the norm of the current estimate of the residual
 	 */
-	public Default_iterativeLinearSolverEvent(const Object source, const int iterations, const Real_Vector x, const Real_Vector b, const double rnorm)
+	Default_iterativeLinearSolverEvent(const Object& source, const int& iterations, const Real_Vector& x, const Real_Vector& b, const double& rnorm)
+		:
+		my_x{ x },
+		my_b{ b },
+		my_r{ NULL },
+		my_rnorm{ rnorm }
 	{
-		super(source, iterations);
-		this.x = x;
-		this.b = b;
-		this.r = NULL;
-		this.rnorm = rnorm;
+		Iterative_Linear_SolverEvent(source, iterations);
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public double get_norm_of_residual()
+	double get_norm_of_residual()
 	{
 		return rnorm;
 	}
@@ -114,27 +116,23 @@ class Default_iterativeLinearSolverEvent extends Iterative_Linear_SolverEvent
 	 * if no residual vector {@code r} was provided at construction time.
 	 */
 	 //override
-	public Real_Vector get_residual()
+	Real_Vector get_residual() const
 	{
-		if (r != NULL)
-		{
-			return r;
-		}
-		throw Math_Runtime_Exception(hipparchus::exception::Localized_Core_Formats_Type::UNSUPPORTED_OPERATION);
+		return my_r;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Real_Vector get_right_hand_side_vector()
+	Real_Vector get_right_hand_side_vector() const
 	{
-		return b;
+		return my_b;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public Real_Vector get_solution()
+	Real_Vector get_solution() const
 	{
-		return x;
+		return my_x;
 	}
 
 	/**
@@ -146,8 +144,8 @@ class Default_iterativeLinearSolverEvent extends Iterative_Linear_SolverEvent
 	 * @return {@code true} if {@code r != NULL}
 	 */
 	 //override
-	public bool provides_residual()
+	bool provides_residual()
 	{
 		return r != NULL;
 	}
-}
+};

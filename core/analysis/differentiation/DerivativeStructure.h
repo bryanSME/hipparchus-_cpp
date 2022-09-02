@@ -71,9 +71,6 @@
 class Derivative_Structure : Derivative<Derivative_Structure>
 {
 private:
-
-	static constexpr long serial_version_uid = 20161220L;
-
 	/** Factory that built the instance. */
 	const DS_Factory my_factory;
 

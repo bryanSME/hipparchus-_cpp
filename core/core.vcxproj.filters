@@ -955,7 +955,7 @@
     <ClInclude Include="linear\FieldVectorPreservingVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linear\FieldMatrixChangingVisitor.h">
+    <ClInclude Include="linear\FieldMatrixChangingVisitor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="linear\FieldMatrixPreservingVisitor.h">
@@ -1078,13 +1078,13 @@
     <ClInclude Include="linear\DefaultRealMatrixPreservingVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linear\DefaultFieldMatrixChangingVisitor.h">
+    <ClInclude Include="linear\DefaultFieldMatrixChangingVisitor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="linear\SingularValueDecomposer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="linear\DefaultFieldMatrixPreservingVisitor.h">
+    <ClInclude Include="linear\DefaultFieldMatrixPreservingVisitor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="linear\LUDecomposer.h">

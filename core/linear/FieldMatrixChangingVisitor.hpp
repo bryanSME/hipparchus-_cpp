@@ -20,16 +20,17 @@
   * It has been modified by the Hipparchus project
   */
 
-  //package org.hipparchus.linear;
+//import org.hipparchus.Field_Element;
+#include <type_traits>
 
-  //import org.hipparchus.Field_Element;
 
   /**
    * Interface defining a visitor for matrix entries.
    *
    * @param <T> the type of the field elements
    */
-class Field_Matrix_Changing_Visitor<T extends Field_Element< ? >>
+template<typename T, typename std::enable_if<std::is_base_of<Field_Element, T>::value>::type* = nullptr>
+class Field_Matrix_Changing_Visitor
 {
 	/**
 	 * Start visiting a matrix.
@@ -41,7 +42,7 @@ class Field_Matrix_Changing_Visitor<T extends Field_Element< ? >>
 	 * @param start_column Initial column index
 	 * @param end_column Final column index (inclusive)
 	 */
-	void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column);
+	void start(const int& rows, const int& columns, const int& start_row, const int& end_row, const int& start_column, const int& end_column);
 
 	/**
 	 * Visit one matrix entry.
@@ -50,7 +51,7 @@ class Field_Matrix_Changing_Visitor<T extends Field_Element< ? >>
 	 * @param value current value of the entry
 	 * @return the value to be set for the entry
 	 */
-	T visit(const int& row, const int& column, T value);
+	T visit(const int& row, const int& column, const T& value);
 
 	/**
 	 * End visiting a matrix.
@@ -58,4 +59,4 @@ class Field_Matrix_Changing_Visitor<T extends Field_Element< ? >>
 	 * @return the value that the <code>walk_in_xxx_order</code> must return
 	 */
 	T end();
-}
+};

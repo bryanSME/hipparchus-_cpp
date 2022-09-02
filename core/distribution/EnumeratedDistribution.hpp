@@ -66,6 +66,9 @@ private:
 	const std::vector<double> my_probabilities;
 
 public:
+
+	Enumerated_Distribution = default;
+
 	/**
 	 * Create an enumerated distribution using the given probability mass function
 	 * enumeration.
@@ -124,7 +127,7 @@ public:
 	 *
 	 * @return the probability mass function.
 	 */
-	std::vector<std::pair<T, double>> get_pmf()
+	std::vector<std::pair<T, double>> get_pmf() const
 	{
 		auto samples = std::vector<>(probabilities.size());
 

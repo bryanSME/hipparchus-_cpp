@@ -21,7 +21,7 @@
   */
 
   //package org.hipparchus.linear;
-
+#include <type_traits>
   //import org.hipparchus.Field_Element;
 
   /**
@@ -33,34 +33,36 @@
    *
    * @param <T> the type of the field elements
    */
-class DefaultField_Matrix_Preserving_Visitor<T extends Field_Element<T>>
-	: Field_Matrix_Preserving_Visitor<T>
+template<typename T, typename std::enable_if<std::is_base_of<Field_Element, T>::value>::type* = nullptr>
+class DefaultField_Matrix_Preserving_Visitor : public Field_Matrix_Preserving_Visitor<T>
 {
+private:
 	/** Zero element of the field. */
-	private const T zero;
+	const T my_zero;
 
+public:
 	/** Build a instance.
 	 * @param zero additive identity of the field
 	 */
-	public DefaultField_Matrix_Preserving_Visitor(const T zero)
-	{
-		this.zero = zero;
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public void start(const int& rows, int columns, int start_row, int end_row, int start_column, int end_column)
+	DefaultField_Matrix_Preserving_Visitor(const T& zero)
+		: my_zero{ zero }
 	{
 	}
 
 	/** {@inherit_doc} */
 	//override
-	public void visit(const int& row, const int& column, T value) {}
+	void start([[maybe_unused]] const int& rows, [[maybe_unused]] const int& columns, [[maybe_unused]] const int& start_row, [[maybe_unused]] const int& end_row, [[maybe_unused]] const int& start_column, [[maybe_unused]] const int& end_column)
+	{
+	}
 
 	/** {@inherit_doc} */
 	//override
-	public T end()
+	void visit([[maybe_unused]] const int& row, [[maybe_unused]] const int& column, [[maybe_unused]] const T& value) {}
+
+	/** {@inherit_doc} */
+	//override
+	T end()
 	{
-		return zero;
+		return my_zero;
 	}
-}
+};

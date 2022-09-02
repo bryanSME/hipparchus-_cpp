@@ -21,75 +21,70 @@
   */
 
   //package org.hipparchus.dfp;
+#include <string>
 
   /** Subclass of {@link Dfp} which hides the radix-10000 artifacts of the superclass.
    * This should give outward appearances of being a decimal number with DIGITS*4-3
    * decimal digits. This class can be subclassed to appear to be an arbitrary number
    * of decimal digits less than DIGITS*4-3.
    */
-class Dfp_Dec extends Dfp
+class Dfp_Dec : public Dfp
 {
+protected:
 	/** Makes an instance with a value of zero.
 	 * @param factory factory linked to this instance
 	 */
-	protected Dfp_Dec(const DFP_Field factory)
+	Dfp_Dec(const DFP_Field& factory)
 	{
-		super(factory);
+		Dfp(factory);
 	}
 
 	/** Create an instance from a std::byte value.
 	 * @param factory factory linked to this instance
 	 * @param x value to convert to an instance
 	 */
-	protected Dfp_Dec(const DFP_Field factory, std::byte x)
+	Dfp_Dec(const DFP_Field& factory, const std::byte& x)
 	{
-		super(factory, x);
+		Dfp(factory, x);
 	}
 
 	/** Create an instance from an int value.
 	 * @param factory factory linked to this instance
 	 * @param x value to convert to an instance
 	 */
-	protected Dfp_Dec(const DFP_Field factory, int x)
+	Dfp_Dec(const DFP_Field& factory, const int& x)
 	{
-		super(factory, x);
+		Dfp(factory, x);
 	}
 
 	/** Create an instance from a long value.
 	 * @param factory factory linked to this instance
 	 * @param x value to convert to an instance
 	 */
-	protected Dfp_Dec(const DFP_Field factory, long x)
+	Dfp_Dec(const DFP_Field& factory, const long& x)
 	{
-		super(factory, x);
+		Dfp(factory, x);
 	}
 
 	/** Create an instance from a double value.
 	 * @param factory factory linked to this instance
 	 * @param x value to convert to an instance
 	 */
-	protected Dfp_Dec(const DFP_Field factory, double x)
+	Dfp_Dec(const DFP_Field& factory, const double& x)
 	{
-		super(factory, x);
+		Dfp(factory, x);
 		round(0);
 	}
 
-	/** Copy constructor.
-	 * @param d instance to copy
-	 */
-	public Dfp_Dec(const Dfp d)
-	{
-		super(d);
-		round(0);
-	}
+
 
 	/** Create an instance from a std::string representation.
 	 * @param factory factory linked to this instance
 	 * @param s string representation of the instance
 	 */
-	protected Dfp_Dec(const DFP_Field factory, const std::string s)
+	Dfp_Dec(const DFP_Field& factory, const std::string& s)
 	{
-		super(factory, s);
+		Dfp(factory, s);
 		round(0);
 	}
 
@@ -98,89 +93,23 @@ class Dfp_Dec extends Dfp
 	 * @param sign sign of the Dfp to create
 	 * @param nans code of the value, must be one of {@link #INFINITE}, * {@link #SNAN},  {@link #QNAN}
 	 */
-	protected Dfp_Dec(const DFP_Field factory, const std::byte sign, const std::byte nans)
+	Dfp_Dec(const DFP_Field& factory, const std::byte& sign, const std::byte& nans)
 	{
-		super(factory, sign, nans);
+		Dfp(factory, sign, nans);
 	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance()
-	{
-		return Dfp_Dec(get_field());
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance(const std::byte x)
-	{
-		return Dfp_Dec(get_field(), x);
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance(const int x)
-	{
-		return Dfp_Dec(get_field(), x);
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance(const long x)
-	{
-		return Dfp_Dec(get_field(), x);
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance(const double& x)
-	{
-		return Dfp_Dec(get_field(), x);
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance(const Dfp d)
-	{
-		// make sure we don't mix number with different precision
-		if (get_field().get_radix_digits() != d.get_field().get_radix_digits())
-		{
-			get_field().set_ieee_flags_bits(DFP_Field.FLAG_INVALID);
-			const Dfp result = new_instance(get_zero());
-			result.nans = QNAN;
-			return dotrap(DFP_Field.FLAG_INVALID, "new_instance", d, result);
-		}
-
-		return Dfp_Dec(d);
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance(const std::string s)
-	{
-		return Dfp_Dec(get_field(), s);
-	}
-
-	/** {@inherit_doc} */
-	//override
-	public Dfp new_instance(const std::byte sign, const std::byte nans)
-	{
-		return Dfp_Dec(get_field(), sign, nans);
-	}
-
 	/** Get the number of decimal digits this class is going to represent.
 	 * Default implementation returns {@link #get_radix_digits()}*4-3. Subclasses can
 	 * //override this to return something less.
 	 * @return number of decimal digits this class is going to represent
 	 */
-	protected int get_decimal_digits()
+	int get_decimal_digits()
 	{
 		return get_radix_digits() * 4 - 3;
 	}
 
 	/** {@inherit_doc} */
 	//override
-	protected int round(const int& in)
+	int round(const int& in)
 	{
 		int msb = mant[mant.size() - 1];
 		if (msb == 0)
@@ -214,8 +143,8 @@ class Dfp_Dec extends Dfp
 			return super.round(in);
 		}
 
-		int discarded = in;  // not looking at this after this point
-		const int& n;
+		int discarded{ in };  // not looking at this after this point
+		int n;
 		if (lsbthreshold == 1)
 		{
 			// look to the next digit for rounding
@@ -281,10 +210,10 @@ class Dfp_Dec extends Dfp
 		if (inc)
 		{
 			// increment if necessary
-			int rh = lsbthreshold;
-			for (int i = lsd; i < mant.size(); i++)
+			int rh{ lsbthreshold };
+			for (int i{ lsd }; i < mant.size(); i++)
 			{
-				const int r = mant[i] + rh;
+				const int r{ mant[i] + rh };
 				rh = r / RADIX;
 				mant[i] = r % RADIX;
 			}
@@ -320,11 +249,87 @@ class Dfp_Dec extends Dfp
 		return 0;
 	}
 
+public:
+
+	/** Copy constructor.
+	 * @param d instance to copy
+	 */
+	public Dfp_Dec(const Dfp& d)
+	{
+		Dfp(d);
+		round(0);
+	}
+
 	/** {@inherit_doc} */
 	//override
-	public Dfp next_after(Dfp x)
+	Dfp new_instance()
 	{
-		const std::string trap_name = "next_after";
+		return Dfp_Dec(get_field());
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp new_instance(const std::byte& x)
+	{
+		return Dfp_Dec(get_field(), x);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp new_instance(const int& x)
+	{
+		return Dfp_Dec(get_field(), x);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp new_instance(const long& x)
+	{
+		return Dfp_Dec(get_field(), x);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp new_instance(const double& x)
+	{
+		return Dfp_Dec(get_field(), x);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp new_instance(const Dfp& d)
+	{
+		// make sure we don't mix number with different precision
+		if (get_field().get_radix_digits() != d.get_field().get_radix_digits())
+		{
+			get_field().set_ieee_flags_bits(DFP_Field.FLAG_INVALID);
+			const Dfp result = new_instance(get_zero());
+			result.nans = QNAN;
+			return dotrap(DFP_Field.FLAG_INVALID, "new_instance", d, result);
+		}
+
+		return Dfp_Dec(d);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp new_instance(const std::string& s)
+	{
+		return Dfp_Dec(get_field(), s);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp new_instance(const std::byte& sign, const std::byte& nans)
+	{
+		return Dfp_Dec(get_field(), sign, nans);
+	}
+
+	/** {@inherit_doc} */
+	//override
+	Dfp next_after(const Dfp& x)
+	{
+		const std::string trap_name{ "next_after" };
 
 		// make sure we don't mix number with different precision
 		if (get_field().get_radix_digits() != x.get_field().get_radix_digits())
@@ -335,12 +340,12 @@ class Dfp_Dec extends Dfp
 			return dotrap(DFP_Field.FLAG_INVALID, trap_name, x, result);
 		}
 
-		bool up = false;
+		bool up{};
 		Dfp result;
 		Dfp inc;
 
 		// if this is greater than x
-		if (this.less_than(x))
+		if (less_than(x))
 		{
 			up = true;
 		}
@@ -358,58 +363,43 @@ class Dfp_Dec extends Dfp
 		if (up)
 		{
 			inc = power10(int_log10() - get_decimal_digits() + 1);
-			inc = copysign(inc, this);
+			inc = copysign(inc, *this);
 
-			if (this.equals(get_zero()))
+			if (equals(get_zero()))
 			{
 				inc = power10_k(MIN_EXP - mant.size() - 1);
 			}
 
-			if (inc.equals(get_zero()))
-			{
-				result = copysign(new_instance(get_zero()), this);
-			}
-			else
-			{
-				result = add(inc);
-			}
+			result = inc.equals(get_zero())
+				? copysign(new_instance(get_zero()), *this)
+				: add(inc);
 		}
 		else
 		{
 			inc = power10(int_log10());
-			inc = copysign(inc, this);
+			inc = copysign(inc, *this);
 
-			if (this.equals(inc))
-			{
-				inc = inc.divide(power10(get_decimal_digits()));
-			}
-			else
-			{
-				inc = inc.divide(power10(get_decimal_digits() - 1));
-			}
+			inc = equals(inc)
+				? inc.divide(power10(get_decimal_digits()))
+				: inc.divide(power10(get_decimal_digits() - 1));
 
-			if (this.equals(get_zero()))
+			if (equals(get_zero()))
 			{
 				inc = power10_k(MIN_EXP - mant.size() - 1);
 			}
 
-			if (inc.equals(get_zero()))
-			{
-				result = copysign(new_instance(get_zero()), this);
-			}
-			else
-			{
-				result = subtract(inc);
-			}
+			result = inc.equals(get_zero())
+				? copysign(new_instance(get_zero()), *this)
+				: subtract(inc);
 		}
 
-		if (result.classify() == INFINITE && this.classify() != INFINITE)
+		if (result.classify() == INFINITE && classify() != INFINITE)
 		{
 			get_field().set_ieee_flags_bits(DFP_Field.FLAG_INEXACT);
 			result = dotrap(DFP_Field.FLAG_INEXACT, trap_name, x, result);
 		}
 
-		if (result.equals(get_zero()) && !this.equals(get_zero()))
+		if (result.equals(get_zero()) && !equals(get_zero()))
 		{
 			get_field().set_ieee_flags_bits(DFP_Field.FLAG_INEXACT);
 			result = dotrap(DFP_Field.FLAG_INEXACT, trap_name, x, result);
@@ -417,4 +407,4 @@ class Dfp_Dec extends Dfp
 
 		return result;
 	}
-}
+};
